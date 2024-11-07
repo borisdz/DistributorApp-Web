@@ -2,12 +2,14 @@ package mk.ukim.finki.db.distributorapp.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import mk.ukim.finki.db.distributorapp.model.enumerations.OrderStatus;
 
 import java.util.List;
 
-@Entity
 @Data
+@Entity
+@NoArgsConstructor
 public class Order {
 
     @Id
@@ -36,8 +38,5 @@ public class Order {
     @JoinColumn(name = "delivery_id",nullable = false,referencedColumnName = "deliveryId")
     private Delivery delivery;
 
-    public Order(Long customerId, List<Article> articles) {
-        this.customer = customer;
-        this.articles = articles;
-    }
+    public Order(Long customerId, List<Article> articles) {}
 }

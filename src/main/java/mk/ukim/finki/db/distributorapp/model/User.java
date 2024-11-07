@@ -15,6 +15,6 @@ public abstract class User {
     public String email;
 
     @ManyToOne
-    @JoinColumn(name = "city_id")
+    @JoinColumn(name = "city_id",nullable = false)
     public City city;
 }
