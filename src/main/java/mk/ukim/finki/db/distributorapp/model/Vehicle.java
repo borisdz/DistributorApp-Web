@@ -1,9 +1,12 @@
 package mk.ukim.finki.db.distributorapp.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.util.List;
 
+
+@Data
 @Entity
 public class Vehicle {
     @Id
@@ -16,4 +19,8 @@ public class Vehicle {
 
     @OneToOne(mappedBy = "vehicle")
     private Driver driver;
+
+    @ManyToOne
+    @JoinColumn(name = "warehouse_id",nullable = false)
+    private Warehouse warehouse;
 }

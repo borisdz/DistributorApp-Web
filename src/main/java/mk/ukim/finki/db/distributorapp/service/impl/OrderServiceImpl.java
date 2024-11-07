@@ -7,7 +7,6 @@ import mk.ukim.finki.db.distributorapp.model.Proforma;
 import mk.ukim.finki.db.distributorapp.model.enumerations.OrderStatus;
 import mk.ukim.finki.db.distributorapp.repository.CustomerRepository;
 import mk.ukim.finki.db.distributorapp.repository.OrdersRepository;
-import mk.ukim.finki.db.distributorapp.repository.UserRepository;
 import mk.ukim.finki.db.distributorapp.service.OrderService;
 import org.springframework.stereotype.Service;
 

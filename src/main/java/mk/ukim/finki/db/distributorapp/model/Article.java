@@ -2,6 +2,7 @@ package mk.ukim.finki.db.distributorapp.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import mk.ukim.finki.db.distributorapp.model.junctions.WarehouseArticle;
 
 import java.util.List;
 
@@ -22,4 +23,7 @@ public class Article {
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+
+    @OneToMany(mappedBy = "article", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<WarehouseArticle> warehouseArticles;
 }

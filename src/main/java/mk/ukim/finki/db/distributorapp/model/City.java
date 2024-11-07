@@ -1,16 +1,22 @@
 package mk.ukim.finki.db.distributorapp.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 @Entity
 public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long cityId;
-    public String cityName;
+    private Long cityId;
+    private String cityName;
+
+    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<User> users;
+
+    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Warehouse> warehouses;
+
 }

@@ -1,11 +1,13 @@
 package mk.ukim.finki.db.distributorapp.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 import mk.ukim.finki.db.distributorapp.model.enumerations.DeliveryStatus;
 
 import java.util.Date;
 import java.util.List;
 
+@Data
 @Entity
 public class Delivery {
 
