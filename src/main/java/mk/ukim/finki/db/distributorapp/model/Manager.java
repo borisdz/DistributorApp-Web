@@ -6,11 +6,11 @@ import jakarta.persistence.OneToOne;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-@Data
 @EqualsAndHashCode(callSuper = true)
 @Entity
-public class Manager extends User {
+@Data
+public class Manager extends Users{
     @OneToOne
-    @JoinColumn(name = "warehouse_id",referencedColumnName = "warehouseId")
+    @JoinColumn(name = "wh_id",nullable = false,unique = true)
     private Warehouse warehouse;
 }

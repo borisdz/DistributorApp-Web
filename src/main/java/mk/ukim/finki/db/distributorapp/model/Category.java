@@ -5,15 +5,19 @@ import lombok.Data;
 
 import java.util.List;
 
-@Entity
+@Entity(name = "Category")
 @Data
 public class Category {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long categoryId;
-    private String categoryName;
+    @Column(name = "ctg_id")
+    private Long category_id;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL,orphanRemoval = true)
+    @Column(name = "ctg_name", nullable = false)
+    private String category_name;
+
+    @OneToMany(mappedBy = "category")
     private List<Article> articles;
+
+
 }

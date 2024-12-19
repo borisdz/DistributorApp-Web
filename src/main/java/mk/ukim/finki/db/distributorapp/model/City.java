@@ -5,18 +5,20 @@ import lombok.Data;
 
 import java.util.List;
 
-@Data
 @Entity
+@Data
 public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long cityId;
-    private String cityName;
+    @Column(name = "city_id")
+    private Long city_id;
 
-    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<User> users;
+    @Column(name = "city_name", nullable = false)
+    private String city_name;
 
-    @OneToMany(mappedBy = "city", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "city")
+    private List<Users> users;
+
+    @OneToMany(mappedBy = "city")
     private List<Warehouse> warehouses;
-
 }
