@@ -1,15 +1,56 @@
 package mk.ukim.finki.db.distributorapp.repository;
 
-import mk.ukim.finki.db.distributorapp.model.Order;
+import lombok.NonNull;
+import mk.ukim.finki.db.distributorapp.model.Orders;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
-@Repository
-public interface OrdersRepository extends JpaRepository<Order,Long> {
-    @Query(value = "select * from ORDERS",
-            nativeQuery = true)
-    List<Order> findAll();
+public interface OrdersRepository extends JpaRepository<Orders, Long> {
+    @Query(
+            nativeQuery = true,
+            value = "select * from orders"
+    )
+    List<Orders> listAll();
+
+    @Query(
+            nativeQuery = true,
+            value = ""
+    )
+    List<Orders> findByCustomer(@NonNull @Param("cust") Long id);
+
+    @Query(
+            nativeQuery = true,
+            value = ""
+    )
+    Optional<Orders> findById(@NonNull @Param("id") Long id);
+
+    @Modifying
+    @Transactional
+    @Query(
+            nativeQuery = true,
+            value = ""
+    )
+    Optional<Orders> create();
+
+    @Modifying
+    @Transactional
+    @Query(
+            nativeQuery = true,
+            value = ""
+    )
+    Optional<Orders> edit();
+
+    @Modifying
+    @Transactional
+    @Query(
+            nativeQuery = true,
+            value = ""
+    )
+    void delete();
 }

@@ -2,26 +2,46 @@ package mk.ukim.finki.db.distributorapp.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import mk.ukim.finki.db.distributorapp.model.enumerations.DeliveryStatus;
+import mk.ukim.finki.db.distributorapp.model.statuses.Delivery_Status;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
-@Data
 @Entity
+@Data
 public class Delivery {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long deliveryId;
-    private Date dateCreated;
-    @Enumerated
-    private DeliveryStatus deliveryStatus;
+    @Column(name = "del_id")
+    private Long delivery_id;
 
-    @OneToMany(mappedBy = "delivery", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Order> orders;
+    @Column(name = "del_date_created", nullable = false)
+    private LocalDate delivery_date_created;
+
+    @Column(name = "del_date", nullable = false)
+    private LocalDate delivery_date;
+
+    @Column(name = "del_start_km")
+    private Integer delivery_start_km;
+
+    @Column(name = "del_end_km")
+    private Integer delivery_end_km;
+
+    @Column(name = "del_start_time")
+    private LocalTime delivery_start_time;
+
+    @Column(name = "del_end_time")
+    private LocalTime delivery_end_time;
 
     @ManyToOne
-    @JoinColumn(name = "vehicle_id",nullable = false)
+    @JoinColumn(name = "del_status_id", nullable = false)
+    private Delivery_Status delivery_status;
+
+    @ManyToOne
+    @JoinColumn(name = "veh_id", nullable = false)
     private Vehicle vehicle;
+
+    @OneToMany(mappedBy = "delivery")
+    private List<Orders> orders;
 }
