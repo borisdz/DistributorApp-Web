@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +24,7 @@ public interface PriceRepository extends JpaRepository<Price, Integer> {
             nativeQuery = true,
             value = ""
     )
-    List<Price> findAllByName(@NonNull @Param("name") String name);
+    List<Price> findAllByArticleId(@NonNull @Param("id") Long id);
 
     @Query(
             nativeQuery = true,
@@ -36,7 +38,7 @@ public interface PriceRepository extends JpaRepository<Price, Integer> {
             nativeQuery = true,
             value = ""
     )
-    Optional<Price> create();
+    Optional<Price> create(BigDecimal price, LocalDateTime price_eff_date, Long art_id);
 
     @Modifying
     @Transactional
@@ -44,7 +46,7 @@ public interface PriceRepository extends JpaRepository<Price, Integer> {
             nativeQuery = true,
             value = ""
     )
-    Optional<Price> edit();
+    Optional<Price> edit(Integer id, BigDecimal price, LocalDateTime price_eff_date, Long art_id);
 
     @Modifying
     @Transactional
@@ -52,5 +54,5 @@ public interface PriceRepository extends JpaRepository<Price, Integer> {
             nativeQuery = true,
             value = ""
     )
-    void delete();
+    void delete(Integer id);
 }

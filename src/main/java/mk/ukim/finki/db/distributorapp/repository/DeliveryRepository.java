@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,7 +24,7 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
             nativeQuery = true,
             value = ""
     )
-    List<Delivery> findAllByName(@NonNull @Param("name") String name);
+    List<Delivery> findAllByVehicle(@NonNull @Param("vehicle") Integer veh_id);
 
     @Query(
             nativeQuery = true,
@@ -30,13 +32,11 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
     )
     Optional<Delivery> findById(@NonNull @Param("id") Long id);
 
-    @Modifying
-    @Transactional
     @Query(
             nativeQuery = true,
             value = ""
     )
-    Optional<Delivery> create();
+    List<Delivery> findDeliveriesByDriver(@NonNull @Param("driver") Long driver_id);
 
     @Modifying
     @Transactional
@@ -44,7 +44,16 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
             nativeQuery = true,
             value = ""
     )
-    Optional<Delivery> edit();
+    Optional<Delivery> create(
+            LocalDate del_date_created,
+            LocalDate del_date,
+            Integer del_start_km,
+            Integer del_end_km,
+            LocalTime del_start_time,
+            LocalTime del_end_time,
+            Short del_status_id,
+            Integer veh_id
+    );
 
     @Modifying
     @Transactional
@@ -52,5 +61,23 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
             nativeQuery = true,
             value = ""
     )
-    void delete();
+    Optional<Delivery> edit(
+            Long id,
+            LocalDate del_date_created,
+            LocalDate del_date,
+            Integer del_start_km,
+            Integer del_end_km,
+            LocalTime del_start_time,
+            LocalTime del_end_time,
+            Short del_status_id,
+            Integer veh_id
+    );
+
+    @Modifying
+    @Transactional
+    @Query(
+            nativeQuery = true,
+            value = ""
+    )
+    void delete(Long id);
 }

@@ -36,7 +36,7 @@ public interface DriverRepository extends JpaRepository<Driver, Long> {
             nativeQuery = true,
             value = ""
     )
-    Optional<Driver> create();
+    Optional<Driver> create(Long usr_id, Integer veh_id);
 
     @Modifying
     @Transactional
@@ -44,7 +44,7 @@ public interface DriverRepository extends JpaRepository<Driver, Long> {
             nativeQuery = true,
             value = ""
     )
-    Optional<Driver> edit();
+    Optional<Driver> edit(Long usr_id, Integer veh_id);
 
     @Modifying
     @Transactional
@@ -52,5 +52,5 @@ public interface DriverRepository extends JpaRepository<Driver, Long> {
             nativeQuery = true,
             value = ""
     )
-    void delete();
+    void delete(Long id);
 }

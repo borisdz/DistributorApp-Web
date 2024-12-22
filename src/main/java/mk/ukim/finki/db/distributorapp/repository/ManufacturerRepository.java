@@ -36,7 +36,7 @@ public interface ManufacturerRepository extends JpaRepository<Manufacturer, Long
             nativeQuery = true,
             value = ""
     )
-    Optional<Manufacturer> create();
+    Optional<Manufacturer> create(String name, String address, String mobile, String email);
 
     @Modifying
     @Transactional
@@ -44,7 +44,7 @@ public interface ManufacturerRepository extends JpaRepository<Manufacturer, Long
             nativeQuery = true,
             value = ""
     )
-    Optional<Manufacturer> edit();
+    Optional<Manufacturer> edit(Long id, String name, String address, String mobile, String email);
 
     @Modifying
     @Transactional

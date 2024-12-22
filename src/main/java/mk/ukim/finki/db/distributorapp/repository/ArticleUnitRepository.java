@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,13 +31,7 @@ public interface ArticleUnitRepository extends JpaRepository<Article_Unit,Long> 
     )
     Optional<Article_Unit> findById(@NonNull @Param("id") Long id);
 
-    @Modifying
-    @Transactional
-    @Query(
-            nativeQuery = true,
-            value = ""
-    )
-    Optional<Article_Unit> create();
+    List<Article_Unit> findAllByWarehouse(Integer wh_id);
 
     @Modifying
     @Transactional
@@ -44,7 +39,34 @@ public interface ArticleUnitRepository extends JpaRepository<Article_Unit,Long> 
             nativeQuery = true,
             value = ""
     )
-    Optional<Article_Unit> edit();
+    Optional<Article_Unit> create(
+            Date unit_exp_date,
+            String unit_ser_number,
+            String unit_batch_number,
+            Date unit_manufacture_date,
+            Double unit_cost_price,
+            Long art_id,
+            Integer wh_id,
+            Long ord_id
+    );
+
+    @Modifying
+    @Transactional
+    @Query(
+            nativeQuery = true,
+            value = ""
+    )
+    Optional<Article_Unit> edit(
+            Long id,
+            Date unit_exp_date,
+            String unit_ser_number,
+            String unit_batch_number,
+            Date unit_manufacture_date,
+            Double unit_cost_price,
+            Long art_id,
+            Integer wh_id,
+            Long ord_id
+    );
 
     @Modifying
     @Transactional

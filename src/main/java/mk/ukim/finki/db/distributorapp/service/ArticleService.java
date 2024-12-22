@@ -9,15 +9,15 @@ import java.util.Optional;
 
 public interface ArticleService {
 
-    List<Article> findAll();
+    List<Article> getAllArticles();
 
     Optional<Article> findById(long id);
 
-    Optional<Article> findByName(String name);
+    List<Article> findAllByName(String name);
 
     void deleteById(long id);
 
-    Optional<Article>editById(long id, Article article);
+    Optional<Article>editById(Article article);
 
-    Optional<Article> save(Long id, String name, Integer weight, Category category, Manufacturer manufacturer);
+    Optional<Article> create(String name, Integer weight, Category category, Manufacturer manufacturer);
 }

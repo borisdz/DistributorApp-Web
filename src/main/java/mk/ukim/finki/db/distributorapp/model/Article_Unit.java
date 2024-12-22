@@ -25,7 +25,7 @@ public class Article_Unit {
     private Date unit_manufacture_date;
 
     @Column(name = "unit_cost_price", nullable = false)
-    private double unit_cost_price;
+    private Double unit_cost_price;
 
     @ManyToOne
     @JoinColumn(name = "art_id", nullable = false)
