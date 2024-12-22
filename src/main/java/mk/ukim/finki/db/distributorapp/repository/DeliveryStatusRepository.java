@@ -36,7 +36,7 @@ public interface DeliveryStatusRepository extends JpaRepository<Delivery_Status,
             nativeQuery = true,
             value = ""
     )
-    Optional<Delivery_Status> create();
+    Optional<Delivery_Status> create(String name, String description);
 
     @Modifying
     @Transactional
@@ -44,7 +44,7 @@ public interface DeliveryStatusRepository extends JpaRepository<Delivery_Status,
             nativeQuery = true,
             value = ""
     )
-    Optional<Delivery_Status> edit();
+    Optional<Delivery_Status> edit(Short id, String name, String description);
 
     @Modifying
     @Transactional
@@ -52,5 +52,5 @@ public interface DeliveryStatusRepository extends JpaRepository<Delivery_Status,
             nativeQuery = true,
             value = ""
     )
-    void delete();
+    void delete(Short id);
 }

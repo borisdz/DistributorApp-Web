@@ -36,7 +36,7 @@ public interface OrderStatusRepository extends JpaRepository<Order_Status, Short
             nativeQuery = true,
             value = ""
     )
-    Optional<Order_Status> create();
+    Optional<Order_Status> create(String name, String description);
 
     @Modifying
     @Transactional
@@ -44,7 +44,7 @@ public interface OrderStatusRepository extends JpaRepository<Order_Status, Short
             nativeQuery = true,
             value = ""
     )
-    Optional<Order_Status> edit();
+    Optional<Order_Status> edit(Short id, String name, String description);
 
     @Modifying
     @Transactional
@@ -52,5 +52,5 @@ public interface OrderStatusRepository extends JpaRepository<Order_Status, Short
             nativeQuery = true,
             value = ""
     )
-    void delete();
+    void delete(Short id);
 }

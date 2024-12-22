@@ -1,4 +1,4 @@
-package mk.ukim.finki.db.distributorapp.model.sec;
+package mk.ukim.finki.db.distributorapp.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;

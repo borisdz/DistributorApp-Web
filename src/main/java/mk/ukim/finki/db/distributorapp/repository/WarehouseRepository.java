@@ -22,7 +22,7 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Integer> {
             nativeQuery = true,
             value = ""
     )
-    List<Warehouse> findAllByName(@NonNull @Param("name") String name);
+    List<Warehouse> findAllByCity(@NonNull @Param("city") Long city);
 
     @Query(
             nativeQuery = true,
@@ -36,7 +36,7 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Integer> {
             nativeQuery = true,
             value = ""
     )
-    Optional<Warehouse> create();
+    Optional<Warehouse> create(String whAddress, Long city);
 
     @Modifying
     @Transactional
@@ -44,7 +44,7 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Integer> {
             nativeQuery = true,
             value = ""
     )
-    Optional<Warehouse> edit();
+    Optional<Warehouse> edit(Long id, String whAddress, Long city);
 
     @Modifying
     @Transactional

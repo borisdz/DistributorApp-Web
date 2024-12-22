@@ -36,7 +36,7 @@ public interface ManagerRepository extends JpaRepository<Manager, Integer> {
             nativeQuery = true,
             value = ""
     )
-    Optional<Manager> create();
+    Optional<Manager> create(Long id, Integer whId);
 
     @Modifying
     @Transactional
@@ -44,7 +44,7 @@ public interface ManagerRepository extends JpaRepository<Manager, Integer> {
             nativeQuery = true,
             value = ""
     )
-    Optional<Manager> edit();
+    Optional<Manager> edit(Long id, Integer whId);
 
     @Modifying
     @Transactional
@@ -52,5 +52,5 @@ public interface ManagerRepository extends JpaRepository<Manager, Integer> {
             nativeQuery = true,
             value = ""
     )
-    void delete();
+    void delete(Long id);
 }
