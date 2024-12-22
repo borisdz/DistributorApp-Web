@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,12 +23,6 @@ public interface ProFormaRepository extends JpaRepository<Pro_Forma,Long> {
             nativeQuery = true,
             value = ""
     )
-    List<Pro_Forma> findAllByName(@NonNull @Param("name") String name);
-
-    @Query(
-            nativeQuery = true,
-            value = ""
-    )
     Optional<Pro_Forma> findById(@NonNull @Param("id") Short id);
 
     @Modifying
@@ -36,7 +31,7 @@ public interface ProFormaRepository extends JpaRepository<Pro_Forma,Long> {
             nativeQuery = true,
             value = ""
     )
-    Optional<Pro_Forma> create();
+    Optional<Pro_Forma> create(LocalDate pf_deadline, LocalDate pf_create_date, Short pf_status_id, Long order_id);
 
     @Modifying
     @Transactional
@@ -44,7 +39,7 @@ public interface ProFormaRepository extends JpaRepository<Pro_Forma,Long> {
             nativeQuery = true,
             value = ""
     )
-    Optional<Pro_Forma> edit();
+    Optional<Pro_Forma> edit(Long pf_id, LocalDate pf_deadline, LocalDate pf_create_date, Short pf_status_id, Long order_id);
 
     @Modifying
     @Transactional

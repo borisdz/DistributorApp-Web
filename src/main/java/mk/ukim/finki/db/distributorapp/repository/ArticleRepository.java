@@ -42,7 +42,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
             nativeQuery = true,
             value = ""
     )
-    Optional<Article> create();
+    Optional<Article> create(String name, Integer weight, Long ctg_id, Long man_id);
 
     @Modifying
     @Transactional
@@ -50,7 +50,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
             nativeQuery = true,
             value = ""
     )
-    Optional<Article> edit();
+    Optional<Article> edit(Long id, String name, Integer weight, Long ctg_id, Long man_id);
 
     @Modifying
     @Transactional

@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +38,16 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
             nativeQuery = true,
             value = ""
     )
-    Optional<Orders> create();
+    Optional<Orders> create(
+            LocalDate ord_date,
+            Integer ord_sum,
+            LocalDateTime ord_fulfillment_date,
+            String ord_comment,
+            Short ord_status_id,
+            Long cust_id,
+            Long del_id,
+            Long pf_id
+    );
 
     @Modifying
     @Transactional
@@ -44,7 +55,17 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
             nativeQuery = true,
             value = ""
     )
-    Optional<Orders> edit();
+    Optional<Orders> edit(
+            Long id,
+            LocalDate ord_date,
+            Integer ord_sum,
+            LocalDateTime ord_fulfillment_date,
+            String ord_comment,
+            Short ord_status_id,
+            Long cust_id,
+            Long del_id,
+            Long pf_id
+    );
 
     @Modifying
     @Transactional
