@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-public interface ProFormaStatus extends JpaRepository<Pro_Forma_Status, Short> {
+public interface ProFormaStatusRepository extends JpaRepository<Pro_Forma_Status, Short> {
     @Query(
             nativeQuery = true,
             value = ""
@@ -36,7 +36,7 @@ public interface ProFormaStatus extends JpaRepository<Pro_Forma_Status, Short> {
             nativeQuery = true,
             value = ""
     )
-    Optional<Pro_Forma_Status> create();
+    Optional<Pro_Forma_Status> create(String name, String description);
 
     @Modifying
     @Transactional
@@ -44,7 +44,7 @@ public interface ProFormaStatus extends JpaRepository<Pro_Forma_Status, Short> {
             nativeQuery = true,
             value = ""
     )
-    Optional<Pro_Forma_Status> edit();
+    Optional<Pro_Forma_Status> edit(Short id, String name, String description);
 
     @Modifying
     @Transactional
@@ -52,5 +52,5 @@ public interface ProFormaStatus extends JpaRepository<Pro_Forma_Status, Short> {
             nativeQuery = true,
             value = ""
     )
-    void delete();
+    void delete(Short id);
 }

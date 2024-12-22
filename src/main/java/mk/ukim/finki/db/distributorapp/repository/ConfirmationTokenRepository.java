@@ -1,6 +1,6 @@
 package mk.ukim.finki.db.distributorapp.repository;
 
-import mk.ukim.finki.db.distributorapp.model.sec.ConfirmationToken;
+import mk.ukim.finki.db.distributorapp.security.ConfirmationToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

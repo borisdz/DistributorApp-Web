@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,7 +37,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
             nativeQuery = true,
             value = ""
     )
-    Optional<Customer> create();
+    Optional<Customer> create(Long id, String customerEDB, String customerName, String customerStreet, LocalTime openTime, LocalTime closeTime, String customerImage);
 
     @Modifying
     @Transactional
@@ -44,7 +45,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
             nativeQuery = true,
             value = ""
     )
-    Optional<Customer> edit();
+    Optional<Customer> edit(Long id, String customerEDB, String customerName, String customerStreet, LocalTime openTime, LocalTime closeTime, String customerImage);
 
     @Modifying
     @Transactional
@@ -52,5 +53,5 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
             nativeQuery = true,
             value = ""
     )
-    void delete();
+    void delete(Long id);
 }
