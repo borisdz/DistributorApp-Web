@@ -4,10 +4,12 @@ import mk.ukim.finki.db.distributorapp.model.City;
 import mk.ukim.finki.db.distributorapp.model.Warehouse;
 import mk.ukim.finki.db.distributorapp.repository.WarehouseRepository;
 import mk.ukim.finki.db.distributorapp.service.WarehouseService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class WarehouseServiceImpl implements WarehouseService {
     private final WarehouseRepository warehouseRepository;
 

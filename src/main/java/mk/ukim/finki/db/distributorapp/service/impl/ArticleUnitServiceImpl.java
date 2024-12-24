@@ -6,11 +6,13 @@ import mk.ukim.finki.db.distributorapp.model.Orders;
 import mk.ukim.finki.db.distributorapp.model.Warehouse;
 import mk.ukim.finki.db.distributorapp.repository.ArticleUnitRepository;
 import mk.ukim.finki.db.distributorapp.service.ArticleUnitService;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ArticleUnitServiceImpl implements ArticleUnitService {
     private final ArticleUnitRepository articleUnitRepository;
 

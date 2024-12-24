@@ -3,10 +3,12 @@ package mk.ukim.finki.db.distributorapp.service.impl;
 import mk.ukim.finki.db.distributorapp.model.Manufacturer;
 import mk.ukim.finki.db.distributorapp.repository.ManufacturerRepository;
 import mk.ukim.finki.db.distributorapp.service.ManufacturerService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ManufacturerServiceImpl implements ManufacturerService {
     private final ManufacturerRepository manufacturerRepository;
 

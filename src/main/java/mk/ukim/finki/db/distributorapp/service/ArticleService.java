@@ -11,11 +11,11 @@ public interface ArticleService {
 
     List<Article> getAllArticles();
 
-    Optional<Article> findById(long id);
+    Optional<Article> findById(Long id);
 
     List<Article> findAllByName(String name);
 
-    void deleteById(long id);
+    void deleteById(Long id);
 
     Optional<Article>editById(Article article);
 

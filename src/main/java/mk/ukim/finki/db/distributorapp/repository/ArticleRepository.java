@@ -15,13 +15,15 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     @Query(
             nativeQuery = true,
-            value = "select * " +
+            value = "set search_path = \"IND0_185022\"; " +
+                    "select * " +
                     "from article"
     )
     List<Article> listAll();
 
     @Query(
-            value = "select * " +
+            value = "set search_path = \"IND0_185022\"; " +
+                    "select * " +
                     "from article a " +
                     "where a.art_name like :name",
             nativeQuery = true
@@ -30,7 +32,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     @Query(
             nativeQuery = true,
-            value = "select * " +
+            value = "set search_path = \"IND0_185022\"; " +
+                    "select * " +
                     "from article a " +
                     "where a.art_id=:id"
     )
@@ -40,7 +43,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "set search_path = \"IND0_185022\"; " +
+                    ""
     )
     Optional<Article> create(String name, Integer weight, Long ctg_id, Long man_id);
 
@@ -48,7 +52,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "set search_path = \"IND0_185022\"; " +
+                    ""
     )
     Optional<Article> edit(Long id, String name, Integer weight, Long ctg_id, Long man_id);
 
@@ -56,7 +61,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "set search_path = \"IND0_185022\"; " +
+                    ""
     )
-    void delete();
+    void delete(Long id);
 }

@@ -12,7 +12,7 @@ import java.util.Optional;
 public class CityServiceImpl implements CityService {
     private final CityRepository cityRepository;
 
-    public CityServiceImpl(CityService cityService, CityRepository cityRepository) {
+    public CityServiceImpl(CityRepository cityRepository) {
         this.cityRepository = cityRepository;
     }
 
@@ -27,12 +27,12 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public Optional<City> createCity(String name) {
+    public Optional<City> create(String name) {
         return this.cityRepository.create(name);
     }
 
     @Override
-    public Optional<City> updateCity(Long id, String name) {
+    public Optional<City> edit(Long id, String name) {
         return this.cityRepository.edit(id, name);
     }
 
@@ -42,7 +42,7 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public Optional<City> searchCities(String text) {
-        return Optional.empty();
+    public List<City> searchCities(String text) {
+        return this.cityRepository.findByName(text);
     }
 }

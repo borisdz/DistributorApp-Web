@@ -3,10 +3,12 @@ package mk.ukim.finki.db.distributorapp.service.impl;
 import mk.ukim.finki.db.distributorapp.model.statuses.Order_Status;
 import mk.ukim.finki.db.distributorapp.repository.OrderStatusRepository;
 import mk.ukim.finki.db.distributorapp.service.OrderStatusService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class OrderStatusServiceImpl implements OrderStatusService {
     private final OrderStatusRepository orderStatusRepository;
 

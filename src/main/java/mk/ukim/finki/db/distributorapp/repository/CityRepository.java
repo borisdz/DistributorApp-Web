@@ -36,21 +36,23 @@ public interface CityRepository extends JpaRepository<City, Long> {
                     "from city c " +
                     "where c.city_name like :name"
     )
-    Optional<City> findByName(@Param("name") String name);
+    List<City> findByName(@Param("name") String name);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "set search_path  = \"IND0_185022\"; " +
+                    "insert into city(city_name) values (:name)"
     )
-    Optional<City> create(String name);
+    Optional<City> create(@Param("name") String name);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "set search_path  = \"IND0_185022\"; " +
+                    ""
     )
     Optional<City> edit(Long id, String name);
 

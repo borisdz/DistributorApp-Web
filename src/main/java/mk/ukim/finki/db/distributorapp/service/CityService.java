@@ -11,11 +11,11 @@ public interface CityService {
 
     Optional<City> getCityById(Long id);
 
-    Optional<City> createCity(String name);
+    Optional<City> create(String name);
 
-    Optional<City> updateCity(Long id, String name);
+    Optional<City> edit(Long id, String name);
 
     void delete(Long id);
 
-    Optional<City> searchCities(String text);
+    List<City> searchCities(String text);
 }

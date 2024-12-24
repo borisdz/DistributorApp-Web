@@ -4,10 +4,12 @@ import mk.ukim.finki.db.distributorapp.model.Driver;
 import mk.ukim.finki.db.distributorapp.model.Vehicle;
 import mk.ukim.finki.db.distributorapp.repository.DriverRepository;
 import mk.ukim.finki.db.distributorapp.service.DriverService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class DriverServiceImpl implements DriverService {
     private final DriverRepository driverRepository;
 
