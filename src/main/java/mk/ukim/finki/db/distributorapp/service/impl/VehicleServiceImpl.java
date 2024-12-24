@@ -5,11 +5,13 @@ import mk.ukim.finki.db.distributorapp.model.Vehicle;
 import mk.ukim.finki.db.distributorapp.model.Warehouse;
 import mk.ukim.finki.db.distributorapp.repository.VehicleRepository;
 import mk.ukim.finki.db.distributorapp.service.VehicleService;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class VehicleServiceImpl implements VehicleService {
     private final VehicleRepository vehicleRepository;
 

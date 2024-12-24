@@ -1,4 +1,4 @@
-package mk.ukim.finki.db.distributorapp.encryption;
+package mk.ukim.finki.db.distributorapp.security;
 
 import org.springframework.stereotype.Component;
 

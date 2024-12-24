@@ -1,17 +1,20 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
-import mk.ukim.finki.db.distributorapp.encryption.PassEncryption;
+import mk.ukim.finki.db.distributorapp.model.City;
 import mk.ukim.finki.db.distributorapp.model.Users;
 import mk.ukim.finki.db.distributorapp.model.exceptions.InvalidArgumentsException;
 import mk.ukim.finki.db.distributorapp.model.exceptions.InvalidUserCredentialsException;
-import mk.ukim.finki.db.distributorapp.security.ConfirmationToken;
-import mk.ukim.finki.db.distributorapp.security.EmailService;
 import mk.ukim.finki.db.distributorapp.repository.ConfirmationTokenRepository;
 import mk.ukim.finki.db.distributorapp.repository.UsersRepository;
+import mk.ukim.finki.db.distributorapp.security.ConfirmationToken;
+import mk.ukim.finki.db.distributorapp.security.EmailService;
+import mk.ukim.finki.db.distributorapp.security.PassEncryption;
 import mk.ukim.finki.db.distributorapp.service.UsersService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UsersServiceImpl implements UsersService {
@@ -32,6 +35,11 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
+    public Optional<Users> getUserByEmail(String email) {
+        return this.usersRepository.findUserByUserEmailIgnoreCase(email);
+    }
+
+    @Override
     public Users login(String username, String password) {
         if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
             throw new InvalidArgumentsException();
@@ -43,11 +51,12 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public Users register(String name, String surname, String email, String password, String mobile, String image) {
+    public Users register(String name, String surname, String email, String password, String mobile, String image, City city) {
         String saltValue = PassEncryption.genSaltValue(30);
         String safePass = PassEncryption.generateSecurePassword(password, saltValue);
-        Users user = new Users(name,surname,safePass, email, mobile, saltValue, false, image);
-        user.setUser_salt(saltValue);
+
+        this.usersRepository.create(name, surname, safePass, email, mobile, saltValue, false, image, city.getCity_id());
+        Users user = this.usersRepository.findUserByUserEmailIgnoreCase(email).orElseThrow(InvalidUserCredentialsException::new);
 
         ConfirmationToken confirmationToken = new ConfirmationToken(user);
         confirmationTokenRepository.save(confirmationToken);
@@ -60,7 +69,7 @@ public class UsersServiceImpl implements UsersService {
         System.out.println("Confirmation Token: " + confirmationToken.getConfirmationToken());
         emailService.sendEmail(mailMessage);
 
-        return this.usersRepository.create(name, surname, safePass, email, mobile, saltValue, false, image);
+        return user;
     }
 
     @Override

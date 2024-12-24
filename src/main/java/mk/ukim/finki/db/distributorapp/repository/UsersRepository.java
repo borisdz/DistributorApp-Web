@@ -37,7 +37,7 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
             value = ""
     )
     Users create(String name, String surname, String password, String email,
-                 String mobile, String salt, Boolean active, String image);
+                 String mobile, String salt, Boolean active, String image, Long city_id);
 
     @Modifying
     @Transactional

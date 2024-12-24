@@ -3,10 +3,12 @@ package mk.ukim.finki.db.distributorapp.service.impl;
 import mk.ukim.finki.db.distributorapp.model.statuses.Pro_Forma_Status;
 import mk.ukim.finki.db.distributorapp.repository.ProFormaStatusRepository;
 import mk.ukim.finki.db.distributorapp.service.ProFormaStatusService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ProFormaStatusServiceImpl implements ProFormaStatusService {
     private final ProFormaStatusRepository proFormaStatusRepository;
 

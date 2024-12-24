@@ -5,11 +5,13 @@ import mk.ukim.finki.db.distributorapp.model.Pro_Forma;
 import mk.ukim.finki.db.distributorapp.model.statuses.Pro_Forma_Status;
 import mk.ukim.finki.db.distributorapp.repository.ProFormaRepository;
 import mk.ukim.finki.db.distributorapp.service.ProFormaService;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ProFormaServiceImpl implements ProFormaService {
     private final ProFormaRepository proFormaRepository;
 

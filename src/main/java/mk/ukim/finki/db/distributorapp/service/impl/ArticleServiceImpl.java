@@ -5,10 +5,12 @@ import mk.ukim.finki.db.distributorapp.model.Category;
 import mk.ukim.finki.db.distributorapp.model.Manufacturer;
 import mk.ukim.finki.db.distributorapp.repository.ArticleRepository;
 import mk.ukim.finki.db.distributorapp.service.ArticleService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ArticleServiceImpl implements ArticleService {
     private final ArticleRepository articleRepository;
 
@@ -22,7 +24,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Optional<Article> findById(long id) {
+    public Optional<Article> findById(Long id) {
         return this.articleRepository.findById(id);
     }
 
@@ -32,7 +34,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         this.articleRepository.deleteById(id);
     }
 

@@ -15,29 +15,38 @@ import java.util.Optional;
 public interface ArticleUnitRepository extends JpaRepository<Article_Unit,Long> {
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "set search_path = \"IND0_185022\"; " +
+                    ""
     )
     List<Article_Unit> listAll();
 
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "set search_path = \"IND0_185022\"; " +
+                    ""
     )
     List<Article_Unit> findAllByName(@NonNull @Param("name") String name);
 
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "set search_path = \"IND0_185022\"; " +
+                    ""
     )
     Optional<Article_Unit> findById(@NonNull @Param("id") Long id);
 
+    @Query(
+            nativeQuery = true,
+            value = "set search_path = \"IND0_185022\"; " +
+                    ""
+    )
     List<Article_Unit> findAllByWarehouse(Integer wh_id);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "set search_path = \"IND0_185022\"; " +
+                    ""
     )
     Optional<Article_Unit> create(
             Date unit_exp_date,
@@ -54,7 +63,8 @@ public interface ArticleUnitRepository extends JpaRepository<Article_Unit,Long> 
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "set search_path = \"IND0_185022\"; " +
+                    ""
     )
     Optional<Article_Unit> edit(
             Long id,
@@ -72,7 +82,8 @@ public interface ArticleUnitRepository extends JpaRepository<Article_Unit,Long> 
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "set search_path = \"IND0_185022\"; " +
+                    ""
     )
-    void delete();
+    void delete(Long id);
 }

@@ -7,12 +7,14 @@ import mk.ukim.finki.db.distributorapp.model.Pro_Forma;
 import mk.ukim.finki.db.distributorapp.model.statuses.Order_Status;
 import mk.ukim.finki.db.distributorapp.repository.OrdersRepository;
 import mk.ukim.finki.db.distributorapp.service.OrdersService;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class OrdersServiceImpl implements OrdersService {
     private final OrdersRepository ordersRepository;
 
