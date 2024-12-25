@@ -60,7 +60,7 @@ public abstract class Users implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_"+this.getClass().getSimpleName()));
+        return List.of(new SimpleGrantedAuthority(this.getClass().getSimpleName()));
     }
 
     @Override
@@ -80,6 +80,6 @@ public abstract class Users implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return user_active;
     }
 }
