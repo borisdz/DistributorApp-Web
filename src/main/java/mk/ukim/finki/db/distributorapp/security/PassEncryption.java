@@ -48,7 +48,7 @@ public class PassEncryption {
         return res;
     }
 
-    public boolean verifyUserPassword(String providedPassword, String securedPassword, String salt){
+    public static boolean verifyUserPassword(String providedPassword, String securedPassword, String salt){
         boolean res = false;
         String newSecuredPassword = generateSecurePassword(securedPassword,salt);
         res = newSecuredPassword.equals(securedPassword);

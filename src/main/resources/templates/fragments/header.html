@@ -1,0 +1,41 @@
+<header>
+    <nav>
+        <ul>
+            <li><a th:href="@{/}">Home</a></li>
+
+            <!--Customer-Specific Navigation-->
+            <li th:if="${userType == 'Customer'}">
+                <a th:href="@{/customer/orders}">My Orders</a>
+            </li>
+            <li th:if="${userType == 'Customer'}">
+                <a>Account details</a>
+            </li>
+
+            <!--Manager-Specific Navigation-->
+            <li th:if="${userType == 'Manager'}">
+                <a>Assign Deliveries</a>
+            </li>
+            <li th:if="${userType == 'Manager'}">
+                <a>Monitor Progress</a>
+            </li>
+
+            <!--Driver-Specific Navigation-->
+            <li th:if="${userType == 'Driver'}">
+                <a>Assigned Deliveries</a>
+            </li>
+            <li th:if="${userType == 'Driver'}">
+                <a>My Schedule</a>
+            </li>
+
+            <li th:if="${#authorization.expression('isAuthenticated()')}">
+                <a th:href="@{/logout}">Logout</a>
+            </li>
+            <li th:if="${#authorization.expression('!isAuthenticated()')}">
+                <a th:href="@{/login}">Login</a>
+            </li>
+            <li th:if="${#authorization.expression('!isAuthenticated()')}">
+                <a th:href="@{/register}">Register</a>
+            </li>
+        </ul>
+    </nav>
+</header>

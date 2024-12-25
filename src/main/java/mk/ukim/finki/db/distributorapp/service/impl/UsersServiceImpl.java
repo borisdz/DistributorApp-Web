@@ -9,6 +9,7 @@ import mk.ukim.finki.db.distributorapp.repository.UsersRepository;
 import mk.ukim.finki.db.distributorapp.security.ConfirmationToken;
 import mk.ukim.finki.db.distributorapp.security.EmailService;
 import mk.ukim.finki.db.distributorapp.security.PassEncryption;
+import mk.ukim.finki.db.distributorapp.security.PassEncryptionPasswordEncoder;
 import mk.ukim.finki.db.distributorapp.service.UsersService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
@@ -22,11 +23,13 @@ public class UsersServiceImpl implements UsersService {
     private final UsersRepository usersRepository;
     private final ConfirmationTokenRepository confirmationTokenRepository;
     private final EmailService emailService;
+    private final PassEncryptionPasswordEncoder passwordEncoder;
 
-    public UsersServiceImpl(UsersRepository usersRepository, ConfirmationTokenRepository confirmationTokenRepository, EmailService emailService) {
+    public UsersServiceImpl(UsersRepository usersRepository, ConfirmationTokenRepository confirmationTokenRepository, EmailService emailService, PassEncryptionPasswordEncoder passwordEncoder) {
         this.usersRepository = usersRepository;
         this.confirmationTokenRepository = confirmationTokenRepository;
         this.emailService = emailService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -45,7 +48,7 @@ public class UsersServiceImpl implements UsersService {
             throw new InvalidArgumentsException();
         }
 
-        String secPassword = PassEncryption.generateSecurePassword(password,usersRepository.findUserByUserName(username).get().getUser_salt());
+        String secPassword = passwordEncoder.encodeWithSalt(password,usersRepository.findUserByUserName(username).get().getUser_salt());
 
         return usersRepository.findUserByUserNameAndUserPassword(username,secPassword).orElseThrow(InvalidUserCredentialsException::new);
     }
@@ -53,7 +56,7 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public Users register(String name, String surname, String email, String password, String mobile, String image, City city) {
         String saltValue = PassEncryption.genSaltValue(30);
-        String safePass = PassEncryption.generateSecurePassword(password, saltValue);
+        String safePass = passwordEncoder.encodeWithSalt(password, saltValue);
 
         this.usersRepository.create(name, surname, safePass, email, mobile, saltValue, false, image, city.getCity_id());
         Users user = this.usersRepository.findUserByUserEmailIgnoreCase(email).orElseThrow(InvalidUserCredentialsException::new);
