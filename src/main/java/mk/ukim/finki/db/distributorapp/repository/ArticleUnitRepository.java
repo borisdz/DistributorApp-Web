@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-public interface ArticleUnitRepository extends JpaRepository<Article_Unit,Long> {
+public interface ArticleUnitRepository extends JpaRepository<Article_Unit, Long> {
     @Query(
             nativeQuery = true,
             value = "set search_path = \"IND0_185022\"; " +

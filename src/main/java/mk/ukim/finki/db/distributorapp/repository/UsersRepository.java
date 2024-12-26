@@ -54,6 +54,7 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
             value = ""
     )
     void delete();
+
     ////////////////////////////////////////////////
     @Query(
             nativeQuery = true,

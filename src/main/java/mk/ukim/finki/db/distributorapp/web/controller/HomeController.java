@@ -24,13 +24,13 @@ public class HomeController {
 
         Users user = (Users) authentication.getPrincipal();
 
-        if(user instanceof Customer){
+        if (user instanceof Customer) {
             model.addAttribute("userType", "Customer");
             return "redirect:customer/home";
-        }else if(user instanceof Driver){
+        } else if (user instanceof Driver) {
             model.addAttribute("userType", "Driver");
             return "redirect:driver/home";
-        } else if (user instanceof Manager){
+        } else if (user instanceof Manager) {
             model.addAttribute("userType", "Manager");
             return "redirect:manager/home";
         }

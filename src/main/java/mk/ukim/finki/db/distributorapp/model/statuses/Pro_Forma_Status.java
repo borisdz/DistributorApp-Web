@@ -14,10 +14,10 @@ public class Pro_Forma_Status {
     @Column(name = "pf_status_id")
     private Short pro_forma_status_id;
 
-    @Column(name="pf_status_name", nullable = false)
+    @Column(name = "pf_status_name", nullable = false)
     private String pro_forma_status_name;
 
-    @Column(name="pf_status_desc", nullable = false)
+    @Column(name = "pf_status_desc", nullable = false)
     private String pro_forma_status_description;
 
     @OneToMany(mappedBy = "pro_forma_status")

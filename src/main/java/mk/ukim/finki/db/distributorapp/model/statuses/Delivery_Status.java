@@ -14,10 +14,10 @@ public class Delivery_Status {
     @Column(name = "del_status_id")
     private Short delivery_status_id;
 
-    @Column(name="del_status_name", nullable = false)
+    @Column(name = "del_status_name", nullable = false)
     private String delivery_status_name;
 
-    @Column(name="del_status_desc", nullable = false)
+    @Column(name = "del_status_desc", nullable = false)
     private String delivery_status_description;
 
     @OneToMany(mappedBy = "delivery_status")

@@ -11,8 +11,8 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Data
 @Table(name = "manager", schema = "IND0_185022")
-public class Manager extends Users{
+public class Manager extends Users {
     @OneToOne
-    @JoinColumn(name = "wh_id",nullable = false,unique = true)
+    @JoinColumn(name = "wh_id", nullable = false, unique = true)
     private Warehouse warehouse;
 }

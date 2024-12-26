@@ -7,10 +7,10 @@ import org.springframework.http.ResponseEntity;
 import java.util.Optional;
 
 public interface UsersService {
-    Users register (String name, String surname, String email,
-                    String password, String mobile, String image, City city);
+    Users register(String name, String surname, String email,
+                   String password, String mobile, String image, City city);
 
-    ResponseEntity<?> confirmEmail (String confirmationToken);
+    ResponseEntity<?> confirmEmail(String confirmationToken);
 
     Users login(String username, String password);
 

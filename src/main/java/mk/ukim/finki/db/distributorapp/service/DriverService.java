@@ -8,9 +8,14 @@ import java.util.Optional;
 
 public interface DriverService {
     List<Driver> getAllDrivers();
+
     List<Driver> findAllByName(String name);
+
     Optional<Driver> findById(Long id);
+
     Optional<Driver> create(Long id, Vehicle vehicle);
+
     Optional<Driver> edit(Long id, Vehicle vehicle);
+
     void delete(Long id);
 }

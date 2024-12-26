@@ -23,7 +23,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public List<Warehouse> findAllByCity(City city){
+    public List<Warehouse> findAllByCity(City city) {
         return this.warehouseRepository.findAllByCity(city.getCity_id());
     }
 
