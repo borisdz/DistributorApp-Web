@@ -40,17 +40,17 @@ public class PassEncryption {
         }
     }
 
-    public static String generateSecurePassword(String password, String salt){
+    public static String generateSecurePassword(String password, String salt) {
         String res = null;
-        byte[] securePassword = hash(password.toCharArray(),salt.getBytes());
+        byte[] securePassword = hash(password.toCharArray(), salt.getBytes());
 
         res = Base64.getEncoder().encodeToString(securePassword);
         return res;
     }
 
-    public static boolean verifyUserPassword(String providedPassword, String securedPassword, String salt){
+    public static boolean verifyUserPassword(String providedPassword, String securedPassword, String salt) {
         boolean res = false;
-        String newSecuredPassword = generateSecurePassword(securedPassword,salt);
+        String newSecuredPassword = generateSecurePassword(securedPassword, salt);
         res = newSecuredPassword.equals(securedPassword);
 
         return res;

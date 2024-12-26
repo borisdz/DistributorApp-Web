@@ -17,7 +17,7 @@ public interface ArticleService {
 
     void deleteById(Long id);
 
-    Optional<Article>editById(Article article);
+    Optional<Article> editById(Article article);
 
     Optional<Article> create(String name, Integer weight, Category category, Manufacturer manufacturer);
 }

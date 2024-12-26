@@ -41,7 +41,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public Optional<Category> updateCategory(Long id, String name, String description) {
-        return this.categoryRepository.edit(id,name,description);
+        return this.categoryRepository.edit(id, name, description);
     }
 
     @Override

@@ -17,7 +17,8 @@ public interface CustomerService {
     Optional<Customer> create(Long id, String customerEDB, String customerName,
                               String customerStreet, LocalTime openTime, LocalTime closeTime, String customerImage);
 
-    Optional<Customer> edit (Long id, String customerEDB, String customerName,
-                             String customerStreet, LocalTime openTime, LocalTime closeTime, String customerImage);
-    void delete (Long id);
+    Optional<Customer> edit(Long id, String customerEDB, String customerName,
+                            String customerStreet, LocalTime openTime, LocalTime closeTime, String customerImage);
+
+    void delete(Long id);
 }

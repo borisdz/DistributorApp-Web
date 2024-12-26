@@ -31,7 +31,7 @@ public class PriceServiceImpl implements PriceService {
 
     @Override
     public Optional<Price> create(BigDecimal price, LocalDateTime price_eff_date, Article article) {
-        return this.priceRepository.create(price,price_eff_date,article.getArticle_id());
+        return this.priceRepository.create(price, price_eff_date, article.getArticle_id());
     }
 
     @Override

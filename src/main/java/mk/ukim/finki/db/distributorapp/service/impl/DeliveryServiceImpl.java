@@ -1,11 +1,11 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
 import mk.ukim.finki.db.distributorapp.model.Delivery;
+import mk.ukim.finki.db.distributorapp.model.Driver;
 import mk.ukim.finki.db.distributorapp.model.Vehicle;
 import mk.ukim.finki.db.distributorapp.model.statuses.Delivery_Status;
 import mk.ukim.finki.db.distributorapp.repository.DeliveryRepository;
 import mk.ukim.finki.db.distributorapp.service.DeliveryService;
-import mk.ukim.finki.db.distributorapp.model.Driver;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

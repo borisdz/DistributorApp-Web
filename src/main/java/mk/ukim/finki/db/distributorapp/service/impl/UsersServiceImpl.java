@@ -48,9 +48,9 @@ public class UsersServiceImpl implements UsersService {
             throw new InvalidArgumentsException();
         }
 
-        String secPassword = passwordEncoder.encodeWithSalt(password,usersRepository.findUserByUserName(username).get().getUser_salt());
+        String secPassword = passwordEncoder.encodeWithSalt(password, usersRepository.findUserByUserName(username).get().getUser_salt());
 
-        return usersRepository.findUserByUserNameAndUserPassword(username,secPassword).orElseThrow(InvalidUserCredentialsException::new);
+        return usersRepository.findUserByUserNameAndUserPassword(username, secPassword).orElseThrow(InvalidUserCredentialsException::new);
     }
 
     @Override
@@ -68,7 +68,7 @@ public class UsersServiceImpl implements UsersService {
         mailMessage.setTo(email);
         mailMessage.setSubject("Complete Registration!");
         mailMessage.setText(("To confirm your account, please click here: " +
-                "https://localhost:8080/register/confirm-account?token="+confirmationToken.getConfirmationToken()));
+                "https://localhost:8080/register/confirm-account?token=" + confirmationToken.getConfirmationToken()));
         System.out.println("Confirmation Token: " + confirmationToken.getConfirmationToken());
         emailService.sendEmail(mailMessage);
 
@@ -79,7 +79,7 @@ public class UsersServiceImpl implements UsersService {
     public ResponseEntity<?> confirmEmail(String confirmationToken) {
         ConfirmationToken token = this.confirmationTokenRepository.findConfirmationTokenByToken(confirmationToken);
 
-        if(token != null) {
+        if (token != null) {
             Users user = this.usersRepository.findUserByUserEmailIgnoreCase(token.getUser().getUser_email()).get();
 //            this.usersRepository.edit(user);
             return ResponseEntity.ok("Email verified successfully!");

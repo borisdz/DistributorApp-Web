@@ -12,7 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-public interface ProFormaRepository extends JpaRepository<Pro_Forma,Long> {
+public interface ProFormaRepository extends JpaRepository<Pro_Forma, Long> {
     @Query(
             nativeQuery = true,
             value = ""

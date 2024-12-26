@@ -7,9 +7,14 @@ import java.util.Optional;
 
 public interface ManufacturerService {
     List<Manufacturer> getAllManufacturers();
+
     List<Manufacturer> findAllManufacturersByName(String name);
+
     Optional<Manufacturer> findManufacturerById(Long id);
+
     Optional<Manufacturer> create(String name, String address, String mobile, String email);
+
     Optional<Manufacturer> edit(Long id, String name, String address, String mobile, String email);
+
     void delete(Long id);
 }

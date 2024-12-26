@@ -14,10 +14,10 @@ public class Order_Status {
     @Column(name = "ord_status_id")
     private Short order_status_id;
 
-    @Column(name="ord_status_name", nullable = false)
+    @Column(name = "ord_status_name", nullable = false)
     private String order_status_name;
 
-    @Column(name="ord_status_desc", nullable = false)
+    @Column(name = "ord_status_desc", nullable = false)
     private String order_status_description;
 
     @OneToMany(mappedBy = "order_status")

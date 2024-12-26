@@ -22,7 +22,7 @@ public class Price {
     private LocalDateTime price_effective_date;
 
     @ManyToOne
-    @JoinColumn(name = "art_id",nullable = false)
+    @JoinColumn(name = "art_id", nullable = false)
     private Article article;
 
 }

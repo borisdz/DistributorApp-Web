@@ -30,9 +30,9 @@ public class ConfirmationToken {
     @OneToOne(targetEntity = Users.class, fetch = FetchType.EAGER)
     private Users user;
 
-    public ConfirmationToken(Users user){
-        this.user=user;
-        createdDate=new Date();
+    public ConfirmationToken(Users user) {
+        this.user = user;
+        createdDate = new Date();
         confirmationToken = UUID.randomUUID().toString();
     }
 }
