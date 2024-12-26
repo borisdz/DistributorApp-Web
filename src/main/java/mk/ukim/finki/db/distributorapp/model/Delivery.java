@@ -10,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Table(name = "delivery", schema = "IND0_185022")
 public class Delivery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

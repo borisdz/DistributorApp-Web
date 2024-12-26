@@ -8,6 +8,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Table(name = "vehicle", schema = "IND0_185022")
 public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,10 +30,10 @@ public class Vehicle {
     @Column(name = "veh_last_service_km")
     private Integer vehicle_last_service_km;
 
-    @Column(name = "veh_plate", nullable = false)
+    @Column(name = "veh_plate", nullable = false, length = 8)
     private String vehicle_plate;
 
-    @Column(name = "veh_vin", nullable = false)
+    @Column(name = "veh_vin", nullable = false, length = 17)
     private String vehicle_vin;
 
     @Column(name = "veh_reg", nullable = false)

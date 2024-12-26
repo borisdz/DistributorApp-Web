@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Data
+@Table(name = "price", schema = "IND0_185022")
 public class Price {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
