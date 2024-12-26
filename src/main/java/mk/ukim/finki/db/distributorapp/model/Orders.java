@@ -10,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Table(name = "orders", schema = "IND0_185022")
 public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,11 +34,11 @@ public class Orders {
     private Order_Status order_status;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "cust_id")
     private Customer customer;
 
     @ManyToOne
-    @JoinColumn(name = "delivery_id", nullable = false)
+    @JoinColumn(name = "del_id", nullable = false)
     private Delivery delivery;
 
     @OneToOne

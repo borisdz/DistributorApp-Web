@@ -16,32 +16,34 @@ import java.util.List;
 @AllArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 @Data
+@Table(name = "users", schema = "IND0_185022")
 public abstract class Users implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long user_id;
 
-    @Column(nullable = false)
+    @Column(name = "user_name", nullable = false)
     private String user_name;
 
-    @Column(nullable = false)
+    @Column(name = "user_surname", nullable = false)
     private String user_surname;
 
-    @Column(nullable = false)
+    @Column(name = "user_pass", nullable = false)
     private String user_password;
 
-    @Column(nullable = false)
+    @Column(name = "user_email", nullable = false)
     private String user_email;
 
-    @Column(nullable = false)
+    @Column(name = "user_mobile", nullable = false)
     private String user_mobile;
 
-    @Column(nullable = false)
+    @Column(name = "user_salt", nullable = false)
     private String user_salt;
 
-    @Column(nullable = false)
+    @Column(name = "user_email_conf", nullable = false)
     private Boolean user_active;
 
+    @Column(name = "user_image")
     private String user_image;
 
     @ManyToOne

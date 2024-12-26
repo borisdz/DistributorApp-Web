@@ -14,15 +14,17 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "confirmationToken")
+@Table(name = "token", schema = "IND0_185022")
 public class ConfirmationToken {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "token_id")
+    @Column(name = "t_id")
     private Long tokenId;
 
+    @Column(name = "t_value")
     private String confirmationToken;
 
+    @Column(name = "t_date")
     private Date createdDate;
 
     @OneToOne(targetEntity = Users.class, fetch = FetchType.EAGER)
