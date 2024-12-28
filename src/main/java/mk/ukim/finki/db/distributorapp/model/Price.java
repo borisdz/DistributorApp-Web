@@ -13,13 +13,13 @@ public class Price {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "price_id")
-    private Integer price_id;
+    private Integer priceId;
 
     @Column(name = "price", nullable = false)
     private BigDecimal price;
 
     @Column(name = "price_eff_date", nullable = false)
-    private LocalDateTime price_effective_date;
+    private LocalDateTime priceEffectiveDate;
 
     @ManyToOne
     @JoinColumn(name = "art_id", nullable = false)

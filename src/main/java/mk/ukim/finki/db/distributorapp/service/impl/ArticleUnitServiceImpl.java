@@ -1,7 +1,7 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
 import mk.ukim.finki.db.distributorapp.model.Article;
-import mk.ukim.finki.db.distributorapp.model.Article_Unit;
+import mk.ukim.finki.db.distributorapp.model.ArticleUnit;
 import mk.ukim.finki.db.distributorapp.model.Orders;
 import mk.ukim.finki.db.distributorapp.model.Warehouse;
 import mk.ukim.finki.db.distributorapp.repository.ArticleUnitRepository;
@@ -21,41 +21,41 @@ public class ArticleUnitServiceImpl implements ArticleUnitService {
     }
 
     @Override
-    public List<Article_Unit> getAllArticleUnits() {
+    public List<ArticleUnit> getAllArticleUnits() {
         return this.articleUnitRepository.listAll();
     }
 
     @Override
-    public List<Article_Unit> findALlByName(String name) {
+    public List<ArticleUnit> findALlByName(String name) {
         return this.articleUnitRepository.findAllByName(name);
     }
 
     @Override
-    public List<Article_Unit> findAllByWarehouse(Warehouse warehouse) {
-        return this.articleUnitRepository.findAllByWarehouse(warehouse.getWarehouse_id());
+    public List<ArticleUnit> findAllByWarehouse(Warehouse warehouse) {
+        return this.articleUnitRepository.findAllByWarehouse(warehouse.getWarehouseId());
     }
 
     @Override
-    public Optional<Article_Unit> findById(Long id) {
+    public Optional<ArticleUnit> findById(Long id) {
         return this.articleUnitRepository.findById(id);
     }
 
     @Override
-    public Optional<Article_Unit> create(Date unit_exp_date, String unit_ser_number, String unit_batch_number, Date unit_manufacture_date, Double unit_cost_price, Article article, Warehouse warehouse, Orders order) {
+    public Optional<ArticleUnit> create(Date unit_exp_date, String unit_ser_number, String unit_batch_number, Date unit_manufacture_date, Double unit_cost_price, Article article, Warehouse warehouse, Orders order) {
         return this.articleUnitRepository.create(
                 unit_exp_date,
                 unit_ser_number,
                 unit_batch_number,
                 unit_manufacture_date,
                 unit_cost_price,
-                article.getArticle_id(),
-                warehouse.getWarehouse_id(),
-                order.getOrder_id()
+                article.getArticleId(),
+                warehouse.getWarehouseId(),
+                order.getOrderId()
         );
     }
 
     @Override
-    public Optional<Article_Unit> edit(Long id, Date unit_exp_date, String unit_ser_number, String unit_batch_number, Date unit_manufacture_date, Double unit_cost_price, Article article, Warehouse warehouse, Orders order) {
+    public Optional<ArticleUnit> edit(Long id, Date unit_exp_date, String unit_ser_number, String unit_batch_number, Date unit_manufacture_date, Double unit_cost_price, Article article, Warehouse warehouse, Orders order) {
         return this.articleUnitRepository.edit(
                 id,
                 unit_exp_date,
@@ -63,9 +63,9 @@ public class ArticleUnitServiceImpl implements ArticleUnitService {
                 unit_batch_number,
                 unit_manufacture_date,
                 unit_cost_price,
-                article.getArticle_id(),
-                warehouse.getWarehouse_id(),
-                order.getOrder_id()
+                article.getArticleId(),
+                warehouse.getWarehouseId(),
+                order.getOrderId()
         );
     }
 

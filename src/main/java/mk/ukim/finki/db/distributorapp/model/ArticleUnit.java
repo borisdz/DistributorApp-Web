@@ -8,25 +8,25 @@ import java.util.Date;
 @Entity
 @Data
 @Table(name = "article_unit", schema = "IND0_185022")
-public class Article_Unit {
+public class ArticleUnit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long unit_id;
+    private Long unitId;
 
     @Column(name = "unit_expiration_date", nullable = false)
-    private Date unit_expiration_date;
+    private Date unitExpirationDate;
 
     @Column(name = "unit_serial_number", nullable = false)
-    private String unit_serial_number;
+    private String unitSerialNumber;
 
     @Column(name = "unit_batch_number", nullable = false)
-    private String unit_batch_number;
+    private String unitBatchNumber;
 
     @Column(name = "unit_manufacture_date", nullable = false)
-    private Date unit_manufacture_date;
+    private Date unitManufactureDate;
 
     @Column(name = "unit_cost_price", nullable = false)
-    private Double unit_cost_price;
+    private Double unitCostPrice;
 
     @ManyToOne
     @JoinColumn(name = "art_id", nullable = false)

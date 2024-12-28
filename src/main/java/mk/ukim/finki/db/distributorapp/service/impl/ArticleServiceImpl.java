@@ -41,10 +41,10 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public Optional<Article> editById(Article article) {
         return this.articleRepository.edit(
-                article.getArticle_id(), article.getArticle_name(),
-                article.getArticle_weight(),
-                article.getCategory().getCategory_id(),
-                article.getManufacturer().getManufacturer_id());
+                article.getArticleId(), article.getArticleName(),
+                article.getArticleWeight(),
+                article.getCategory().getCategoryId(),
+                article.getManufacturer().getManufacturerId());
     }
 
     @Override
@@ -52,7 +52,7 @@ public class ArticleServiceImpl implements ArticleService {
         return this.articleRepository.create(
                 name,
                 weight,
-                category.getCategory_id(),
-                manufacturer.getManufacturer_id());
+                category.getCategoryId(),
+                manufacturer.getManufacturerId());
     }
 }

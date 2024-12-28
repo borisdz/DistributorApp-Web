@@ -13,31 +13,31 @@ public class Vehicle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "veh_id")
-    private Integer vehicle_id;
+    private Integer vehicleId;
 
     @Column(name = "veh_carry_weight", nullable = false)
-    private Integer vehicle_carry_weight;
+    private Integer vehicleCarryWeight;
 
     @Column(name = "veh_service_interval", nullable = false)
-    private Short vehicle_service_interval;
+    private Short vehicleServiceInterval;
 
     @Column(name = "veh_kilometers", nullable = false)
-    private Integer vehicle_kilometers;
+    private Integer vehicleKilometers;
 
     @Column(name = "veh_last_service")
-    private LocalDate vehicle_last_service;
+    private LocalDate vehicleLastService;
 
     @Column(name = "veh_last_service_km")
-    private Integer vehicle_last_service_km;
+    private Integer vehicleLastServiceKm;
 
     @Column(name = "veh_plate", nullable = false, length = 8)
-    private String vehicle_plate;
+    private String vehiclePlate;
 
     @Column(name = "veh_vin", nullable = false, length = 17)
-    private String vehicle_vin;
+    private String vehicleVin;
 
     @Column(name = "veh_reg", nullable = false)
-    private LocalDate vehicle_registration_date;
+    private LocalDate vehicleRegDate;
 
     @ManyToOne
     @JoinColumn(name = "wh_id", nullable = false)

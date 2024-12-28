@@ -20,6 +20,6 @@ public class Delivery_Status {
     @Column(name = "del_status_desc", nullable = false)
     private String delivery_status_description;
 
-    @OneToMany(mappedBy = "delivery_status")
+    @OneToMany(mappedBy = "deliveryStatus")
     private List<Delivery> deliveries;
 }

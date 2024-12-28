@@ -12,19 +12,19 @@ public class Manufacturer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "man_id")
-    private Long manufacturer_id;
+    private Long manufacturerId;
 
     @Column(name = "man_name", nullable = false)
-    private String manufacturer_name;
+    private String manufacturerName;
 
     @Column(name = "man_address", nullable = false)
-    private String manufacturer_address;
+    private String manufacturerAddress;
 
     @Column(name = "man_mobile", nullable = false)
-    private String manufacturer_mobile;
+    private String manufacturerMobile;
 
     @Column(name = "man_email", nullable = false)
-    private String manufacturer_email;
+    private String manufacturerEmail;
 
     @OneToMany(mappedBy = "manufacturer")
     private List<Article> articles;

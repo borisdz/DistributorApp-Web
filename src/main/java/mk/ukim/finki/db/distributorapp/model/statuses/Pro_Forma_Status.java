@@ -2,7 +2,7 @@ package mk.ukim.finki.db.distributorapp.model.statuses;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import mk.ukim.finki.db.distributorapp.model.Pro_Forma;
+import mk.ukim.finki.db.distributorapp.model.ProForma;
 
 import java.util.List;
 
@@ -20,6 +20,6 @@ public class Pro_Forma_Status {
     @Column(name = "pf_status_desc", nullable = false)
     private String pro_forma_status_description;
 
-    @OneToMany(mappedBy = "pro_forma_status")
-    private List<Pro_Forma> pro_formas;
+    @OneToMany(mappedBy = "proFormaStatus")
+    private List<ProForma> pro_formas;
 }

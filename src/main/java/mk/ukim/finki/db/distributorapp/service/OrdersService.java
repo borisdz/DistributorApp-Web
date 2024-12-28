@@ -3,7 +3,7 @@ package mk.ukim.finki.db.distributorapp.service;
 import mk.ukim.finki.db.distributorapp.model.Customer;
 import mk.ukim.finki.db.distributorapp.model.Delivery;
 import mk.ukim.finki.db.distributorapp.model.Orders;
-import mk.ukim.finki.db.distributorapp.model.Pro_Forma;
+import mk.ukim.finki.db.distributorapp.model.ProForma;
 import mk.ukim.finki.db.distributorapp.model.statuses.Order_Status;
 
 import java.time.LocalDate;
@@ -26,7 +26,7 @@ public interface OrdersService {
             Order_Status ord_status,
             Customer customer,
             Delivery delivery,
-            Pro_Forma proForma
+            ProForma proForma
     );
 
     Optional<Orders> edit(
@@ -38,7 +38,7 @@ public interface OrdersService {
             Order_Status ord_status,
             Customer customer,
             Delivery delivery,
-            Pro_Forma proForma
+            ProForma proForma
     );
 
     void deleteById(Long id);

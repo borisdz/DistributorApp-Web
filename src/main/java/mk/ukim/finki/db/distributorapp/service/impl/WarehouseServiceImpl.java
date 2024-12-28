@@ -24,7 +24,7 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public List<Warehouse> findAllByCity(City city) {
-        return this.warehouseRepository.findAllByCity(city.getCity_id());
+        return this.warehouseRepository.findAllByCity(city.getCityId());
     }
 
     @Override
@@ -34,12 +34,12 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public Optional<Warehouse> create(String whAddress, City city) {
-        return this.warehouseRepository.create(whAddress, city.getCity_id());
+        return this.warehouseRepository.create(whAddress, city.getCityId());
     }
 
     @Override
     public Optional<Warehouse> edit(Long id, String whAddress, City city) {
-        return this.warehouseRepository.edit(id, whAddress, city.getCity_id());
+        return this.warehouseRepository.edit(id, whAddress, city.getCityId());
     }
 
     @Override

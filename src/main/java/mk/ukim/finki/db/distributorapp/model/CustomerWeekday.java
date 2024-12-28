@@ -14,20 +14,20 @@ public class CustomerWeekday {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cust_day_id", nullable = false)
-    private Long id;
+    private Long customerDayId;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "cust_id", nullable = false)
-    private Customer cust;
+    private Customer customer;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "day_id", nullable = false)
     private Weekday day;
 
     @Column(name = "start_time", nullable = false)
-    private LocalTime startTime;
+    private LocalTime customerDayStartTime;
 
     @Column(name = "end_time", nullable = false)
-    private LocalTime endTime;
+    private LocalTime customerDayEndTime;
 
 }

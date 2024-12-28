@@ -1,7 +1,7 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
 import mk.ukim.finki.db.distributorapp.model.Orders;
-import mk.ukim.finki.db.distributorapp.model.Pro_Forma;
+import mk.ukim.finki.db.distributorapp.model.ProForma;
 import mk.ukim.finki.db.distributorapp.model.statuses.Pro_Forma_Status;
 import mk.ukim.finki.db.distributorapp.repository.ProFormaRepository;
 import mk.ukim.finki.db.distributorapp.service.ProFormaService;
@@ -20,33 +20,33 @@ public class ProFormaServiceImpl implements ProFormaService {
     }
 
     @Override
-    public List<Pro_Forma> getAllPro_Forma() {
+    public List<ProForma> getAllPro_Forma() {
         return this.proFormaRepository.listAll();
     }
 
     @Override
-    public Optional<Pro_Forma> findProFormaById(Long id) {
+    public Optional<ProForma> findProFormaById(Long id) {
         return this.proFormaRepository.findById(id);
     }
 
     @Override
-    public Optional<Pro_Forma> create(LocalDate pf_deadline, LocalDate pf_create_date, Pro_Forma_Status pf_status, Orders order) {
+    public Optional<ProForma> create(LocalDate pf_deadline, LocalDate pf_create_date, Pro_Forma_Status pf_status, Orders order) {
         return this.proFormaRepository.create(
                 pf_deadline,
                 pf_create_date,
                 pf_status.getPro_forma_status_id(),
-                order.getOrder_id()
+                order.getOrderId()
         );
     }
 
     @Override
-    public Optional<Pro_Forma> edit(Long id, LocalDate pf_deadline, LocalDate pf_create_date, Pro_Forma_Status pf_status, Orders order) {
+    public Optional<ProForma> edit(Long id, LocalDate pf_deadline, LocalDate pf_create_date, Pro_Forma_Status pf_status, Orders order) {
         return this.proFormaRepository.edit(
                 id,
                 pf_deadline,
                 pf_create_date,
                 pf_status.getPro_forma_status_id(),
-                order.getOrder_id()
+                order.getOrderId()
         );
     }
 

@@ -28,6 +28,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     public boolean authenticateUser(String providedPassword, Users user) {
-        return passwordEncoder.matchesWithSalt(providedPassword, user.getPassword(), user.getUser_salt());
+        return passwordEncoder.matchesWithSalt(providedPassword, user.getPassword(), user.getUserSalt());
     }
 }

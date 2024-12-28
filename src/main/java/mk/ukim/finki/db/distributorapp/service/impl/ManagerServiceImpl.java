@@ -29,12 +29,12 @@ public class ManagerServiceImpl implements ManagerService {
 
     @Override
     public Optional<Manager> createManager(Long id, Warehouse warehouse) {
-        return this.managerRepository.create(id, warehouse.getWarehouse_id());
+        return this.managerRepository.create(id, warehouse.getWarehouseId());
     }
 
     @Override
     public Optional<Manager> updateManager(Manager manager, Warehouse warehouse) {
-        return this.managerRepository.edit(manager.getUser_id(), warehouse.getWarehouse_id());
+        return this.managerRepository.edit(manager.getUserId(), warehouse.getWarehouseId());
     }
 
     @Override

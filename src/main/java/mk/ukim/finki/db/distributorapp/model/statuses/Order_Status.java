@@ -20,6 +20,6 @@ public class Order_Status {
     @Column(name = "ord_status_desc", nullable = false)
     private String order_status_description;
 
-    @OneToMany(mappedBy = "order_status")
+    @OneToMany(mappedBy = "orderStatus")
     private List<Orders> orders;
 }
