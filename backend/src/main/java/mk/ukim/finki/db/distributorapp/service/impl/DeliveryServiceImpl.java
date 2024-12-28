@@ -3,7 +3,7 @@ package mk.ukim.finki.db.distributorapp.service.impl;
 import mk.ukim.finki.db.distributorapp.model.Delivery;
 import mk.ukim.finki.db.distributorapp.model.Driver;
 import mk.ukim.finki.db.distributorapp.model.Vehicle;
-import mk.ukim.finki.db.distributorapp.model.statuses.Delivery_Status;
+import mk.ukim.finki.db.distributorapp.model.statuses.DeliveryStatus;
 import mk.ukim.finki.db.distributorapp.repository.DeliveryRepository;
 import mk.ukim.finki.db.distributorapp.service.DeliveryService;
 import org.springframework.stereotype.Service;
@@ -42,7 +42,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
-    public Optional<Delivery> create(LocalDate del_date_created, LocalDate del_date, Integer del_start_km, Integer del_end_km, LocalTime del_start_time, LocalTime del_end_time, Delivery_Status del_status, Vehicle vehicle) {
+    public Optional<Delivery> create(LocalDate del_date_created, LocalDate del_date, Integer del_start_km, Integer del_end_km, LocalTime del_start_time, LocalTime del_end_time, DeliveryStatus del_status, Vehicle vehicle) {
         return this.deliveryRepository.create(
                 del_date_created,
                 del_date,
@@ -56,7 +56,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
-    public Optional<Delivery> edit(Long del_id, LocalDate del_date_created, LocalDate del_date, Integer del_start_km, Integer del_end_km, LocalTime del_start_time, LocalTime del_end_time, Delivery_Status del_status, Vehicle vehicle) {
+    public Optional<Delivery> edit(Long del_id, LocalDate del_date_created, LocalDate del_date, Integer del_start_km, Integer del_end_km, LocalTime del_start_time, LocalTime del_end_time, DeliveryStatus del_status, Vehicle vehicle) {
         return this.deliveryRepository.edit(
                 del_id,
                 del_date_created,

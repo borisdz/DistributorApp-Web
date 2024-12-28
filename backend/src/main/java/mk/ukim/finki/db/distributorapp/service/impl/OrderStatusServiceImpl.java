@@ -1,6 +1,6 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
-import mk.ukim.finki.db.distributorapp.model.statuses.Order_Status;
+import mk.ukim.finki.db.distributorapp.model.statuses.OrderStatus;
 import mk.ukim.finki.db.distributorapp.repository.OrderStatusRepository;
 import mk.ukim.finki.db.distributorapp.service.OrderStatusService;
 import org.springframework.stereotype.Service;
@@ -18,27 +18,27 @@ public class OrderStatusServiceImpl implements OrderStatusService {
 
 
     @Override
-    public List<Order_Status> listOrderStatus() {
+    public List<OrderStatus> listOrderStatus() {
         return this.orderStatusRepository.findAll();
     }
 
     @Override
-    public Optional<Order_Status> getOrderStatusById(Short id) {
+    public Optional<OrderStatus> getOrderStatusById(Short id) {
         return this.orderStatusRepository.findById(id);
     }
 
     @Override
-    public Optional<Order_Status> createOrderStatus(String name, String description) {
+    public Optional<OrderStatus> createOrderStatus(String name, String description) {
         return this.orderStatusRepository.create(name, description);
     }
 
     @Override
-    public Optional<Order_Status> updateOrderStatus(Short id, String name, String description) {
+    public Optional<OrderStatus> updateOrderStatus(Short id, String name, String description) {
         return this.orderStatusRepository.edit(id, name, description);
     }
 
     @Override
-    public List<Order_Status> getOrderStatusByName(String name) {
+    public List<OrderStatus> getOrderStatusByName(String name) {
         return this.orderStatusRepository.findAllByName(name);
     }
 

@@ -4,7 +4,7 @@ import mk.ukim.finki.db.distributorapp.model.Customer;
 import mk.ukim.finki.db.distributorapp.model.Delivery;
 import mk.ukim.finki.db.distributorapp.model.Orders;
 import mk.ukim.finki.db.distributorapp.model.ProForma;
-import mk.ukim.finki.db.distributorapp.model.statuses.Order_Status;
+import mk.ukim.finki.db.distributorapp.model.statuses.OrderStatus;
 import mk.ukim.finki.db.distributorapp.repository.OrdersRepository;
 import mk.ukim.finki.db.distributorapp.service.OrdersService;
 import org.springframework.stereotype.Service;
@@ -38,7 +38,7 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public Optional<Orders> create(LocalDate ord_date, Integer ord_sum, LocalDateTime ord_fulfillment_date, String ord_comment, Order_Status ord_status, Customer customer, Delivery delivery, ProForma proForma) {
+    public Optional<Orders> create(LocalDate ord_date, Integer ord_sum, LocalDateTime ord_fulfillment_date, String ord_comment, OrderStatus ord_status, Customer customer, Delivery delivery, ProForma proForma) {
         return this.ordersRepository.create(
                 ord_date,
                 ord_sum,
@@ -52,7 +52,7 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public Optional<Orders> edit(Long id, LocalDate ord_date, Integer ord_sum, LocalDateTime ord_fulfillment_date, String ord_comment, Order_Status ord_status, Customer customer, Delivery delivery, ProForma proForma) {
+    public Optional<Orders> edit(Long id, LocalDate ord_date, Integer ord_sum, LocalDateTime ord_fulfillment_date, String ord_comment, OrderStatus ord_status, Customer customer, Delivery delivery, ProForma proForma) {
         return this.ordersRepository.edit(
                 id,
                 ord_date,

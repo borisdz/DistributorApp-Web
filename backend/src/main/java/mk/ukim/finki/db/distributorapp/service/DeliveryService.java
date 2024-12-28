@@ -3,7 +3,7 @@ package mk.ukim.finki.db.distributorapp.service;
 import mk.ukim.finki.db.distributorapp.model.Delivery;
 import mk.ukim.finki.db.distributorapp.model.Driver;
 import mk.ukim.finki.db.distributorapp.model.Vehicle;
-import mk.ukim.finki.db.distributorapp.model.statuses.Delivery_Status;
+import mk.ukim.finki.db.distributorapp.model.statuses.DeliveryStatus;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -26,7 +26,7 @@ public interface DeliveryService {
             Integer del_end_km,
             LocalTime del_start_time,
             LocalTime del_end_time,
-            Delivery_Status del_status,
+            DeliveryStatus del_status,
             Vehicle vehicle
     );
 
@@ -38,7 +38,7 @@ public interface DeliveryService {
             Integer del_end_km,
             LocalTime del_start_time,
             LocalTime del_end_time,
-            Delivery_Status del_status,
+            DeliveryStatus del_status,
             Vehicle vehicle
     );
 

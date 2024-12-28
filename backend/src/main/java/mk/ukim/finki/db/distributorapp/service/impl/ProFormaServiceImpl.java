@@ -2,7 +2,7 @@ package mk.ukim.finki.db.distributorapp.service.impl;
 
 import mk.ukim.finki.db.distributorapp.model.Orders;
 import mk.ukim.finki.db.distributorapp.model.ProForma;
-import mk.ukim.finki.db.distributorapp.model.statuses.Pro_Forma_Status;
+import mk.ukim.finki.db.distributorapp.model.statuses.ProFormaStatus;
 import mk.ukim.finki.db.distributorapp.repository.ProFormaRepository;
 import mk.ukim.finki.db.distributorapp.service.ProFormaService;
 import org.springframework.stereotype.Service;
@@ -30,7 +30,7 @@ public class ProFormaServiceImpl implements ProFormaService {
     }
 
     @Override
-    public Optional<ProForma> create(LocalDate pf_deadline, LocalDate pf_create_date, Pro_Forma_Status pf_status, Orders order) {
+    public Optional<ProForma> create(LocalDate pf_deadline, LocalDate pf_create_date, ProFormaStatus pf_status, Orders order) {
         return this.proFormaRepository.create(
                 pf_deadline,
                 pf_create_date,
@@ -40,7 +40,7 @@ public class ProFormaServiceImpl implements ProFormaService {
     }
 
     @Override
-    public Optional<ProForma> edit(Long id, LocalDate pf_deadline, LocalDate pf_create_date, Pro_Forma_Status pf_status, Orders order) {
+    public Optional<ProForma> edit(Long id, LocalDate pf_deadline, LocalDate pf_create_date, ProFormaStatus pf_status, Orders order) {
         return this.proFormaRepository.edit(
                 id,
                 pf_deadline,
