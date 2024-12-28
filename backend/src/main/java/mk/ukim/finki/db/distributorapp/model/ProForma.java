@@ -2,7 +2,7 @@ package mk.ukim.finki.db.distributorapp.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import mk.ukim.finki.db.distributorapp.model.statuses.Pro_Forma_Status;
+import mk.ukim.finki.db.distributorapp.model.statuses.ProFormaStatus;
 
 import java.time.LocalDate;
 
@@ -23,7 +23,7 @@ public class ProForma {
 
     @ManyToOne
     @JoinColumn(name = "pf_status_id", nullable = false)
-    private Pro_Forma_Status proFormaStatus;
+    private ProFormaStatus proFormaStatus;
 
     @OneToOne(mappedBy = "proForma")
     private Orders order;

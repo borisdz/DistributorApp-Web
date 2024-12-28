@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Data
-public class Delivery_Status {
+public class DeliveryStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "del_status_id")

@@ -2,7 +2,7 @@ package mk.ukim.finki.db.distributorapp.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import mk.ukim.finki.db.distributorapp.model.statuses.Delivery_Status;
+import mk.ukim.finki.db.distributorapp.model.statuses.DeliveryStatus;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -37,7 +37,7 @@ public class Delivery {
 
     @ManyToOne
     @JoinColumn(name = "del_status_id", nullable = false)
-    private Delivery_Status deliveryStatus;
+    private DeliveryStatus deliveryStatus;
 
     @ManyToOne
     @JoinColumn(name = "veh_id", nullable = false)

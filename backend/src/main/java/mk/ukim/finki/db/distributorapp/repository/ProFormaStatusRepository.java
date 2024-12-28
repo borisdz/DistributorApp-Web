@@ -1,7 +1,7 @@
 package mk.ukim.finki.db.distributorapp.repository;
 
 import lombok.NonNull;
-import mk.ukim.finki.db.distributorapp.model.statuses.Pro_Forma_Status;
+import mk.ukim.finki.db.distributorapp.model.statuses.ProFormaStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -11,32 +11,24 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-public interface ProFormaStatusRepository extends JpaRepository<Pro_Forma_Status, Short> {
+public interface ProFormaStatusRepository extends JpaRepository<ProFormaStatus, Short> {
     @Query(
             nativeQuery = true,
             value = ""
     )
-    List<Pro_Forma_Status> listAll();
+    List<ProFormaStatus> listAll();
 
     @Query(
             nativeQuery = true,
             value = ""
     )
-    List<Pro_Forma_Status> findAllByName(@NonNull @Param("name") String name);
+    List<ProFormaStatus> findAllByName(@NonNull @Param("name") String name);
 
     @Query(
             nativeQuery = true,
             value = ""
     )
-    Optional<Pro_Forma_Status> findById(@NonNull @Param("id") Short id);
-
-    @Modifying
-    @Transactional
-    @Query(
-            nativeQuery = true,
-            value = ""
-    )
-    Optional<Pro_Forma_Status> create(String name, String description);
+    Optional<ProFormaStatus> findById(@NonNull @Param("id") Short id);
 
     @Modifying
     @Transactional
@@ -44,7 +36,15 @@ public interface ProFormaStatusRepository extends JpaRepository<Pro_Forma_Status
             nativeQuery = true,
             value = ""
     )
-    Optional<Pro_Forma_Status> edit(Short id, String name, String description);
+    Optional<ProFormaStatus> create(String name, String description);
+
+    @Modifying
+    @Transactional
+    @Query(
+            nativeQuery = true,
+            value = ""
+    )
+    Optional<ProFormaStatus> edit(Short id, String name, String description);
 
     @Modifying
     @Transactional

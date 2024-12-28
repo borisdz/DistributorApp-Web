@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Data
-public class Pro_Forma_Status {
+public class ProFormaStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pf_status_id")
