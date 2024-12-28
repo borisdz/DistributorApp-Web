@@ -15,23 +15,23 @@ public class Orders {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ord_id", nullable = false)
-    private Long order_id;
+    private Long orderId;
 
     @Column(name = "ord_date", nullable = false)
-    private LocalDate order_date;
+    private LocalDate orderDate;
 
     @Column(name = "ord_sum", nullable = false)
-    private Integer order_sum;
+    private Integer orderSum;
 
     @Column(name = "ord_fulfillment_date")
-    private LocalDateTime order_fulfillment_date;
+    private LocalDateTime orderFulfillmentDate;
 
     @Column(name = "ord_comment")
-    private String order_comment;
+    private String orderComment;
 
     @ManyToOne
     @JoinColumn(name = "ord_status_id")
-    private Order_Status order_status;
+    private Order_Status orderStatus;
 
     @ManyToOne
     @JoinColumn(name = "cust_id")
@@ -43,8 +43,8 @@ public class Orders {
 
     @OneToOne
     @JoinColumn(name = "pf_id", nullable = false, unique = true)
-    private Pro_Forma proForma;
+    private ProForma proForma;
 
     @OneToMany(mappedBy = "order")
-    private List<Article_Unit> articleUnits;
+    private List<ArticleUnit> articleUnits;
 }

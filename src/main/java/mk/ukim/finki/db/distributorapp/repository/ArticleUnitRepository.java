@@ -1,7 +1,7 @@
 package mk.ukim.finki.db.distributorapp.repository;
 
 import lombok.NonNull;
-import mk.ukim.finki.db.distributorapp.model.Article_Unit;
+import mk.ukim.finki.db.distributorapp.model.ArticleUnit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -12,34 +12,34 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-public interface ArticleUnitRepository extends JpaRepository<Article_Unit, Long> {
+public interface ArticleUnitRepository extends JpaRepository<ArticleUnit, Long> {
     @Query(
             nativeQuery = true,
             value = "set search_path = \"IND0_185022\"; " +
                     ""
     )
-    List<Article_Unit> listAll();
+    List<ArticleUnit> listAll();
 
     @Query(
             nativeQuery = true,
             value = "set search_path = \"IND0_185022\"; " +
                     ""
     )
-    List<Article_Unit> findAllByName(@NonNull @Param("name") String name);
+    List<ArticleUnit> findAllByName(@NonNull @Param("name") String name);
 
     @Query(
             nativeQuery = true,
             value = "set search_path = \"IND0_185022\"; " +
                     ""
     )
-    Optional<Article_Unit> findById(@NonNull @Param("id") Long id);
+    Optional<ArticleUnit> findById(@NonNull @Param("id") Long id);
 
     @Query(
             nativeQuery = true,
             value = "set search_path = \"IND0_185022\"; " +
                     ""
     )
-    List<Article_Unit> findAllByWarehouse(Integer wh_id);
+    List<ArticleUnit> findAllByWarehouse(Integer wh_id);
 
     @Modifying
     @Transactional
@@ -48,7 +48,7 @@ public interface ArticleUnitRepository extends JpaRepository<Article_Unit, Long>
             value = "set search_path = \"IND0_185022\"; " +
                     ""
     )
-    Optional<Article_Unit> create(
+    Optional<ArticleUnit> create(
             Date unit_exp_date,
             String unit_ser_number,
             String unit_batch_number,
@@ -66,7 +66,7 @@ public interface ArticleUnitRepository extends JpaRepository<Article_Unit, Long>
             value = "set search_path = \"IND0_185022\"; " +
                     ""
     )
-    Optional<Article_Unit> edit(
+    Optional<ArticleUnit> edit(
             Long id,
             Date unit_exp_date,
             String unit_ser_number,

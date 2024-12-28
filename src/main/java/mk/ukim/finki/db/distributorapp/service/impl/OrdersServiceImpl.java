@@ -3,7 +3,7 @@ package mk.ukim.finki.db.distributorapp.service.impl;
 import mk.ukim.finki.db.distributorapp.model.Customer;
 import mk.ukim.finki.db.distributorapp.model.Delivery;
 import mk.ukim.finki.db.distributorapp.model.Orders;
-import mk.ukim.finki.db.distributorapp.model.Pro_Forma;
+import mk.ukim.finki.db.distributorapp.model.ProForma;
 import mk.ukim.finki.db.distributorapp.model.statuses.Order_Status;
 import mk.ukim.finki.db.distributorapp.repository.OrdersRepository;
 import mk.ukim.finki.db.distributorapp.service.OrdersService;
@@ -29,7 +29,7 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Override
     public List<Orders> findOrdersByCustomer(Customer customer) {
-        return this.ordersRepository.findByCustomer(customer.getUser_id());
+        return this.ordersRepository.findByCustomer(customer.getUserId());
     }
 
     @Override
@@ -38,21 +38,21 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public Optional<Orders> create(LocalDate ord_date, Integer ord_sum, LocalDateTime ord_fulfillment_date, String ord_comment, Order_Status ord_status, Customer customer, Delivery delivery, Pro_Forma proForma) {
+    public Optional<Orders> create(LocalDate ord_date, Integer ord_sum, LocalDateTime ord_fulfillment_date, String ord_comment, Order_Status ord_status, Customer customer, Delivery delivery, ProForma proForma) {
         return this.ordersRepository.create(
                 ord_date,
                 ord_sum,
                 ord_fulfillment_date,
                 ord_comment,
                 ord_status.getOrder_status_id(),
-                customer.getUser_id(),
-                delivery.getDelivery_id(),
-                proForma.getPro_forma_id()
+                customer.getUserId(),
+                delivery.getDeliveryId(),
+                proForma.getProFormaId()
         );
     }
 
     @Override
-    public Optional<Orders> edit(Long id, LocalDate ord_date, Integer ord_sum, LocalDateTime ord_fulfillment_date, String ord_comment, Order_Status ord_status, Customer customer, Delivery delivery, Pro_Forma proForma) {
+    public Optional<Orders> edit(Long id, LocalDate ord_date, Integer ord_sum, LocalDateTime ord_fulfillment_date, String ord_comment, Order_Status ord_status, Customer customer, Delivery delivery, ProForma proForma) {
         return this.ordersRepository.edit(
                 id,
                 ord_date,
@@ -60,9 +60,9 @@ public class OrdersServiceImpl implements OrdersService {
                 ord_fulfillment_date,
                 ord_comment,
                 ord_status.getOrder_status_id(),
-                customer.getUser_id(),
-                delivery.getDelivery_id(),
-                proForma.getPro_forma_id()
+                customer.getUserId(),
+                delivery.getDeliveryId(),
+                proForma.getProFormaId()
         );
     }
 

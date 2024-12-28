@@ -16,22 +16,22 @@ import java.util.List;
 @Table(name = "customer", schema = "IND0_185022")
 public class Customer extends Users {
     @Column(name = "cust_EDB", nullable = false, length = 13)
-    private String customer_EDB;
+    private String customerEDB;
 
     @Column(name = "cust_company_name", nullable = false)
-    private String customer_company_name;
+    private String customerCompanyName;
 
     @Column(name = "cust_address", nullable = false)
-    private String address;
+    private String customerAddress;
 
     @Column(name = "cust_open_time", nullable = false)
-    private LocalTime customer_open_time;
+    private LocalTime customerOpenTime;
 
     @Column(name = "cust_close_time", nullable = false)
-    private LocalTime customer_close_time;
+    private LocalTime customerCloseTime;
 
     @Column(name = "cust_representative_img", nullable = false)
-    private String customer_representative_image;
+    private String customerRepresentativeImage;
 
     @OneToMany(mappedBy = "customer")
     private List<Orders> orders;

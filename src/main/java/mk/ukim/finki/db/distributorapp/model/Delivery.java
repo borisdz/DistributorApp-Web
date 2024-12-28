@@ -15,29 +15,29 @@ public class Delivery {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "del_id")
-    private Long delivery_id;
+    private Long deliveryId;
 
     @Column(name = "del_date_created", nullable = false)
-    private LocalDate delivery_date_created;
+    private LocalDate deliveryDateCreated;
 
     @Column(name = "del_date", nullable = false)
-    private LocalDate delivery_date;
+    private LocalDate deliveryDate;
 
     @Column(name = "del_start_km")
-    private Integer delivery_start_km;
+    private Integer deliveryStartKm;
 
     @Column(name = "del_end_km")
-    private Integer delivery_end_km;
+    private Integer deliveryEndKm;
 
     @Column(name = "del_start_time")
-    private LocalTime delivery_start_time;
+    private LocalTime deliveryStartTime;
 
     @Column(name = "del_end_time")
-    private LocalTime delivery_end_time;
+    private LocalTime deliveryEndTime;
 
     @ManyToOne
     @JoinColumn(name = "del_status_id", nullable = false)
-    private Delivery_Status delivery_status;
+    private Delivery_Status deliveryStatus;
 
     @ManyToOne
     @JoinColumn(name = "veh_id", nullable = false)

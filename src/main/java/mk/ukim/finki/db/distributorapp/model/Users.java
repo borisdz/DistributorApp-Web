@@ -20,31 +20,31 @@ import java.util.List;
 public abstract class Users implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long user_id;
+    private Long userId;
 
     @Column(name = "user_name", nullable = false)
-    private String user_name;
+    private String userName;
 
     @Column(name = "user_surname", nullable = false)
-    private String user_surname;
+    private String userSurname;
 
     @Column(name = "user_pass", nullable = false)
-    private String user_password;
+    private String userPassword;
 
     @Column(name = "user_email", nullable = false)
-    private String user_email;
+    private String userEmail;
 
     @Column(name = "user_mobile", nullable = false)
-    private String user_mobile;
+    private String userMobile;
 
     @Column(name = "user_salt", nullable = false)
-    private String user_salt;
+    private String userSalt;
 
     @Column(name = "user_email_conf", nullable = false)
-    private Boolean user_active;
+    private Boolean userActive;
 
     @Column(name = "user_image")
-    private String user_image;
+    private String userImage;
 
     @ManyToOne
     @JoinColumn(name = "city_id", nullable = false)
@@ -52,12 +52,12 @@ public abstract class Users implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user_email;
+        return userEmail;
     }
 
     @Override
     public String getPassword() {
-        return user_password;
+        return userPassword;
     }
 
     @Override
@@ -82,6 +82,6 @@ public abstract class Users implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return user_active;
+        return userActive;
     }
 }

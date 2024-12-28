@@ -28,12 +28,12 @@ public class DeliveryServiceImpl implements DeliveryService {
 
     @Override
     public List<Delivery> getAllDeliveriesByVehicleId(Vehicle vehicle) {
-        return this.deliveryRepository.findAllByVehicle(vehicle.getVehicle_id());
+        return this.deliveryRepository.findAllByVehicle(vehicle.getVehicleId());
     }
 
     @Override
     public List<Delivery> getAllDeliveriesByDriver(Driver driver) {
-        return this.deliveryRepository.findDeliveriesByDriver(driver.getUser_id());
+        return this.deliveryRepository.findDeliveriesByDriver(driver.getUserId());
     }
 
     @Override
@@ -51,7 +51,7 @@ public class DeliveryServiceImpl implements DeliveryService {
                 del_start_time,
                 del_end_time,
                 del_status.getDelivery_status_id(),
-                vehicle.getVehicle_id()
+                vehicle.getVehicleId()
         );
     }
 
@@ -66,7 +66,7 @@ public class DeliveryServiceImpl implements DeliveryService {
                 del_start_time,
                 del_end_time,
                 del_status.getDelivery_status_id(),
-                vehicle.getVehicle_id()
+                vehicle.getVehicleId()
         );
     }
 

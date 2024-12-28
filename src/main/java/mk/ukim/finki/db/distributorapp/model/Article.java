@@ -12,14 +12,14 @@ import java.util.List;
 public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "art_id")
-    private Long article_id;
+    @Column(name = "art_id", nullable = false)
+    private Long articleId;
 
     @Column(name = "art_name", nullable = false)
-    private String article_name;
+    private String articleName;
 
     @Column(name = "art_weight", nullable = false)
-    private Integer article_weight;
+    private Integer articleWeight;
 
     @ManyToOne
     @JoinColumn(name = "ctg_id", nullable = false)
@@ -33,5 +33,5 @@ public class Article {
     private List<Price> prices;
 
     @OneToMany(mappedBy = "article")
-    private List<Article_Unit> articleUnits;
+    private List<ArticleUnit> articleUnits;
 }

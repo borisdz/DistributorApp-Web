@@ -1,7 +1,7 @@
 package mk.ukim.finki.db.distributorapp.service;
 
 import mk.ukim.finki.db.distributorapp.model.Article;
-import mk.ukim.finki.db.distributorapp.model.Article_Unit;
+import mk.ukim.finki.db.distributorapp.model.ArticleUnit;
 import mk.ukim.finki.db.distributorapp.model.Orders;
 import mk.ukim.finki.db.distributorapp.model.Warehouse;
 
@@ -10,15 +10,15 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ArticleUnitService {
-    List<Article_Unit> getAllArticleUnits();
+    List<ArticleUnit> getAllArticleUnits();
 
-    List<Article_Unit> findALlByName(String name);
+    List<ArticleUnit> findALlByName(String name);
 
-    List<Article_Unit> findAllByWarehouse(Warehouse warehouse);
+    List<ArticleUnit> findAllByWarehouse(Warehouse warehouse);
 
-    Optional<Article_Unit> findById(Long id);
+    Optional<ArticleUnit> findById(Long id);
 
-    Optional<Article_Unit> create(
+    Optional<ArticleUnit> create(
             Date unit_exp_date,
             String unit_ser_number,
             String unit_batch_number,
@@ -29,7 +29,7 @@ public interface ArticleUnitService {
             Orders order
     );
 
-    Optional<Article_Unit> edit(
+    Optional<ArticleUnit> edit(
             Long id,
             Date unit_exp_date,
             String unit_ser_number,

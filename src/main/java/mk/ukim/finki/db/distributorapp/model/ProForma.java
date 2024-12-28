@@ -9,21 +9,21 @@ import java.time.LocalDate;
 @Entity
 @Data
 @Table(name = "pro_forma", schema = "IND0_185022")
-public class Pro_Forma {
+public class ProForma {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pf_id")
-    private Long pro_forma_id;
+    private Long proFormaId;
 
     @Column(name = "pf_deadline", nullable = false)
-    private LocalDate pro_forma_deadline;
+    private LocalDate proFormaDeadline;
 
     @Column(name = "pf_date_created", nullable = false)
-    private LocalDate pro_forma_date_created;
+    private LocalDate proFormaDateCreated;
 
     @ManyToOne
     @JoinColumn(name = "pf_status_id", nullable = false)
-    private Pro_Forma_Status pro_forma_status;
+    private Pro_Forma_Status proFormaStatus;
 
     @OneToOne(mappedBy = "proForma")
     private Orders order;

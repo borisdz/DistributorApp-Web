@@ -34,12 +34,12 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public Optional<Driver> create(Long id, Vehicle vehicle) {
-        return this.driverRepository.create(id, vehicle.getVehicle_id());
+        return this.driverRepository.create(id, vehicle.getVehicleId());
     }
 
     @Override
     public Optional<Driver> edit(Long id, Vehicle vehicle) {
-        return this.driverRepository.edit(id, vehicle.getVehicle_id());
+        return this.driverRepository.edit(id, vehicle.getVehicleId());
     }
 
     @Override

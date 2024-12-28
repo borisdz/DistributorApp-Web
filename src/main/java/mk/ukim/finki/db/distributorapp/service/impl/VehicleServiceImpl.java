@@ -26,7 +26,7 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public List<Vehicle> getVehiclesByWarehouse(Warehouse warehouse) {
-        return this.vehicleRepository.findAllByWarehouse(warehouse.getWarehouse_id());
+        return this.vehicleRepository.findAllByWarehouse(warehouse.getWarehouseId());
     }
 
     @Override
@@ -35,7 +35,7 @@ public class VehicleServiceImpl implements VehicleService {
                                            String vehicleVIN, LocalDate vehicleRegDate, Warehouse warehouse, Driver driver) {
 
         return this.vehicleRepository.create(vehicleCarryWeight, vehicleServiceInterval, vehicleKilometers, vehicleLastService,
-                vehicleLastServiceKm, vehiclePlate, vehicleVIN, vehicleRegDate, warehouse.getWarehouse_id(), driver.getUser_id());
+                vehicleLastServiceKm, vehiclePlate, vehicleVIN, vehicleRegDate, warehouse.getWarehouseId(), driver.getUserId());
     }
 
     @Override
@@ -45,7 +45,7 @@ public class VehicleServiceImpl implements VehicleService {
 
 
         return this.vehicleRepository.edit(id, vehicleCarryWeight, vehicleServiceInterval, vehicleKilometers, vehicleLastService, vehicleLastServiceKm,
-                vehiclePlate, vehicleVIN, vehicleRegDate, warehouse.getWarehouse_id(), driver.getUser_id());
+                vehiclePlate, vehicleVIN, vehicleRegDate, warehouse.getWarehouseId(), driver.getUserId());
     }
 
     @Override

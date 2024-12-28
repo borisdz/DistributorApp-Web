@@ -12,10 +12,10 @@ public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "city_id")
-    private Long city_id;
+    private Long cityId;
 
     @Column(name = "city_name", nullable = false)
-    private String city_name;
+    private String cityName;
 
     @OneToMany(mappedBy = "city")
     private List<Users> users;

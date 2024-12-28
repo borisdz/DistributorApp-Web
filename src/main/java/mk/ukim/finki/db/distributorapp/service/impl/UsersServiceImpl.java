@@ -34,7 +34,7 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public String getUserSalt(String username) {
-        return usersRepository.findUserByUserName(username).get().getUser_salt();
+        return usersRepository.findUserByUserName(username).get().getUserSalt();
     }
 
     @Override
@@ -48,7 +48,7 @@ public class UsersServiceImpl implements UsersService {
             throw new InvalidArgumentsException();
         }
 
-        String secPassword = passwordEncoder.encodeWithSalt(password, usersRepository.findUserByUserName(username).get().getUser_salt());
+        String secPassword = passwordEncoder.encodeWithSalt(password, usersRepository.findUserByUserName(username).get().getUserSalt());
 
         return usersRepository.findUserByUserNameAndUserPassword(username, secPassword).orElseThrow(InvalidUserCredentialsException::new);
     }
@@ -58,7 +58,7 @@ public class UsersServiceImpl implements UsersService {
         String saltValue = PassEncryption.genSaltValue(30);
         String safePass = passwordEncoder.encodeWithSalt(password, saltValue);
 
-        this.usersRepository.create(name, surname, safePass, email, mobile, saltValue, false, image, city.getCity_id());
+        this.usersRepository.create(name, surname, safePass, email, mobile, saltValue, false, image, city.getCityId());
         Users user = this.usersRepository.findUserByUserEmailIgnoreCase(email).orElseThrow(InvalidUserCredentialsException::new);
 
         ConfirmationToken confirmationToken = new ConfirmationToken(user);
@@ -80,7 +80,7 @@ public class UsersServiceImpl implements UsersService {
         ConfirmationToken token = this.confirmationTokenRepository.findConfirmationTokenByToken(confirmationToken);
 
         if (token != null) {
-            Users user = this.usersRepository.findUserByUserEmailIgnoreCase(token.getUser().getUser_email()).get();
+            Users user = this.usersRepository.findUserByUserEmailIgnoreCase(token.getUser().getUserEmail()).get();
 //            this.usersRepository.edit(user);
             return ResponseEntity.ok("Email verified successfully!");
         }

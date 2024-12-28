@@ -12,10 +12,10 @@ public class Warehouse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "wh_id")
-    private Integer warehouse_id;
+    private Integer warehouseId;
 
     @Column(name = "wh_address", nullable = false)
-    private String warehouse_address;
+    private String warehouseAddress;
 
     @ManyToOne
     @JoinColumn(name = "city_id", nullable = false)
@@ -28,5 +28,5 @@ public class Warehouse {
     private List<Vehicle> vehicles;
 
     @OneToMany(mappedBy = "warehouse")
-    private List<Article_Unit> articleUnits;
+    private List<ArticleUnit> articleUnits;
 }
