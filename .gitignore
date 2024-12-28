@@ -73,4 +73,8 @@ testem.log
 
 # System files
 .DS_Store
+<<<<<<< Updated upstream
 Thumbs.db
+=======
+Thumbs.db
+>>>>>>> Stashed changes
