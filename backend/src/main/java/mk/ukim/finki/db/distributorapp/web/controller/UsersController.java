@@ -3,9 +3,7 @@ package mk.ukim.finki.db.distributorapp.web.controller;
 import mk.ukim.finki.db.distributorapp.model.Users;
 import mk.ukim.finki.db.distributorapp.service.UsersService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,6 +26,11 @@ public class UsersController {
     public ResponseEntity<Users> findUserByEmail(@PathVariable("email") String email) {
         Users user = this.usersService.getUserByEmail(email).get();
         return ResponseEntity.ok(user);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<Users> addUser(@RequestBody Users user) {
+      return ResponseEntity.ok(user);
     }
 
 
