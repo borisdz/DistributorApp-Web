@@ -14,19 +14,20 @@ import java.util.Optional;
 public interface ManagerRepository extends JpaRepository<Manager, Integer> {
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "select * from manager"
     )
     List<Manager> listAll();
 
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "select * from manager m join users u on m.user_id = u.user_id " +
+                    "where user_name like :name"
     )
     List<Manager> findAllByName(@NonNull @Param("name") String name);
 
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "select * from manager where user_id=:id"
     )
     Optional<Manager> findById(@NonNull @Param("id") Long id);
 
@@ -34,23 +35,30 @@ public interface ManagerRepository extends JpaRepository<Manager, Integer> {
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "insert into manager(user_id, wh_id) " +
+                    "values (:id,:wh)"
     )
-    Optional<Manager> create(Long id, Integer whId);
+    Optional<Manager> create(
+            @NonNull @Param("id") Long id,
+            @NonNull @Param("wh") Integer whId);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "update manager " +
+                    "set wh_id=:wh " +
+                    "where user_id=:id"
     )
-    Optional<Manager> edit(Long id, Integer whId);
+    Optional<Manager> edit(
+            @NonNull @Param("id") Long id,
+            @NonNull @Param("wh") Integer whId);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "delete from manager where user_id=:id"
     )
-    void delete(Long id);
+    void delete(@NonNull @Param("id") Long id);
 }

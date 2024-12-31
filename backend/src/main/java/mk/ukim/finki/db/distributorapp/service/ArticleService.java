@@ -19,5 +19,5 @@ public interface ArticleService {
 
     Optional<Article> editById(Article article);
 
-    Optional<Article> create(String name, Integer weight, Category category, Manufacturer manufacturer);
+    Optional<Article> create(String name, String image, Integer weight, Category category, Manufacturer manufacturer);
 }

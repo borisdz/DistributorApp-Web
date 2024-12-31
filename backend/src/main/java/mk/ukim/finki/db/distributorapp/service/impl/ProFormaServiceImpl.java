@@ -1,8 +1,7 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
-import mk.ukim.finki.db.distributorapp.model.Orders;
 import mk.ukim.finki.db.distributorapp.model.ProForma;
-import mk.ukim.finki.db.distributorapp.model.statuses.ProFormaStatus;
+import mk.ukim.finki.db.distributorapp.model.ProFormaStatus;
 import mk.ukim.finki.db.distributorapp.repository.ProFormaRepository;
 import mk.ukim.finki.db.distributorapp.service.ProFormaService;
 import org.springframework.stereotype.Service;
@@ -30,23 +29,21 @@ public class ProFormaServiceImpl implements ProFormaService {
     }
 
     @Override
-    public Optional<ProForma> create(LocalDate pf_deadline, LocalDate pf_create_date, ProFormaStatus pf_status, Orders order) {
+    public Optional<ProForma> create(LocalDate pf_deadline, LocalDate pf_create_date, ProFormaStatus pf_status) {
         return this.proFormaRepository.create(
                 pf_deadline,
                 pf_create_date,
-                pf_status.getPro_forma_status_id(),
-                order.getOrderId()
+                pf_status.getProFormaStatusId()
         );
     }
 
     @Override
-    public Optional<ProForma> edit(Long id, LocalDate pf_deadline, LocalDate pf_create_date, ProFormaStatus pf_status, Orders order) {
+    public Optional<ProForma> edit(Long id, LocalDate pf_deadline, LocalDate pf_create_date, ProFormaStatus pf_status) {
         return this.proFormaRepository.edit(
                 id,
                 pf_deadline,
                 pf_create_date,
-                pf_status.getPro_forma_status_id(),
-                order.getOrderId()
+                pf_status.getProFormaStatusId()
         );
     }
 

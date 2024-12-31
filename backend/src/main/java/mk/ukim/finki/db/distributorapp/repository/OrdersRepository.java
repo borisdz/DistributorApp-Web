@@ -22,13 +22,13 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
 
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "select * from orders where cust_id=:cust"
     )
     List<Orders> findByCustomer(@NonNull @Param("cust") Long id);
 
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "select * from orders where ord_id=:id"
     )
     Optional<Orders> findById(@NonNull @Param("id") Long id);
 
@@ -36,42 +36,45 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "insert into orders (ord_date, ord_sum, ord_fulfillment_date, ord_comment, ord_status_id, cust_id, del_id, pf_id) " +
+                    "values (:date,:sum,:fulDate,:comment,:status,:cust,:del,:pf)"
     )
     Optional<Orders> create(
-            LocalDate ord_date,
-            Integer ord_sum,
-            LocalDateTime ord_fulfillment_date,
-            String ord_comment,
-            Short ord_status_id,
-            Long cust_id,
-            Long del_id,
-            Long pf_id
+            @NonNull @Param("date") LocalDate ord_date,
+            @NonNull @Param("sum") Integer ord_sum,
+            @Param("fulDate") LocalDateTime ord_fulfillment_date,
+            @Param("comment") String ord_comment,
+            @NonNull @Param("status") Short ord_status_id,
+            @NonNull @Param("cust") Long cust_id,
+            @NonNull @Param("del") Long del_id,
+            @NonNull @Param("pf") Long pf_id
     );
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "update orders " +
+                    "set ord_date=:date,ord_sum=:sum,ord_fulfillment_date=:fulDate,ord_comment=:comment,ord_status_id=:status,cust_id=:cust,del_id=:del,pf_id=:pf " +
+                    "where ord_id=:id"
     )
     Optional<Orders> edit(
-            Long id,
-            LocalDate ord_date,
-            Integer ord_sum,
-            LocalDateTime ord_fulfillment_date,
-            String ord_comment,
-            Short ord_status_id,
-            Long cust_id,
-            Long del_id,
-            Long pf_id
+            @NonNull @Param("id") Long id,
+            @NonNull @Param("date") LocalDate ord_date,
+            @NonNull @Param("sum") Integer ord_sum,
+            @Param("fulDate") LocalDateTime ord_fulfillment_date,
+            @Param("comment") String ord_comment,
+            @NonNull @Param("status") Short ord_status_id,
+            @NonNull @Param("cust") Long cust_id,
+            @NonNull @Param("del") Long del_id,
+            @NonNull @Param("pf") Long pf_id
     );
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "delete from orders where ord_id=:id"
     )
-    void delete();
+    void delete(@NonNull @Param("id") Long id);
 }

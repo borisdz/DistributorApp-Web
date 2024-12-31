@@ -15,13 +15,13 @@ import java.util.Optional;
 public interface ProFormaRepository extends JpaRepository<ProForma, Long> {
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "select * from pro_forma"
     )
     List<ProForma> listAll();
 
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "select * from pro_forma where pf_id=:id"
     )
     Optional<ProForma> findById(@NonNull @Param("id") Short id);
 
@@ -29,23 +29,33 @@ public interface ProFormaRepository extends JpaRepository<ProForma, Long> {
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "insert into pro_forma(pf_deadline, pf_date_created, pf_status_id) " +
+                    "values (:ddl,:createD,:status)"
     )
-    Optional<ProForma> create(LocalDate pf_deadline, LocalDate pf_create_date, Short pf_status_id, Long order_id);
+    Optional<ProForma> create(
+            @NonNull @Param("ddl") LocalDate pf_deadline,
+            @NonNull @Param("createD") LocalDate pf_create_date,
+            @NonNull @Param("status") Short pf_status_id);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "update pro_forma " +
+                    "set pf_deadline=:ddl,pf_date_created=:createD,pf_status_id=:status " +
+                    "where pf_id=:id"
     )
-    Optional<ProForma> edit(Long pf_id, LocalDate pf_deadline, LocalDate pf_create_date, Short pf_status_id, Long order_id);
+    Optional<ProForma> edit(
+            @NonNull @Param("id") Long pf_id,
+            @NonNull @Param("ddl") LocalDate pf_deadline,
+            @NonNull @Param("createD") LocalDate pf_create_date,
+            @NonNull @Param("status") Short pf_status_id);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "delete from pro_forma where pf_id=:id"
     )
-    void delete();
+    void delete(@NonNull @Param("id") Long id);
 }

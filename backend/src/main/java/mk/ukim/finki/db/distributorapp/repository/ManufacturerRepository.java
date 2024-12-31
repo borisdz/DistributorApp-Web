@@ -14,19 +14,19 @@ import java.util.Optional;
 public interface ManufacturerRepository extends JpaRepository<Manufacturer, Long> {
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "select * from manufacturer"
     )
     List<Manufacturer> listAll();
 
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "select * from manufacturer where man_name like :name"
     )
     List<Manufacturer> findAllByName(@NonNull @Param("name") String name);
 
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "select * from manufacturer where man_id=:id"
     )
     Optional<Manufacturer> findById(@NonNull @Param("id") Long id);
 
@@ -34,23 +34,35 @@ public interface ManufacturerRepository extends JpaRepository<Manufacturer, Long
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "insert into manufacturer(man_name, man_address, man_mobile, man_email) " +
+                    "values (:name,:adr,:mob,:email)"
     )
-    Optional<Manufacturer> create(String name, String address, String mobile, String email);
+    Optional<Manufacturer> create(
+            @NonNull @Param("name") String name,
+            @NonNull @Param("adr") String address,
+            @NonNull @Param("mob") String mobile,
+            @NonNull @Param("email") String email);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "update manufacturer " +
+                    "set man_name=:name,man_address=:adr,man_mobile=:mob,man_email=:email " +
+                    "where man_id=:id"
     )
-    Optional<Manufacturer> edit(Long id, String name, String address, String mobile, String email);
+    Optional<Manufacturer> edit(
+            @NonNull @Param("id") Long id,
+            @NonNull @Param("name") String name,
+            @NonNull @Param("adr") String address,
+            @NonNull @Param("mob") String mobile,
+            @NonNull @Param("email") String email);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "delete from manufacturer where man_id=:id"
     )
-    void delete();
+    void delete(@NonNull @Param("id") Long id);
 }

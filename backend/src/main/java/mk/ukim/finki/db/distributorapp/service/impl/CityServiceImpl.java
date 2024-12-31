@@ -1,6 +1,7 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
 import mk.ukim.finki.db.distributorapp.model.City;
+import mk.ukim.finki.db.distributorapp.model.Region;
 import mk.ukim.finki.db.distributorapp.repository.CityRepository;
 import mk.ukim.finki.db.distributorapp.service.CityService;
 import org.springframework.stereotype.Service;
@@ -27,13 +28,13 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public Optional<City> create(String name) {
-        return this.cityRepository.create(name);
+    public Optional<City> create(String name, Region region) {
+        return this.cityRepository.create(name, region.getRegionId());
     }
 
     @Override
-    public Optional<City> edit(Long id, String name) {
-        return this.cityRepository.edit(id, name);
+    public Optional<City> edit(Long id, String name, Region region) {
+        return this.cityRepository.edit(id, name, region.getRegionId());
     }
 
     @Override

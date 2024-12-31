@@ -15,19 +15,19 @@ import java.util.Optional;
 public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "select * from vehicle"
     )
     List<Vehicle> listAll();
 
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "select * from vehicle where wh_id=:wh"
     )
     List<Vehicle> findAllByWarehouse(@NonNull @Param("wh") Integer warehouseId);
 
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "select * from vehicle where veh_id=:id"
     )
     Optional<Vehicle> findById(@NonNull @Param("id") Integer id);
 
@@ -35,27 +35,46 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "insert into vehicle(veh_carry_weight, veh_service_interval, veh_kilometers, veh_last_service, veh_last_service_km, veh_plate, veh_vin, veh_reg, wh_id) " +
+                    "values (:carryW,:serInterval,:vehKm,:lastSerD,:lastSerKm,:plate,:vin,:vehRegD,:wh)"
     )
-    Optional<Vehicle> create(Integer vehicleCarryWeight, Short vehicleServiceInterval, Integer vehicleKilometers,
-                             LocalDate vehicleLastService, Integer vehicleLastServiceKm, String vehiclePlate,
-                             String vehicleVIN, LocalDate vehicleRegDate, Integer whId, Long driverId);
+    Optional<Vehicle> create(
+            @NonNull @Param("carryW") Integer vehicleCarryWeight,
+            @NonNull @Param("serInterval") Short vehicleServiceInterval,
+            @NonNull @Param("vehKm") Integer vehicleKilometers,
+            @NonNull @Param("lastSerD") LocalDate vehicleLastService,
+            @NonNull @Param("lastSerKm") Integer vehicleLastServiceKm,
+            @NonNull @Param("plate") String vehiclePlate,
+            @NonNull @Param("vin") String vehicleVIN,
+            @NonNull @Param("vehRegD") LocalDate vehicleRegDate,
+            @NonNull @Param("wh") Integer whId);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "update vehicle " +
+                    "set veh_carry_weight=:carryW,veh_service_interval=:serInterval,veh_kilometers=:vehKm," +
+                    "veh_last_service=:lastSerD,veh_last_service_km=:lastSerKm,veh_plate=:plate,veh_vin=:vin,veh_reg=:vehRegD,wh_id=:wh " +
+                    "where veh_id=:id"
     )
-    Optional<Vehicle> edit(Integer id, Integer vehicleCarryWeight, Short vehicleServiceInterval, Integer vehicleKilometers,
-                           LocalDate vehicleLastService, Integer vehicleLastServiceKm, String vehiclePlate,
-                           String vehicleVIN, LocalDate vehicleRegDate, Integer whId, Long driverId);
+    Optional<Vehicle> edit(
+            @NonNull @Param("id") Integer id,
+            @NonNull @Param("carryW") Integer vehicleCarryWeight,
+            @NonNull @Param("serInterval") Short vehicleServiceInterval,
+            @NonNull @Param("vehKm") Integer vehicleKilometers,
+            @NonNull @Param("lastSerD") LocalDate vehicleLastService,
+            @NonNull @Param("lastSerKm") Integer vehicleLastServiceKm,
+            @NonNull @Param("plate") String vehiclePlate,
+            @NonNull @Param("vin") String vehicleVIN,
+            @NonNull @Param("vehRegD") LocalDate vehicleRegDate,
+            @NonNull @Param("wh") Integer whId);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "delete from vehicle where veh_id=:id"
     )
-    void delete(Integer id);
+    void delete(@NonNull @Param("id") Integer id);
 }

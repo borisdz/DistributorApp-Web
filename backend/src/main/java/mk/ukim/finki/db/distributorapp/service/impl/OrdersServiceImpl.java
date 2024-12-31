@@ -4,7 +4,7 @@ import mk.ukim.finki.db.distributorapp.model.Customer;
 import mk.ukim.finki.db.distributorapp.model.Delivery;
 import mk.ukim.finki.db.distributorapp.model.Orders;
 import mk.ukim.finki.db.distributorapp.model.ProForma;
-import mk.ukim.finki.db.distributorapp.model.statuses.OrderStatus;
+import mk.ukim.finki.db.distributorapp.model.OrderStatus;
 import mk.ukim.finki.db.distributorapp.repository.OrdersRepository;
 import mk.ukim.finki.db.distributorapp.service.OrdersService;
 import org.springframework.stereotype.Service;
@@ -44,7 +44,7 @@ public class OrdersServiceImpl implements OrdersService {
                 ord_sum,
                 ord_fulfillment_date,
                 ord_comment,
-                ord_status.getOrder_status_id(),
+                ord_status.getOrderStatusId(),
                 customer.getUserId(),
                 delivery.getDeliveryId(),
                 proForma.getProFormaId()
@@ -59,7 +59,7 @@ public class OrdersServiceImpl implements OrdersService {
                 ord_sum,
                 ord_fulfillment_date,
                 ord_comment,
-                ord_status.getOrder_status_id(),
+                ord_status.getOrderStatusId(),
                 customer.getUserId(),
                 delivery.getDeliveryId(),
                 proForma.getProFormaId()

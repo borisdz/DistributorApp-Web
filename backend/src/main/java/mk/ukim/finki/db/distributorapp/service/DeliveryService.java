@@ -3,7 +3,7 @@ package mk.ukim.finki.db.distributorapp.service;
 import mk.ukim.finki.db.distributorapp.model.Delivery;
 import mk.ukim.finki.db.distributorapp.model.Driver;
 import mk.ukim.finki.db.distributorapp.model.Vehicle;
-import mk.ukim.finki.db.distributorapp.model.statuses.DeliveryStatus;
+import mk.ukim.finki.db.distributorapp.model.DeliveryStatus;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

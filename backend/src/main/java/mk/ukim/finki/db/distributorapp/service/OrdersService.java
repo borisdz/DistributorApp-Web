@@ -4,7 +4,7 @@ import mk.ukim.finki.db.distributorapp.model.Customer;
 import mk.ukim.finki.db.distributorapp.model.Delivery;
 import mk.ukim.finki.db.distributorapp.model.Orders;
 import mk.ukim.finki.db.distributorapp.model.ProForma;
-import mk.ukim.finki.db.distributorapp.model.statuses.OrderStatus;
+import mk.ukim.finki.db.distributorapp.model.OrderStatus;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

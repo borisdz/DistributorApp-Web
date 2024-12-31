@@ -1,6 +1,5 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
-import mk.ukim.finki.db.distributorapp.model.Driver;
 import mk.ukim.finki.db.distributorapp.model.Vehicle;
 import mk.ukim.finki.db.distributorapp.model.Warehouse;
 import mk.ukim.finki.db.distributorapp.repository.VehicleRepository;
@@ -32,20 +31,20 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public Optional<Vehicle> createVehicle(Integer vehicleCarryWeight, Short vehicleServiceInterval, Integer vehicleKilometers,
                                            LocalDate vehicleLastService, Integer vehicleLastServiceKm, String vehiclePlate,
-                                           String vehicleVIN, LocalDate vehicleRegDate, Warehouse warehouse, Driver driver) {
+                                           String vehicleVIN, LocalDate vehicleRegDate, Warehouse warehouse) {
 
         return this.vehicleRepository.create(vehicleCarryWeight, vehicleServiceInterval, vehicleKilometers, vehicleLastService,
-                vehicleLastServiceKm, vehiclePlate, vehicleVIN, vehicleRegDate, warehouse.getWarehouseId(), driver.getUserId());
+                vehicleLastServiceKm, vehiclePlate, vehicleVIN, vehicleRegDate, warehouse.getWarehouseId());
     }
 
     @Override
     public Optional<Vehicle> updateVehicle(Integer id, Integer vehicleCarryWeight, Short vehicleServiceInterval, Integer vehicleKilometers,
                                            LocalDate vehicleLastService, Integer vehicleLastServiceKm, String vehiclePlate, String vehicleVIN,
-                                           LocalDate vehicleRegDate, Warehouse warehouse, Driver driver) {
+                                           LocalDate vehicleRegDate, Warehouse warehouse) {
 
 
         return this.vehicleRepository.edit(id, vehicleCarryWeight, vehicleServiceInterval, vehicleKilometers, vehicleLastService, vehicleLastServiceKm,
-                vehiclePlate, vehicleVIN, vehicleRegDate, warehouse.getWarehouseId(), driver.getUserId());
+                vehiclePlate, vehicleVIN, vehicleRegDate, warehouse.getWarehouseId());
     }
 
     @Override
