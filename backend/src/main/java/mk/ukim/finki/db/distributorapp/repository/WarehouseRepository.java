@@ -14,19 +14,19 @@ import java.util.Optional;
 public interface WarehouseRepository extends JpaRepository<Warehouse, Integer> {
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "select * from warehouse"
     )
     List<Warehouse> listAll();
 
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "select * from warehouse where city_id=:city"
     )
     List<Warehouse> findAllByCity(@NonNull @Param("city") Long city);
 
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "select * from warehouse where wh_id=:id"
     )
     Optional<Warehouse> findById(@NonNull @Param("id") Short id);
 
@@ -34,23 +34,31 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Integer> {
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "insert into warehouse(wh_address, city_id) " +
+                    "values (:adr,:cty)"
     )
-    Optional<Warehouse> create(String whAddress, Long city);
+    Optional<Warehouse> create(
+            @NonNull @Param("adr") String whAddress,
+            @NonNull @Param("cty") Long city);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "update warehouse " +
+                    "set wh_address=:adr,city_id=:cty " +
+                    "where wh_id=:id"
     )
-    Optional<Warehouse> edit(Long id, String whAddress, Long city);
+    Optional<Warehouse> edit(
+            @NonNull @Param("id") Long id,
+            @NonNull @Param("adr") String whAddress,
+            @NonNull @Param("cty") Long city);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "delete from warehouse where wh_id=:id"
     )
-    void delete();
+    void delete(@NonNull @Param("id") Long id);
 }

@@ -14,7 +14,7 @@ public interface CustomerService {
 
     Optional<Customer> findCustomerById(Long id);
 
-    Optional<Customer> create(String customerEDB, String customerName,
+    Optional<Customer> create(Long userId, String customerEDB, String customerName,
                               String customerStreet, LocalTime openTime, LocalTime closeTime, String customerImage);
 
     Optional<Customer> edit(Long id, String customerEDB, String customerName,

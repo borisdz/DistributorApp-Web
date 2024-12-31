@@ -16,19 +16,19 @@ import java.util.Optional;
 public interface PriceRepository extends JpaRepository<Price, Integer> {
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "select * from price"
     )
     List<Price> listAll();
 
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "select * from price where art_id=:art"
     )
-    List<Price> findAllByArticleId(@NonNull @Param("id") Long id);
+    List<Price> findAllByArticleId(@NonNull @Param("art") Long id);
 
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "select * from price where price_id=:id"
     )
     Optional<Price> findById(@NonNull @Param("id") Short id);
 
@@ -36,23 +36,33 @@ public interface PriceRepository extends JpaRepository<Price, Integer> {
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "insert into price(price, price_eff_date, art_id) " +
+                    "values (:price,:effD,:art)"
     )
-    Optional<Price> create(BigDecimal price, LocalDateTime price_eff_date, Long art_id);
+    Optional<Price> create(
+            @NonNull @Param("price") BigDecimal price,
+            @NonNull @Param("effD") LocalDateTime price_eff_date,
+            @NonNull @Param("art") Long art_id);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "update price " +
+                    "set price=:price,price_eff_date=:effD,art_id=:art " +
+                    "where price_id=:id"
     )
-    Optional<Price> edit(Integer id, BigDecimal price, LocalDateTime price_eff_date, Long art_id);
+    Optional<Price> edit(
+            @NonNull @Param("id") Integer id,
+            @NonNull @Param("price") BigDecimal price,
+            @NonNull @Param("effD") LocalDateTime price_eff_date,
+            @NonNull @Param("art") Long art_id);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "delete from price where price_id=:id"
     )
-    void delete(Integer id);
+    void delete(@NonNull @Param("id") Integer id);
 }

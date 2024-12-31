@@ -34,8 +34,8 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Optional<Customer> create(String customerEDB, String customerName, String customerStreet, LocalTime openTime, LocalTime closeTime, String customerImage) {
-        return this.customerRepository.create(customerEDB, customerName, customerStreet, openTime, closeTime, customerImage);
+    public Optional<Customer> create(Long userId, String customerEDB, String customerName, String customerStreet, LocalTime openTime, LocalTime closeTime, String customerImage) {
+        return this.customerRepository.create(userId,customerEDB, customerName, customerStreet, openTime, closeTime, customerImage);
     }
 
     @Override

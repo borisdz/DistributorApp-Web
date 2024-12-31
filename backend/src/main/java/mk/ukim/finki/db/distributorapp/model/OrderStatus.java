@@ -1,8 +1,8 @@
-package mk.ukim.finki.db.distributorapp.model.statuses;
+package mk.ukim.finki.db.distributorapp.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
-import mk.ukim.finki.db.distributorapp.model.Orders;
 
 import java.util.List;
 
@@ -12,13 +12,16 @@ public class OrderStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ord_status_id")
-    private Short order_status_id;
+    @JsonProperty("orderStatusId")
+    private Short orderStatusId;
 
     @Column(name = "ord_status_name", nullable = false)
-    private String order_status_name;
+    @JsonProperty("orderStatusName")
+    private String orderStatusName;
 
     @Column(name = "ord_status_desc", nullable = false)
-    private String order_status_description;
+    @JsonProperty("orderStatusDescription")
+    private String orderStatusDescription;
 
     @OneToMany(mappedBy = "orderStatus")
     private List<Orders> orders;

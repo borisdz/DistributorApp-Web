@@ -1,6 +1,5 @@
 package mk.ukim.finki.db.distributorapp.service;
 
-import mk.ukim.finki.db.distributorapp.model.Driver;
 import mk.ukim.finki.db.distributorapp.model.Vehicle;
 import mk.ukim.finki.db.distributorapp.model.Warehouse;
 
@@ -16,11 +15,11 @@ public interface VehicleService {
 
     Optional<Vehicle> createVehicle(Integer vehicleCarryWeight, Short vehicleServiceInterval, Integer vehicleKilometers,
                                     LocalDate vehicleLastService, Integer vehicleLastServiceKm, String vehiclePlate,
-                                    String vehicleVIN, LocalDate vehicleRegDate, Warehouse warehouse, Driver driver);
+                                    String vehicleVIN, LocalDate vehicleRegDate, Warehouse warehouse);
 
     Optional<Vehicle> updateVehicle(Integer id, Integer vehicleCarryWeight, Short vehicleServiceInterval, Integer vehicleKilometers,
                                     LocalDate vehicleLastService, Integer vehicleLastServiceKm, String vehiclePlate,
-                                    String vehicleVIN, LocalDate vehicleRegDate, Warehouse warehouse, Driver driver);
+                                    String vehicleVIN, LocalDate vehicleRegDate, Warehouse warehouse);
 
     void deleteVehicleById(Integer id);
 }

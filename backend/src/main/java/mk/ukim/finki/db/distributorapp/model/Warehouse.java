@@ -1,5 +1,6 @@
 package mk.ukim.finki.db.distributorapp.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -12,9 +13,11 @@ public class Warehouse {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "wh_id")
+    @JsonProperty("warehouseId")
     private Integer warehouseId;
 
     @Column(name = "wh_address", nullable = false)
+    @JsonProperty("warehouseAddress")
     private String warehouseAddress;
 
     @ManyToOne

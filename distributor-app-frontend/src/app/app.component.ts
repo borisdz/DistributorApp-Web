@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CustomerModel } from './models/customer.model';
 import { CustomerService } from './services/customer.service';
@@ -6,7 +6,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  // imports: [RouterOutlet],
+  imports: [],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
@@ -15,7 +16,11 @@ export class AppComponent implements OnInit {
 
   public customers: CustomerModel[] = [];
 
-  constructor(private customerService: CustomerService) {}
+  constructor() {}
+
+  // constructor(customerService: CustomerService){}
+
+  private customerService = Inject(CustomerService);
 
   ngOnInit(): void {
     this.getCustomers();

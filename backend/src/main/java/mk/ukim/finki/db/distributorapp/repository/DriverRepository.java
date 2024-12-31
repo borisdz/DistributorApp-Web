@@ -14,19 +14,20 @@ import java.util.Optional;
 public interface DriverRepository extends JpaRepository<Driver, Long> {
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "select * from driver"
     )
     List<Driver> listAll();
 
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "select d.* from driver d join users u on d.user_id = u.user_id " +
+                    "where u.user_name like :name"
     )
     List<Driver> findAllByName(@NonNull @Param("name") String name);
 
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "select * from driver where user_id=:id"
     )
     Optional<Driver> findById(@NonNull @Param("id") Long id);
 
@@ -34,23 +35,30 @@ public interface DriverRepository extends JpaRepository<Driver, Long> {
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "insert into driver(user_id, veh_id) " +
+                    "values (:id,:veh)"
     )
-    Optional<Driver> create(Long usr_id, Integer veh_id);
+    Optional<Driver> create(
+            @NonNull @Param("id") Long usr_id,
+            @NonNull @Param("veh") Integer veh_id);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "update driver " +
+                    "set veh_id=:veh " +
+                    "where user_id=:id"
     )
-    Optional<Driver> edit(Long usr_id, Integer veh_id);
+    Optional<Driver> edit(
+            @NonNull @Param("id") Long usr_id,
+            @NonNull @Param("veh") Integer veh_id);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "delete from driver where user_id=:id"
     )
-    void delete(Long id);
+    void delete(@NonNull @Param("id") Long id);
 }

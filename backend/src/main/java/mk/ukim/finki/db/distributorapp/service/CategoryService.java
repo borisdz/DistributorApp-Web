@@ -11,9 +11,9 @@ public interface CategoryService {
 
     Optional<Category> getCategoryById(Long id);
 
-    Optional<Category> createCategory(String name, String description);
+    Optional<Category> createCategory(String name);
 
-    Optional<Category> updateCategory(Long id, String name, String description);
+    Optional<Category> updateCategory(Long id, String name);
 
     void delete(Long id);
 

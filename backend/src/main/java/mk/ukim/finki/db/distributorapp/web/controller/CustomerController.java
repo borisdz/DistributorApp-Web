@@ -18,13 +18,13 @@ public class CustomerController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Customer>> getAllCustomers(){
+    public ResponseEntity<List<Customer>> getAllCustomers() {
         List<Customer> customers = this.customerService.findAllCustomers();
         return ResponseEntity.ok(customers);
     }
 
     @GetMapping("/find/{id}")
-    public ResponseEntity<Customer> getCustomer(@PathVariable Long id){
+    public ResponseEntity<Customer> getCustomer(@PathVariable Long id) {
         Customer c = this.customerService.findCustomerById(id).get();
         return ResponseEntity.ok(c);
     }
@@ -62,7 +62,7 @@ public class CustomerController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Customer> deleteCustomer(@PathVariable Long id){
+    public ResponseEntity<Customer> deleteCustomer(@PathVariable Long id) {
         this.customerService.delete(id);
         return ResponseEntity.noContent().build();
     }

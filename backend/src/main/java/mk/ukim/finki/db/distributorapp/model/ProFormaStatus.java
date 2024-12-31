@@ -1,8 +1,8 @@
-package mk.ukim.finki.db.distributorapp.model.statuses;
+package mk.ukim.finki.db.distributorapp.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
-import mk.ukim.finki.db.distributorapp.model.ProForma;
 
 import java.util.List;
 
@@ -12,13 +12,16 @@ public class ProFormaStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pf_status_id")
-    private Short pro_forma_status_id;
+    @JsonProperty("proFormaStatusId")
+    private Short proFormaStatusId;
 
     @Column(name = "pf_status_name", nullable = false)
-    private String pro_forma_status_name;
+    @JsonProperty("proFormaStatusName")
+    private String proFormaStatusName;
 
     @Column(name = "pf_status_desc", nullable = false)
-    private String pro_forma_status_description;
+    @JsonProperty("proFormaStatusDescription")
+    private String proFormaStatusDescription;
 
     @OneToMany(mappedBy = "proFormaStatus")
     private List<ProForma> pro_formas;
