@@ -1,6 +1,6 @@
 package mk.ukim.finki.db.distributorapp.service;
 
-import mk.ukim.finki.db.distributorapp.model.statuses.DeliveryStatus;
+import mk.ukim.finki.db.distributorapp.model.DeliveryStatus;
 
 import java.util.List;
 import java.util.Optional;

@@ -13,17 +13,10 @@ import java.util.Optional;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-//    @Query(
-//            value = "select * " +
-//                    "from category c " +
-//                    "where c.ctg_name like :name",
-//            nativeQuery = true)
-//    List<Category> findAllByName(@NonNull @Param("name") String name);
-
     @Query(
             value = "select * " +
                     "from category c " +
-                    "where c.ctg_name like ?1",
+                    "where c.ctg_name like :name",
             nativeQuery = true)
     List<Category> findAllByName(@NonNull @Param("name") String name);
 
@@ -36,32 +29,30 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     @Query(
             value = "select * " +
                     "from category c " +
-                    "where c.ctg_id = ?1",
+                    "where c.ctg_id=:id",
             nativeQuery = true
     )
-    Optional<Category> findById(@NonNull @Param("ctg_id") Long id);
+    Optional<Category> findById(@NonNull @Param("id") Long id);
 
     @Modifying
     @Transactional
     @Query(
-            value = "insert into category(ctg_name,ctg_desc) " +
-                    "values (:name, :desc)",
+            value = "insert into category(ctg_name) " +
+                    "values (:name)",
             nativeQuery = true
     )
-    Optional<Category> create(@NonNull @Param("name") String name,
-                              @NonNull @Param("desc") String desc);
+    Optional<Category> create(@NonNull @Param("name") String name);
 
     @Modifying
     @Transactional
     @Query(
-            value = "update category c " +
-                    "set c.ctg_name = :name, c.ctg_desc = :desc " +
-                    "where c.ctg_id = :id",
-            nativeQuery = true
+            nativeQuery = true,
+            value = "update category " +
+                    "set ctg_name=:name " +
+                    "where ctg_id=:id"
     )
-    Optional<Category> edit(@Param("id") Long id,
-                            @Param("name") String name,
-                            @Param("desc") String description);
+    Optional<Category> edit(@NonNull @Param("id") Long id,
+                            @NonNull @Param("name") String name);
 
     @Modifying
     @Transactional

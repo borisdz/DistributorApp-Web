@@ -1,5 +1,6 @@
 package mk.ukim.finki.db.distributorapp.repository;
 
+import lombok.NonNull;
 import mk.ukim.finki.db.distributorapp.model.City;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,56 +15,57 @@ public interface CityRepository extends JpaRepository<City, Long> {
 
     @Query(
             nativeQuery = true,
-            value = "set search_path = \"IND0_185022\"; " +
-                    "select * " +
+            value = "select * " +
                     "from city c"
     )
     List<City> listAll();
 
     @Query(
             nativeQuery = true,
-            value = "set search_path = \"IND0_185022\"; " +
-                    "select * " +
+            value = "select * " +
                     "from city c " +
                     "where c.city_id = :id"
     )
-    Optional<City> findById(@Param("id") Long id);
+    Optional<City> findById(@NonNull @Param("id") Long id);
 
     @Query(
             nativeQuery = true,
-            value = "set search_path  = \"IND0_185022\"; " +
-                    "select * " +
+            value = "select * " +
                     "from city c " +
                     "where c.city_name like :name"
     )
-    List<City> findByName(@Param("name") String name);
+    List<City> findByName(@NonNull @Param("name") String name);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "set search_path  = \"IND0_185022\"; " +
-                    "insert into city(city_name) values (:name)"
+            value = "insert into city(city_name, region_id) " +
+                    "values (:name,:region)"
     )
-    Optional<City> create(@Param("name") String name);
+    Optional<City> create(
+            @NonNull @Param("name") String name,
+            @NonNull @Param("region") Integer region);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "set search_path  = \"IND0_185022\"; " +
-                    ""
+            value = "update city " +
+                    "set city_name=:name, region_id=:region " +
+                    "where city_id=:id"
     )
-    Optional<City> edit(Long id, String name);
+    Optional<City> edit(
+            @NonNull @Param("id") Long id,
+            @NonNull @Param("name") String name,
+            @NonNull @Param("region") Integer region);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "set search_path = \"IND0_185022\"; " +
-                    "delete from city c " +
+            value = "delete from city c " +
                     "where c.city_id=:id"
     )
-    void deleteById(@Param("id") Long id);
-
+    void deleteById(@NonNull @Param("id") Long id);
 }

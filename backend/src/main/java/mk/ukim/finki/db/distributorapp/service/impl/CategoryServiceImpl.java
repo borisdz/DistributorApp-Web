@@ -32,16 +32,16 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Optional<Category> createCategory(String name, String description) {
+    public Optional<Category> createCategory(String name) {
         if (categoryInvalid(name)) {
             throw new IllegalArgumentException();
         }
-        return this.categoryRepository.create(name, description);
+        return this.categoryRepository.create(name);
     }
 
     @Override
-    public Optional<Category> updateCategory(Long id, String name, String description) {
-        return this.categoryRepository.edit(id, name, description);
+    public Optional<Category> updateCategory(Long id, String name) {
+        return this.categoryRepository.edit(id, name);
     }
 
     @Override

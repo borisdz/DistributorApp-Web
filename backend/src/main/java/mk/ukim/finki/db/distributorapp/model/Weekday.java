@@ -1,5 +1,6 @@
 package mk.ukim.finki.db.distributorapp.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,9 +15,11 @@ import java.util.Set;
 public class Weekday {
     @Id
     @Column(name = "day_id", nullable = false)
+    @JsonProperty("weekdayId")
     private Short id;
 
     @Column(name = "day_name", nullable = false, length = 20)
+    @JsonProperty("dayName")
     private String dayName;
 
     @OneToMany(mappedBy = "day")

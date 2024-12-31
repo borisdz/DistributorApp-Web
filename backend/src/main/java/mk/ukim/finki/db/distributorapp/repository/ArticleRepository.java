@@ -15,25 +15,22 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     @Query(
             nativeQuery = true,
-            value = "set search_path = \"IND0_185022\"; " +
-                    "select * " +
+            value = "select * " +
                     "from article"
     )
     List<Article> listAll();
 
     @Query(
-            value = "set search_path = \"IND0_185022\"; " +
-                    "select * " +
+            nativeQuery = true,
+            value = "select * " +
                     "from article a " +
-                    "where a.art_name like :name",
-            nativeQuery = true
+                    "where a.art_name like :name"
     )
     List<Article> findAllByName(@NonNull @Param("name") String name);
 
     @Query(
             nativeQuery = true,
-            value = "set search_path = \"IND0_185022\"; " +
-                    "select * " +
+            value = "select * " +
                     "from article a " +
                     "where a.art_id=:id"
     )
@@ -43,26 +40,37 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "set search_path = \"IND0_185022\"; " +
-                    ""
+            value = "insert into article(art_name, art_image, art_weight, ctg_id, man_id) " +
+                    "values (:name,:image,:weight,:ctg,:man)"
     )
-    Optional<Article> create(String name, Integer weight, Long ctg_id, Long man_id);
+    Optional<Article> create(
+            @NonNull @Param("name") String name,
+            @NonNull @Param("image") String image,
+            @NonNull @Param("weight") Integer weight,
+            @NonNull @Param("ctg") Long ctg_id,
+            @NonNull @Param("man") Long man_id);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "set search_path = \"IND0_185022\"; " +
-                    ""
+            value = "update article " +
+                    "set art_name=:name,art_image=:img,art_weight=:weight,ctg_id=:ctg,man_id=:man " +
+                    "where art_id=:id"
     )
-    Optional<Article> edit(Long id, String name, Integer weight, Long ctg_id, Long man_id);
+    Optional<Article> edit(
+            @NonNull @Param("id") Long id,
+            @NonNull @Param("name") String name,
+            @NonNull @Param("img") String image,
+            @NonNull @Param("weight") Integer weight,
+            @NonNull @Param("ctg") Long ctg_id,
+            @NonNull @Param("man") Long man_id);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "set search_path = \"IND0_185022\"; " +
-                    ""
+            value = "delete from article where art_id=:id"
     )
-    void delete(Long id);
+    void delete(@Param("id") Long id);
 }

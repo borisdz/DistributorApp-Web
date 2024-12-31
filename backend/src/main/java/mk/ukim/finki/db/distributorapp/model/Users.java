@@ -17,7 +17,7 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Data
 @Table(name = "users", schema = "IND0_185022")
-public abstract class Users implements UserDetails {
+public class Users implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userId;
