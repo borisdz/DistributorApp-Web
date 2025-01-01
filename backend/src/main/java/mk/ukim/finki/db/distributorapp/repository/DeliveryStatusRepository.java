@@ -14,19 +14,19 @@ import java.util.Optional;
 public interface DeliveryStatusRepository extends JpaRepository<DeliveryStatus, Short> {
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "select * from delivery_status"
     )
     List<DeliveryStatus> listAll();
 
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "select * from delivery_status where del_status_name like ?1"
     )
     List<DeliveryStatus> findAllByName(@NonNull @Param("name") String name);
 
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "select * from delivery_status where del_status_id=?1"
     )
     Optional<DeliveryStatus> findById(@NonNull @Param("id") Short id);
 
@@ -34,23 +34,26 @@ public interface DeliveryStatusRepository extends JpaRepository<DeliveryStatus, 
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "insert into delivery_status(del_status_name, del_status_desc) " +
+                    "values (?1,?2)"
     )
-    Optional<DeliveryStatus> create(String name, String description);
+    Optional<DeliveryStatus> create(@NonNull String name, @NonNull String description);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "update delivery_status " +
+                    "set del_status_name=?2,del_status_desc=?3 " +
+                    "where del_status_id=?1"
     )
-    Optional<DeliveryStatus> edit(Short id, String name, String description);
+    Optional<DeliveryStatus> edit(@NonNull Short id, @NonNull String name, @NonNull String description);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "delete from delivery_status where del_status_id=?1"
     )
     void delete(Short id);
 }

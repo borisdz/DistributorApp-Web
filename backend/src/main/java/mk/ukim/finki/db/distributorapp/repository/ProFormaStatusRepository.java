@@ -14,19 +14,19 @@ import java.util.Optional;
 public interface ProFormaStatusRepository extends JpaRepository<ProFormaStatus, Short> {
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "select * from pro_forma_status"
     )
     List<ProFormaStatus> listAll();
 
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "select * from pro_forma_status where pf_status_name like ?1"
     )
     List<ProFormaStatus> findAllByName(@NonNull @Param("name") String name);
 
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "select * from pro_forma_status where pf_status_id=?1"
     )
     Optional<ProFormaStatus> findById(@NonNull @Param("id") Short id);
 
@@ -34,23 +34,26 @@ public interface ProFormaStatusRepository extends JpaRepository<ProFormaStatus, 
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "insert into pro_forma_status(pf_status_name, pf_status_desc) " +
+                    "values (?1,?2)"
     )
-    Optional<ProFormaStatus> create(String name, String description);
+    Optional<ProFormaStatus> create(@NonNull String name, @NonNull String description);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "update pro_forma_status " +
+                    "set pf_status_name=?2,pf_status_desc=?3 " +
+                    "where pf_status_id=?1"
     )
-    Optional<ProFormaStatus> edit(Short id, String name, String description);
+    Optional<ProFormaStatus> edit(@NonNull Short id, @NonNull String name, @NonNull String description);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = ""
+            value = "delete from pro_forma_status where pf_status_id=?1"
     )
-    void delete(Short id);
+    void delete(@NonNull Short id);
 }

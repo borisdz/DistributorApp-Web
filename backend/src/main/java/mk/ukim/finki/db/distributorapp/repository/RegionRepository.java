@@ -11,7 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-public interface RegionRepository extends JpaRepository<Region, Long> {
+public interface RegionRepository extends JpaRepository<Region, Integer> {
     @Query(
             nativeQuery = true,
             value = "select * " +
@@ -25,7 +25,7 @@ public interface RegionRepository extends JpaRepository<Region, Long> {
                     "from region " +
                     "where region_id=:id"
     )
-    Optional<Region> findById(@NonNull @Param("id") Long id);
+    Optional<Region> findById(@NonNull @Param("id") Integer id);
 
     @Query(
             nativeQuery = true,
@@ -54,7 +54,7 @@ public interface RegionRepository extends JpaRepository<Region, Long> {
                     "where region_id=:id"
     )
     Optional<Region> edit(
-            @NonNull @Param("id") Long id,
+            @NonNull @Param("id") Integer id,
             @NonNull @Param("name") String name);
 
     @Modifying
@@ -64,5 +64,5 @@ public interface RegionRepository extends JpaRepository<Region, Long> {
             value = "delete from region " +
                     "where region_id=:id"
     )
-    void deleteById(@NonNull @Param("id") Long id);
+    void deleteById(@NonNull @Param("id") Integer id);
 }

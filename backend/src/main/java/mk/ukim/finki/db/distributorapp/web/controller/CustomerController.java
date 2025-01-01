@@ -29,14 +29,10 @@ public class CustomerController {
         return ResponseEntity.ok(c);
     }
 
-    @GetMapping("/home")
-    public String customerHome() {
-        return "userCustomer/home";
-    }
-
     @PostMapping("/add")
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
         Customer newCustomer = this.customerService.create(
+                customer.getUserId(),
                 customer.getCustomerEDB(),
                 customer.getCustomerCompanyName(),
                 customer.getCustomerAddress(),
