@@ -24,7 +24,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
             nativeQuery = true,
             value = "select * " +
                     "from article a " +
-                    "where a.art_name like :name"
+                    "where a.art_name like ?1"
     )
     List<Article> findAllByName(@NonNull @Param("name") String name);
 
@@ -32,7 +32,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
             nativeQuery = true,
             value = "select * " +
                     "from article a " +
-                    "where a.art_id=:id"
+                    "where a.art_id=?1"
     )
     Optional<Article> findById(@NonNull @Param("id") Long id);
 
@@ -41,7 +41,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Query(
             nativeQuery = true,
             value = "insert into article(art_name, art_image, art_weight, ctg_id, man_id) " +
-                    "values (:name,:image,:weight,:ctg,:man)"
+                    "values (?1,?2,?3,?4,?5)"
     )
     Optional<Article> create(
             @NonNull @Param("name") String name,
@@ -55,8 +55,8 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Query(
             nativeQuery = true,
             value = "update article " +
-                    "set art_name=:name,art_image=:img,art_weight=:weight,ctg_id=:ctg,man_id=:man " +
-                    "where art_id=:id"
+                    "set art_name=?2,art_image=?3,art_weight=?4,ctg_id=?5,man_id=?6 " +
+                    "where art_id=?1"
     )
     Optional<Article> edit(
             @NonNull @Param("id") Long id,
@@ -70,7 +70,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "delete from article where art_id=:id"
+            value = "delete from article where art_id=?1"
     )
     void delete(@Param("id") Long id);
 }

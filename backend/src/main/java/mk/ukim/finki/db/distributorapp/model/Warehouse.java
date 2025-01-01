@@ -20,8 +20,8 @@ public class Warehouse {
     @JsonProperty("warehouseAddress")
     private String warehouseAddress;
 
-    @ManyToOne
-    @JoinColumn(name = "city_id", nullable = false)
+    @OneToOne
+    @JoinColumn(name = "city_id", unique = true, nullable = false)
     private City city;
 
     @OneToOne(mappedBy = "warehouse")

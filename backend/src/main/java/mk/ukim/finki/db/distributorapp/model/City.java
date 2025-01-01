@@ -23,8 +23,8 @@ public class City {
   @OneToMany(mappedBy = "city")
   private List<Users> users;
 
-  @OneToMany(mappedBy = "city")
-  private List<Warehouse> warehouses;
+  @OneToOne(mappedBy = "city")
+  private Warehouse warehouse;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "region_id", nullable = false)
