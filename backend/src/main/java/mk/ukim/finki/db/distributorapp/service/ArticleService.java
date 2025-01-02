@@ -1,8 +1,9 @@
 package mk.ukim.finki.db.distributorapp.service;
 
-import mk.ukim.finki.db.distributorapp.model.Article;
-import mk.ukim.finki.db.distributorapp.model.Category;
-import mk.ukim.finki.db.distributorapp.model.Manufacturer;
+import mk.ukim.finki.db.distributorapp.model.dto.ArticleDto;
+import mk.ukim.finki.db.distributorapp.model.entities.Article;
+import mk.ukim.finki.db.distributorapp.model.entities.Category;
+import mk.ukim.finki.db.distributorapp.model.entities.Manufacturer;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,6 +11,8 @@ import java.util.Optional;
 public interface ArticleService {
 
     List<Article> getAllArticles();
+
+    List<ArticleDto> getAllArticlesDto();
 
     Optional<Article> findById(Long id);
 

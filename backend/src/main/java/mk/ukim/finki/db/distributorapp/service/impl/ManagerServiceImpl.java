@@ -1,7 +1,7 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
-import mk.ukim.finki.db.distributorapp.model.Manager;
-import mk.ukim.finki.db.distributorapp.model.Warehouse;
+import mk.ukim.finki.db.distributorapp.model.entities.Manager;
+import mk.ukim.finki.db.distributorapp.model.entities.Warehouse;
 import mk.ukim.finki.db.distributorapp.repository.ManagerRepository;
 import mk.ukim.finki.db.distributorapp.service.ManagerService;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
 package mk.ukim.finki.db.distributorapp.service;
 
-import mk.ukim.finki.db.distributorapp.model.Driver;
-import mk.ukim.finki.db.distributorapp.model.Vehicle;
+import mk.ukim.finki.db.distributorapp.model.entities.Driver;
+import mk.ukim.finki.db.distributorapp.model.entities.Vehicle;
 
 import java.util.List;
 import java.util.Optional;

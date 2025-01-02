@@ -1,7 +1,7 @@
 package mk.ukim.finki.db.distributorapp.service;
 
-import mk.ukim.finki.db.distributorapp.model.Manager;
-import mk.ukim.finki.db.distributorapp.model.Warehouse;
+import mk.ukim.finki.db.distributorapp.model.entities.Manager;
+import mk.ukim.finki.db.distributorapp.model.entities.Warehouse;
 
 import java.util.List;
 import java.util.Optional;

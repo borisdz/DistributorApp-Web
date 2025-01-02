@@ -1,7 +1,7 @@
 package mk.ukim.finki.db.distributorapp.service;
 
-import mk.ukim.finki.db.distributorapp.model.City;
-import mk.ukim.finki.db.distributorapp.model.Users;
+import mk.ukim.finki.db.distributorapp.model.entities.City;
+import mk.ukim.finki.db.distributorapp.model.entities.Users;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;

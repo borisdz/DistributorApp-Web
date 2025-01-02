@@ -1,6 +1,6 @@
 package mk.ukim.finki.db.distributorapp.service;
 
-import mk.ukim.finki.db.distributorapp.model.Region;
+import mk.ukim.finki.db.distributorapp.model.entities.Region;
 
 import java.util.List;
 import java.util.Optional;

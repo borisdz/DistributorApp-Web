@@ -1,7 +1,7 @@
 package mk.ukim.finki.db.distributorapp.service;
 
-import mk.ukim.finki.db.distributorapp.model.ProForma;
-import mk.ukim.finki.db.distributorapp.model.ProFormaStatus;
+import mk.ukim.finki.db.distributorapp.model.entities.ProForma;
+import mk.ukim.finki.db.distributorapp.model.entities.ProFormaStatus;
 
 import java.time.LocalDate;
 import java.util.List;

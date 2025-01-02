@@ -1,8 +1,9 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
-import mk.ukim.finki.db.distributorapp.model.Article;
-import mk.ukim.finki.db.distributorapp.model.Category;
-import mk.ukim.finki.db.distributorapp.model.Manufacturer;
+import mk.ukim.finki.db.distributorapp.model.dto.ArticleDto;
+import mk.ukim.finki.db.distributorapp.model.entities.Article;
+import mk.ukim.finki.db.distributorapp.model.entities.Category;
+import mk.ukim.finki.db.distributorapp.model.entities.Manufacturer;
 import mk.ukim.finki.db.distributorapp.repository.ArticleRepository;
 import mk.ukim.finki.db.distributorapp.service.ArticleService;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,19 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<Article> getAllArticles() {
         return this.articleRepository.listAll();
+    }
+
+    @Override
+    public List<ArticleDto> getAllArticlesDto() {
+        List<Article> articles = this.articleRepository.listAll();
+        return articles.stream().map(art->new ArticleDto(
+                art.getArticleId(),
+                art.getArticleName(),
+                art.getManufacturer().getManufacturerName(),
+                art.getCategory().getCategoryName(),
+                art.getArticleWeight(),
+                art.getArtImage()
+        )).toList();
     }
 
     @Override

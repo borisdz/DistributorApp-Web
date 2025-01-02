@@ -1,6 +1,6 @@
 package mk.ukim.finki.db.distributorapp.service;
 
-import mk.ukim.finki.db.distributorapp.model.Customer;
+import mk.ukim.finki.db.distributorapp.model.entities.Customer;
 
 import java.time.LocalTime;
 import java.util.List;

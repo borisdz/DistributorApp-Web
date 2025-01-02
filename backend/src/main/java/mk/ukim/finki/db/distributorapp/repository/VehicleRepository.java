@@ -1,7 +1,7 @@
 package mk.ukim.finki.db.distributorapp.repository;
 
 import lombok.NonNull;
-import mk.ukim.finki.db.distributorapp.model.Vehicle;
+import mk.ukim.finki.db.distributorapp.model.entities.Vehicle;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

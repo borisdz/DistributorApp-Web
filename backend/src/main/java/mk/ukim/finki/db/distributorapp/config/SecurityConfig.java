@@ -21,6 +21,24 @@ public class SecurityConfig {
         this.userDetailsService = userDetailsService;
     }
 
+    // FOR TESTING:
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(auth-> auth
+                        .anyRequest().permitAll()
+                )
+                .formLogin(AbstractHttpConfigurer::disable)
+                .logout(AbstractHttpConfigurer::disable);
+
+        return http.build();
+    }
+
+
+
+    // FOR PRODUCTION:
+    /**
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 //        http
@@ -56,6 +74,10 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+     **/
+
+
 
     @Bean
     public AuthenticationManager authManager(AuthenticationConfiguration authConfig) throws Exception {

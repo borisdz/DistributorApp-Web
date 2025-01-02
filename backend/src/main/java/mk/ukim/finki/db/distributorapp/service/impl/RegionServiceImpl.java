@@ -1,6 +1,6 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
-import mk.ukim.finki.db.distributorapp.model.Region;
+import mk.ukim.finki.db.distributorapp.model.entities.Region;
 import mk.ukim.finki.db.distributorapp.repository.RegionRepository;
 import mk.ukim.finki.db.distributorapp.service.RegionService;
 import org.springframework.stereotype.Service;

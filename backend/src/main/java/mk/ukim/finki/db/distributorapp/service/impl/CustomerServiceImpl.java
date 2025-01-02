@@ -1,6 +1,6 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
-import mk.ukim.finki.db.distributorapp.model.Customer;
+import mk.ukim.finki.db.distributorapp.model.entities.Customer;
 import mk.ukim.finki.db.distributorapp.repository.CustomerRepository;
 import mk.ukim.finki.db.distributorapp.service.CustomerService;
 import org.springframework.stereotype.Service;

@@ -1,10 +1,10 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
-import mk.ukim.finki.db.distributorapp.model.Customer;
-import mk.ukim.finki.db.distributorapp.model.Delivery;
-import mk.ukim.finki.db.distributorapp.model.Orders;
-import mk.ukim.finki.db.distributorapp.model.ProForma;
-import mk.ukim.finki.db.distributorapp.model.OrderStatus;
+import mk.ukim.finki.db.distributorapp.model.entities.Customer;
+import mk.ukim.finki.db.distributorapp.model.entities.Delivery;
+import mk.ukim.finki.db.distributorapp.model.entities.Orders;
+import mk.ukim.finki.db.distributorapp.model.entities.ProForma;
+import mk.ukim.finki.db.distributorapp.model.entities.OrderStatus;
 import mk.ukim.finki.db.distributorapp.repository.OrdersRepository;
 import mk.ukim.finki.db.distributorapp.service.OrdersService;
 import org.springframework.stereotype.Service;

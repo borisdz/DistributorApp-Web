@@ -1,6 +1,6 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
-import mk.ukim.finki.db.distributorapp.model.DeliveryStatus;
+import mk.ukim.finki.db.distributorapp.model.entities.DeliveryStatus;
 import mk.ukim.finki.db.distributorapp.repository.DeliveryStatusRepository;
 import mk.ukim.finki.db.distributorapp.service.DeliveryStatusService;
 import org.springframework.stereotype.Service;

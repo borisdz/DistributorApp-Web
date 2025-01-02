@@ -1,9 +1,9 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
-import mk.ukim.finki.db.distributorapp.model.Delivery;
-import mk.ukim.finki.db.distributorapp.model.Driver;
-import mk.ukim.finki.db.distributorapp.model.Vehicle;
-import mk.ukim.finki.db.distributorapp.model.DeliveryStatus;
+import mk.ukim.finki.db.distributorapp.model.entities.Delivery;
+import mk.ukim.finki.db.distributorapp.model.entities.Driver;
+import mk.ukim.finki.db.distributorapp.model.entities.Vehicle;
+import mk.ukim.finki.db.distributorapp.model.entities.DeliveryStatus;
 import mk.ukim.finki.db.distributorapp.repository.DeliveryRepository;
 import mk.ukim.finki.db.distributorapp.service.DeliveryService;
 import org.springframework.stereotype.Service;

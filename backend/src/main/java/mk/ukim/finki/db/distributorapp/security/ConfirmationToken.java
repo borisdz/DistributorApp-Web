@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import mk.ukim.finki.db.distributorapp.model.Users;
+import mk.ukim.finki.db.distributorapp.model.entities.Users;
 
 import java.util.Date;
 import java.util.UUID;
@@ -14,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "token", schema = "IND0_185022")
+@Table(name = "token")
 public class ConfirmationToken {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
