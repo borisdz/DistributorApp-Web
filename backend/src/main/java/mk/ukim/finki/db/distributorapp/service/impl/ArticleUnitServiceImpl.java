@@ -1,9 +1,9 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
-import mk.ukim.finki.db.distributorapp.model.Article;
-import mk.ukim.finki.db.distributorapp.model.ArticleUnit;
-import mk.ukim.finki.db.distributorapp.model.Orders;
-import mk.ukim.finki.db.distributorapp.model.Warehouse;
+import mk.ukim.finki.db.distributorapp.model.entities.Article;
+import mk.ukim.finki.db.distributorapp.model.entities.ArticleUnit;
+import mk.ukim.finki.db.distributorapp.model.entities.Orders;
+import mk.ukim.finki.db.distributorapp.model.entities.Warehouse;
 import mk.ukim.finki.db.distributorapp.repository.ArticleUnitRepository;
 import mk.ukim.finki.db.distributorapp.service.ArticleUnitService;
 import org.springframework.stereotype.Service;

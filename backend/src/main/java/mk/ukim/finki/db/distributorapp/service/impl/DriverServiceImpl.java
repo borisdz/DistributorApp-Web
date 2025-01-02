@@ -1,7 +1,7 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
-import mk.ukim.finki.db.distributorapp.model.Driver;
-import mk.ukim.finki.db.distributorapp.model.Vehicle;
+import mk.ukim.finki.db.distributorapp.model.entities.Driver;
+import mk.ukim.finki.db.distributorapp.model.entities.Vehicle;
 import mk.ukim.finki.db.distributorapp.repository.DriverRepository;
 import mk.ukim.finki.db.distributorapp.service.DriverService;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
-import mk.ukim.finki.db.distributorapp.model.ProForma;
-import mk.ukim.finki.db.distributorapp.model.ProFormaStatus;
+import mk.ukim.finki.db.distributorapp.model.entities.ProForma;
+import mk.ukim.finki.db.distributorapp.model.entities.ProFormaStatus;
 import mk.ukim.finki.db.distributorapp.repository.ProFormaRepository;
 import mk.ukim.finki.db.distributorapp.service.ProFormaService;
 import org.springframework.stereotype.Service;

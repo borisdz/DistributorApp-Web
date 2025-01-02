@@ -1,6 +1,7 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
-import mk.ukim.finki.db.distributorapp.model.Category;
+import mk.ukim.finki.db.distributorapp.model.dto.CategoryDto;
+import mk.ukim.finki.db.distributorapp.model.entities.Category;
 import mk.ukim.finki.db.distributorapp.repository.CategoryRepository;
 import mk.ukim.finki.db.distributorapp.service.CategoryService;
 import org.springframework.stereotype.Service;
@@ -10,11 +11,11 @@ import java.util.Optional;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
-
     private final CategoryRepository categoryRepository;
 
     public CategoryServiceImpl(CategoryRepository categoryRepository) {
         this.categoryRepository = categoryRepository;
+
     }
 
     private boolean categoryInvalid(String name) {
@@ -24,6 +25,15 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<Category> listCategories() {
         return this.categoryRepository.listAll();
+    }
+
+    @Override
+    public List<CategoryDto> listCategoriesDto() {
+        List<Category> categories = this.categoryRepository.listAll();
+        return categories.stream().map(cat->new CategoryDto(
+                cat.getCategoryId(),
+                cat.getCategoryName()
+        )).toList();
     }
 
     @Override

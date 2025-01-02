@@ -1,6 +1,6 @@
 package mk.ukim.finki.db.distributorapp.service;
 
-import mk.ukim.finki.db.distributorapp.model.Manufacturer;
+import mk.ukim.finki.db.distributorapp.model.entities.Manufacturer;
 
 import java.util.List;
 import java.util.Optional;

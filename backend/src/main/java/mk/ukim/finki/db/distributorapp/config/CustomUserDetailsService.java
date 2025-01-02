@@ -1,6 +1,6 @@
 package mk.ukim.finki.db.distributorapp.config;
 
-import mk.ukim.finki.db.distributorapp.model.Users;
+import mk.ukim.finki.db.distributorapp.model.entities.Users;
 import mk.ukim.finki.db.distributorapp.repository.UsersRepository;
 import mk.ukim.finki.db.distributorapp.security.PassEncryptionPasswordEncoder;
 import org.springframework.security.core.userdetails.UserDetails;

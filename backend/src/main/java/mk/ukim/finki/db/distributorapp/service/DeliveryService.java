@@ -1,9 +1,9 @@
 package mk.ukim.finki.db.distributorapp.service;
 
-import mk.ukim.finki.db.distributorapp.model.Delivery;
-import mk.ukim.finki.db.distributorapp.model.Driver;
-import mk.ukim.finki.db.distributorapp.model.Vehicle;
-import mk.ukim.finki.db.distributorapp.model.DeliveryStatus;
+import mk.ukim.finki.db.distributorapp.model.entities.Delivery;
+import mk.ukim.finki.db.distributorapp.model.entities.Driver;
+import mk.ukim.finki.db.distributorapp.model.entities.Vehicle;
+import mk.ukim.finki.db.distributorapp.model.entities.DeliveryStatus;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

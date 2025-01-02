@@ -1,7 +1,7 @@
 package mk.ukim.finki.db.distributorapp.repository;
 
 import lombok.NonNull;
-import mk.ukim.finki.db.distributorapp.model.Article;
+import mk.ukim.finki.db.distributorapp.model.entities.Article;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -15,8 +15,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     @Query(
             nativeQuery = true,
-            value = "select * " +
-                    "from article"
+            value = "select * from article"
     )
     List<Article> listAll();
 

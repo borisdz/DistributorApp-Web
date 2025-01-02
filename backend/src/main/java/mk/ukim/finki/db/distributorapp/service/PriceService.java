@@ -1,7 +1,7 @@
 package mk.ukim.finki.db.distributorapp.service;
 
-import mk.ukim.finki.db.distributorapp.model.Article;
-import mk.ukim.finki.db.distributorapp.model.Price;
+import mk.ukim.finki.db.distributorapp.model.entities.Article;
+import mk.ukim.finki.db.distributorapp.model.entities.Price;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
