@@ -31,7 +31,7 @@ public class ProFormaStatusServiceImpl implements ProFormaStatusService {
     }
 
     @Override
-    public List<ProFormaStatusDto> listProFormaStatus() {
+    public List<ProFormaStatusDto> getAllProFormaStatus() {
         List<ProFormaStatus> proFormaStatuses = this.proFormaStatusRepository.findAll();
         return buildDto(proFormaStatuses);
     }
@@ -70,7 +70,7 @@ public class ProFormaStatusServiceImpl implements ProFormaStatusService {
     }
 
     @Override
-    public void delete(Short id) {
+    public void deleteById(Short id) {
         this.proFormaStatusRepository.deleteById(id);
     }
 }

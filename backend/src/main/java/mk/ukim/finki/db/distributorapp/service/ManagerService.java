@@ -13,6 +13,6 @@ public interface ManagerService {
 
     Integer edit(ManagerDto managerDto);
 
-    void deleteManagerById(Long id);
+    void deleteById(Long id);
 
 }

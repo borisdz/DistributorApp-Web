@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CityServiceImpl implements CityService {
@@ -50,6 +51,11 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
+    public Optional<City> getCityObjById(Long id){
+        return this.cityRepository.findById(id);
+    }
+
+    @Override
     public Integer create(CityDto dto) {
         return this.cityRepository.create(dto.getName(), dto.getRegionId());
     }
@@ -60,7 +66,7 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         this.cityRepository.deleteById(id);
     }
 

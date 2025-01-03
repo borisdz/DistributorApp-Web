@@ -38,7 +38,7 @@ public class ProFormaServiceImpl implements ProFormaService {
     }
 
     @Override
-    public List<ProFormaDto> getAllPro_Forma() {
+    public List<ProFormaDto> getAllProForma() {
         List<ProForma> proFormas = this.proFormaRepository.listAll();
         return buildDto(proFormas);
     }
@@ -80,7 +80,7 @@ public class ProFormaServiceImpl implements ProFormaService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         this.proFormaRepository.deleteById(id);
     }
 }

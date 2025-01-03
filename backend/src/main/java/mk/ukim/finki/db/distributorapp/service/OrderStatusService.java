@@ -5,7 +5,7 @@ import mk.ukim.finki.db.distributorapp.model.dto.OrderStatusDto;
 import java.util.List;
 
 public interface OrderStatusService {
-    List<OrderStatusDto> listOrderStatus();
+    List<OrderStatusDto> getAllOrderStatus();
 
     OrderStatusDto  getOrderStatusById(Short id);
 
@@ -15,5 +15,5 @@ public interface OrderStatusService {
 
     List<OrderStatusDto> getOrderStatusByName(String name);
 
-    void delete(Short id);
+    void deleteById(Short id);
 }

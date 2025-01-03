@@ -93,7 +93,7 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public void deleteVehicleById(Integer id) {
+    public void deleteById(Integer id) {
         this.vehicleRepository.delete(id);
     }
 }

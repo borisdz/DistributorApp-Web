@@ -2,7 +2,6 @@ package mk.ukim.finki.db.distributorapp.web;
 
 import mk.ukim.finki.db.distributorapp.model.dto.WarehouseDto;
 import mk.ukim.finki.db.distributorapp.service.WarehouseService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,21 +18,25 @@ public class WarehouseController {
 
     @GetMapping("/all")
     public ResponseEntity<List<WarehouseDto>> getAllWarehouses() {
-        return new ResponseEntity<>(HttpStatus.OK);
+        List<WarehouseDto> warehouses = this.warehouseService.getAllWarehouses();
+        return ResponseEntity.ok(warehouses);
     }
 
     @PutMapping("/add")
-    public ResponseEntity<WarehouseDto> addWarehouse(@RequestBody WarehouseDto WarehouseDto) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Integer> addWarehouse(@RequestBody WarehouseDto WarehouseDto) {
+        Integer result = this.warehouseService.create(WarehouseDto);
+        return ResponseEntity.ok(result);
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<WarehouseDto> editWarehouse(@RequestBody WarehouseDto WarehouseDto) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Integer> editWarehouse(@RequestBody WarehouseDto WarehouseDto) {
+        Integer result = this.warehouseService.edit(WarehouseDto);
+        return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<WarehouseDto> deleteWarehouse(@PathVariable Long id) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Void> deleteWarehouse(@PathVariable Integer id) {
+        this.warehouseService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

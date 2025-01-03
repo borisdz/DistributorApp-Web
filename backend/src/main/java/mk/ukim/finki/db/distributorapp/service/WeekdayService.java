@@ -15,5 +15,5 @@ public interface WeekdayService {
 
     Integer edit(WeekdayDto weekdayDto);
 
-    void delete(Short id);
+    void deleteById(Short id);
 }

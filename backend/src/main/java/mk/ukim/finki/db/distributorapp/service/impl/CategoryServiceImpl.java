@@ -52,12 +52,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Integer update(CategoryDto categoryDto) {
+    public Integer edit(CategoryDto categoryDto) {
         return this.categoryRepository.edit(categoryDto.getId(), categoryDto.getName());
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteById(Long id) {
         this.categoryRepository.deleteById(id);
     }
 

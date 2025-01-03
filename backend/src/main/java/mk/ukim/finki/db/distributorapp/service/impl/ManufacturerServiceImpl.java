@@ -76,7 +76,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
     }
 
     @Override
-    public void delete(Long id) {
+    public void deleteById(Long id) {
 
     }
 }

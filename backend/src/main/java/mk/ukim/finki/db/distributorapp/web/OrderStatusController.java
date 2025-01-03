@@ -2,7 +2,6 @@ package mk.ukim.finki.db.distributorapp.web;
 
 import mk.ukim.finki.db.distributorapp.model.dto.OrderStatusDto;
 import mk.ukim.finki.db.distributorapp.service.OrderStatusService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,21 +18,25 @@ public class OrderStatusController {
 
     @GetMapping("/all")
     public ResponseEntity<List<OrderStatusDto>> getAllOrderStatus() {
-        return new ResponseEntity<>(HttpStatus.OK);
+        List<OrderStatusDto> statuses = this.orderStatusService.getAllOrderStatus();
+        return ResponseEntity.ok(statuses);
     }
 
     @PutMapping("/add")
-    public ResponseEntity<OrderStatusDto> addOrderStatus(@RequestBody OrderStatusDto OrderStatusDto) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Integer> addOrderStatus(@RequestBody OrderStatusDto OrderStatusDto) {
+        Integer result = this.orderStatusService.create(OrderStatusDto);
+        return ResponseEntity.ok(result);
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<OrderStatusDto> editOrderStatus(@RequestBody OrderStatusDto OrderStatusDto) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Integer> editOrderStatus(@RequestBody OrderStatusDto OrderStatusDto) {
+        Integer result = this.orderStatusService.edit(OrderStatusDto);
+        return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<OrderStatusDto> deleteOrderStatus(@PathVariable Long id) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Void> deleteOrderStatus(@PathVariable Short id) {
+        this.orderStatusService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

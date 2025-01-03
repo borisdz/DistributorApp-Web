@@ -15,5 +15,5 @@ public interface ManufacturerService {
 
     Integer edit(ManufacturerDto manufacturerDto);
 
-    void delete(Long id);
+    void deleteById(Long id);
 }

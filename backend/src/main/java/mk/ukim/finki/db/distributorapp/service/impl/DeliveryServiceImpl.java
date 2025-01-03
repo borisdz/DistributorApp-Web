@@ -114,7 +114,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
-    public void delete(Long del_id) {
+    public void deleteById(Long del_id) {
         this.deliveryRepository.delete(del_id);
     }
 }

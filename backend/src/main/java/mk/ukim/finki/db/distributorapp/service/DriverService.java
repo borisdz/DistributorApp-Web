@@ -15,5 +15,5 @@ public interface DriverService {
 
     Integer edit(DriverDto driverDto);
 
-    void delete(Long id);
+    void deleteById(Long id);
 }

@@ -2,7 +2,6 @@ package mk.ukim.finki.db.distributorapp.web;
 
 import mk.ukim.finki.db.distributorapp.model.dto.ProFormaStatusDto;
 import mk.ukim.finki.db.distributorapp.service.ProFormaStatusService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,21 +18,25 @@ public class ProFormaStatusController {
 
     @GetMapping("/all")
     public ResponseEntity<List<ProFormaStatusDto>> getAllProFormaStatuss() {
-        return new ResponseEntity<>(HttpStatus.OK);
+        List<ProFormaStatusDto> statuses = proFormaStatusService.getAllProFormaStatus();
+        return ResponseEntity.ok(statuses);
     }
 
     @PutMapping("/add")
-    public ResponseEntity<ProFormaStatusDto> addProFormaStatus(@RequestBody ProFormaStatusDto ProFormaStatusDto) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Integer> addProFormaStatus(@RequestBody ProFormaStatusDto ProFormaStatusDto) {
+        Integer result = this.proFormaStatusService.create(ProFormaStatusDto);
+        return ResponseEntity.ok(result);
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<ProFormaStatusDto> editProFormaStatus(@RequestBody ProFormaStatusDto ProFormaStatusDto) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Integer> editProFormaStatus(@RequestBody ProFormaStatusDto ProFormaStatusDto) {
+        Integer result = this.proFormaStatusService.edit(ProFormaStatusDto);
+        return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<ProFormaStatusDto> deleteProFormaStatus(@PathVariable Long id) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Void> deleteProFormaStatus(@PathVariable Short id) {
+        this.proFormaStatusService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

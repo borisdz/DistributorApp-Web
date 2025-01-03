@@ -35,7 +35,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public List<WarehouseDto> findAll() {
+    public List<WarehouseDto> getAllWarehouses() {
         List<Warehouse> warehouses = this.warehouseRepository.findAll();
         return buildDtoList(warehouses);
     }
@@ -77,7 +77,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public void delete(Integer id) {
+    public void deleteById(Integer id) {
         this.warehouseRepository.findById(id);
     }
 }

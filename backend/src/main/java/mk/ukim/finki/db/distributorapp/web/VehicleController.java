@@ -2,7 +2,6 @@ package mk.ukim.finki.db.distributorapp.web;
 
 import mk.ukim.finki.db.distributorapp.model.dto.VehicleDto;
 import mk.ukim.finki.db.distributorapp.service.VehicleService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,21 +18,25 @@ public class VehicleController {
 
     @GetMapping("/all")
     public ResponseEntity<List<VehicleDto>> getAllVehicles() {
-        return new ResponseEntity<>(HttpStatus.OK);
+        List<VehicleDto> vehicles = vehicleService.getAllVehicles();
+        return ResponseEntity.ok(vehicles);
     }
 
     @PutMapping("/add")
-    public ResponseEntity<VehicleDto> addVehicle(@RequestBody VehicleDto VehicleDto) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Integer> addVehicle(@RequestBody VehicleDto VehicleDto) {
+        Integer result = this.vehicleService.create(VehicleDto);
+        return ResponseEntity.ok(result);
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<VehicleDto> editVehicle(@RequestBody VehicleDto VehicleDto) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Integer> editVehicle(@RequestBody VehicleDto VehicleDto) {
+        Integer result = this.vehicleService.edit(VehicleDto);
+        return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<VehicleDto> deleteVehicle(@PathVariable Long id) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Void> deleteVehicle(@PathVariable Integer id) {
+        this.vehicleService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
