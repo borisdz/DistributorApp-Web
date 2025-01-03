@@ -42,7 +42,7 @@ public interface RegionRepository extends JpaRepository<Region, Integer> {
             value = "insert into region(region_name) " +
                     "values (:name)"
     )
-    Optional<Region> create(
+    Integer create(
             @NonNull @Param("name") String name);
 
     @Modifying
@@ -53,7 +53,7 @@ public interface RegionRepository extends JpaRepository<Region, Integer> {
                     "set region_name=:name " +
                     "where region_id=:id"
     )
-    Optional<Region> edit(
+    Integer edit(
             @NonNull @Param("id") Integer id,
             @NonNull @Param("name") String name);
 

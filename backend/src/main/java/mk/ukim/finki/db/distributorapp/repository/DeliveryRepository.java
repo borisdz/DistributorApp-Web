@@ -49,7 +49,7 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
             value = "insert into delivery(del_date_created, del_date, del_start_km, del_end_km, del_start_time, del_end_time, del_status_id, veh_id) " +
                     "values (:dCreated,:dDel,:startKm,:endKm,:startT,:endT,:status,:veh)"
     )
-    Optional<Delivery> create(
+    Integer create(
             @NonNull @Param("dCreated") LocalDate del_date_created,
             @NonNull @Param("dDel") LocalDate del_date,
             @NonNull @Param("startKm") Integer del_start_km,
@@ -68,7 +68,7 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
                     "set del_date_created=:dCreated,del_date=:dDel,del_start_km=:startKm,del_end_km=:endKm,del_start_time=:startTime,del_end_time=:endT,del_status_id=:status,veh_id=:veh " +
                     "where del_id=:id"
     )
-    Optional<Delivery> edit(
+    Integer edit(
             @NonNull @Param("id") Long id,
             @NonNull @Param("dCreated") LocalDate del_date_created,
             @NonNull @Param("dDel") LocalDate del_date,

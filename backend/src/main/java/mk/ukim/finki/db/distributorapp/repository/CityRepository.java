@@ -43,7 +43,7 @@ public interface CityRepository extends JpaRepository<City, Long> {
             value = "insert into city(city_name, region_id) " +
                     "values (:name,:region)"
     )
-    Optional<City> create(
+    Integer create(
             @NonNull @Param("name") String name,
             @NonNull @Param("region") Integer region);
 
@@ -55,7 +55,7 @@ public interface CityRepository extends JpaRepository<City, Long> {
                     "set city_name=:name, region_id=:region " +
                     "where city_id=:id"
     )
-    Optional<City> edit(
+    Integer edit(
             @NonNull @Param("id") Long id,
             @NonNull @Param("name") String name,
             @NonNull @Param("region") Integer region);

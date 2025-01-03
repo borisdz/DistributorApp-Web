@@ -1,20 +1,19 @@
 package mk.ukim.finki.db.distributorapp.service;
 
-import mk.ukim.finki.db.distributorapp.model.entities.ProFormaStatus;
+import mk.ukim.finki.db.distributorapp.model.dto.ProFormaStatusDto;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ProFormaStatusService {
-    List<ProFormaStatus> listProFormaStatus();
+    List<ProFormaStatusDto> listProFormaStatus();
 
-    Optional<ProFormaStatus> getProFormaStatusById(Short id);
+    ProFormaStatusDto getProFormaStatusById(Short id);
 
-    Optional<ProFormaStatus> createProFormaStatus(String name, String description);
+    Integer create(ProFormaStatusDto proFormaStatusDto);
 
-    Optional<ProFormaStatus> updateProFormaStatus(Short id, String name, String description);
+    Integer edit (ProFormaStatusDto proFormaStatusDto );
 
-    List<ProFormaStatus> getProFormaStatusByName(String name);
+    List<ProFormaStatusDto> getProFormaStatusByName(String name);
 
     void delete(Short id);
 }

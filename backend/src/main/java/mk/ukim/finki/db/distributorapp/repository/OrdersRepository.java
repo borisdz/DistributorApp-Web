@@ -39,7 +39,7 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
             value = "insert into orders (ord_date, ord_sum, ord_fulfillment_date, ord_comment, ord_status_id, cust_id, del_id, pf_id) " +
                     "values (:date,:sum,:fulDate,:comment,:status,:cust,:del,:pf)"
     )
-    Optional<Orders> create(
+    Integer create(
             @NonNull @Param("date") LocalDate ord_date,
             @NonNull @Param("sum") Integer ord_sum,
             @Param("fulDate") LocalDateTime ord_fulfillment_date,
@@ -58,7 +58,7 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
                     "set ord_date=:date,ord_sum=:sum,ord_fulfillment_date=:fulDate,ord_comment=:comment,ord_status_id=:status,cust_id=:cust,del_id=:del,pf_id=:pf " +
                     "where ord_id=:id"
     )
-    Optional<Orders> edit(
+    Integer edit(
             @NonNull @Param("id") Long id,
             @NonNull @Param("date") LocalDate ord_date,
             @NonNull @Param("sum") Integer ord_sum,

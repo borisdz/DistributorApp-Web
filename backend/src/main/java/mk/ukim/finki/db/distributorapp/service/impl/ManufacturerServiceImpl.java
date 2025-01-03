@@ -1,12 +1,13 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
+import mk.ukim.finki.db.distributorapp.model.dto.ManufacturerDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Manufacturer;
 import mk.ukim.finki.db.distributorapp.repository.ManufacturerRepository;
 import mk.ukim.finki.db.distributorapp.service.ManufacturerService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ManufacturerServiceImpl implements ManufacturerService {
@@ -16,29 +17,62 @@ public class ManufacturerServiceImpl implements ManufacturerService {
         this.manufacturerRepository = manufacturerRepository;
     }
 
-    @Override
-    public List<Manufacturer> getAllManufacturers() {
-        return this.manufacturerRepository.listAll();
+    private List<ManufacturerDto> buildDto(List<Manufacturer> manufacturers) {
+        List<ManufacturerDto> dtos = new ArrayList<>();
+        for (Manufacturer manufacturer : manufacturers) {
+            ManufacturerDto dto = new ManufacturerDto(
+                    manufacturer.getManufacturerId(),
+                    manufacturer.getManufacturerName(),
+                    manufacturer.getManufacturerAddress(),
+                    manufacturer.getManufacturerMobile(),
+                    manufacturer.getManufacturerEmail()
+            );
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
     @Override
-    public List<Manufacturer> findAllManufacturersByName(String name) {
-        return this.manufacturerRepository.findAllByName(name);
+    public List<ManufacturerDto> getAllManufacturers() {
+        List<Manufacturer> manufacturers = this.manufacturerRepository.listAll();
+        return buildDto(manufacturers);
     }
 
     @Override
-    public Optional<Manufacturer> findManufacturerById(Long id) {
-        return this.manufacturerRepository.findById(id);
+    public List<ManufacturerDto> findAllManufacturersByName(String name) {
+        List<Manufacturer> manufacturers = this.manufacturerRepository.findAllByName(name);
+        return buildDto(manufacturers);
     }
 
     @Override
-    public Optional<Manufacturer> create(String name, String address, String mobile, String email) {
-        return this.manufacturerRepository.create(name, address, mobile, email);
+    public ManufacturerDto findManufacturerById(Long id) {
+        Manufacturer manufacturer = this.manufacturerRepository.findById(id).get();
+        return new ManufacturerDto(
+                manufacturer.getManufacturerId(),
+                manufacturer.getManufacturerName(),
+                manufacturer.getManufacturerAddress(),
+                manufacturer.getManufacturerMobile(),
+                manufacturer.getManufacturerEmail()
+        );
     }
 
     @Override
-    public Optional<Manufacturer> edit(Long id, String name, String address, String mobile, String email) {
-        return this.manufacturerRepository.edit(id, name, address, mobile, email);
+    public Integer create(ManufacturerDto manufacturerDto) {
+        return this.manufacturerRepository.create(
+                manufacturerDto.getName(),
+                manufacturerDto.getAddress(),
+                manufacturerDto.getPhone(),
+                manufacturerDto.getEmail());
+    }
+
+    @Override
+    public Integer edit(ManufacturerDto manufacturerDto) {
+        return this.manufacturerRepository.edit(
+                manufacturerDto.getId(),
+                manufacturerDto.getName(),
+                manufacturerDto.getAddress(),
+                manufacturerDto.getPhone(),
+                manufacturerDto.getEmail());
     }
 
     @Override

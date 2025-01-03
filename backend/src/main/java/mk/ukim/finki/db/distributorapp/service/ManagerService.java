@@ -1,19 +1,17 @@
 package mk.ukim.finki.db.distributorapp.service;
 
-import mk.ukim.finki.db.distributorapp.model.entities.Manager;
-import mk.ukim.finki.db.distributorapp.model.entities.Warehouse;
+import mk.ukim.finki.db.distributorapp.model.dto.ManagerDto;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ManagerService {
-    List<Manager> getAllManagers();
+    List<ManagerDto> getAllManagers();
 
-    Optional<Manager> getManagerById(int id);
+    ManagerDto getManagerById(int id);
 
-    Optional<Manager> createManager(Long id, Warehouse warehouse);
+    Integer create(ManagerDto managerDto);
 
-    Optional<Manager> updateManager(Manager manager, Warehouse warehouse);
+    Integer edit(ManagerDto managerDto);
 
     void deleteManagerById(Long id);
 

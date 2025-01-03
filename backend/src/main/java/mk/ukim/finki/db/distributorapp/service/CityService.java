@@ -1,22 +1,20 @@
 package mk.ukim.finki.db.distributorapp.service;
 
-import mk.ukim.finki.db.distributorapp.model.entities.City;
-import mk.ukim.finki.db.distributorapp.model.entities.Region;
+import mk.ukim.finki.db.distributorapp.model.dto.CityDto;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CityService {
 
-    List<City> listCities();
+    List<CityDto> listCities();
 
-    Optional<City> getCityById(Long id);
+    CityDto getCityById(Long id);
 
-    Optional<City> create(String name, Region region);
+    Integer create(CityDto cityDto);
 
-    Optional<City> edit(Long id, String name, Region region);
+    Integer edit(CityDto cityDto);
 
     void delete(Long id);
 
-    List<City> searchCities(String text);
+    List<CityDto> searchCities(String text);
 }

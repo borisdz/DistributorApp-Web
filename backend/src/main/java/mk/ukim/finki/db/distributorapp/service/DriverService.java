@@ -1,21 +1,19 @@
 package mk.ukim.finki.db.distributorapp.service;
 
-import mk.ukim.finki.db.distributorapp.model.entities.Driver;
-import mk.ukim.finki.db.distributorapp.model.entities.Vehicle;
+import mk.ukim.finki.db.distributorapp.model.dto.DriverDto;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface DriverService {
-    List<Driver> getAllDrivers();
+    List<DriverDto> getAllDrivers();
 
-    List<Driver> findAllByName(String name);
+    List<DriverDto> findAllByName(String name);
 
-    Optional<Driver> findById(Long id);
+    DriverDto findById(Long id);
 
-    Optional<Driver> create(Long id, Vehicle vehicle);
+    Integer create(DriverDto driverDto);
 
-    Optional<Driver> edit(Long id, Vehicle vehicle);
+    Integer edit(DriverDto driverDto);
 
     void delete(Long id);
 }

@@ -1,14 +1,13 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
+import mk.ukim.finki.db.distributorapp.model.dto.ProFormaDto;
 import mk.ukim.finki.db.distributorapp.model.entities.ProForma;
-import mk.ukim.finki.db.distributorapp.model.entities.ProFormaStatus;
 import mk.ukim.finki.db.distributorapp.repository.ProFormaRepository;
 import mk.ukim.finki.db.distributorapp.service.ProFormaService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProFormaServiceImpl implements ProFormaService {
@@ -18,32 +17,65 @@ public class ProFormaServiceImpl implements ProFormaService {
         this.proFormaRepository = proFormaRepository;
     }
 
-    @Override
-    public List<ProForma> getAllPro_Forma() {
-        return this.proFormaRepository.listAll();
+    private List<ProFormaDto> buildDto(List<ProForma> proFormas) {
+        List<ProFormaDto> proFormaDtos = new ArrayList<>();
+        for (ProForma pf : proFormas) {
+            ProFormaDto proFormaDto = new ProFormaDto(
+                    pf.getProFormaId(),
+                    pf.getProFormaDeadline(),
+                    pf.getProFormaDateCreated(),
+                    pf.getProFormaStatus().getProFormaStatusId(),
+                    pf.getProFormaStatus().getProFormaStatusName(),
+                    pf.getOrder().getOrderId(),
+                    pf.getOrder().getCustomer().getUserId(),
+                    pf.getOrder().getCustomer().getCustomerCompanyName(),
+                    pf.getOrder().getCustomer().getUserEmail(),
+                    pf.getOrder().getCustomer().getUserMobile()
+            );
+            proFormaDtos.add(proFormaDto);
+        }
+        return proFormaDtos;
     }
 
     @Override
-    public Optional<ProForma> findProFormaById(Long id) {
-        return this.proFormaRepository.findById(id);
+    public List<ProFormaDto> getAllPro_Forma() {
+        List<ProForma> proFormas = this.proFormaRepository.listAll();
+        return buildDto(proFormas);
     }
 
     @Override
-    public Optional<ProForma> create(LocalDate pf_deadline, LocalDate pf_create_date, ProFormaStatus pf_status) {
-        return this.proFormaRepository.create(
-                pf_deadline,
-                pf_create_date,
-                pf_status.getProFormaStatusId()
+    public ProFormaDto findProFormaById(Long id) {
+        ProForma pf = this.proFormaRepository.findById(id).get();
+        return new ProFormaDto(
+                pf.getProFormaId(),
+                pf.getProFormaDeadline(),
+                pf.getProFormaDateCreated(),
+                pf.getProFormaStatus().getProFormaStatusId(),
+                pf.getProFormaStatus().getProFormaStatusName(),
+                pf.getOrder().getOrderId(),
+                pf.getOrder().getCustomer().getUserId(),
+                pf.getOrder().getCustomer().getCustomerCompanyName(),
+                pf.getOrder().getCustomer().getUserEmail(),
+                pf.getOrder().getCustomer().getUserMobile()
         );
     }
 
     @Override
-    public Optional<ProForma> edit(Long id, LocalDate pf_deadline, LocalDate pf_create_date, ProFormaStatus pf_status) {
+    public Integer create(ProFormaDto proFormaDto) {
+        return this.proFormaRepository.create(
+                proFormaDto.getPfDeadline(),
+                proFormaDto.getPfDateCreated(),
+                proFormaDto.getStatusId()
+        );
+    }
+
+    @Override
+    public Integer edit(ProFormaDto proFormaDto) {
         return this.proFormaRepository.edit(
-                id,
-                pf_deadline,
-                pf_create_date,
-                pf_status.getProFormaStatusId()
+                proFormaDto.getId(),
+                proFormaDto.getPfDeadline(),
+                proFormaDto.getPfDateCreated(),
+                proFormaDto.getStatusId()
         );
     }
 

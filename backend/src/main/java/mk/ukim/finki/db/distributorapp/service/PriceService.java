@@ -1,21 +1,18 @@
 package mk.ukim.finki.db.distributorapp.service;
 
+import mk.ukim.finki.db.distributorapp.model.dto.PriceDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Article;
-import mk.ukim.finki.db.distributorapp.model.entities.Price;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 public interface PriceService {
-    List<Price> getAllPrices();
+    List<PriceDto> getAllPrices();
 
-    List<Price> findAllPricesByArticleId(Article article);
+    List<PriceDto> findAllPricesByArticleId(Article article);
 
-    Optional<Price> create(BigDecimal price, LocalDateTime price_eff_date, Article article);
+    Integer create(PriceDto priceDto);
 
-    Optional<Price> edit(Integer id, BigDecimal price, LocalDateTime price_eff_date, Article article);
+    Integer edit(PriceDto priceDto);
 
     void delete(Integer id);
 

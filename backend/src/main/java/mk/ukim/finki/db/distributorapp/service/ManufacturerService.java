@@ -1,20 +1,19 @@
 package mk.ukim.finki.db.distributorapp.service;
 
-import mk.ukim.finki.db.distributorapp.model.entities.Manufacturer;
+import mk.ukim.finki.db.distributorapp.model.dto.ManufacturerDto;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ManufacturerService {
-    List<Manufacturer> getAllManufacturers();
+    List<ManufacturerDto> getAllManufacturers();
 
-    List<Manufacturer> findAllManufacturersByName(String name);
+    List<ManufacturerDto> findAllManufacturersByName(String name);
 
-    Optional<Manufacturer> findManufacturerById(Long id);
+    ManufacturerDto findManufacturerById(Long id);
 
-    Optional<Manufacturer> create(String name, String address, String mobile, String email);
+    Integer create(ManufacturerDto manufacturerDto);
 
-    Optional<Manufacturer> edit(Long id, String name, String address, String mobile, String email);
+    Integer edit(ManufacturerDto manufacturerDto);
 
     void delete(Long id);
 }

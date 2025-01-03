@@ -1,7 +1,6 @@
 package mk.ukim.finki.db.distributorapp.web;
 
 import mk.ukim.finki.db.distributorapp.model.dto.CategoryDto;
-import mk.ukim.finki.db.distributorapp.model.entities.Category;
 import mk.ukim.finki.db.distributorapp.service.CategoryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/category")
+@RequestMapping("/category")
 public class CategoryController {
     private final CategoryService categoryService;
 
@@ -19,14 +18,10 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    @GetMapping("/all")
-    public ResponseEntity<List<Category>> getAllCategories() {
-       return ResponseEntity.ok(this.categoryService.listCategories());
-    }
 
-    @GetMapping("/all/dto")
+    @GetMapping("/all")
     public ResponseEntity<List<CategoryDto>> getAllCategoriesDto() {
-        List<CategoryDto> categoryDtos = this.categoryService.listCategoriesDto();
+        List<CategoryDto> categoryDtos = this.categoryService.listCategories();
         return ResponseEntity.ok(categoryDtos);
     }
 }

@@ -38,7 +38,7 @@ public interface DriverRepository extends JpaRepository<Driver, Long> {
             value = "insert into driver(user_id, veh_id) " +
                     "values (:id,:veh)"
     )
-    Optional<Driver> create(
+    Integer create(
             @NonNull @Param("id") Long usr_id,
             @NonNull @Param("veh") Integer veh_id);
 
@@ -50,7 +50,7 @@ public interface DriverRepository extends JpaRepository<Driver, Long> {
                     "set veh_id=:veh " +
                     "where user_id=:id"
     )
-    Optional<Driver> edit(
+    Integer edit(
             @NonNull @Param("id") Long usr_id,
             @NonNull @Param("veh") Integer veh_id);
 

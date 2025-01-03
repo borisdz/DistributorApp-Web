@@ -38,7 +38,7 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
             value = "insert into vehicle(veh_carry_weight, veh_service_interval, veh_kilometers, veh_last_service, veh_last_service_km, veh_plate, veh_vin, veh_reg, wh_id) " +
                     "values (:carryW,:serInterval,:vehKm,:lastSerD,:lastSerKm,:plate,:vin,:vehRegD,:wh)"
     )
-    Optional<Vehicle> create(
+    Integer create(
             @NonNull @Param("carryW") Integer vehicleCarryWeight,
             @NonNull @Param("serInterval") Short vehicleServiceInterval,
             @NonNull @Param("vehKm") Integer vehicleKilometers,
@@ -58,7 +58,7 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
                     "veh_last_service=:lastSerD,veh_last_service_km=:lastSerKm,veh_plate=:plate,veh_vin=:vin,veh_reg=:vehRegD,wh_id=:wh " +
                     "where veh_id=:id"
     )
-    Optional<Vehicle> edit(
+    Integer edit(
             @NonNull @Param("id") Integer id,
             @NonNull @Param("carryW") Integer vehicleCarryWeight,
             @NonNull @Param("serInterval") Short vehicleServiceInterval,

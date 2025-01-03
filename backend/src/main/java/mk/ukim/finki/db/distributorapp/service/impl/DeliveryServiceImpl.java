@@ -1,15 +1,17 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
+import mk.ukim.finki.db.distributorapp.model.dto.DeliveryDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Delivery;
+import mk.ukim.finki.db.distributorapp.model.entities.DeliveryStatus;
 import mk.ukim.finki.db.distributorapp.model.entities.Driver;
 import mk.ukim.finki.db.distributorapp.model.entities.Vehicle;
-import mk.ukim.finki.db.distributorapp.model.entities.DeliveryStatus;
 import mk.ukim.finki.db.distributorapp.repository.DeliveryRepository;
 import mk.ukim.finki.db.distributorapp.service.DeliveryService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,52 +23,93 @@ public class DeliveryServiceImpl implements DeliveryService {
         this.deliveryRepository = deliveryRepository;
     }
 
-    @Override
-    public List<Delivery> getAllDeliveries() {
-        return this.deliveryRepository.listAll();
+    private List<DeliveryDto> buildDto(List<Delivery> deliveries) {
+        List<DeliveryDto> dtos = new ArrayList<>();
+        for (Delivery del : deliveries) {
+            DeliveryDto dto = new DeliveryDto(
+                    del.getDeliveryId(),
+                    del.getDeliveryDateCreated(),
+                    del.getDeliveryDate(),
+                    del.getDeliveryStartKm(),
+                    del.getDeliveryEndKm(),
+                    del.getDeliveryStartTime(),
+                    del.getDeliveryEndTime(),
+                    del.getDeliveryStatus().getDeliveryStatusId(),
+                    del.getDeliveryStatus().getDeliveryStatusName(),
+                    del.getVehicle().getVehicleId(),
+                    del.getVehicle().getDriver().getUserId(),
+                    del.getVehicle().getDriver().getUsername(),
+                    del.getVehicle().getDriver().getUserImage()
+            );
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
     @Override
-    public List<Delivery> getAllDeliveriesByVehicleId(Vehicle vehicle) {
-        return this.deliveryRepository.findAllByVehicle(vehicle.getVehicleId());
+    public List<DeliveryDto> getAllDeliveries() {
+        List<Delivery> deliveries = this.deliveryRepository.listAll();
+        return buildDto(deliveries);
     }
 
     @Override
-    public List<Delivery> getAllDeliveriesByDriver(Driver driver) {
-        return this.deliveryRepository.findDeliveriesByDriver(driver.getUserId());
+    public List<DeliveryDto> getAllDeliveriesByVehicleId(Vehicle vehicle) {
+        List<Delivery> deliveries = this.deliveryRepository.findAllByVehicle(vehicle.getVehicleId());
+        return buildDto(deliveries);
     }
 
     @Override
-    public Optional<Delivery> findDeliveryById(Long id) {
-        return this.deliveryRepository.findById(id);
+    public List<DeliveryDto> getAllDeliveriesByDriver(Driver driver) {
+        List<Delivery> deliveries = this.deliveryRepository.findDeliveriesByDriver(driver.getUserId());
+        return buildDto(deliveries);
     }
 
     @Override
-    public Optional<Delivery> create(LocalDate del_date_created, LocalDate del_date, Integer del_start_km, Integer del_end_km, LocalTime del_start_time, LocalTime del_end_time, DeliveryStatus del_status, Vehicle vehicle) {
-        return this.deliveryRepository.create(
-                del_date_created,
-                del_date,
-                del_start_km,
-                del_end_km,
-                del_start_time,
-                del_end_time,
-                del_status.getDeliveryStatusId(),
-                vehicle.getVehicleId()
+    public DeliveryDto findDeliveryById(Long id) {
+        Delivery del = this.deliveryRepository.findById(id).get();
+        return new DeliveryDto(
+                del.getDeliveryId(),
+                del.getDeliveryDateCreated(),
+                del.getDeliveryDate(),
+                del.getDeliveryStartKm(),
+                del.getDeliveryEndKm(),
+                del.getDeliveryStartTime(),
+                del.getDeliveryEndTime(),
+                del.getDeliveryStatus().getDeliveryStatusId(),
+                del.getDeliveryStatus().getDeliveryStatusName(),
+                del.getVehicle().getVehicleId(),
+                del.getVehicle().getDriver().getUserId(),
+                del.getVehicle().getDriver().getUsername(),
+                del.getVehicle().getDriver().getUserImage()
         );
     }
 
     @Override
-    public Optional<Delivery> edit(Long del_id, LocalDate del_date_created, LocalDate del_date, Integer del_start_km, Integer del_end_km, LocalTime del_start_time, LocalTime del_end_time, DeliveryStatus del_status, Vehicle vehicle) {
+    public Integer create(DeliveryDto deliveryDto) {
+        return this.deliveryRepository.create(
+                deliveryDto.getDateCreated(),
+                deliveryDto.getDeliveryDate(),
+                deliveryDto.getDelStartKm(),
+                deliveryDto.getDelEndKm(),
+                deliveryDto.getDelStartTime(),
+                deliveryDto.getDeliveryEndTime(),
+                deliveryDto.getDStatusId(),
+                deliveryDto.getVehId()
+        );
+    }
+
+    @Override
+    public Integer edit(DeliveryDto deliveryDto) {
         return this.deliveryRepository.edit(
-                del_id,
-                del_date_created,
-                del_date,
-                del_start_km,
-                del_end_km,
-                del_start_time,
-                del_end_time,
-                del_status.getDeliveryStatusId(),
-                vehicle.getVehicleId()
+                deliveryDto.getId(),
+                deliveryDto.getDateCreated(),
+                deliveryDto.getDeliveryDate(),
+                deliveryDto.getDelStartKm(),
+                deliveryDto.getDelEndKm(),
+                deliveryDto.getDelStartTime(),
+                deliveryDto.getDeliveryEndTime(),
+                deliveryDto.getDStatusId(),
+                deliveryDto.getVehId()
         );
     }
 

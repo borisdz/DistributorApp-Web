@@ -1,15 +1,33 @@
 package mk.ukim.finki.db.distributorapp.web;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import mk.ukim.finki.db.distributorapp.model.dto.DriverDto;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
-@RequestMapping("/api/driver")
+@RequestMapping("/driver")
 public class DriverController {
 
-    @GetMapping("/home")
-    public String driverHome() {
-        return "userDriver/home";
+    @GetMapping("/all")
+    public ResponseEntity<List<DriverDto>> getAllDrivers() {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/add")
+    public ResponseEntity<DriverDto> addDriver(@RequestBody DriverDto driverDto) {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/edit")
+    public ResponseEntity<DriverDto> editDriver(@RequestBody DriverDto driverDto) {
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<DriverDto> deleteDriver(@PathVariable Long id) {
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

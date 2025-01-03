@@ -1,6 +1,5 @@
 package mk.ukim.finki.db.distributorapp.model.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,7 +14,6 @@ public class CustomerWeekday {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "cust_day_id", nullable = false)
-    @JsonProperty("customerDayId")
     private Long customerDayId;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

@@ -32,7 +32,7 @@ public interface ProFormaRepository extends JpaRepository<ProForma, Long> {
             value = "insert into pro_forma(pf_deadline, pf_date_created, pf_status_id) " +
                     "values (:ddl,:createD,:status)"
     )
-    Optional<ProForma> create(
+    Integer create(
             @NonNull @Param("ddl") LocalDate pf_deadline,
             @NonNull @Param("createD") LocalDate pf_create_date,
             @NonNull @Param("status") Short pf_status_id);
@@ -45,7 +45,7 @@ public interface ProFormaRepository extends JpaRepository<ProForma, Long> {
                     "set pf_deadline=:ddl,pf_date_created=:createD,pf_status_id=:status " +
                     "where pf_id=:id"
     )
-    Optional<ProForma> edit(
+    Integer edit(
             @NonNull @Param("id") Long pf_id,
             @NonNull @Param("ddl") LocalDate pf_deadline,
             @NonNull @Param("createD") LocalDate pf_create_date,

@@ -10,17 +10,17 @@ import java.util.List;
 @Data
 @Table(name = "region")
 public class Region {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "region_id", nullable = false)
-  @JsonProperty("regionId")
-  private Integer regionId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "region_id", nullable = false)
+    @JsonProperty("regionId")
+    private Integer regionId;
 
-  @Column(name = "region_name", nullable = false)
-  @JsonProperty("regionName")
-  private String regionName;
+    @Column(name = "region_name", nullable = false)
+    @JsonProperty("regionName")
+    private String regionName;
 
-  @OneToMany(mappedBy = "region")
-  private List<City> cities;
+    @OneToMany(mappedBy = "region")
+    private List<City> cities;
 
 }

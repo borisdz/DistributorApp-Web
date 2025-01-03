@@ -1,25 +1,19 @@
 package mk.ukim.finki.db.distributorapp.service;
 
-import mk.ukim.finki.db.distributorapp.model.entities.Vehicle;
+import mk.ukim.finki.db.distributorapp.model.dto.VehicleDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Warehouse;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 public interface VehicleService {
 
-    List<Vehicle> getAllVehicles();
+    List<VehicleDto> getAllVehicles();
 
-    List<Vehicle> getVehiclesByWarehouse(Warehouse warehouse);
+    List<VehicleDto> getVehiclesByWarehouse(Warehouse warehouse);
 
-    Optional<Vehicle> createVehicle(Integer vehicleCarryWeight, Short vehicleServiceInterval, Integer vehicleKilometers,
-                                    LocalDate vehicleLastService, Integer vehicleLastServiceKm, String vehiclePlate,
-                                    String vehicleVIN, LocalDate vehicleRegDate, Warehouse warehouse);
+    Integer create(VehicleDto vehicleDto);
 
-    Optional<Vehicle> updateVehicle(Integer id, Integer vehicleCarryWeight, Short vehicleServiceInterval, Integer vehicleKilometers,
-                                    LocalDate vehicleLastService, Integer vehicleLastServiceKm, String vehiclePlate,
-                                    String vehicleVIN, LocalDate vehicleRegDate, Warehouse warehouse);
+    Integer edit(VehicleDto vehicleDto);
 
     void deleteVehicleById(Integer id);
 }

@@ -10,24 +10,24 @@ import java.util.List;
 @Data
 @Table(name = "city")
 public class City {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "city_id")
-  @JsonProperty("cityId")
-  private Long cityId;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "city_id")
+    @JsonProperty("cityId")
+    private Long cityId;
 
-  @Column(name = "city_name", nullable = false)
-  @JsonProperty("cityName")
-  private String cityName;
+    @Column(name = "city_name", nullable = false)
+    @JsonProperty("cityName")
+    private String cityName;
 
-  @OneToMany(mappedBy = "city")
-  private List<Users> users;
+    @OneToMany(mappedBy = "city")
+    private List<Users> users;
 
-  @OneToOne(mappedBy = "city")
-  private Warehouse warehouse;
+    @OneToOne(mappedBy = "city")
+    private Warehouse warehouse;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "region_id", nullable = false)
-  private Region region;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "region_id", nullable = false)
+    private Region region;
 
 }

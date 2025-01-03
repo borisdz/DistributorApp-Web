@@ -1,21 +1,20 @@
 package mk.ukim.finki.db.distributorapp.service;
 
-import mk.ukim.finki.db.distributorapp.model.entities.Region;
+import mk.ukim.finki.db.distributorapp.model.dto.RegionDto;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface RegionService {
 
-    List<Region> listRegions();
+    List<RegionDto> listRegions();
 
-    Optional<Region> getRegionById(Integer id);
+    RegionDto getRegionById(Integer id);
 
-    List<Region> searchRegions(String name);
+    List<RegionDto> searchRegions(String name);
 
-    Optional<Region> createRegion(String name);
+    Integer create(RegionDto regionDto );
 
-    Optional<Region> edit(Integer id, String name);
+    Integer edit(RegionDto regionDto);
 
     void delete(Integer id);
 }

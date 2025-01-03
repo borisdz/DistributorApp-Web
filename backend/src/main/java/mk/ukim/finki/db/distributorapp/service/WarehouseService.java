@@ -1,21 +1,20 @@
 package mk.ukim.finki.db.distributorapp.service;
 
+import mk.ukim.finki.db.distributorapp.model.dto.WarehouseDto;
 import mk.ukim.finki.db.distributorapp.model.entities.City;
-import mk.ukim.finki.db.distributorapp.model.entities.Warehouse;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface WarehouseService {
-    List<Warehouse> findAll();
+    List<WarehouseDto> findAll();
 
-    List<Warehouse> findAllByCity(City city);
+    List<WarehouseDto> findAllByCity(City city);
 
-    Optional<Warehouse> findById(Integer id);
+    WarehouseDto findById(Integer id);
 
-    Optional<Warehouse> create(String whAddress, City city);
+    Integer create(WarehouseDto warehouseDto);
 
-    Optional<Warehouse> edit(Long id, String whAddress, City city);
+    Integer edit(WarehouseDto warehouseDto);
 
-    Optional<Warehouse> delete(Integer id);
+    void delete(Integer id);
 }

@@ -38,7 +38,7 @@ public interface ManagerRepository extends JpaRepository<Manager, Integer> {
             value = "insert into manager(user_id, wh_id) " +
                     "values (:id,:wh)"
     )
-    Optional<Manager> create(
+    Integer create(
             @NonNull @Param("id") Long id,
             @NonNull @Param("wh") Integer whId);
 
@@ -50,7 +50,7 @@ public interface ManagerRepository extends JpaRepository<Manager, Integer> {
                     "set wh_id=:wh " +
                     "where user_id=:id"
     )
-    Optional<Manager> edit(
+    Integer edit(
             @NonNull @Param("id") Long id,
             @NonNull @Param("wh") Integer whId);
 
