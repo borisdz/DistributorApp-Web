@@ -1,13 +1,13 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
+import mk.ukim.finki.db.distributorapp.model.dto.CustomerDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Customer;
 import mk.ukim.finki.db.distributorapp.repository.CustomerRepository;
 import mk.ukim.finki.db.distributorapp.service.CustomerService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -18,29 +18,77 @@ public class CustomerServiceImpl implements CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    @Override
-    public List<Customer> findAllCustomers() {
-        return this.customerRepository.findAll();
+    private List<CustomerDto> buildDto(List<Customer> customers) {
+        List<CustomerDto> dtos = new ArrayList<>();
+        for (Customer customer : customers) {
+            CustomerDto dto = new CustomerDto(
+                    customer.getUserId(),
+                    customer.getUsername(),
+                    customer.getUserEmail(),
+                    customer.getUserMobile(),
+                    customer.getCustomerEDB(),
+                    customer.getCustomerCompanyName(),
+                    customer.getCustomerAddress(),
+                    customer.getCustomerOpenTime(),
+                    customer.getCustomerCloseTime(),
+                    customer.getCustomerRepresentativeImage()
+            );
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
     @Override
-    public List<Customer> findCustomerByName(String name) {
-        return this.customerRepository.findAllByName(name);
+    public List<CustomerDto> findAllCustomers() {
+        List<Customer> customers = this.customerRepository.findAll();
+        return buildDto(customers);
     }
 
     @Override
-    public Optional<Customer> findCustomerById(Long id) {
-        return this.customerRepository.findById(id);
+    public List<CustomerDto> findCustomerByName(String name) {
+        List<Customer> customers = this.customerRepository.findAllByName(name);
+        return buildDto(customers);
     }
 
     @Override
-    public Optional<Customer> create(Long userId, String customerEDB, String customerName, String customerStreet, LocalTime openTime, LocalTime closeTime, String customerImage) {
-        return this.customerRepository.create(userId,customerEDB, customerName, customerStreet, openTime, closeTime, customerImage);
+    public CustomerDto findCustomerById(Long id) {
+        Customer customer = this.customerRepository.findById(id).get();
+        return new CustomerDto(
+                customer.getUserId(),
+                customer.getUsername(),
+                customer.getUserEmail(),
+                customer.getUserMobile(),
+                customer.getCustomerEDB(),
+                customer.getCustomerCompanyName(),
+                customer.getCustomerAddress(),
+                customer.getCustomerOpenTime(),
+                customer.getCustomerCloseTime(),
+                customer.getCustomerRepresentativeImage()
+        );
     }
 
     @Override
-    public Optional<Customer> edit(Long id, String customerEDB, String customerName, String customerStreet, LocalTime openTime, LocalTime closeTime, String customerImage) {
-        return this.customerRepository.edit(id, customerEDB, customerName, customerStreet, openTime, closeTime, customerImage);
+    public Integer create(CustomerDto customerDto) {
+        return this.customerRepository.create(
+                customerDto.getId(),
+                customerDto.getEdb(),
+                customerDto.getCompName(),
+                customerDto.getAddress(),
+                customerDto.getOpenTime(),
+                customerDto.getCloseTime(),
+                customerDto.getRepImage());
+    }
+
+    @Override
+    public Integer edit(CustomerDto customerDto) {
+        return this.customerRepository.edit(
+                customerDto.getId(),
+                customerDto.getEdb(),
+                customerDto.getCompName(),
+                customerDto.getAddress(),
+                customerDto.getOpenTime(),
+                customerDto.getCloseTime(),
+                customerDto.getRepImage());
     }
 
     @Override

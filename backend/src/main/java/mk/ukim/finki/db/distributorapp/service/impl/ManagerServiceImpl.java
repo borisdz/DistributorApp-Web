@@ -1,13 +1,13 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
+import mk.ukim.finki.db.distributorapp.model.dto.ManagerDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Manager;
-import mk.ukim.finki.db.distributorapp.model.entities.Warehouse;
 import mk.ukim.finki.db.distributorapp.repository.ManagerRepository;
 import mk.ukim.finki.db.distributorapp.service.ManagerService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ManagerServiceImpl implements ManagerService {
@@ -17,24 +17,58 @@ public class ManagerServiceImpl implements ManagerService {
         this.managerRepository = managerRepository;
     }
 
-    @Override
-    public List<Manager> getAllManagers() {
-        return this.managerRepository.findAll();
+    private List<ManagerDto> buildDto(List<Manager> managers) {
+        List<ManagerDto> dtos = new ArrayList<>();
+        for (Manager manager : managers) {
+            ManagerDto dto = new ManagerDto(
+                    manager.getUserId(),
+                    manager.getUsername(),
+                    manager.getUserEmail(),
+                    manager.getUserMobile(),
+                    manager.getUserImage(),
+                    manager.getWarehouse().getWarehouseId(),
+                    manager.getWarehouse().getCity().getRegion().getRegionName(),
+                    manager.getWarehouse().getCity().getCityName()
+            );
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
     @Override
-    public Optional<Manager> getManagerById(int id) {
-        return this.managerRepository.findById(id);
+    public List<ManagerDto> getAllManagers() {
+        List<Manager> managers = this.managerRepository.findAll();
+        return buildDto(managers);
     }
 
     @Override
-    public Optional<Manager> createManager(Long id, Warehouse warehouse) {
-        return this.managerRepository.create(id, warehouse.getWarehouseId());
+    public ManagerDto getManagerById(int id) {
+        Manager manager = this.managerRepository.findById(id).get();
+
+        return new ManagerDto(
+                manager.getUserId(),
+                manager.getUsername(),
+                manager.getUserEmail(),
+                manager.getUserMobile(),
+                manager.getUserImage(),
+                manager.getWarehouse().getWarehouseId(),
+                manager.getWarehouse().getCity().getRegion().getRegionName(),
+                manager.getWarehouse().getCity().getCityName()
+        );
     }
 
     @Override
-    public Optional<Manager> updateManager(Manager manager, Warehouse warehouse) {
-        return this.managerRepository.edit(manager.getUserId(), warehouse.getWarehouseId());
+    public Integer create(ManagerDto managerDto) {
+        return this.managerRepository.create(
+                managerDto.getId(),
+                managerDto.getWhId());
+    }
+
+    @Override
+    public Integer edit(ManagerDto managerDto) {
+        return this.managerRepository.edit(
+                managerDto.getId(),
+                managerDto.getWhId());
     }
 
     @Override

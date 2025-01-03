@@ -37,7 +37,7 @@ public interface ManufacturerRepository extends JpaRepository<Manufacturer, Long
             value = "insert into manufacturer(man_name, man_address, man_mobile, man_email) " +
                     "values (:name,:adr,:mob,:email)"
     )
-    Optional<Manufacturer> create(
+    Integer create(
             @NonNull @Param("name") String name,
             @NonNull @Param("adr") String address,
             @NonNull @Param("mob") String mobile,
@@ -51,7 +51,7 @@ public interface ManufacturerRepository extends JpaRepository<Manufacturer, Long
                     "set man_name=:name,man_address=:adr,man_mobile=:mob,man_email=:email " +
                     "where man_id=:id"
     )
-    Optional<Manufacturer> edit(
+    Integer edit(
             @NonNull @Param("id") Long id,
             @NonNull @Param("name") String name,
             @NonNull @Param("adr") String address,

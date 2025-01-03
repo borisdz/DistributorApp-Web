@@ -1,20 +1,19 @@
 package mk.ukim.finki.db.distributorapp.service;
 
-import mk.ukim.finki.db.distributorapp.model.entities.DeliveryStatus;
+import mk.ukim.finki.db.distributorapp.model.dto.DeliveryStatusDto;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface DeliveryStatusService {
-    List<DeliveryStatus> listDeliveryStatus();
+    List<DeliveryStatusDto> listDeliveryStatus();
 
-    Optional<DeliveryStatus> getDeliveryStatusById(Short id);
+    DeliveryStatusDto getDeliveryStatusById(Short id);
 
-    Optional<DeliveryStatus> createDeliveryStatus(String name, String description);
+    Integer create(DeliveryStatusDto deliveryStatusDto);
 
-    Optional<DeliveryStatus> updateDeliveryStatus(Short id, String name, String description);
+    Integer edit(DeliveryStatusDto deliveryStatusDto);
 
-    List<DeliveryStatus> getDeliveryStatusByName(String name);
+    List<DeliveryStatusDto> getDeliveryStatusByName(String name);
 
     void delete(Short id);
 }

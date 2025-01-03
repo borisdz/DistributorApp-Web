@@ -1,13 +1,13 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
+import mk.ukim.finki.db.distributorapp.model.dto.DriverDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Driver;
-import mk.ukim.finki.db.distributorapp.model.entities.Vehicle;
 import mk.ukim.finki.db.distributorapp.repository.DriverRepository;
 import mk.ukim.finki.db.distributorapp.service.DriverService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DriverServiceImpl implements DriverService {
@@ -17,29 +17,60 @@ public class DriverServiceImpl implements DriverService {
         this.driverRepository = driverRepository;
     }
 
-    @Override
-    public List<Driver> getAllDrivers() {
-        return this.driverRepository.listAll();
+    private List<DriverDto> buildDto(List<Driver> drivers) {
+        List<DriverDto> dtos = new ArrayList<>();
+        for (Driver driver : drivers) {
+            DriverDto dto = new DriverDto(
+                    driver.getUserId(),
+                    driver.getUsername(),
+                    driver.getUserEmail(),
+                    driver.getUserMobile(),
+                    driver.getUserImage(),
+                    driver.getVehicle().getVehicleId()
+            );
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
     @Override
-    public List<Driver> findAllByName(String name) {
-        return this.driverRepository.findAllByName(name);
+    public List<DriverDto> getAllDrivers() {
+        List<Driver> drivers = this.driverRepository.listAll();
+        return buildDto(drivers);
     }
 
     @Override
-    public Optional<Driver> findById(Long id) {
-        return this.driverRepository.findById(id);
+    public List<DriverDto> findAllByName(String name) {
+        List<Driver> drivers = this.driverRepository.findAllByName("'"+name+"'");
+        return buildDto(drivers);
     }
 
     @Override
-    public Optional<Driver> create(Long id, Vehicle vehicle) {
-        return this.driverRepository.create(id, vehicle.getVehicleId());
+    public DriverDto findById(Long id) {
+        Driver driver = this.driverRepository.findById(id).get();
+        return new DriverDto(
+                driver.getUserId(),
+                driver.getUsername(),
+                driver.getUserEmail(),
+                driver.getUserMobile(),
+                driver.getUserImage(),
+                driver.getVehicle().getVehicleId()
+        );
     }
 
     @Override
-    public Optional<Driver> edit(Long id, Vehicle vehicle) {
-        return this.driverRepository.edit(id, vehicle.getVehicleId());
+    public Integer create(DriverDto driverDto) {
+        return this.driverRepository.create(
+                driverDto.getId(),
+                driverDto.getVehId());
+    }
+
+    @Override
+    public Integer edit(DriverDto driverDto) {
+        return this.driverRepository.edit(
+                driverDto.getId(),
+                driverDto.getVehId()
+        );
     }
 
     @Override

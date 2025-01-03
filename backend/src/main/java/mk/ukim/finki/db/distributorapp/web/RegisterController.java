@@ -45,7 +45,7 @@ public class RegisterController {
             @RequestParam Long city
     ) {
         try {
-            City selectedCity = this.cityService.getCityById(city).get();
+            City selectedCity = this.cityService.getCityById(city);
             this.usersService.register(name, surname, email, password, repeatedPassword, mobile, selectedCity);
             return "redirect:/login";
         } catch (InvalidArgumentsException exception) {

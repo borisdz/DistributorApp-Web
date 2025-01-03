@@ -46,7 +46,7 @@ public interface ArticleUnitRepository extends JpaRepository<ArticleUnit, Long> 
             value = "insert into article_unit(unit_expiration_date, unit_serial_number, unit_batch_number, unit_manufacture_date, unit_cost_price, art_id, wh_id, ord_id) " +
                     "values (?1,?2,?3,?4,?5,?6,?7,?8)"
     )
-    Optional<ArticleUnit> create(
+    Integer create(
             @NonNull @Param("exp_date") Date unit_exp_date,
             @NonNull @Param("ser_no") String unit_ser_number,
             @NonNull @Param("batch_no") String unit_batch_number,
@@ -65,7 +65,7 @@ public interface ArticleUnitRepository extends JpaRepository<ArticleUnit, Long> 
                     "set unit_expiration_date=?2, unit_serial_number=?3, unit_batch_number=?4,unit_manufacture_date=?5,unit_cost_price=?6,art_id=?7,wh_id=?8,ord_id=?9 " +
                     "where unit_id=?1"
     )
-    Optional<ArticleUnit> edit(
+    Integer edit(
             @NonNull @Param("id") Long id,
             @NonNull @Param("exp_date") Date unit_exp_date,
             @NonNull @Param("ser_no") String unit_ser_number,

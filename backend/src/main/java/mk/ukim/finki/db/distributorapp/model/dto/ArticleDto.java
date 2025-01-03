@@ -4,14 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class ArticleDto {
-    Long id;
-    String name;
-    String manufacturer;
-    String category;
-    Integer weight;
-    String image;
+    private Long id;
+    private String name;
+    private String manufacturer;
+    private Long manufacturerId;
+    private BigDecimal price;
+    private String category;
+    private Long categoryId;
+    private Integer weight;
+    private String image;
 }

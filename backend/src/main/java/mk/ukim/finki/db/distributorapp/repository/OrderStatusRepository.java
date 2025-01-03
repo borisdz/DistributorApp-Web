@@ -37,7 +37,7 @@ public interface OrderStatusRepository extends JpaRepository<OrderStatus, Short>
             value = "insert into order_status(ord_status_name, ord_status_desc) " +
                     "values (?1,?2)"
     )
-    Optional<OrderStatus> create(@NonNull String name, @NonNull String description);
+    Integer create(@NonNull String name, @NonNull String description);
 
     @Modifying
     @Transactional
@@ -47,7 +47,7 @@ public interface OrderStatusRepository extends JpaRepository<OrderStatus, Short>
                     "set ord_status_name=?2,ord_status_desc=?3 " +
                     "where ord_status_id=?1"
     )
-    Optional<OrderStatus> edit(@NonNull Short id, @NonNull String name, @NonNull String description);
+    Integer edit(@NonNull Short id, @NonNull String name, @NonNull String description);
 
     @Modifying
     @Transactional

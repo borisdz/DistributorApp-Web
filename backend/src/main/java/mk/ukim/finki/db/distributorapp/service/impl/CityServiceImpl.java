@@ -1,13 +1,13 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
+import mk.ukim.finki.db.distributorapp.model.dto.CityDto;
 import mk.ukim.finki.db.distributorapp.model.entities.City;
-import mk.ukim.finki.db.distributorapp.model.entities.Region;
 import mk.ukim.finki.db.distributorapp.repository.CityRepository;
 import mk.ukim.finki.db.distributorapp.service.CityService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CityServiceImpl implements CityService {
@@ -17,24 +17,46 @@ public class CityServiceImpl implements CityService {
         this.cityRepository = cityRepository;
     }
 
-    @Override
-    public List<City> listCities() {
-        return this.cityRepository.listAll();
+    private List<CityDto> buildDto(List<City> cities) {
+        List<CityDto> dtos = new ArrayList<>();
+        for (City city : cities) {
+            CityDto dto = new CityDto(
+                    city.getCityId(),
+                    city.getCityName(),
+                    city.getRegion().getRegionId(),
+                    city.getRegion().getRegionName()
+            );
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
     @Override
-    public Optional<City> getCityById(Long id) {
-        return this.cityRepository.findById(id);
+    public List<CityDto> listCities() {
+        List<City> cities = cityRepository.listAll();
+        return buildDto(cities);
     }
 
     @Override
-    public Optional<City> create(String name, Region region) {
-        return this.cityRepository.create(name, region.getRegionId());
+    public CityDto getCityById(Long id) {
+        City city = cityRepository.findById(id).orElse(null);
+
+        return new CityDto(
+                city.getCityId(),
+                city.getCityName(),
+                city.getRegion().getRegionId(),
+                city.getRegion().getRegionName()
+        );
     }
 
     @Override
-    public Optional<City> edit(Long id, String name, Region region) {
-        return this.cityRepository.edit(id, name, region.getRegionId());
+    public Integer create(CityDto dto) {
+        return this.cityRepository.create(dto.getName(), dto.getRegionId());
+    }
+
+    @Override
+    public Integer edit(CityDto dto) {
+        return this.cityRepository.edit(dto.getId(), dto.getName(), dto.getRegionId());
     }
 
     @Override
@@ -43,7 +65,8 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public List<City> searchCities(String text) {
-        return this.cityRepository.findByName(text);
+    public List<CityDto> searchCities(String text) {
+        List<City> cities = this.cityRepository.findByName("'" + text + "'");
+        return buildDto(cities);
     }
 }

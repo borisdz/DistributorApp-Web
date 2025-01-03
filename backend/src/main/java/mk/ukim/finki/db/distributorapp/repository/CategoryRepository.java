@@ -41,7 +41,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
                     "values (:name)",
             nativeQuery = true
     )
-    Optional<Category> create(@NonNull @Param("name") String name);
+    Integer create(@NonNull @Param("name") String name);
 
     @Modifying
     @Transactional
@@ -51,8 +51,8 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
                     "set ctg_name=:name " +
                     "where ctg_id=:id"
     )
-    Optional<Category> edit(@NonNull @Param("id") Long id,
-                            @NonNull @Param("name") String name);
+    Integer edit(@NonNull @Param("id") Long id,
+                 @NonNull @Param("name") String name);
 
     @Modifying
     @Transactional

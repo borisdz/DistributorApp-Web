@@ -1,45 +1,22 @@
 package mk.ukim.finki.db.distributorapp.service;
 
-import mk.ukim.finki.db.distributorapp.model.entities.Article;
-import mk.ukim.finki.db.distributorapp.model.entities.ArticleUnit;
-import mk.ukim.finki.db.distributorapp.model.entities.Orders;
+import mk.ukim.finki.db.distributorapp.model.dto.ArticleUnitDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Warehouse;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 public interface ArticleUnitService {
-    List<ArticleUnit> getAllArticleUnits();
+    List<ArticleUnitDto> getAllArticleUnits();
 
-    List<ArticleUnit> findALlByName(String name);
+    List<ArticleUnitDto> findALlByName(String name);
 
-    List<ArticleUnit> findAllByWarehouse(Warehouse warehouse);
+    List<ArticleUnitDto> findAllByWarehouse(Warehouse warehouse);
 
-    Optional<ArticleUnit> findById(Long id);
+    ArticleUnitDto findById(Long id);
 
-    Optional<ArticleUnit> create(
-            Date unit_exp_date,
-            String unit_ser_number,
-            String unit_batch_number,
-            Date unit_manufacture_date,
-            Double unit_cost_price,
-            Article article,
-            Warehouse warehouse,
-            Orders order
-    );
+    Integer create(ArticleUnitDto articleUnitDto);
 
-    Optional<ArticleUnit> edit(
-            Long id,
-            Date unit_exp_date,
-            String unit_ser_number,
-            String unit_batch_number,
-            Date unit_manufacture_date,
-            Double unit_cost_price,
-            Article article,
-            Warehouse warehouse,
-            Orders order
-    );
+    Integer edit(ArticleUnitDto articleUnitDto);
 
     void delete(Long id);
 }

@@ -37,7 +37,7 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Integer> {
             value = "insert into warehouse(wh_address, city_id) " +
                     "values (:adr,:cty)"
     )
-    Optional<Warehouse> create(
+    Integer create(
             @NonNull @Param("adr") String whAddress,
             @NonNull @Param("cty") Long city);
 
@@ -49,8 +49,8 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Integer> {
                     "set wh_address=:adr,city_id=:cty " +
                     "where wh_id=:id"
     )
-    Optional<Warehouse> edit(
-            @NonNull @Param("id") Long id,
+    Integer edit(
+            @NonNull @Param("id") Integer id,
             @NonNull @Param("adr") String whAddress,
             @NonNull @Param("cty") Long city);
 
@@ -60,5 +60,5 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Integer> {
             nativeQuery = true,
             value = "delete from warehouse where wh_id=:id"
     )
-    void delete(@NonNull @Param("id") Long id);
+    void delete(@NonNull @Param("id") Integer id);
 }

@@ -39,7 +39,7 @@ public interface PriceRepository extends JpaRepository<Price, Integer> {
             value = "insert into price(price, price_eff_date, art_id) " +
                     "values (:price,:effD,:art)"
     )
-    Optional<Price> create(
+    Integer create(
             @NonNull @Param("price") BigDecimal price,
             @NonNull @Param("effD") LocalDateTime price_eff_date,
             @NonNull @Param("art") Long art_id);
@@ -52,7 +52,7 @@ public interface PriceRepository extends JpaRepository<Price, Integer> {
                     "set price=:price,price_eff_date=:effD,art_id=:art " +
                     "where price_id=:id"
     )
-    Optional<Price> edit(
+    Integer edit(
             @NonNull @Param("id") Integer id,
             @NonNull @Param("price") BigDecimal price,
             @NonNull @Param("effD") LocalDateTime price_eff_date,

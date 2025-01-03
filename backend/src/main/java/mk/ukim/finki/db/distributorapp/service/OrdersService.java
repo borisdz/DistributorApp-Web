@@ -1,45 +1,20 @@
 package mk.ukim.finki.db.distributorapp.service;
 
+import mk.ukim.finki.db.distributorapp.model.dto.OrdersDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Customer;
-import mk.ukim.finki.db.distributorapp.model.entities.Delivery;
-import mk.ukim.finki.db.distributorapp.model.entities.Orders;
-import mk.ukim.finki.db.distributorapp.model.entities.ProForma;
-import mk.ukim.finki.db.distributorapp.model.entities.OrderStatus;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 public interface OrdersService {
-    List<Orders> getAllOrders();
+    List<OrdersDto> getAllOrders();
 
-    List<Orders> findOrdersByCustomer(Customer customer);
+    List<OrdersDto> findOrdersByCustomer(Customer customer);
 
-    Optional<Orders> findById(Long id);
+    OrdersDto findById(Long id);
 
-    Optional<Orders> create(
-            LocalDate ord_date,
-            Integer ord_sum,
-            LocalDateTime ord_fulfillment_date,
-            String ord_comment,
-            OrderStatus ord_status,
-            Customer customer,
-            Delivery delivery,
-            ProForma proForma
-    );
+    Integer create(OrdersDto ordersDto);
 
-    Optional<Orders> edit(
-            Long id,
-            LocalDate ord_date,
-            Integer ord_sum,
-            LocalDateTime ord_fulfillment_date,
-            String ord_comment,
-            OrderStatus ord_status,
-            Customer customer,
-            Delivery delivery,
-            ProForma proForma
-    );
+    Integer edit(OrdersDto ordersDto);
 
     void deleteById(Long id);
 }

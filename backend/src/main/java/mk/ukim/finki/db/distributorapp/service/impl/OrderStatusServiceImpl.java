@@ -1,12 +1,13 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
+import mk.ukim.finki.db.distributorapp.model.dto.OrderStatusDto;
 import mk.ukim.finki.db.distributorapp.model.entities.OrderStatus;
 import mk.ukim.finki.db.distributorapp.repository.OrderStatusRepository;
 import mk.ukim.finki.db.distributorapp.service.OrderStatusService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class OrderStatusServiceImpl implements OrderStatusService {
@@ -16,30 +17,57 @@ public class OrderStatusServiceImpl implements OrderStatusService {
         this.orderStatusRepository = orderStatusRepository;
     }
 
-
-    @Override
-    public List<OrderStatus> listOrderStatus() {
-        return this.orderStatusRepository.findAll();
+    private List<OrderStatusDto> buildDto(List<OrderStatus> orderStatuses) {
+        List<OrderStatusDto> dtos = new ArrayList<>();
+        for (OrderStatus orderStatus : orderStatuses) {
+            OrderStatusDto dto = new OrderStatusDto(
+                    orderStatus.getOrderStatusId(),
+                    orderStatus.getOrderStatusName(),
+                    orderStatus.getOrderStatusDescription()
+            );
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
     @Override
-    public Optional<OrderStatus> getOrderStatusById(Short id) {
-        return this.orderStatusRepository.findById(id);
+    public List<OrderStatusDto> listOrderStatus() {
+        List<OrderStatus> orderStatuses = this.orderStatusRepository.findAll();
+        return buildDto(orderStatuses);
     }
 
     @Override
-    public Optional<OrderStatus> createOrderStatus(String name, String description) {
-        return this.orderStatusRepository.create(name, description);
+    public OrderStatusDto getOrderStatusById(Short id) {
+        OrderStatus orderStatus = this.orderStatusRepository.findById(id).get();
+
+        return new OrderStatusDto(
+                orderStatus.getOrderStatusId(),
+                orderStatus.getOrderStatusName(),
+                orderStatus.getOrderStatusDescription()
+        );
     }
 
     @Override
-    public Optional<OrderStatus> updateOrderStatus(Short id, String name, String description) {
-        return this.orderStatusRepository.edit(id, name, description);
+    public Integer create(OrderStatusDto orderStatusDto) {
+        return this.orderStatusRepository.create(
+                orderStatusDto.getStatusName(),
+                orderStatusDto.getStatusDescription()
+        );
     }
 
     @Override
-    public List<OrderStatus> getOrderStatusByName(String name) {
-        return this.orderStatusRepository.findAllByName(name);
+    public Integer edit(OrderStatusDto orderStatusDto) {
+        return this.orderStatusRepository.edit(
+                orderStatusDto.getId(),
+                orderStatusDto.getStatusName(),
+                orderStatusDto.getStatusDescription()
+        );
+    }
+
+    @Override
+    public List<OrderStatusDto> getOrderStatusByName(String name) {
+        List<OrderStatus> orderStatuses = this.orderStatusRepository.findAllByName("'" + name + "'");
+        return buildDto(orderStatuses);
     }
 
     @Override

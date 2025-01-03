@@ -1,12 +1,13 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
+import mk.ukim.finki.db.distributorapp.model.dto.DeliveryStatusDto;
 import mk.ukim.finki.db.distributorapp.model.entities.DeliveryStatus;
 import mk.ukim.finki.db.distributorapp.repository.DeliveryStatusRepository;
 import mk.ukim.finki.db.distributorapp.service.DeliveryStatusService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DeliveryStatusServiceImpl implements DeliveryStatusService {
@@ -16,29 +17,54 @@ public class DeliveryStatusServiceImpl implements DeliveryStatusService {
         this.deliveryStatusRepository = deliveryStatusRepository;
     }
 
-    @Override
-    public List<DeliveryStatus> listDeliveryStatus() {
-        return this.deliveryStatusRepository.findAll();
+    private List<DeliveryStatusDto> buildDto(List<DeliveryStatus> deliveryStatuses) {
+        List<DeliveryStatusDto> dtos = new ArrayList<>();
+        for (DeliveryStatus deliveryStatus : deliveryStatuses) {
+            DeliveryStatusDto dto = new DeliveryStatusDto(
+                    deliveryStatus.getDeliveryStatusId(),
+                    deliveryStatus.getDeliveryStatusName(),
+                    deliveryStatus.getDeliveryStatusDescription()
+            );
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
     @Override
-    public Optional<DeliveryStatus> getDeliveryStatusById(Short id) {
-        return this.deliveryStatusRepository.findById(id);
+    public List<DeliveryStatusDto> listDeliveryStatus() {
+        List<DeliveryStatus> deliveryStatuses = this.deliveryStatusRepository.findAll();
+        return buildDto(deliveryStatuses);
     }
 
     @Override
-    public Optional<DeliveryStatus> createDeliveryStatus(String name, String description) {
-        return this.deliveryStatusRepository.create(name, description);
+    public DeliveryStatusDto getDeliveryStatusById(Short id) {
+        DeliveryStatus deliveryStatus = this.deliveryStatusRepository.findById(id).get();
+        return new DeliveryStatusDto(
+                deliveryStatus.getDeliveryStatusId(),
+                deliveryStatus.getDeliveryStatusName(),
+                deliveryStatus.getDeliveryStatusDescription()
+        );
     }
 
     @Override
-    public Optional<DeliveryStatus> updateDeliveryStatus(Short id, String name, String description) {
-        return this.deliveryStatusRepository.edit(id, name, description);
+    public Integer create(DeliveryStatusDto deliveryStatusDto) {
+        return this.deliveryStatusRepository.create(
+                deliveryStatusDto.getStatusName(),
+                deliveryStatusDto.getStatusDescription());
     }
 
     @Override
-    public List<DeliveryStatus> getDeliveryStatusByName(String name) {
-        return this.deliveryStatusRepository.findAllByName(name);
+    public Integer edit(DeliveryStatusDto deliveryStatusDto) {
+        return this.deliveryStatusRepository.edit(
+                deliveryStatusDto.getId(),
+                deliveryStatusDto.getStatusName(),
+                deliveryStatusDto.getStatusDescription());
+    }
+
+    @Override
+    public List<DeliveryStatusDto> getDeliveryStatusByName(String name) {
+        List<DeliveryStatus> deliveryStatuses = this.deliveryStatusRepository.findAllByName(name);
+        return buildDto(deliveryStatuses);
     }
 
     @Override

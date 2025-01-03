@@ -1,24 +1,20 @@
 package mk.ukim.finki.db.distributorapp.service;
 
-import mk.ukim.finki.db.distributorapp.model.entities.Customer;
+import mk.ukim.finki.db.distributorapp.model.dto.CustomerDto;
 
-import java.time.LocalTime;
 import java.util.List;
-import java.util.Optional;
 
 public interface CustomerService {
 
-    List<Customer> findAllCustomers();
+    List<CustomerDto> findAllCustomers();
 
-    List<Customer> findCustomerByName(String name);
+    List<CustomerDto> findCustomerByName(String name);
 
-    Optional<Customer> findCustomerById(Long id);
+    CustomerDto findCustomerById(Long id);
 
-    Optional<Customer> create(Long userId, String customerEDB, String customerName,
-                              String customerStreet, LocalTime openTime, LocalTime closeTime, String customerImage);
+    Integer create(CustomerDto customerDto);
 
-    Optional<Customer> edit(Long id, String customerEDB, String customerName,
-                            String customerStreet, LocalTime openTime, LocalTime closeTime, String customerImage);
+    Integer edit(CustomerDto customerDto);
 
     void delete(Long id);
 }

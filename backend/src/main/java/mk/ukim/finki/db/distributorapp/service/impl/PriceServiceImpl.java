@@ -1,15 +1,14 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
+import mk.ukim.finki.db.distributorapp.model.dto.PriceDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Article;
 import mk.ukim.finki.db.distributorapp.model.entities.Price;
 import mk.ukim.finki.db.distributorapp.repository.PriceRepository;
 import mk.ukim.finki.db.distributorapp.service.PriceService;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PriceServiceImpl implements PriceService {
@@ -19,28 +18,50 @@ public class PriceServiceImpl implements PriceService {
         this.priceRepository = priceRepository;
     }
 
-    @Override
-    public List<Price> getAllPrices() {
-        return this.priceRepository.listAll();
+    private List<PriceDto> buildDto(List<Price> prices) {
+        List<PriceDto> dtos = new ArrayList<>();
+        for (Price price : prices) {
+            PriceDto dto = new PriceDto(
+                    price.getPriceId(),
+                    price.getPrice(),
+                    price.getPriceEffectiveDate(),
+                    price.getArticle().getArticleId(),
+                    price.getArticle().getArticleName()
+            );
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
     @Override
-    public List<Price> findAllPricesByArticleId(Article article) {
-        return this.priceRepository.findAllByArticleId(article.getArticleId());
+    public List<PriceDto> getAllPrices() {
+        List<Price> prices = this.priceRepository.listAll();
+        return buildDto(prices);
     }
 
     @Override
-    public Optional<Price> create(BigDecimal price, LocalDateTime price_eff_date, Article article) {
-        return this.priceRepository.create(price, price_eff_date, article.getArticleId());
+    public List<PriceDto> findAllPricesByArticleId(Article article) {
+        List<Price> prices = this.priceRepository.findAllByArticleId(article.getArticleId());
+        return buildDto(prices);
     }
 
     @Override
-    public Optional<Price> edit(Integer id, BigDecimal price, LocalDateTime price_eff_date, Article article) {
+    public Integer create(PriceDto priceDto) {
+        return this.priceRepository.create(
+                priceDto.getPrice(),
+                priceDto.getDateEffective(),
+                priceDto.getArtId()
+        );
+    }
+
+    @Override
+    public Integer edit(PriceDto priceDto) {
         return this.priceRepository.edit(
-                id,
-                price,
-                price_eff_date,
-                article.getArticleId());
+                priceDto.getId(),
+                priceDto.getPrice(),
+                priceDto.getDateEffective(),
+                priceDto.getArtId()
+        );
     }
 
     @Override

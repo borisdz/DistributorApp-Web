@@ -1,20 +1,19 @@
 package mk.ukim.finki.db.distributorapp.service;
 
-import mk.ukim.finki.db.distributorapp.model.entities.OrderStatus;
+import mk.ukim.finki.db.distributorapp.model.dto.OrderStatusDto;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface OrderStatusService {
-    List<OrderStatus> listOrderStatus();
+    List<OrderStatusDto> listOrderStatus();
 
-    Optional<OrderStatus> getOrderStatusById(Short id);
+    OrderStatusDto  getOrderStatusById(Short id);
 
-    Optional<OrderStatus> createOrderStatus(String name, String description);
+    Integer create(OrderStatusDto orderStatusDto);
 
-    Optional<OrderStatus> updateOrderStatus(Short id, String name, String description);
+    Integer edit(OrderStatusDto orderStatusDto);
 
-    List<OrderStatus> getOrderStatusByName(String name);
+    List<OrderStatusDto> getOrderStatusByName(String name);
 
     void delete(Short id);
 }

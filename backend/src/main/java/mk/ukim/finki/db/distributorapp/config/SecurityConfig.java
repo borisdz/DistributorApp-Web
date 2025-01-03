@@ -26,7 +26,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth-> auth
+                .authorizeHttpRequests(auth -> auth
                         .anyRequest().permitAll()
                 )
                 .formLogin(AbstractHttpConfigurer::disable)
@@ -36,47 +36,44 @@ public class SecurityConfig {
     }
 
 
-
     // FOR PRODUCTION:
+
     /**
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeHttpRequests(authorize -> authorize
-//                        .requestMatchers("/login","/register").permitAll()
-//                        .anyRequest().authenticated()
-//                )
-//                .formLogin(form -> form
-//                        .loginPage("/login")
-//                        .permitAll()
-//                )
-//                .logout(LogoutConfigurer::permitAll);
-
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/register", "/login", "/css/**", "/js/**").permitAll()
-                        .requestMatchers("/manager/**").hasAuthority("Manager")
-                        .requestMatchers("/driver/**").hasAuthority("Driver")
-                        .requestMatchers("/customer/**").hasAuthority("Customer")
-                        .anyRequest().authenticated()
-                )
-                .formLogin(login -> login
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/home", true)
-                        .permitAll()
-                )
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login")
-                        .permitAll()
-                );
-
-        return http.build();
-    }
-
+     * @Bean public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+     * //        http
+     * //                .authorizeHttpRequests(authorize -> authorize
+     * //                        .requestMatchers("/login","/register").permitAll()
+     * //                        .anyRequest().authenticated()
+     * //                )
+     * //                .formLogin(form -> form
+     * //                        .loginPage("/login")
+     * //                        .permitAll()
+     * //                )
+     * //                .logout(LogoutConfigurer::permitAll);
+     * <p>
+     * http
+     * .csrf(AbstractHttpConfigurer::disable)
+     * .authorizeHttpRequests(auth -> auth
+     * .requestMatchers("/register", "/login", "/css/**", "/js/**").permitAll()
+     * .requestMatchers("/manager/**").hasAuthority("Manager")
+     * .requestMatchers("/driver/**").hasAuthority("Driver")
+     * .requestMatchers("/customer/**").hasAuthority("Customer")
+     * .anyRequest().authenticated()
+     * )
+     * .formLogin(login -> login
+     * .loginPage("/login")
+     * .defaultSuccessUrl("/home", true)
+     * .permitAll()
+     * )
+     * .logout(logout -> logout
+     * .logoutUrl("/logout")
+     * .logoutSuccessUrl("/login")
+     * .permitAll()
+     * );
+     * <p>
+     * return http.build();
+     * }
      **/
-
 
 
     @Bean

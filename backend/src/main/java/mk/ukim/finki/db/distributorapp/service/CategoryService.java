@@ -8,17 +8,15 @@ import java.util.Optional;
 
 public interface CategoryService {
 
-    List<Category> listCategories();
-
-    List<CategoryDto> listCategoriesDto();
+    List<CategoryDto> listCategories();
 
     Optional<Category> getCategoryById(Long id);
 
-    Optional<Category> createCategory(String name);
+    Integer create(CategoryDto categoryDto);
 
-    Optional<Category> updateCategory(Long id, String name);
+    Integer update(CategoryDto categoryDto);
 
     void delete(Long id);
 
-    List<Category> searchCategories(String text);
+    List<CategoryDto> searchCategories(String text);
 }

@@ -1,12 +1,13 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
+import mk.ukim.finki.db.distributorapp.model.dto.RegionDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Region;
 import mk.ukim.finki.db.distributorapp.repository.RegionRepository;
 import mk.ukim.finki.db.distributorapp.service.RegionService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RegionServiceImpl implements RegionService {
@@ -17,29 +18,52 @@ public class RegionServiceImpl implements RegionService {
         this.regionRepository = regionRepository;
     }
 
-    @Override
-    public List<Region> listRegions() {
-        return this.regionRepository.listAll();
+    private List<RegionDto> buildDto(List<Region> regions) {
+        List<RegionDto> dtos = new ArrayList<>();
+        for (Region region : regions) {
+            RegionDto dto = new RegionDto(
+                    region.getRegionId(),
+                    region.getRegionName()
+            );
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
     @Override
-    public Optional<Region> getRegionById(Integer id) {
-        return this.regionRepository.findById(id);
+    public List<RegionDto> listRegions() {
+        List<Region> regions = this.regionRepository.listAll();
+        return buildDto(regions);
     }
 
     @Override
-    public List<Region> searchRegions(String name) {
-        return this.regionRepository.findByName("'"+name+"'");
+    public RegionDto getRegionById(Integer id) {
+        Region region = this.regionRepository.findById(id).get();
+        return new RegionDto(
+                region.getRegionId(),
+                region.getRegionName()
+        );
     }
 
     @Override
-    public Optional<Region> createRegion(String name) {
-        return this.regionRepository.create(name);
+    public List<RegionDto> searchRegions(String name) {
+        List<Region> regions = this.regionRepository.findByName("'" + name + "'");
+        return buildDto(regions);
     }
 
     @Override
-    public Optional<Region> edit(Integer id, String name) {
-        return this.regionRepository.edit(id, name);
+    public Integer create(RegionDto regionDto) {
+        return this.regionRepository.create(
+                regionDto.getName()
+        );
+    }
+
+    @Override
+    public Integer edit(RegionDto regionDto) {
+        return this.regionRepository.edit(
+                regionDto.getId(),
+                regionDto.getName()
+        );
     }
 
     @Override

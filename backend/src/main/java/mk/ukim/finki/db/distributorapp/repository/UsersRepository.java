@@ -37,7 +37,7 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
             value = "insert into users(user_name, user_surname, user_pass, user_salt, user_email, user_mobile, user_email_conf, user_image, city_id) " +
                     "values (:name,:sur,:pass,:salt,:email,:mob,:active,:img,:cty)"
     )
-    Users create(
+    Integer create(
             @NonNull @Param("name") String name,
             @NonNull @Param("sur") String surname,
             @NonNull @Param("pass") String password,
@@ -56,7 +56,7 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
                     "set user_name=:name,user_surname=:sur,user_pass=:pass,user_email=:email,user_mobile=:mob,user_salt=:salt,user_email_conf=:active,user_image=:img,city_id=:cty " +
                     "where user_id=:id"
     )
-    Optional<Users> edit(
+    Integer edit(
             @NonNull @Param("id") Long id,
             @NonNull @Param("name") String name,
             @NonNull @Param("sur") String surname,

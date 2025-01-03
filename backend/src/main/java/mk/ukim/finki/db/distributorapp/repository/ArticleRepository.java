@@ -42,7 +42,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
             value = "insert into article(art_name, art_image, art_weight, ctg_id, man_id) " +
                     "values (?1,?2,?3,?4,?5)"
     )
-    Optional<Article> create(
+    Integer create(
             @NonNull @Param("name") String name,
             @NonNull @Param("image") String image,
             @NonNull @Param("weight") Integer weight,
@@ -57,7 +57,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
                     "set art_name=?2,art_image=?3,art_weight=?4,ctg_id=?5,man_id=?6 " +
                     "where art_id=?1"
     )
-    Optional<Article> edit(
+    Integer edit(
             @NonNull @Param("id") Long id,
             @NonNull @Param("name") String name,
             @NonNull @Param("img") String image,

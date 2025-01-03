@@ -37,7 +37,7 @@ public interface DeliveryStatusRepository extends JpaRepository<DeliveryStatus, 
             value = "insert into delivery_status(del_status_name, del_status_desc) " +
                     "values (?1,?2)"
     )
-    Optional<DeliveryStatus> create(@NonNull String name, @NonNull String description);
+    Integer create(@NonNull String name, @NonNull String description);
 
     @Modifying
     @Transactional
@@ -47,7 +47,7 @@ public interface DeliveryStatusRepository extends JpaRepository<DeliveryStatus, 
                     "set del_status_name=?2,del_status_desc=?3 " +
                     "where del_status_id=?1"
     )
-    Optional<DeliveryStatus> edit(@NonNull Short id, @NonNull String name, @NonNull String description);
+    Integer edit(@NonNull Short id, @NonNull String name, @NonNull String description);
 
     @Modifying
     @Transactional

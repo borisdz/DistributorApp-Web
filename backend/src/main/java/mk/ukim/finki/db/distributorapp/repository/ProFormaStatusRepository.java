@@ -37,7 +37,7 @@ public interface ProFormaStatusRepository extends JpaRepository<ProFormaStatus, 
             value = "insert into pro_forma_status(pf_status_name, pf_status_desc) " +
                     "values (?1,?2)"
     )
-    Optional<ProFormaStatus> create(@NonNull String name, @NonNull String description);
+    Integer create(@NonNull String name, @NonNull String description);
 
     @Modifying
     @Transactional
@@ -47,7 +47,7 @@ public interface ProFormaStatusRepository extends JpaRepository<ProFormaStatus, 
                     "set pf_status_name=?2,pf_status_desc=?3 " +
                     "where pf_status_id=?1"
     )
-    Optional<ProFormaStatus> edit(@NonNull Short id, @NonNull String name, @NonNull String description);
+    Integer edit(@NonNull Short id, @NonNull String name, @NonNull String description);
 
     @Modifying
     @Transactional

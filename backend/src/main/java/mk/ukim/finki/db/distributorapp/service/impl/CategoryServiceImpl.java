@@ -6,6 +6,7 @@ import mk.ukim.finki.db.distributorapp.repository.CategoryRepository;
 import mk.ukim.finki.db.distributorapp.service.CategoryService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,22 +19,26 @@ public class CategoryServiceImpl implements CategoryService {
 
     }
 
+    private List<CategoryDto> buildDto(List<Category> categories) {
+        List<CategoryDto> dtos = new ArrayList<>();
+        for (Category category : categories) {
+            CategoryDto dto = new CategoryDto(
+                    category.getCategoryId(),
+                    category.getCategoryName()
+            );
+            dtos.add(dto);
+        }
+        return dtos;
+    }
+
     private boolean categoryInvalid(String name) {
         return name == null || name.isEmpty();
     }
 
     @Override
-    public List<Category> listCategories() {
-        return this.categoryRepository.listAll();
-    }
-
-    @Override
-    public List<CategoryDto> listCategoriesDto() {
+    public List<CategoryDto> listCategories() {
         List<Category> categories = this.categoryRepository.listAll();
-        return categories.stream().map(cat->new CategoryDto(
-                cat.getCategoryId(),
-                cat.getCategoryName()
-        )).toList();
+        return buildDto(categories);
     }
 
     @Override
@@ -42,16 +47,13 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Optional<Category> createCategory(String name) {
-        if (categoryInvalid(name)) {
-            throw new IllegalArgumentException();
-        }
-        return this.categoryRepository.create(name);
+    public Integer create(CategoryDto categoryDto) {
+        return this.categoryRepository.create(categoryDto.getName());
     }
 
     @Override
-    public Optional<Category> updateCategory(Long id, String name) {
-        return this.categoryRepository.edit(id, name);
+    public Integer update(CategoryDto categoryDto) {
+        return this.categoryRepository.edit(categoryDto.getId(), categoryDto.getName());
     }
 
     @Override
@@ -60,7 +62,8 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Category> searchCategories(String text) {
-        return List.of();
+    public List<CategoryDto> searchCategories(String text) {
+        List<Category> categories = this.categoryRepository.findAllByName("'"+text+"'");
+        return buildDto(categories);
     }
 }

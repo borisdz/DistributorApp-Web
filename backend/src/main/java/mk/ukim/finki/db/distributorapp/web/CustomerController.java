@@ -1,14 +1,15 @@
 package mk.ukim.finki.db.distributorapp.web;
 
-import mk.ukim.finki.db.distributorapp.model.entities.Customer;
+import mk.ukim.finki.db.distributorapp.model.dto.CustomerDto;
 import mk.ukim.finki.db.distributorapp.service.CustomerService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/customer")
+@RequestMapping("/customer")
 public class CustomerController {
 
     private final CustomerService customerService;
@@ -18,48 +19,22 @@ public class CustomerController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<Customer>> getAllCustomers() {
-        List<Customer> customers = this.customerService.findAllCustomers();
-        return ResponseEntity.ok(customers);
+    public ResponseEntity<List<CustomerDto>> getAllCustomers() {
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/find/{id}")
-    public ResponseEntity<Customer> getCustomer(@PathVariable Long id) {
-        Customer c = this.customerService.findCustomerById(id).get();
-        return ResponseEntity.ok(c);
-    }
-
-    @PostMapping("/add")
-    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
-        Customer newCustomer = this.customerService.create(
-                customer.getUserId(),
-                customer.getCustomerEDB(),
-                customer.getCustomerCompanyName(),
-                customer.getCustomerAddress(),
-                customer.getCustomerOpenTime(),
-                customer.getCustomerCloseTime(),
-                customer.getCustomerRepresentativeImage()).get();
-
-        return ResponseEntity.ok(newCustomer);
+    @PutMapping("/add")
+    public ResponseEntity<CustomerDto> addCustomer(@RequestBody CustomerDto customerDto) {
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<Customer> updateCustomer(@RequestBody Customer customer) {
-        Customer updateCustomer = this.customerService.edit(
-                customer.getUserId(),
-                customer.getCustomerEDB(),
-                customer.getCustomerCompanyName(),
-                customer.getCustomerAddress(),
-                customer.getCustomerOpenTime(),
-                customer.getCustomerCloseTime(),
-                customer.getCustomerRepresentativeImage()).get();
-
-        return ResponseEntity.ok(updateCustomer);
+    public ResponseEntity<CustomerDto> editCustomer(@RequestBody CustomerDto customerDto) {
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Customer> deleteCustomer(@PathVariable Long id) {
-        this.customerService.delete(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<CustomerDto> deleteCustomer(@PathVariable Long id) {
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

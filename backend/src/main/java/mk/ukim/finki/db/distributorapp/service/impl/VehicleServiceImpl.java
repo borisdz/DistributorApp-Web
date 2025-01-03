@@ -1,14 +1,14 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
+import mk.ukim.finki.db.distributorapp.model.dto.VehicleDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Vehicle;
 import mk.ukim.finki.db.distributorapp.model.entities.Warehouse;
 import mk.ukim.finki.db.distributorapp.repository.VehicleRepository;
 import mk.ukim.finki.db.distributorapp.service.VehicleService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class VehicleServiceImpl implements VehicleService {
@@ -18,33 +18,78 @@ public class VehicleServiceImpl implements VehicleService {
         this.vehicleRepository = vehicleRepository;
     }
 
-    @Override
-    public List<Vehicle> getAllVehicles() {
-        return this.vehicleRepository.listAll();
+    private VehicleDto buildDto(Vehicle veh) {
+        return new VehicleDto(
+                veh.getVehicleId(),
+                veh.getVehicleCarryWeight(),
+                veh.getVehicleServiceInterval(),
+                veh.getVehicleKilometers(),
+                veh.getVehicleLastService(),
+                veh.getVehicleLastServiceKm(),
+                veh.getVehiclePlate(),
+                veh.getVehicleVin(),
+                veh.getVehicleRegDate(),
+                veh.getWarehouse().getWarehouseId(),
+                veh.getWarehouse().getCity().getCityName(),
+                veh.getWarehouse().getCity().getRegion().getRegionName(),
+                veh.getDriver().getUserId(),
+                veh.getDriver().getUsername(),
+                veh.getDriver().getUserEmail(),
+                veh.getDriver().getUserMobile(),
+                veh.getDriver().getUserImage()
+        );
+    }
+
+    private List<VehicleDto> buildDtoList(List<Vehicle> vehicles) {
+        List<VehicleDto> dtos = new ArrayList<>();
+        for (Vehicle veh : vehicles) {
+            VehicleDto dto = buildDto(veh);
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
     @Override
-    public List<Vehicle> getVehiclesByWarehouse(Warehouse warehouse) {
-        return this.vehicleRepository.findAllByWarehouse(warehouse.getWarehouseId());
+    public List<VehicleDto> getAllVehicles() {
+        List<Vehicle> vehicles = this.vehicleRepository.listAll();
+        return buildDtoList(vehicles);
     }
 
     @Override
-    public Optional<Vehicle> createVehicle(Integer vehicleCarryWeight, Short vehicleServiceInterval, Integer vehicleKilometers,
-                                           LocalDate vehicleLastService, Integer vehicleLastServiceKm, String vehiclePlate,
-                                           String vehicleVIN, LocalDate vehicleRegDate, Warehouse warehouse) {
-
-        return this.vehicleRepository.create(vehicleCarryWeight, vehicleServiceInterval, vehicleKilometers, vehicleLastService,
-                vehicleLastServiceKm, vehiclePlate, vehicleVIN, vehicleRegDate, warehouse.getWarehouseId());
+    public List<VehicleDto> getVehiclesByWarehouse(Warehouse warehouse) {
+        List<Vehicle> vehicles = this.vehicleRepository.findAllByWarehouse(warehouse.getWarehouseId());
+        return buildDtoList(vehicles);
     }
 
     @Override
-    public Optional<Vehicle> updateVehicle(Integer id, Integer vehicleCarryWeight, Short vehicleServiceInterval, Integer vehicleKilometers,
-                                           LocalDate vehicleLastService, Integer vehicleLastServiceKm, String vehiclePlate, String vehicleVIN,
-                                           LocalDate vehicleRegDate, Warehouse warehouse) {
+    public Integer create(VehicleDto vehicleDto) {
+        return this.vehicleRepository.create(
+                vehicleDto.getCarryWeight(),
+                vehicleDto.getServiceInterval(),
+                vehicleDto.getKilometers(),
+                vehicleDto.getLastServiceDate(),
+                vehicleDto.getLastServiceKm(),
+                vehicleDto.getPlate(),
+                vehicleDto.getVin(),
+                vehicleDto.getRegistrationDate(),
+                vehicleDto.getWhId());
+    }
 
+    @Override
+    public Integer edit(VehicleDto vehicleDto) {
 
-        return this.vehicleRepository.edit(id, vehicleCarryWeight, vehicleServiceInterval, vehicleKilometers, vehicleLastService, vehicleLastServiceKm,
-                vehiclePlate, vehicleVIN, vehicleRegDate, warehouse.getWarehouseId());
+        return this.vehicleRepository.edit(
+                vehicleDto.getId(),
+                vehicleDto.getCarryWeight(),
+                vehicleDto.getServiceInterval(),
+                vehicleDto.getKilometers(),
+                vehicleDto.getLastServiceDate(),
+                vehicleDto.getLastServiceKm(),
+                vehicleDto.getPlate(),
+                vehicleDto.getVin(),
+                vehicleDto.getRegistrationDate(),
+                vehicleDto.getWhId()
+        );
     }
 
     @Override

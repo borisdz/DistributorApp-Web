@@ -1,17 +1,15 @@
 package mk.ukim.finki.db.distributorapp.web;
 
 import mk.ukim.finki.db.distributorapp.model.dto.ArticleDto;
-import mk.ukim.finki.db.distributorapp.model.entities.Article;
 import mk.ukim.finki.db.distributorapp.service.ArticleService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/article")
+@RequestMapping("/article")
 public class ArticleController {
     private final ArticleService articleService;
 
@@ -20,14 +18,28 @@ public class ArticleController {
     }
 
     @GetMapping("/all")
-    ResponseEntity<List<Article>> getAllArticles() {
-        List<Article> articles = articleService.getAllArticles();
+    ResponseEntity<List<ArticleDto>> getAllArticlesDto() {
+        List<ArticleDto> articles = articleService.getAllArticles();
         return ResponseEntity.ok(articles);
     }
 
-    @GetMapping("/all/dto")
-    ResponseEntity<List<ArticleDto>> getAllArticlesDto() {
-        List<ArticleDto> articles = articleService.getAllArticlesDto();
-        return ResponseEntity.ok(articles);
+    @PutMapping("/add")
+    ResponseEntity<Integer> addArticle(@RequestBody ArticleDto articleDto) {
+        Integer res = this.articleService.create(articleDto);
+
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+    @PutMapping("/edit")
+    ResponseEntity<Integer> editArticle(@RequestBody ArticleDto articleDto) {
+        Integer res = this.articleService.editById(articleDto);
+        return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteArticle(@PathVariable Long id) {
+        this.articleService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

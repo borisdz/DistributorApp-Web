@@ -1,46 +1,23 @@
 package mk.ukim.finki.db.distributorapp.service;
 
-import mk.ukim.finki.db.distributorapp.model.entities.Delivery;
+import mk.ukim.finki.db.distributorapp.model.dto.DeliveryDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Driver;
 import mk.ukim.finki.db.distributorapp.model.entities.Vehicle;
-import mk.ukim.finki.db.distributorapp.model.entities.DeliveryStatus;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
-import java.util.Optional;
 
 public interface DeliveryService {
-    List<Delivery> getAllDeliveries();
+    List<DeliveryDto> getAllDeliveries();
 
-    List<Delivery> getAllDeliveriesByVehicleId(Vehicle vehicle);
+    List<DeliveryDto> getAllDeliveriesByVehicleId(Vehicle vehicle);
 
-    List<Delivery> getAllDeliveriesByDriver(Driver driver);
+    List<DeliveryDto> getAllDeliveriesByDriver(Driver driver);
 
-    Optional<Delivery> findDeliveryById(Long id);
+    DeliveryDto findDeliveryById(Long id);
 
-    Optional<Delivery> create(
-            LocalDate del_date_created,
-            LocalDate del_date,
-            Integer del_start_km,
-            Integer del_end_km,
-            LocalTime del_start_time,
-            LocalTime del_end_time,
-            DeliveryStatus del_status,
-            Vehicle vehicle
-    );
+    Integer create(DeliveryDto deliveryDto);
 
-    Optional<Delivery> edit(
-            Long del_id,
-            LocalDate del_date_created,
-            LocalDate del_date,
-            Integer del_start_km,
-            Integer del_end_km,
-            LocalTime del_start_time,
-            LocalTime del_end_time,
-            DeliveryStatus del_status,
-            Vehicle vehicle
-    );
+    Integer edit(DeliveryDto deliveryDto);
 
     void delete(Long del_id);
 }

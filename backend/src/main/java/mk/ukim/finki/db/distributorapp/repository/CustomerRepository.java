@@ -43,7 +43,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
             value = "insert into customer(user_id, cust_edb, cust_company_name, cust_address, cust_open_time, cust_close_time, cust_representative_img) " +
                     "values (:id,:edb,:name,:adr,:oTime,:cTime,:img)"
     )
-    Optional<Customer> create(
+    Integer create(
             @NonNull @Param("id") Long id,
             @NonNull @Param("edb") String customerEDB,
             @NonNull @Param("name") String customerName,
@@ -60,7 +60,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
                     "set cust_edb=:edb,cust_company_name=:name,cust_address=:adr,cust_open_time=:oTime,cust_close_time=:cTime,cust_representative_img=:img " +
                     "where user_id=:id"
     )
-    Optional<Customer> edit(
+    Integer edit(
             @NonNull @Param("id") Long id,
             @NonNull @Param("edb") String customerEDB,
             @NonNull @Param("name") String customerName,
