@@ -14,9 +14,9 @@ public interface CategoryService {
 
     Integer create(CategoryDto categoryDto);
 
-    Integer update(CategoryDto categoryDto);
+    Integer edit(CategoryDto categoryDto);
 
-    void delete(Long id);
+    void deleteById(Long id);
 
     List<CategoryDto> searchCategories(String text);
 }

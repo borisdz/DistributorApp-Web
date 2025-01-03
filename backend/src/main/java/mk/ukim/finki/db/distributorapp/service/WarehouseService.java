@@ -6,7 +6,7 @@ import mk.ukim.finki.db.distributorapp.model.entities.City;
 import java.util.List;
 
 public interface WarehouseService {
-    List<WarehouseDto> findAll();
+    List<WarehouseDto> getAllWarehouses();
 
     List<WarehouseDto> findAllByCity(City city);
 
@@ -16,5 +16,5 @@ public interface WarehouseService {
 
     Integer edit(WarehouseDto warehouseDto);
 
-    void delete(Integer id);
+    void deleteById(Integer id);
 }

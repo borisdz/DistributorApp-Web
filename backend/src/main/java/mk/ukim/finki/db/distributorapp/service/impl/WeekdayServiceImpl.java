@@ -4,10 +4,12 @@ import mk.ukim.finki.db.distributorapp.model.dto.WeekdayDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Weekday;
 import mk.ukim.finki.db.distributorapp.repository.WeekdayRepository;
 import mk.ukim.finki.db.distributorapp.service.WeekdayService;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class WeekdayServiceImpl implements WeekdayService {
     private final WeekdayRepository weekdayRepository;
 
@@ -67,7 +69,7 @@ public class WeekdayServiceImpl implements WeekdayService {
     }
 
     @Override
-    public void delete(Short id) {
+    public void deleteById(Short id) {
         this.weekdayRepository.deleteById(id);
     }
 }

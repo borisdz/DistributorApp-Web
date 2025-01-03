@@ -19,21 +19,25 @@ public class CityController {
 
     @GetMapping("/all")
     public ResponseEntity<List<CityDto>> getAllCities() {
-        return new ResponseEntity<>(HttpStatus.OK);
+        List<CityDto> cities = this.cityService.listCities();
+        return ResponseEntity.ok(cities);
     }
 
     @PutMapping("/add")
-    public ResponseEntity<CityDto> addCity(@RequestBody CityDto CityDto) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Integer> addCity(@RequestBody CityDto CityDto) {
+        Integer result = this.cityService.create(CityDto);
+        return ResponseEntity.ok(result);
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<CityDto> editCity(@RequestBody CityDto CityDto) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Integer> editCity(@RequestBody CityDto CityDto) {
+        Integer result = this.cityService.edit(CityDto);
+        return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<CityDto> deleteCity(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteCity(@PathVariable Long id) {
+        this.cityService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -31,8 +31,8 @@ public class DeliveryStatusServiceImpl implements DeliveryStatusService {
     }
 
     @Override
-    public List<DeliveryStatusDto> listDeliveryStatus() {
-        List<DeliveryStatus> deliveryStatuses = this.deliveryStatusRepository.findAll();
+    public List<DeliveryStatusDto> getAllDeliveryStatus() {
+        List<DeliveryStatus> deliveryStatuses = this.deliveryStatusRepository.listAll();
         return buildDto(deliveryStatuses);
     }
 
@@ -68,7 +68,7 @@ public class DeliveryStatusServiceImpl implements DeliveryStatusService {
     }
 
     @Override
-    public void delete(Short id) {
+    public void deleteById(Short id) {
         this.deliveryStatusRepository.delete(id);
     }
 }

@@ -14,6 +14,6 @@ public interface PriceService {
 
     Integer edit(PriceDto priceDto);
 
-    void delete(Integer id);
+    void deleteById(Integer id);
 
 }

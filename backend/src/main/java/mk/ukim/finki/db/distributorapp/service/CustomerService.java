@@ -16,5 +16,5 @@ public interface CustomerService {
 
     Integer edit(CustomerDto customerDto);
 
-    void delete(Long id);
+    void deleteById(Long id);
 }

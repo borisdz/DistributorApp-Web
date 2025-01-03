@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface RegionService {
 
-    List<RegionDto> listRegions();
+    List<RegionDto> getAllRegions();
 
     RegionDto getRegionById(Integer id);
 
@@ -16,5 +16,5 @@ public interface RegionService {
 
     Integer edit(RegionDto regionDto);
 
-    void delete(Integer id);
+    void deleteById(Integer id);
 }

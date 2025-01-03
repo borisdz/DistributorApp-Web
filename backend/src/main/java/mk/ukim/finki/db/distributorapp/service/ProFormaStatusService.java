@@ -5,7 +5,7 @@ import mk.ukim.finki.db.distributorapp.model.dto.ProFormaStatusDto;
 import java.util.List;
 
 public interface ProFormaStatusService {
-    List<ProFormaStatusDto> listProFormaStatus();
+    List<ProFormaStatusDto> getAllProFormaStatus();
 
     ProFormaStatusDto getProFormaStatusById(Short id);
 
@@ -15,5 +15,5 @@ public interface ProFormaStatusService {
 
     List<ProFormaStatusDto> getProFormaStatusByName(String name);
 
-    void delete(Short id);
+    void deleteById(Short id);
 }

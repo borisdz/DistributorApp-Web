@@ -19,5 +19,5 @@ public interface DeliveryService {
 
     Integer edit(DeliveryDto deliveryDto);
 
-    void delete(Long del_id);
+    void deleteById(Long del_id);
 }

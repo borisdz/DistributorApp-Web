@@ -65,7 +65,7 @@ public class PriceServiceImpl implements PriceService {
     }
 
     @Override
-    public void delete(Integer id) {
+    public void deleteById(Integer id) {
         this.priceRepository.delete(id);
     }
 }

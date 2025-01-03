@@ -31,7 +31,7 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
-    public List<RegionDto> listRegions() {
+    public List<RegionDto> getAllRegions() {
         List<Region> regions = this.regionRepository.listAll();
         return buildDto(regions);
     }
@@ -67,7 +67,7 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
-    public void delete(Integer id) {
+    public void deleteById(Integer id) {
         this.regionRepository.deleteById(id);
     }
 }

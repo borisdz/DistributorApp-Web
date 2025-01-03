@@ -15,5 +15,5 @@ public interface VehicleService {
 
     Integer edit(VehicleDto vehicleDto);
 
-    void deleteVehicleById(Integer id);
+    void deleteById(Integer id);
 }

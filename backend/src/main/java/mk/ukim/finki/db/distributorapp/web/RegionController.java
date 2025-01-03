@@ -2,7 +2,6 @@ package mk.ukim.finki.db.distributorapp.web;
 
 import mk.ukim.finki.db.distributorapp.model.dto.RegionDto;
 import mk.ukim.finki.db.distributorapp.service.RegionService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,21 +18,25 @@ public class RegionController {
 
     @GetMapping("/all")
     public ResponseEntity<List<RegionDto>> getAllRegions() {
-        return new ResponseEntity<>(HttpStatus.OK);
+        List<RegionDto> regions = this.regionService.getAllRegions();
+        return ResponseEntity.ok(regions);
     }
 
     @PutMapping("/add")
-    public ResponseEntity<RegionDto> addRegion(@RequestBody RegionDto RegionDto) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Integer> addRegion(@RequestBody RegionDto RegionDto) {
+        Integer result = this.regionService.create(RegionDto);
+        return ResponseEntity.ok(result);
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<RegionDto> editRegion(@RequestBody RegionDto RegionDto) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Integer> editRegion(@RequestBody RegionDto RegionDto) {
+        Integer result = this.regionService.edit(RegionDto);
+        return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<RegionDto> deleteRegion(@PathVariable Long id) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Void> deleteRegion(@PathVariable Integer id) {
+        this.regionService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

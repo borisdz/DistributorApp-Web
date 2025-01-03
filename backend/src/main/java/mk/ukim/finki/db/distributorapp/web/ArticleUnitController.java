@@ -2,7 +2,6 @@ package mk.ukim.finki.db.distributorapp.web;
 
 import mk.ukim.finki.db.distributorapp.model.dto.ArticleUnitDto;
 import mk.ukim.finki.db.distributorapp.service.ArticleUnitService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,26 +18,25 @@ public class ArticleUnitController {
 
     @GetMapping("/all")
     public ResponseEntity<List<ArticleUnitDto>> getAllUnits() {
-        //List<ArticleUnit> units = this.articleUnitService.getAllArticleUnits();
-
-        //return ResponseEntity.ok(units);
-
-        return new ResponseEntity<>(HttpStatus.OK);
+        List<ArticleUnitDto> units = this.articleUnitService.getAllArticleUnits();
+        return ResponseEntity.ok(units);
     }
 
     @PutMapping("/add")
-    public ResponseEntity<ArticleUnitDto> addUnit(@RequestBody ArticleUnitDto articleUnitDto) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Integer> addUnit(@RequestBody ArticleUnitDto articleUnitDto) {
+        Integer result = this.articleUnitService.create(articleUnitDto);
+        return ResponseEntity.ok(result);
     }
 
     @PutMapping("edit")
-    public ResponseEntity<ArticleUnitDto> editUnit(@RequestBody ArticleUnitDto articleUnitDto) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Integer> editUnit(@RequestBody ArticleUnitDto articleUnitDto) {
+        Integer result = this.articleUnitService.edit(articleUnitDto);
+        return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteUnit(@PathVariable Long id) {
         this.articleUnitService.delete(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity.noContent().build();
     }
 }

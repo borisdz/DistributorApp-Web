@@ -31,7 +31,7 @@ public class OrderStatusServiceImpl implements OrderStatusService {
     }
 
     @Override
-    public List<OrderStatusDto> listOrderStatus() {
+    public List<OrderStatusDto> getAllOrderStatus() {
         List<OrderStatus> orderStatuses = this.orderStatusRepository.findAll();
         return buildDto(orderStatuses);
     }
@@ -71,7 +71,7 @@ public class OrderStatusServiceImpl implements OrderStatusService {
     }
 
     @Override
-    public void delete(Short id) {
+    public void deleteById(Short id) {
         this.orderStatusRepository.deleteById(id);
     }
 }

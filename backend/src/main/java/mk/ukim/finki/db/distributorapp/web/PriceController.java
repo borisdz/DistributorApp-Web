@@ -2,7 +2,6 @@ package mk.ukim.finki.db.distributorapp.web;
 
 import mk.ukim.finki.db.distributorapp.model.dto.PriceDto;
 import mk.ukim.finki.db.distributorapp.service.PriceService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,21 +18,25 @@ public class PriceController {
 
     @GetMapping("/all")
     public ResponseEntity<List<PriceDto>> getAllPrices() {
-        return new ResponseEntity<>(HttpStatus.OK);
+        List<PriceDto> prices = this.priceService.getAllPrices();
+        return ResponseEntity.ok(prices);
     }
 
     @PutMapping("/add")
-    public ResponseEntity<PriceDto> addPrice(@RequestBody PriceDto PriceDto) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Integer> addPrice(@RequestBody PriceDto PriceDto) {
+        Integer result = this.priceService.create(PriceDto);
+        return ResponseEntity.ok(result);
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<PriceDto> editPrice(@RequestBody PriceDto PriceDto) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Integer> editPrice(@RequestBody PriceDto PriceDto) {
+        Integer result = this.priceService.edit(PriceDto);
+        return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<PriceDto> deletePrice(@PathVariable Long id) {
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<Void> deletePrice(@PathVariable Integer id) {
+        this.priceService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }

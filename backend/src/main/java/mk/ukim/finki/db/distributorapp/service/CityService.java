@@ -1,8 +1,10 @@
 package mk.ukim.finki.db.distributorapp.service;
 
 import mk.ukim.finki.db.distributorapp.model.dto.CityDto;
+import mk.ukim.finki.db.distributorapp.model.entities.City;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CityService {
 
@@ -10,11 +12,13 @@ public interface CityService {
 
     CityDto getCityById(Long id);
 
+    Optional<City> getCityObjById(Long id);
+
     Integer create(CityDto cityDto);
 
     Integer edit(CityDto cityDto);
 
-    void delete(Long id);
+    void deleteById(Long id);
 
     List<CityDto> searchCities(String text);
 }

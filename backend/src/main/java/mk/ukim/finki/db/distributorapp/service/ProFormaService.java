@@ -5,7 +5,7 @@ import mk.ukim.finki.db.distributorapp.model.dto.ProFormaDto;
 import java.util.List;
 
 public interface ProFormaService {
-    List<ProFormaDto> getAllPro_Forma();
+    List<ProFormaDto> getAllProForma();
 
     ProFormaDto findProFormaById(Long id);
 
@@ -13,6 +13,6 @@ public interface ProFormaService {
 
     Integer edit(ProFormaDto proFormaDto);
 
-    void delete(Long id);
+    void deleteById(Long id);
 
 }

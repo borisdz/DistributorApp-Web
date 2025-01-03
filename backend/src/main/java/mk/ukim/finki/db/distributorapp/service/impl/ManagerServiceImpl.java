@@ -72,7 +72,7 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
     @Override
-    public void deleteManagerById(Long id) {
+    public void deleteById(Long id) {
         this.managerRepository.delete(id);
     }
 }
