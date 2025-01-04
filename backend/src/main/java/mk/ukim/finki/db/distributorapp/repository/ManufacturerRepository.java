@@ -5,7 +5,6 @@ import mk.ukim.finki.db.distributorapp.model.entities.Manufacturer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -20,49 +19,49 @@ public interface ManufacturerRepository extends JpaRepository<Manufacturer, Long
 
     @Query(
             nativeQuery = true,
-            value = "select * from manufacturer where man_name like :name"
+            value = "select * from manufacturer where man_name like ?1"
     )
-    List<Manufacturer> findAllByName(@NonNull @Param("name") String name);
+    List<Manufacturer> findAllByName(@NonNull String name);
 
     @Query(
             nativeQuery = true,
-            value = "select * from manufacturer where man_id=:id"
+            value = "select * from manufacturer where man_id=?1"
     )
-    Optional<Manufacturer> findById(@NonNull @Param("id") Long id);
+    Optional<Manufacturer> findById(@NonNull Long id);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
             value = "insert into manufacturer(man_name, man_address, man_mobile, man_email) " +
-                    "values (:name,:adr,:mob,:email)"
+                    "values (?1,?2,?3,?4)"
     )
     Integer create(
-            @NonNull @Param("name") String name,
-            @NonNull @Param("adr") String address,
-            @NonNull @Param("mob") String mobile,
-            @NonNull @Param("email") String email);
+            @NonNull String name,
+            @NonNull String address,
+            @NonNull String mobile,
+            @NonNull String email);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
             value = "update manufacturer " +
-                    "set man_name=:name,man_address=:adr,man_mobile=:mob,man_email=:email " +
-                    "where man_id=:id"
+                    "set man_name=?2,man_address=?3,man_mobile=?4,man_email=?5 " +
+                    "where man_id=?1"
     )
     Integer edit(
-            @NonNull @Param("id") Long id,
-            @NonNull @Param("name") String name,
-            @NonNull @Param("adr") String address,
-            @NonNull @Param("mob") String mobile,
-            @NonNull @Param("email") String email);
+            @NonNull Long id,
+            @NonNull String name,
+            @NonNull String address,
+            @NonNull String mobile,
+            @NonNull String email);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "delete from manufacturer where man_id=:id"
+            value = "delete from manufacturer where man_id=?1"
     )
-    void delete(@NonNull @Param("id") Long id);
+    void delete(@NonNull Long id);
 }

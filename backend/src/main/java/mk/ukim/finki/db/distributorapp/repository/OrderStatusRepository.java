@@ -5,7 +5,6 @@ import mk.ukim.finki.db.distributorapp.model.entities.OrderStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -22,13 +21,13 @@ public interface OrderStatusRepository extends JpaRepository<OrderStatus, Short>
             nativeQuery = true,
             value = "select * from order_status where ord_status_name like ?1"
     )
-    List<OrderStatus> findAllByName(@NonNull @Param("name") String name);
+    List<OrderStatus> findAllByName(@NonNull String name);
 
     @Query(
             nativeQuery = true,
             value = "select * from order_status where ord_status_id=?1"
     )
-    Optional<OrderStatus> findById(@NonNull @Param("id") Short id);
+    Optional<OrderStatus> findById(@NonNull Short id);
 
     @Modifying
     @Transactional

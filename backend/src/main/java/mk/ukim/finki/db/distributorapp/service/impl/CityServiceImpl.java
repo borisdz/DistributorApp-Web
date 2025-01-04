@@ -42,6 +42,7 @@ public class CityServiceImpl implements CityService {
     public CityDto getCityById(Long id) {
         City city = cityRepository.findById(id).orElse(null);
 
+        assert city != null;
         return new CityDto(
                 city.getCityId(),
                 city.getCityName(),

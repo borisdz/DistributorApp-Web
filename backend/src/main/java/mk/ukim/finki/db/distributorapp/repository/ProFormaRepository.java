@@ -5,7 +5,6 @@ import mk.ukim.finki.db.distributorapp.model.entities.ProForma;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -21,41 +20,41 @@ public interface ProFormaRepository extends JpaRepository<ProForma, Long> {
 
     @Query(
             nativeQuery = true,
-            value = "select * from pro_forma where pf_id=:id"
+            value = "select * from pro_forma where pf_id=?1"
     )
-    Optional<ProForma> findById(@NonNull @Param("id") Short id);
+    Optional<ProForma> findById(@NonNull Short id);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
             value = "insert into pro_forma(pf_deadline, pf_date_created, pf_status_id) " +
-                    "values (:ddl,:createD,:status)"
+                    "values (?1,?2,?3)"
     )
     Integer create(
-            @NonNull @Param("ddl") LocalDate pf_deadline,
-            @NonNull @Param("createD") LocalDate pf_create_date,
-            @NonNull @Param("status") Short pf_status_id);
+            @NonNull LocalDate pf_deadline,
+            @NonNull LocalDate pf_create_date,
+            @NonNull Short pf_status_id);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
             value = "update pro_forma " +
-                    "set pf_deadline=:ddl,pf_date_created=:createD,pf_status_id=:status " +
-                    "where pf_id=:id"
+                    "set pf_deadline=?2,pf_date_created=?3,pf_status_id=?4 " +
+                    "where pf_id=?1"
     )
     Integer edit(
-            @NonNull @Param("id") Long pf_id,
-            @NonNull @Param("ddl") LocalDate pf_deadline,
-            @NonNull @Param("createD") LocalDate pf_create_date,
-            @NonNull @Param("status") Short pf_status_id);
+            @NonNull Long pf_id,
+            @NonNull LocalDate pf_deadline,
+            @NonNull LocalDate pf_create_date,
+            @NonNull Short pf_status_id);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "delete from pro_forma where pf_id=:id"
+            value = "delete from pro_forma where pf_id=?1"
     )
-    void delete(@NonNull @Param("id") Long id);
+    void delete(@NonNull Long id);
 }

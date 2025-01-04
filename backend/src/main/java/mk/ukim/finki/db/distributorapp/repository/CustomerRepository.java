@@ -5,7 +5,6 @@ import mk.ukim.finki.db.distributorapp.model.entities.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalTime;
@@ -16,7 +15,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Query(
             nativeQuery = true,
             value = "select * " +
-                    "from customer"
+                    "from customer c join users u on c.user_id = u.user_id"
     )
     List<Customer> listAll();
 
@@ -24,57 +23,57 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
             nativeQuery = true,
             value = "select * " +
                     "from customer c " +
-                    "where cust_company_name like :name"
+                    "where cust_company_name like ?1"
     )
-    List<Customer> findAllByName(@NonNull @Param("name") String name);
+    List<Customer> findAllByName(@NonNull String name);
 
     @Query(
             nativeQuery = true,
             value = "select * " +
                     "from customer " +
-                    "where user_id=:id"
+                    "where user_id=?1"
     )
-    Optional<Customer> findById(@NonNull @Param("id") Long id);
+    Optional<Customer> findById(@NonNull Long id);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
             value = "insert into customer(user_id, cust_edb, cust_company_name, cust_address, cust_open_time, cust_close_time, cust_representative_img) " +
-                    "values (:id,:edb,:name,:adr,:oTime,:cTime,:img)"
+                    "values (?1,?2,?3,?4,?5,?6,?7)"
     )
     Integer create(
-            @NonNull @Param("id") Long id,
-            @NonNull @Param("edb") String customerEDB,
-            @NonNull @Param("name") String customerName,
-            @NonNull @Param("adr") String customerStreet,
-            @NonNull @Param("oTime") LocalTime openTime,
-            @NonNull @Param("cTime") LocalTime closeTime,
-            @NonNull @Param("img") String customerImage);
+            @NonNull Long id,
+            @NonNull String customerEDB,
+            @NonNull String customerName,
+            @NonNull String customerStreet,
+            @NonNull LocalTime openTime,
+            @NonNull LocalTime closeTime,
+            @NonNull String customerImage);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
             value = "update customer " +
-                    "set cust_edb=:edb,cust_company_name=:name,cust_address=:adr,cust_open_time=:oTime,cust_close_time=:cTime,cust_representative_img=:img " +
-                    "where user_id=:id"
+                    "set cust_edb=?2,cust_company_name=?3,cust_address=?4,cust_open_time=?5,cust_close_time=?6,cust_representative_img=?7 " +
+                    "where user_id=?1"
     )
     Integer edit(
-            @NonNull @Param("id") Long id,
-            @NonNull @Param("edb") String customerEDB,
-            @NonNull @Param("name") String customerName,
-            @NonNull @Param("adr") String customerStreet,
-            @NonNull @Param("oTime") LocalTime openTime,
-            @NonNull @Param("cTime") LocalTime closeTime,
-            @NonNull @Param("img") String customerImage);
+            @NonNull Long id,
+            @NonNull String customerEDB,
+            @NonNull String customerName,
+            @NonNull String customerStreet,
+            @NonNull LocalTime openTime,
+            @NonNull LocalTime closeTime,
+            @NonNull String customerImage);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
             value = "delete from customer " +
-                    "where user_id=:id"
+                    "where user_id=?!"
     )
-    void delete(@NonNull @Param("id") Long id);
+    void delete(@NonNull Long id);
 }

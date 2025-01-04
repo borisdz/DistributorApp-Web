@@ -5,7 +5,6 @@ import mk.ukim.finki.db.distributorapp.model.entities.Price;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -22,47 +21,47 @@ public interface PriceRepository extends JpaRepository<Price, Integer> {
 
     @Query(
             nativeQuery = true,
-            value = "select * from price where art_id=:art"
+            value = "select * from price where art_id=?1"
     )
-    List<Price> findAllByArticleId(@NonNull @Param("art") Long id);
+    List<Price> findAllByArticleId(@NonNull Long id);
 
     @Query(
             nativeQuery = true,
-            value = "select * from price where price_id=:id"
+            value = "select * from price where price_id=?1"
     )
-    Optional<Price> findById(@NonNull @Param("id") Short id);
+    Optional<Price> findById(@NonNull Short id);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
             value = "insert into price(price, price_eff_date, art_id) " +
-                    "values (:price,:effD,:art)"
+                    "values (?1,?2,?3)"
     )
     Integer create(
-            @NonNull @Param("price") BigDecimal price,
-            @NonNull @Param("effD") LocalDateTime price_eff_date,
-            @NonNull @Param("art") Long art_id);
+            @NonNull BigDecimal price,
+            @NonNull LocalDateTime price_eff_date,
+            @NonNull Long art_id);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
             value = "update price " +
-                    "set price=:price,price_eff_date=:effD,art_id=:art " +
-                    "where price_id=:id"
+                    "set price=?2,price_eff_date=?3,art_id=?4 " +
+                    "where price_id=?1"
     )
     Integer edit(
-            @NonNull @Param("id") Integer id,
-            @NonNull @Param("price") BigDecimal price,
-            @NonNull @Param("effD") LocalDateTime price_eff_date,
-            @NonNull @Param("art") Long art_id);
+            @NonNull Integer id,
+            @NonNull BigDecimal price,
+            @NonNull LocalDateTime price_eff_date,
+            @NonNull Long art_id);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "delete from price where price_id=:id"
+            value = "delete from price where price_id=?1"
     )
-    void delete(@NonNull @Param("id") Integer id);
+    void delete(@NonNull Integer id);
 }

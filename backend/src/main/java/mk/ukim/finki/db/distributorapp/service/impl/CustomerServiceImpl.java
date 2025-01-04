@@ -46,7 +46,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public List<CustomerDto> findCustomerByName(String name) {
-        List<Customer> customers = this.customerRepository.findAllByName(name);
+        List<Customer> customers = this.customerRepository.findAllByName("'"+name+"'");
         return buildDto(customers);
     }
 

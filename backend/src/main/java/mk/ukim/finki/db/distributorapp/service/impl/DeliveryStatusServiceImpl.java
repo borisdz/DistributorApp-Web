@@ -63,7 +63,7 @@ public class DeliveryStatusServiceImpl implements DeliveryStatusService {
 
     @Override
     public List<DeliveryStatusDto> getDeliveryStatusByName(String name) {
-        List<DeliveryStatus> deliveryStatuses = this.deliveryStatusRepository.findAllByName(name);
+        List<DeliveryStatus> deliveryStatuses = this.deliveryStatusRepository.findAllByName("'"+name+"'");
         return buildDto(deliveryStatuses);
     }
 

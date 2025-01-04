@@ -5,7 +5,6 @@ import mk.ukim.finki.db.distributorapp.model.entities.Warehouse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -20,45 +19,45 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Integer> {
 
     @Query(
             nativeQuery = true,
-            value = "select * from warehouse where city_id=:city"
+            value = "select * from warehouse where city_id=?1"
     )
-    List<Warehouse> findAllByCity(@NonNull @Param("city") Long city);
+    List<Warehouse> findAllByCity(@NonNull Long city);
 
     @Query(
             nativeQuery = true,
-            value = "select * from warehouse where wh_id=:id"
+            value = "select * from warehouse where wh_id=?1"
     )
-    Optional<Warehouse> findById(@NonNull @Param("id") Short id);
+    Optional<Warehouse> findById(@NonNull Short id);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
             value = "insert into warehouse(wh_address, city_id) " +
-                    "values (:adr,:cty)"
+                    "values (?1,?2)"
     )
     Integer create(
-            @NonNull @Param("adr") String whAddress,
-            @NonNull @Param("cty") Long city);
+            @NonNull String whAddress,
+            @NonNull Long city);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
             value = "update warehouse " +
-                    "set wh_address=:adr,city_id=:cty " +
-                    "where wh_id=:id"
+                    "set wh_address=?2,city_id=?3 " +
+                    "where wh_id=?1"
     )
     Integer edit(
-            @NonNull @Param("id") Integer id,
-            @NonNull @Param("adr") String whAddress,
-            @NonNull @Param("cty") Long city);
+            @NonNull Integer id,
+            @NonNull String whAddress,
+            @NonNull Long city);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "delete from warehouse where wh_id=:id"
+            value = "delete from warehouse where wh_id=?1"
     )
-    void delete(@NonNull @Param("id") Integer id);
+    void delete(@NonNull Integer id);
 }

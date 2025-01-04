@@ -1,9 +1,6 @@
 package mk.ukim.finki.db.distributorapp.model.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -11,6 +8,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Data
 @Table(name = "manager")
+@DiscriminatorValue(value = "Manager")
 public class Manager extends Users {
     @OneToOne
     @JoinColumn(name = "wh_id", nullable = false, unique = true)
