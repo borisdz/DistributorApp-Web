@@ -5,7 +5,6 @@ import mk.ukim.finki.db.distributorapp.model.entities.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -16,9 +15,9 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     @Query(
             value = "select * " +
                     "from category c " +
-                    "where c.ctg_name like :name",
+                    "where c.ctg_name like ?1",
             nativeQuery = true)
-    List<Category> findAllByName(@NonNull @Param("name") String name);
+    List<Category> findAllByName(@NonNull String name);
 
     @Query(
             value = "select * " +
@@ -29,36 +28,36 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
     @Query(
             value = "select * " +
                     "from category c " +
-                    "where c.ctg_id=:id",
+                    "where c.ctg_id=?1",
             nativeQuery = true
     )
-    Optional<Category> findById(@NonNull @Param("id") Long id);
+    Optional<Category> findById(@NonNull Long id);
 
     @Modifying
     @Transactional
     @Query(
             value = "insert into category(ctg_name) " +
-                    "values (:name)",
+                    "values (?1)",
             nativeQuery = true
     )
-    Integer create(@NonNull @Param("name") String name);
+    Integer create(@NonNull String name);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
             value = "update category " +
-                    "set ctg_name=:name " +
-                    "where ctg_id=:id"
+                    "set ctg_name=?2 " +
+                    "where ctg_id=?1"
     )
-    Integer edit(@NonNull @Param("id") Long id,
-                 @NonNull @Param("name") String name);
+    Integer edit(@NonNull Long id,
+                 @NonNull String name);
 
     @Modifying
     @Transactional
     @Query(
             value = "delete from category " +
-                    "where ctg_id = :id",
+                    "where ctg_id = ?1",
             nativeQuery = true)
-    void deleteById(@NonNull @Param("id") Long id);
+    void deleteById(@NonNull Long id);
 }

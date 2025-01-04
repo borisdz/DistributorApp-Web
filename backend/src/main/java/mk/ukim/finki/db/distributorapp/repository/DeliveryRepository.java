@@ -5,7 +5,6 @@ import mk.ukim.finki.db.distributorapp.model.entities.Delivery;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -23,41 +22,41 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
     @Query(
             nativeQuery = true,
             value = "select * from delivery " +
-                    "where veh_id=:veh"
+                    "where veh_id=?1"
     )
-    List<Delivery> findAllByVehicle(@NonNull @Param("veh") Integer veh_id);
+    List<Delivery> findAllByVehicle(@NonNull Integer veh_id);
 
     @Query(
             nativeQuery = true,
-            value = "select * from delivery where del_id=:id"
+            value = "select * from delivery where del_id=?1"
     )
-    Optional<Delivery> findById(@NonNull @Param("id") Long id);
+    Optional<Delivery> findById(@NonNull Long id);
 
     @Query(
             nativeQuery = true,
             value = "select d.* " +
                     "from delivery d join vehicle v on d.veh_id = v.veh_id " +
                     "join driver dr on v.veh_id = dr.veh_id " +
-                    "where dr.user_id=:driver"
+                    "where dr.user_id=?1"
     )
-    List<Delivery> findDeliveriesByDriver(@NonNull @Param("driver") Long driver_id);
+    List<Delivery> findDeliveriesByDriver(@NonNull Long driver_id);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
             value = "insert into delivery(del_date_created, del_date, del_start_km, del_end_km, del_start_time, del_end_time, del_status_id, veh_id) " +
-                    "values (:dCreated,:dDel,:startKm,:endKm,:startT,:endT,:status,:veh)"
+                    "values (?1,?2,?3,?4,?5,?6,?7,?8)"
     )
     Integer create(
-            @NonNull @Param("dCreated") LocalDate del_date_created,
-            @NonNull @Param("dDel") LocalDate del_date,
-            @NonNull @Param("startKm") Integer del_start_km,
-            @NonNull @Param("endKm") Integer del_end_km,
-            @NonNull @Param("startT") LocalTime del_start_time,
-            @NonNull @Param("endT") LocalTime del_end_time,
-            @NonNull @Param("status") Short del_status_id,
-            @NonNull @Param("veh") Integer veh_id
+            @NonNull LocalDate del_date_created,
+            @NonNull LocalDate del_date,
+            @NonNull Integer del_start_km,
+            @NonNull Integer del_end_km,
+            @NonNull LocalTime del_start_time,
+            @NonNull LocalTime del_end_time,
+            @NonNull Short del_status_id,
+            @NonNull Integer veh_id
     );
 
     @Modifying
@@ -65,26 +64,26 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
     @Query(
             nativeQuery = true,
             value = "update delivery " +
-                    "set del_date_created=:dCreated,del_date=:dDel,del_start_km=:startKm,del_end_km=:endKm,del_start_time=:startTime,del_end_time=:endT,del_status_id=:status,veh_id=:veh " +
-                    "where del_id=:id"
+                    "set del_date_created=?2,del_date=?3,del_start_km=?4,del_end_km=?5,del_start_time=?6,del_end_time=?7,del_status_id=?8,veh_id=?9 " +
+                    "where del_id=?1"
     )
     Integer edit(
-            @NonNull @Param("id") Long id,
-            @NonNull @Param("dCreated") LocalDate del_date_created,
-            @NonNull @Param("dDel") LocalDate del_date,
-            @NonNull @Param("startKm") Integer del_start_km,
-            @NonNull @Param("endKm") Integer del_end_km,
-            @NonNull @Param("startT") LocalTime del_start_time,
-            @NonNull @Param("endT") LocalTime del_end_time,
-            @NonNull @Param("status") Short del_status_id,
-            @NonNull @Param("veh") Integer veh_id
+            @NonNull Long id,
+            @NonNull LocalDate del_date_created,
+            @NonNull LocalDate del_date,
+            @NonNull Integer del_start_km,
+            @NonNull Integer del_end_km,
+            @NonNull LocalTime del_start_time,
+            @NonNull LocalTime del_end_time,
+            @NonNull Short del_status_id,
+            @NonNull Integer veh_id
     );
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "delete from delivery where del_id=:id"
+            value = "delete from delivery where del_id=?1"
     )
-    void delete(@NonNull @Param("id") Long id);
+    void delete(@NonNull Long id);
 }

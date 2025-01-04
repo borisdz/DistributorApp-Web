@@ -40,7 +40,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 
     @Override
     public List<ManufacturerDto> findAllManufacturersByName(String name) {
-        List<Manufacturer> manufacturers = this.manufacturerRepository.findAllByName(name);
+        List<Manufacturer> manufacturers = this.manufacturerRepository.findAllByName("'"+name+"'");
         return buildDto(manufacturers);
     }
 

@@ -5,7 +5,6 @@ import mk.ukim.finki.db.distributorapp.model.entities.City;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -24,48 +23,48 @@ public interface CityRepository extends JpaRepository<City, Long> {
             nativeQuery = true,
             value = "select * " +
                     "from city c " +
-                    "where c.city_id = :id"
+                    "where c.city_id = ?1"
     )
-    Optional<City> findById(@NonNull @Param("id") Long id);
+    Optional<City> findById(@NonNull Long id);
 
     @Query(
             nativeQuery = true,
             value = "select * " +
                     "from city c " +
-                    "where c.city_name like :name"
+                    "where c.city_name like ?1"
     )
-    List<City> findByName(@NonNull @Param("name") String name);
+    List<City> findByName(@NonNull String name);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
             value = "insert into city(city_name, region_id) " +
-                    "values (:name,:region)"
+                    "values (?1,?2)"
     )
     Integer create(
-            @NonNull @Param("name") String name,
-            @NonNull @Param("region") Integer region);
+            @NonNull String name,
+            @NonNull Integer region);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
             value = "update city " +
-                    "set city_name=:name, region_id=:region " +
-                    "where city_id=:id"
+                    "set city_name=?2, region_id=?3 " +
+                    "where city_id=?1"
     )
     Integer edit(
-            @NonNull @Param("id") Long id,
-            @NonNull @Param("name") String name,
-            @NonNull @Param("region") Integer region);
+            @NonNull Long id,
+            @NonNull String name,
+            @NonNull Integer region);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
             value = "delete from city c " +
-                    "where c.city_id=:id"
+                    "where c.city_id=?1"
     )
-    void deleteById(@NonNull @Param("id") Long id);
+    void deleteById(@NonNull Long id);
 }

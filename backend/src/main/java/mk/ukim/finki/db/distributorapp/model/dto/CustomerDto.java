@@ -8,7 +8,6 @@ import java.time.LocalTime;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class CustomerDto {
     private Long id;
     private String name;

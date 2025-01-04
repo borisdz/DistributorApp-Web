@@ -32,9 +32,11 @@ public class ArticleUnit {
     @JoinColumn(name = "art_id", nullable = false)
     private Article article;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "wh_id",nullable = false)
     private Warehouse warehouse;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ord_id")
     private Orders order;
 }

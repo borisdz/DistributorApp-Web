@@ -5,7 +5,6 @@ import mk.ukim.finki.db.distributorapp.model.entities.DeliveryStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -22,13 +21,13 @@ public interface DeliveryStatusRepository extends JpaRepository<DeliveryStatus, 
             nativeQuery = true,
             value = "select * from delivery_status where del_status_name like ?1"
     )
-    List<DeliveryStatus> findAllByName(@NonNull @Param("name") String name);
+    List<DeliveryStatus> findAllByName(@NonNull String name);
 
     @Query(
             nativeQuery = true,
             value = "select * from delivery_status where del_status_id=?1"
     )
-    Optional<DeliveryStatus> findById(@NonNull @Param("id") Short id);
+    Optional<DeliveryStatus> findById(@NonNull Short id);
 
     @Modifying
     @Transactional

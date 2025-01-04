@@ -5,7 +5,6 @@ import mk.ukim.finki.db.distributorapp.model.entities.Region;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -23,46 +22,46 @@ public interface RegionRepository extends JpaRepository<Region, Integer> {
             nativeQuery = true,
             value = "select * " +
                     "from region " +
-                    "where region_id=:id"
+                    "where region_id=?1"
     )
-    Optional<Region> findById(@NonNull @Param("id") Integer id);
+    Optional<Region> findById(@NonNull Integer id);
 
     @Query(
             nativeQuery = true,
             value = "select * " +
                     "from region " +
-                    "where region.region_name like :name"
+                    "where region.region_name like ?1"
     )
-    List<Region> findByName(@NonNull @Param("name") String name);
+    List<Region> findByName(@NonNull String name);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
             value = "insert into region(region_name) " +
-                    "values (:name)"
+                    "values (?1)"
     )
     Integer create(
-            @NonNull @Param("name") String name);
+            @NonNull String name);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
             value = "update region " +
-                    "set region_name=:name " +
-                    "where region_id=:id"
+                    "set region_name=?2 " +
+                    "where region_id=?1"
     )
     Integer edit(
-            @NonNull @Param("id") Integer id,
-            @NonNull @Param("name") String name);
+            @NonNull Integer id,
+            @NonNull String name);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
             value = "delete from region " +
-                    "where region_id=:id"
+                    "where region_id=?1"
     )
-    void deleteById(@NonNull @Param("id") Integer id);
+    void deleteById(@NonNull Integer id);
 }

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -31,10 +30,6 @@ public class CategoryServiceImpl implements CategoryService {
         return dtos;
     }
 
-    private boolean categoryInvalid(String name) {
-        return name == null || name.isEmpty();
-    }
-
     @Override
     public List<CategoryDto> listCategories() {
         List<Category> categories = this.categoryRepository.listAll();
@@ -42,8 +37,12 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public Optional<Category> getCategoryById(Long id) {
-        return this.categoryRepository.findById(id);
+    public CategoryDto getCategoryById(Long id) {
+        Category ctg = this.categoryRepository.findById(id).get();
+        return new CategoryDto(
+                ctg.getCategoryId(),
+                ctg.getCategoryName()
+        );
     }
 
     @Override

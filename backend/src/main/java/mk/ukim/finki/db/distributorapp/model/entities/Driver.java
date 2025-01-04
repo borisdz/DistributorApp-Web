@@ -1,9 +1,6 @@
 package mk.ukim.finki.db.distributorapp.model.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -11,6 +8,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Data
 @Table(name = "driver")
+@DiscriminatorValue(value = "Driver")
 public class Driver extends Users {
     @OneToOne
     @JoinColumn(name = "veh_id", nullable = false)

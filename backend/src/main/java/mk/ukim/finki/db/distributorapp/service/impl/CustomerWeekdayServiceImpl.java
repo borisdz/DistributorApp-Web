@@ -66,7 +66,7 @@ public class CustomerWeekdayServiceImpl implements CustomerWeekdayService {
     }
 
     @Override
-    public void delete(Long customerWeekdayId) {
+    public void deleteById(Long customerWeekdayId) {
         this.customerWeekdayRepository.deleteById(customerWeekdayId);
     }
 }

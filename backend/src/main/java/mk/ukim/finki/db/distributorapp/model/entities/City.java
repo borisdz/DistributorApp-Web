@@ -1,6 +1,5 @@
 package mk.ukim.finki.db.distributorapp.model.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -13,11 +12,9 @@ public class City {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "city_id")
-    @JsonProperty("cityId")
     private Long cityId;
 
     @Column(name = "city_name", nullable = false)
-    @JsonProperty("cityName")
     private String cityName;
 
     @OneToMany(mappedBy = "city")

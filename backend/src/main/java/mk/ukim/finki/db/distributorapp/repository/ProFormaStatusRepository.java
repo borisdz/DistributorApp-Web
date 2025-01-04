@@ -5,7 +5,6 @@ import mk.ukim.finki.db.distributorapp.model.entities.ProFormaStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -22,13 +21,13 @@ public interface ProFormaStatusRepository extends JpaRepository<ProFormaStatus, 
             nativeQuery = true,
             value = "select * from pro_forma_status where pf_status_name like ?1"
     )
-    List<ProFormaStatus> findAllByName(@NonNull @Param("name") String name);
+    List<ProFormaStatus> findAllByName(@NonNull String name);
 
     @Query(
             nativeQuery = true,
             value = "select * from pro_forma_status where pf_status_id=?1"
     )
-    Optional<ProFormaStatus> findById(@NonNull @Param("id") Short id);
+    Optional<ProFormaStatus> findById(@NonNull Short id);
 
     @Modifying
     @Transactional

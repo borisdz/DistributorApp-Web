@@ -65,7 +65,7 @@ public class ProFormaStatusServiceImpl implements ProFormaStatusService {
 
     @Override
     public List<ProFormaStatusDto> getProFormaStatusByName(String name) {
-        List<ProFormaStatus> statuses = this.proFormaStatusRepository.findAllByName(name);
+        List<ProFormaStatus> statuses = this.proFormaStatusRepository.findAllByName("'"+name+"'");
         return buildDto(statuses);
     }
 

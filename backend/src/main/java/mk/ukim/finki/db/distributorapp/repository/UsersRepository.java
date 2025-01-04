@@ -14,7 +14,12 @@ import java.util.Optional;
 public interface UsersRepository extends JpaRepository<Users, Long> {
     @Query(
             nativeQuery = true,
-            value = "select * from users"
+            value = "select u.*,c.*,d.*,m.*, 0 AS clazz_ " +
+                    "from users u " +
+                    "left join customer c on u.user_id = c.user_id " +
+                    "left join driver d on u.user_id = d.user_id " +
+                    "left join manager m on u.user_id = m.user_id " +
+                    "order by u.user_id"
     )
     List<Users> listAll();
 

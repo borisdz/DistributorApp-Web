@@ -1,22 +1,20 @@
 package mk.ukim.finki.db.distributorapp.service;
 
 import mk.ukim.finki.db.distributorapp.model.dto.CategoryDto;
-import mk.ukim.finki.db.distributorapp.model.entities.Category;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CategoryService {
 
     List<CategoryDto> listCategories();
 
-    Optional<Category> getCategoryById(Long id);
+    CategoryDto getCategoryById(Long id);
+
+    List<CategoryDto> searchCategories(String text);
 
     Integer create(CategoryDto categoryDto);
 
     Integer edit(CategoryDto categoryDto);
 
     void deleteById(Long id);
-
-    List<CategoryDto> searchCategories(String text);
 }

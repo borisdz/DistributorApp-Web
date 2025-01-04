@@ -1,6 +1,5 @@
 package mk.ukim.finki.db.distributorapp.model.entities;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -13,15 +12,12 @@ public class ProForma {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pf_id")
-    @JsonProperty("proFormaId")
     private Long proFormaId;
 
     @Column(name = "pf_deadline", nullable = false)
-    @JsonProperty("proFormaDeadline")
     private LocalDate proFormaDeadline;
 
     @Column(name = "pf_date_created", nullable = false)
-    @JsonProperty("proFormaDateCreated")
     private LocalDate proFormaDateCreated;
 
     @ManyToOne
