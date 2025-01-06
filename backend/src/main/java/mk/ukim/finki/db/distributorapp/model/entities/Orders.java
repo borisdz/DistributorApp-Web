@@ -29,7 +29,7 @@ public class Orders {
     private String orderComment;
 
     @ManyToOne
-    @JoinColumn(name = "ord_status_id", nullable = false)
+    @JoinColumn(name = "o_status_id", nullable = false)
     private OrderStatus orderStatus;
 
     @ManyToOne

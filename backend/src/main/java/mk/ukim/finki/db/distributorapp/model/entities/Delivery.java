@@ -35,7 +35,7 @@ public class Delivery {
     private LocalTime deliveryEndTime;
 
     @ManyToOne
-    @JoinColumn(name = "del_status_id", nullable = false)
+    @JoinColumn(name = "d_status_id", nullable = false)
     private DeliveryStatus deliveryStatus;
 
     @ManyToOne

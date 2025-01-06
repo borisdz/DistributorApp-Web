@@ -10,4 +10,6 @@ public class DistributorAppApplication {
         SpringApplication.run(DistributorAppApplication.class, args);
     }
 
+
+
 }

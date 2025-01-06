@@ -17,7 +17,7 @@ public class Manufacturer {
     @Column(name = "man_name", nullable = false)
     private String manufacturerName;
 
-    @Column(name = "man_address", nullable = false)
+    @Column(name = "man_adr", nullable = false)
     private String manufacturerAddress;
 
     @Column(name = "man_mobile", nullable = false)

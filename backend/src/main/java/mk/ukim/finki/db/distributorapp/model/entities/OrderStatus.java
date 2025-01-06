@@ -10,13 +10,13 @@ import java.util.List;
 public class OrderStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "ord_status_id")
+    @Column(name = "o_status_id")
     private Short orderStatusId;
 
-    @Column(name = "ord_status_name", nullable = false)
+    @Column(name = "o_status_name", nullable = false)
     private String orderStatusName;
 
-    @Column(name = "ord_status_desc", nullable = false)
+    @Column(name = "o_status_desc", nullable = false)
     private String orderStatusDescription;
 
     @OneToMany(mappedBy = "orderStatus")

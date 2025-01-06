@@ -10,13 +10,13 @@ import java.util.List;
 public class DeliveryStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "del_status_id")
+    @Column(name = "d_status_id")
     private Short deliveryStatusId;
 
-    @Column(name = "del_status_name", nullable = false)
+    @Column(name = "d_status_name", nullable = false)
     private String deliveryStatusName;
 
-    @Column(name = "del_status_desc", nullable = false)
+    @Column(name = "d_status_desc", nullable = false)
     private String deliveryStatusDescription;
 
     @OneToMany(mappedBy = "deliveryStatus")
