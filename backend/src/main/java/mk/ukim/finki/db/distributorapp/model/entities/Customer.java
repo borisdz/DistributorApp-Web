@@ -19,7 +19,7 @@ public class Customer extends Users {
     @Column(name = "cust_company_name", nullable = false)
     private String customerCompanyName;
 
-    @Column(name = "cust_address", nullable = false)
+    @Column(name = "cust_adr", nullable = false)
     private String customerAddress;
 
     @Column(name = "cust_open_time", nullable = false)

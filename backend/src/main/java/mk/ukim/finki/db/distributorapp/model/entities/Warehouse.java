@@ -14,7 +14,7 @@ public class Warehouse {
     @Column(name = "wh_id")
     private Integer warehouseId;
 
-    @Column(name = "wh_address", nullable = false)
+    @Column(name = "wh_adr", nullable = false)
     private String warehouseAddress;
 
     @OneToOne
