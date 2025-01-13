@@ -1,12 +1,16 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
 import mk.ukim.finki.db.distributorapp.model.dto.ArticleUnitDto;
+import mk.ukim.finki.db.distributorapp.model.dto.UnitPriceDto;
 import mk.ukim.finki.db.distributorapp.model.entities.ArticleUnit;
 import mk.ukim.finki.db.distributorapp.model.entities.Warehouse;
 import mk.ukim.finki.db.distributorapp.repository.ArticleUnitRepository;
+import mk.ukim.finki.db.distributorapp.repository.PriceRepository;
+import mk.ukim.finki.db.distributorapp.repository.UnitPriceRepository;
 import mk.ukim.finki.db.distributorapp.repository.WarehouseRepository;
 import mk.ukim.finki.db.distributorapp.service.ArticleUnitService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,10 +19,14 @@ import java.util.List;
 public class ArticleUnitServiceImpl implements ArticleUnitService {
     private final ArticleUnitRepository articleUnitRepository;
     private final WarehouseRepository warehouseRepository;
+    private final UnitPriceRepository unitPriceRepository;
+    private final PriceRepository priceRepository;
 
-    public ArticleUnitServiceImpl(ArticleUnitRepository articleUnitRepository, WarehouseRepository warehouseRepository) {
+    public ArticleUnitServiceImpl(ArticleUnitRepository articleUnitRepository, WarehouseRepository warehouseRepository, UnitPriceRepository unitPriceRepository, PriceRepository priceRepository) {
         this.articleUnitRepository = articleUnitRepository;
         this.warehouseRepository = warehouseRepository;
+        this.unitPriceRepository = unitPriceRepository;
+        this.priceRepository = priceRepository;
     }
 
     private List<ArticleUnitDto> buildDto(List<ArticleUnit> articleUnits) {
@@ -87,6 +95,7 @@ public class ArticleUnitServiceImpl implements ArticleUnitService {
     }
 
     @Override
+    @Transactional
     public Integer create(ArticleUnitDto articleUnitDto) {
         return this.articleUnitRepository.create(
                 articleUnitDto.getExpiryDate(),
@@ -101,6 +110,7 @@ public class ArticleUnitServiceImpl implements ArticleUnitService {
     }
 
     @Override
+    @Transactional
     public Integer edit(ArticleUnitDto articleUnitDto) {
         return this.articleUnitRepository.edit(
                 articleUnitDto.getId(),
@@ -113,6 +123,24 @@ public class ArticleUnitServiceImpl implements ArticleUnitService {
                 articleUnitDto.getWhId(),
                 articleUnitDto.getOrdId()
         );
+    }
+
+    @Override
+    @Transactional
+    public Integer addArticleUnitWithPrice(ArticleUnitDto articleUnitDto, UnitPriceDto unitPriceDto) {
+        this.articleUnitRepository.create(
+                articleUnitDto.getExpiryDate(),
+                articleUnitDto.getSerialNo(),
+                articleUnitDto.getBatchNo(),
+                articleUnitDto.getManufactureDate(),
+                articleUnitDto.getCostPrice(),
+                articleUnitDto.getArtId(),
+                articleUnitDto.getWhId(),
+                articleUnitDto.getOrdId()
+        );
+        this.unitPriceRepository.create(unitPriceDto.getUnitId(),unitPriceDto.getPriceId());
+
+        return 0;
     }
 
     @Override
