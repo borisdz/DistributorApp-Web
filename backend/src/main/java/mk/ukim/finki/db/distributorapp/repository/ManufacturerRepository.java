@@ -33,8 +33,10 @@ public interface ManufacturerRepository extends JpaRepository<Manufacturer, Long
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "insert into manufacturer(man_name, man_address, man_mobile, man_email) " +
-                    "values (?1,?2,?3,?4)"
+            value = """
+                    insert into manufacturer(man_name, man_address, man_mobile, man_email)
+                    values (?1,?2,?3,?4)
+                    """
     )
     Integer create(
             @NonNull String name,
@@ -46,9 +48,11 @@ public interface ManufacturerRepository extends JpaRepository<Manufacturer, Long
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "update manufacturer " +
-                    "set man_name=?2,man_address=?3,man_mobile=?4,man_email=?5 " +
-                    "where man_id=?1"
+            value = """
+                    update manufacturer
+                    set man_name=?2,man_address=?3,man_mobile=?4,man_email=?5
+                    where man_id=?1
+                    """
     )
     Integer edit(
             @NonNull Long id,
