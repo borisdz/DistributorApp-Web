@@ -1,1 +1,89 @@
-<p>register works!</p>
+<form [formGroup]="registrationForm" (ngSubmit)="onSubmit()">
+  <!-- Name Field -->
+  <label for="name">Name:</label>
+  <input
+    id="name"
+    type="text"
+    formControlName="name"
+    [class.invalid]="name?.invalid && (name?.dirty || name?.touched)"
+  />
+  <div *ngIf="name?.invalid && (name?.dirty || name?.touched)">
+    <small *ngIf="name?.errors?.['required']">Name is required.</small>
+  </div>
+
+  <!-- Email Field -->
+  <label for="email">Email:</label>
+  <input
+    id="email"
+    type="email"
+    formControlName="email"
+    [class.invalid]="email?.invalid && (email?.dirty || email?.touched)"
+  />
+  <div *ngIf="email?.invalid && (email?.dirty || email?.touched)">
+    <small *ngIf="email?.errors?.['required']">Email is required.</small>
+    <small *ngIf="email?.errors?.['email']">Enter a valid email address.</small>
+  </div>
+
+  <!-- Username Field -->
+  <label for="username">Username:</label>
+  <input
+    id="username"
+    type="text"
+    formControlName="username"
+    [class.invalid]="
+      username?.invalid && (username?.dirty || username?.touched)
+    "
+  />
+  <div *ngIf="username?.invalid && (username?.dirty || username?.touched)">
+    <small *ngIf="username?.errors?.['required']">Username is required.</small>
+  </div>
+
+  <!-- Password Field -->
+  <label for="password">Password:</label>
+  <input
+    id="password"
+    type="password"
+    formControlName="password"
+    [class.invalid]="
+      password?.invalid && (password?.dirty || password?.touched)
+    "
+  />
+  <div *ngIf="password?.invalid && (password?.dirty || password?.touched)">
+    <small *ngIf="password?.errors?.['required']">Password is required.</small>
+    <small *ngIf="password?.errors?.['minlength']">
+      Password must be at least 6 characters.
+    </small>
+  </div>
+
+  <!-- Confirm Password Field -->
+  <label for="confirmPassword">Confirm Password:</label>
+  <input
+    id="confirmPassword"
+    type="password"
+    formControlName="confirmPassword"
+    [class.invalid]="
+      confirmPassword?.invalid &&
+      (confirmPassword?.dirty || confirmPassword?.touched)
+    "
+  />
+  <div
+    *ngIf="
+      confirmPassword?.invalid &&
+      (confirmPassword?.dirty || confirmPassword?.touched)
+    "
+  >
+    <small *ngIf="confirmPassword?.errors?.['required']"
+      >Confirmation is required.</small
+    >
+    <small *ngIf="registrationForm.errors?.['mismatch']">
+      Passwords do not match.
+    </small>
+  </div>
+
+  <!-- Submit Button -->
+  <button type="submit" [disabled]="registrationForm.invalid">Register</button>
+
+  <!-- Success/Error Messages -->
+  <p *ngIf="successMessage" class="success">{{ successMessage }}</p>
+  <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
+</form>
