@@ -4,10 +4,12 @@ import mk.ukim.finki.db.distributorapp.model.dto.CustomerWeekdayDto;
 import mk.ukim.finki.db.distributorapp.model.entities.CustomerWeekday;
 import mk.ukim.finki.db.distributorapp.repository.CustomerWeekdayRepository;
 import mk.ukim.finki.db.distributorapp.service.CustomerWeekdayService;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class CustomerWeekdayServiceImpl implements CustomerWeekdayService {
     private final CustomerWeekdayRepository customerWeekdayRepository;
 
