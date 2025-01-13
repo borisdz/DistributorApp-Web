@@ -29,8 +29,6 @@ public class CustomerServiceImpl implements CustomerService {
                     customer.getCustomerEDB(),
                     customer.getCustomerCompanyName(),
                     customer.getCustomerAddress(),
-                    customer.getCustomerOpenTime(),
-                    customer.getCustomerCloseTime(),
                     customer.getCustomerRepresentativeImage()
             );
             dtos.add(dto);
@@ -61,8 +59,6 @@ public class CustomerServiceImpl implements CustomerService {
                 customer.getCustomerEDB(),
                 customer.getCustomerCompanyName(),
                 customer.getCustomerAddress(),
-                customer.getCustomerOpenTime(),
-                customer.getCustomerCloseTime(),
                 customer.getCustomerRepresentativeImage()
         );
     }
@@ -74,8 +70,6 @@ public class CustomerServiceImpl implements CustomerService {
                 customerDto.getEdb(),
                 customerDto.getCompName(),
                 customerDto.getAddress(),
-                customerDto.getOpenTime(),
-                customerDto.getCloseTime(),
                 customerDto.getRepImage());
     }
 
@@ -86,8 +80,6 @@ public class CustomerServiceImpl implements CustomerService {
                 customerDto.getEdb(),
                 customerDto.getCompName(),
                 customerDto.getAddress(),
-                customerDto.getOpenTime(),
-                customerDto.getCloseTime(),
                 customerDto.getRepImage());
     }
 

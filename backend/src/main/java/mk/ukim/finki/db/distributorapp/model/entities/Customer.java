@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.time.LocalTime;
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
@@ -21,12 +20,6 @@ public class Customer extends Users {
 
     @Column(name = "cust_adr", nullable = false)
     private String customerAddress;
-
-    @Column(name = "cust_open_time", nullable = false)
-    private LocalTime customerOpenTime;
-
-    @Column(name = "cust_close_time", nullable = false)
-    private LocalTime customerCloseTime;
 
     @Column(name = "cust_representative_img", nullable = false)
     private String customerRepresentativeImage;
