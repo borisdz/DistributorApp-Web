@@ -1,1 +1,10 @@
-<p>customer-home works!</p>
+<h2>Customer Dashboard</h2>
+<div *ngIf="customerData; else loading">
+  <p>Welcome, {{ customerData.name }}</p>
+  <ul>
+    <li *ngFor="let item of customerData.tasks">{{ item }}</li>
+  </ul>
+</div>
+<ng-template #loading>
+  <p>Loading ...</p>
+</ng-template>
