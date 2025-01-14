@@ -1,0 +1,21 @@
+<header>
+  <h1>Welcome to Distributor App!</h1>
+  <nav>
+    <a routerLink="/home/admin" *ngIf="role === 'Admin'">Admin Dashboard</a>
+    <a routerLink="/home/manager" *ngIf="role === 'Manager'"
+      >Manager Dashboard</a
+    >
+    <a routerLink="/home/customer" *ngIf="role === 'Customer'"
+      >Customer Dashboard</a
+    >
+    <a routerLink="/home/driver" *ngIf="role === 'Driver'">Driver Dashboard</a>
+  </nav>
+</header>
+
+<main>
+  <router-outlet></router-outlet>
+</main>
+
+<footer>
+  <p>&copy; 2025 Distributor App</p>
+</footer>

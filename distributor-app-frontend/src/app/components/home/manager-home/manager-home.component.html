@@ -1,1 +1,10 @@
-<p>manager-home works!</p>
+<h2>Manager Dashboard</h2>
+<div *ngIf="managerData; else loading">
+  <p>Welcome, {{ managerData.name }}</p>
+  <ul>
+    <li *ngFor="let item of managerData.tasks">{{ item }}</li>
+  </ul>
+</div>
+<ng-template #loading>
+  <p>Loading...</p>
+</ng-template>
