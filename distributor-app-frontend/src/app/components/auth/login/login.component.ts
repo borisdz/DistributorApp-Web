@@ -41,6 +41,8 @@ export class LoginComponent {
             this.router.navigate(['/home/customer']);
           } else if (role === 'Distributor') {
             this.router.navigate(['/home/distributor']);
+          } else if (role === 'Manager') {
+            this.router.navigate(['/home/manager']);
           }
         },
         error: () => {
