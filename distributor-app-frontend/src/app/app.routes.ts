@@ -4,6 +4,7 @@ import { AdminHomeComponent } from './components/home/admin-home/admin-home.comp
 import { CustomerHomeComponent } from './components/home/customer-home/customer-home.component';
 import { DriverHomeComponent } from './components/home/driver-home/driver-home.component';
 import { roleGuard } from './services/role.guard';
+import { ManagerHomeComponent } from './components/home/manager-home/manager-home.component';
 
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -12,6 +13,12 @@ export const routes: Routes = [
     component: AdminHomeComponent,
     canActivate: [roleGuard],
     data: { role: 'Admin' },
+  },
+  {
+    path: 'home/manager',
+    component: ManagerHomeComponent,
+    canActivate: [roleGuard],
+    data: { role: 'Manager' },
   },
   {
     path: 'home/customer',
