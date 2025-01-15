@@ -1,5 +1,6 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
+import mk.ukim.finki.db.distributorapp.model.dto.CustomerDashboardDto;
 import mk.ukim.finki.db.distributorapp.model.dto.CustomerDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Customer;
 import mk.ukim.finki.db.distributorapp.repository.CustomerRepository;
@@ -34,6 +35,12 @@ public class CustomerServiceImpl implements CustomerService {
             dtos.add(dto);
         }
         return dtos;
+    }
+
+    @Override
+    public CustomerDashboardDto getCustomerData(){
+        CustomerDashboardDto res = new CustomerDashboardDto();
+        return res;
     }
 
     @Override

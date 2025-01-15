@@ -1,10 +1,14 @@
 package mk.ukim.finki.db.distributorapp.service;
 
+import mk.ukim.finki.db.distributorapp.model.dto.DriverDashboardDto;
 import mk.ukim.finki.db.distributorapp.model.dto.DriverDto;
 
 import java.util.List;
 
 public interface DriverService {
+
+    DriverDashboardDto getDriverData();
+
     List<DriverDto> getAllDrivers();
 
     List<DriverDto> findAllByName(String name);

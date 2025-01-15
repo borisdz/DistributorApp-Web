@@ -1,5 +1,7 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
+import mk.ukim.finki.db.distributorapp.model.dto.CustomerDashboardDto;
+import mk.ukim.finki.db.distributorapp.model.dto.ManagerDashboardDto;
 import mk.ukim.finki.db.distributorapp.model.dto.ManagerDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Manager;
 import mk.ukim.finki.db.distributorapp.repository.ManagerRepository;
@@ -33,6 +35,12 @@ public class ManagerServiceImpl implements ManagerService {
             dtos.add(dto);
         }
         return dtos;
+    }
+
+    @Override
+    public ManagerDashboardDto getManagerData() {
+        ManagerDashboardDto res = new ManagerDashboardDto();
+        return res;
     }
 
     @Override
