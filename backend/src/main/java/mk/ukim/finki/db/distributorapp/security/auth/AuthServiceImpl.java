@@ -1,6 +1,7 @@
 package mk.ukim.finki.db.distributorapp.security.auth;
 
-import mk.ukim.finki.db.distributorapp.model.entities.City;
+import mk.ukim.finki.db.distributorapp.model.dto.LoginRequestDto;
+import mk.ukim.finki.db.distributorapp.model.dto.RegisterRequestDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Users;
 import mk.ukim.finki.db.distributorapp.model.exceptions.InvalidArgumentsException;
 import mk.ukim.finki.db.distributorapp.model.exceptions.InvalidUserCredentialsException;
@@ -55,18 +56,28 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Users register(String name, String surname, String email, String password, String mobile, String image, City city) {
+    public Users register(RegisterRequestDto registerRequest) {
         String saltValue = PassEncryption.genSaltValue(30);
-        String safePass = passwordEncoder.encodeWithSalt(password, saltValue);
+        String safePass = passwordEncoder.encodeWithSalt(registerRequest.getPassword(), saltValue);
 
-        this.usersRepository.create(name, surname, safePass, email, mobile, saltValue, false, image, city.getCityId());
-        Users user = this.usersRepository.findUserByUserEmailIgnoreCase(email).orElseThrow(InvalidUserCredentialsException::new);
+        this.usersRepository.create(
+                registerRequest.getFirstName(),
+                registerRequest.getLastName(),
+                safePass,
+                registerRequest.getEmail(),
+                registerRequest.getPhone(),
+                saltValue,
+                false,
+                registerRequest.getImage(),
+                registerRequest.getCityId());
+
+        Users user = this.usersRepository.findUserByUserEmailIgnoreCase(registerRequest.getEmail()).orElseThrow(InvalidUserCredentialsException::new);
 
         ConfirmationToken confirmationToken = new ConfirmationToken(user);
         confirmationTokenRepository.save(confirmationToken);
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(email);
+        mailMessage.setTo(registerRequest.getEmail());
         mailMessage.setSubject("Complete Registration!");
         mailMessage.setText(("To confirm your account, please click here: " +
                 "https://localhost:8080/register/confirm-account?token=" + confirmationToken.getConfirmationToken()));
@@ -77,13 +88,17 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Users login(String username, String password) {
-        if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
+    public Users login(LoginRequestDto loginRequest) {
+        if (loginRequest.getEmail() == null || loginRequest.getEmail().isEmpty() || loginRequest.getPassword() == null || loginRequest.getPassword().isEmpty()) {
             throw new InvalidArgumentsException();
         }
 
-        String secPassword = passwordEncoder.encodeWithSalt(password, usersRepository.findUserByUserName(username).get().getUserSalt());
+        String secPassword = passwordEncoder.encodeWithSalt
+                (
+                        loginRequest.getPassword(),
+                        usersRepository.findUserByUserName(loginRequest.getEmail()).get().getUserSalt()
+                );
 
-        return usersRepository.findUserByUserNameAndUserPassword(username, secPassword).orElseThrow(InvalidUserCredentialsException::new);
+        return usersRepository.findUserByUserNameAndUserPassword(loginRequest.getEmail(), secPassword).orElseThrow(InvalidUserCredentialsException::new);
     }
 }

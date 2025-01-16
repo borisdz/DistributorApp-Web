@@ -7,8 +7,9 @@
 <body>
 <h1>Welcome, Customer!</h1>
 <p>Here is your dashboard:</p>
+<h3>Current Orders:</h3>
 <ul>
-    <li th:each="data : ${customerData}" th:text="${data}">Data</li>
+    <li th:each="order : ${currentOrders}" th:text="${order}">Data</li>
 </ul>
 <a th:href="@{/logout}">Logout</a>
 </body>

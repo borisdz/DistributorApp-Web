@@ -9,7 +9,7 @@
 <div th:replace="fragments/header :: header"></div>
 <main>
     <div class="container">
-        <form class="form-signin mt-xl-5" method="post" th:action="@{/login}">
+        <form class="form-signin mt-xl-5" method="post" th:action="@{auth/login}">
             <h2 class="form-signin-heading">Sign in</h2>
             <p>
                 <label for="email" class="sr-only">Email</label>
@@ -29,7 +29,7 @@
                     <button id="submit" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
                 </div>
                 <div class="col-md-3">
-                    <a href="/register" class="btn btn-lg btn-block btn-light">Register here</a>
+                    <a href="/auth/register" class="btn btn-lg btn-block btn-light">Register here</a>
                 </div>
             </div>
         </form>

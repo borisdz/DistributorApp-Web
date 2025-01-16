@@ -11,11 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-
-import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -29,69 +24,68 @@ public class SecurityConfig {
     }
 
     // FOR TESTING:
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(auth -> auth
-                        .anyRequest().permitAll()
-                )
-                .formLogin(AbstractHttpConfigurer::disable)
-                .logout(AbstractHttpConfigurer::disable);
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                .csrf(AbstractHttpConfigurer::disable)
+//                .authorizeHttpRequests(auth -> auth
+//                        .anyRequest().permitAll()
+//                )
+//                .formLogin(AbstractHttpConfigurer::disable)
+//                .logout(AbstractHttpConfigurer::disable);
+//
+//        return http.build();
+//    }
 
-        return http.build();
-    }
-
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration corsConfiguration = new CorsConfiguration();
-        corsConfiguration.setAllowedOrigins(List.of("http://localhost:4200"));
-        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
-        corsConfiguration.setAllowedHeaders(List.of("*"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", corsConfiguration);
-        return source;
-    }
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration corsConfiguration = new CorsConfiguration();
+//        corsConfiguration.setAllowedOrigins(List.of("http://localhost:4200"));
+//        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+//        corsConfiguration.setAllowedHeaders(List.of("*"));
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", corsConfiguration);
+//        return source;
+//    }
 
 
     // FOR PRODUCTION:
 
-    /**
-     * @Bean public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-     * //        http
-     * //                .authorizeHttpRequests(authorize -> authorize
-     * //                        .requestMatchers("/login","/register").permitAll()
-     * //                        .anyRequest().authenticated()
-     * //                )
-     * //                .formLogin(form -> form
-     * //                        .loginPage("/login")
-     * //                        .permitAll()
-     * //                )
-     * //                .logout(LogoutConfigurer::permitAll);
-     * <p>
-     * http
-     * .csrf(AbstractHttpConfigurer::disable)
-     * .authorizeHttpRequests(auth -> auth
-     * .requestMatchers("/register", "/login", "/css/**", "/js/**").permitAll()
-     * .requestMatchers("/manager/**").hasAuthority("Manager")
-     * .requestMatchers("/driver/**").hasAuthority("Driver")
-     * .requestMatchers("/customer/**").hasAuthority("Customer")
-     * .anyRequest().authenticated()
-     * )
-     * .formLogin(login -> login
-     * .loginPage("/login")
-     * .defaultSuccessUrl("/home", true)
-     * .permitAll()
-     * )
-     * .logout(logout -> logout
-     * .logoutUrl("/logout")
-     * .logoutSuccessUrl("/login")
-     * .permitAll()
-     * );
-     * <p>
-     * return http.build();
-     * }
-     **/
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        //        http
+        //                .authorizeHttpRequests(authorize -> authorize
+        //                        .requestMatchers("/login","/register").permitAll()
+        //                        .anyRequest().authenticated()
+        //                )
+        //                .formLogin(form -> form
+        //                        .loginPage("/login")
+        //                        .permitAll()
+        //                )
+        //                .logout(LogoutConfigurer::permitAll);
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/auth/**", "/css/**", "/js/**").permitAll()
+                        .requestMatchers("/manager/**").hasAuthority("Manager")
+                        .requestMatchers("/driver/**").hasAuthority("Driver")
+                        .requestMatchers("/customer/**").hasAuthority("Customer")
+                        .anyRequest().authenticated()
+                )
+                .formLogin(login -> login
+                        .loginPage("/auth/login")
+                        .defaultSuccessUrl("/home", true)
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login")
+                        .permitAll()
+                );
+
+        return http.build();
+    }
 
 
     @Bean
