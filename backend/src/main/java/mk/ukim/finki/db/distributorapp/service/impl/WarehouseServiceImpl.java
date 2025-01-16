@@ -2,6 +2,7 @@ package mk.ukim.finki.db.distributorapp.service.impl;
 
 import mk.ukim.finki.db.distributorapp.model.dto.WarehouseDto;
 import mk.ukim.finki.db.distributorapp.model.entities.City;
+import mk.ukim.finki.db.distributorapp.model.entities.Manager;
 import mk.ukim.finki.db.distributorapp.model.entities.Warehouse;
 import mk.ukim.finki.db.distributorapp.repository.WarehouseRepository;
 import mk.ukim.finki.db.distributorapp.service.WarehouseService;
@@ -79,5 +80,11 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     public void deleteById(Integer id) {
         this.warehouseRepository.findById(id);
+    }
+
+    @Override
+    public List<WarehouseDto> getInventoryByManager(Manager manager) {
+
+        return List.of();
     }
 }

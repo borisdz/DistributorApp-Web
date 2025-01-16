@@ -1,13 +1,10 @@
 package mk.ukim.finki.db.distributorapp.service;
 
-import mk.ukim.finki.db.distributorapp.model.dto.CustomerDashboardDto;
 import mk.ukim.finki.db.distributorapp.model.dto.CustomerDto;
 
 import java.util.List;
 
 public interface CustomerService {
-
-    CustomerDashboardDto getCustomerData();
 
     List<CustomerDto> findAllCustomers();
 

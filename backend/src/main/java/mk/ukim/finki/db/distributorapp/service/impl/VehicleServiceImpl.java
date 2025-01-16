@@ -1,6 +1,7 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
 import mk.ukim.finki.db.distributorapp.model.dto.VehicleDto;
+import mk.ukim.finki.db.distributorapp.model.entities.Manager;
 import mk.ukim.finki.db.distributorapp.model.entities.Vehicle;
 import mk.ukim.finki.db.distributorapp.model.entities.Warehouse;
 import mk.ukim.finki.db.distributorapp.repository.VehicleRepository;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Service
 public class VehicleServiceImpl implements VehicleService {
+
     private final VehicleRepository vehicleRepository;
 
     public VehicleServiceImpl(VehicleRepository vehicleRepository) {
@@ -95,5 +97,12 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public void deleteById(Integer id) {
         this.vehicleRepository.delete(id);
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
+    @Override
+    public List<VehicleDto> getVehiclesByManager(Manager manager) {
+        List<Vehicle> vehicles = this.vehicleRepository.getVehiclesByManager(manager.getUserId());
+        return buildDtoList(vehicles);
     }
 }

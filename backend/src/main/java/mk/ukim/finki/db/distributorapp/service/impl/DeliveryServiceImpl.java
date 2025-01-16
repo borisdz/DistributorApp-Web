@@ -1,19 +1,13 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
 import mk.ukim.finki.db.distributorapp.model.dto.DeliveryDto;
-import mk.ukim.finki.db.distributorapp.model.entities.Delivery;
-import mk.ukim.finki.db.distributorapp.model.entities.DeliveryStatus;
-import mk.ukim.finki.db.distributorapp.model.entities.Driver;
-import mk.ukim.finki.db.distributorapp.model.entities.Vehicle;
+import mk.ukim.finki.db.distributorapp.model.entities.*;
 import mk.ukim.finki.db.distributorapp.repository.DeliveryRepository;
 import mk.ukim.finki.db.distributorapp.service.DeliveryService;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class DeliveryServiceImpl implements DeliveryService {
@@ -116,5 +110,23 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public void deleteById(Long del_id) {
         this.deliveryRepository.delete(del_id);
+    }
+
+    @Override
+    public List<DeliveryDto> getAllNewDeliveriesByDriver(Driver driver) {
+        List<Delivery> deliveries = this.deliveryRepository.getNewDeliveriesByDriver(driver.getUserId());
+        return buildDto(deliveries);
+    }
+
+    @Override
+    public List<DeliveryDto> getCurrentDeliveriesByCustomer(Customer customer) {
+        List<Delivery> deliveries = this.deliveryRepository.getCurrentDeliveriesByCustomer(customer.getUserId());
+        return buildDto(deliveries);
+    }
+
+    @Override
+    public List<DeliveryDto> getCurrentDeliveriesByManager(Manager manager) {
+        List<Delivery> deliveries = this.deliveryRepository.getCurrentDeliveriesByManager(manager.getUserId());
+        return buildDto(deliveries);
     }
 }

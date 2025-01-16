@@ -1,6 +1,5 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
-import mk.ukim.finki.db.distributorapp.model.dto.DriverDashboardDto;
 import mk.ukim.finki.db.distributorapp.model.dto.DriverDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Driver;
 import mk.ukim.finki.db.distributorapp.repository.DriverRepository;
@@ -32,12 +31,6 @@ public class DriverServiceImpl implements DriverService {
             dtos.add(dto);
         }
         return dtos;
-    }
-
-    @Override
-    public DriverDashboardDto getDriverData(){
-        DriverDashboardDto res = new DriverDashboardDto();
-        return res;
     }
 
     @Override

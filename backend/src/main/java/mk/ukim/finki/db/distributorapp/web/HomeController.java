@@ -4,9 +4,7 @@ import mk.ukim.finki.db.distributorapp.model.entities.Customer;
 import mk.ukim.finki.db.distributorapp.model.entities.Driver;
 import mk.ukim.finki.db.distributorapp.model.entities.Manager;
 import mk.ukim.finki.db.distributorapp.model.entities.Users;
-import mk.ukim.finki.db.distributorapp.service.CustomerService;
-import mk.ukim.finki.db.distributorapp.service.DriverService;
-import mk.ukim.finki.db.distributorapp.service.ManagerService;
+import mk.ukim.finki.db.distributorapp.service.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
@@ -18,31 +16,38 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/home")
 public class HomeController {
 
-    private final CustomerService customerService;
-    private final DriverService driverService;
-    private final ManagerService managerService;
+    private final DeliveryService deliveryService;
+    private final OrdersService ordersService;
+    private final VehicleService vehicleService;
+    private final WarehouseService warehouseService;
 
-    public HomeController(CustomerService customerService, DriverService driverService, ManagerService managerService) {
-        this.customerService = customerService;
-        this.driverService = driverService;
-        this.managerService = managerService;
+    public HomeController(DeliveryService deliveryService, OrdersService ordersService, VehicleService vehicleService, WarehouseService warehouseService) {
+        this.deliveryService = deliveryService;
+        this.ordersService = ordersService;
+        this.vehicleService = vehicleService;
+        this.warehouseService = warehouseService;
     }
 
     @GetMapping("/customer")
-    public String customerHome(Model model) {
-        model.addAttribute("customerData", customerService.getCustomerData());
+    public String customerHome(Model model, Customer customer) {
+        model.addAttribute("currentOrders", ordersService.findCurrentOrdersByCustomer(customer));
+        model.addAttribute("currentDeliveries", deliveryService.getCurrentDeliveriesByCustomer(customer));
         return "home/customer";
     }
 
     @GetMapping("/manager")
-    public String managerHome(Model model) {
-        model.addAttribute("managerData", managerService.getManagerData());
+    public String managerHome(Model model, Manager manager) {
+        model.addAttribute("currentInventory", warehouseService.getInventoryByManager(manager));
+        model.addAttribute("vehicleStatus", vehicleService.getVehiclesByManager(manager));
+        model.addAttribute("newOrders", ordersService.getNewOrdersByManager(manager));
+        model.addAttribute("currentDeliveries", deliveryService.getCurrentDeliveriesByManager(manager));
         return "home/manager";
     }
 
     @GetMapping("/driver")
-    public String driverHome(Model model) {
-        model.addAttribute("driverData", driverService.getDriverData());
+    public String driverHome(Model model, Driver driver) {
+        model.addAttribute("newDeliveries", deliveryService.getAllNewDeliveriesByDriver(driver));
+        model.addAttribute("doneDeliveries", deliveryService.getAllDeliveriesByDriver(driver));
         return "home/driver";
     }
 

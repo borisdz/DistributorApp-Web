@@ -2,6 +2,7 @@ package mk.ukim.finki.db.distributorapp.service.impl;
 
 import mk.ukim.finki.db.distributorapp.model.dto.OrdersDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Customer;
+import mk.ukim.finki.db.distributorapp.model.entities.Manager;
 import mk.ukim.finki.db.distributorapp.model.entities.Orders;
 import mk.ukim.finki.db.distributorapp.repository.OrdersRepository;
 import mk.ukim.finki.db.distributorapp.service.OrdersService;
@@ -115,5 +116,17 @@ public class OrdersServiceImpl implements OrdersService {
     @Override
     public void deleteById(Long id) {
         this.ordersRepository.deleteById(id);
+    }
+
+    @Override
+    public List<OrdersDto> findCurrentOrdersByCustomer(Customer customer) {
+        List<Orders> orders = this.ordersRepository.getCurrentOrdersByCustomer(customer.getUserId());
+        return buildDto(orders);
+    }
+
+    @Override
+    public List<OrdersDto> getNewOrdersByManager(Manager manager) {
+        List<Orders> orders = this.ordersRepository.getNewOrdersByManager(manager.getUserId());
+        return buildDto(orders);
     }
 }

@@ -1,6 +1,7 @@
 package mk.ukim.finki.db.distributorapp.service;
 
 import mk.ukim.finki.db.distributorapp.model.dto.VehicleDto;
+import mk.ukim.finki.db.distributorapp.model.entities.Manager;
 import mk.ukim.finki.db.distributorapp.model.entities.Warehouse;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface VehicleService {
     Integer edit(VehicleDto vehicleDto);
 
     void deleteById(Integer id);
+
+    List<VehicleDto> getVehiclesByManager(Manager manager);
 }
