@@ -63,7 +63,7 @@ public class HomeController {
 
         Users user = (Users) authentication.getAuthorities();
 
-        switch (user.getRole().getAuthority()) {
+        switch (user.getUserRole().getAuthority()) {
             case "ROLE_CUSTOMER" -> {
                 model.addAttribute("userType", "Customer");
                 return "redirect:home/customer";

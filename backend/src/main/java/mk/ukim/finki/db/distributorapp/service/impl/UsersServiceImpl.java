@@ -17,6 +17,22 @@ public class UsersServiceImpl implements UsersService {
         this.usersRepository = usersRepository;
     }
 
+    public UserDto buildDto(Users user){
+        return new UserDto(
+                user.getUserId(),
+                user.getUsername(),
+                user.getUserSurname(),
+                user.getUserEmail(),
+                user.getUserMobile(),
+                user.getUserImage(),
+                user.getCity().getCityId(),
+                user.getCity().getCityName(),
+                user.getCity().getRegion().getRegionName(),
+                user.getUserRole(),
+                user.getUserResetToken(),
+                user.getUserResetTokenExpiry());
+    }
+
     @Override
     public List<Users> findAllUsers() {
         return this.usersRepository.listAll();
@@ -45,8 +61,16 @@ public class UsersServiceImpl implements UsersService {
                 user.getUserSalt(),
                 user.getUserActive(),
                 userDto.getImage(),
-                
+                userDto.getCityId(),
+                userDto.getRole().name(),
+                userDto.getRtoken(),
+                userDto.getRtoken_exp()
         );
+    }
+
+    @Override
+    public Users findUserByResetToken(String token) {
+        return this.usersRepository.findUserByResetToken("'"+token+"'").get();
     }
 
     @Override

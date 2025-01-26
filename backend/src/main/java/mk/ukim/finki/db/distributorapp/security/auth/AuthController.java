@@ -21,7 +21,7 @@ public class AuthController {
 
     @GetMapping("/login")
     public String login() {
-        return "login";
+        return "authentication/login";
     }
 
     @GetMapping("/register")
@@ -29,11 +29,11 @@ public class AuthController {
         List<City> cities = this.cityService.listCitiesObj();
 
         model.addAttribute("cities", cities);
-        return "register";
+        return "authentication/register";
     }
 
     @GetMapping("/changePass")
     public String changePassword(Model model) {
-        return "changePass";
+        return "authentication/changePass";
     }
 }

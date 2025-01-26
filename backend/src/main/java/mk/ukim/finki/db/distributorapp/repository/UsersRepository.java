@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,8 +40,8 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "insert into users(user_name, user_surname, user_pass, user_salt, user_email, user_mobile, user_active, user_image, city_id, role) " +
-                    "values (:name,:sur,:pass,:salt,:email,:mob,:active,:img,:cty,:role)"
+            value = "insert into users(user_name,user_surname,user_pass,user_salt,user_email,user_mobile,user_active,user_image,city_id,user_role,user_rtoken,user_rtoken_exp) " +
+                    "values (:name,:sur,:pass,:salt,:email,:mob,:active,:img,:cty,:role,:rtoken,:rtoken_exp)"
     )
     Integer create(
             @NonNull @Param("name") String name,
@@ -52,14 +53,16 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
             @NonNull @Param("active") Boolean active,
             @Param("img") String image,
             @NonNull @Param("cty") Long city_id,
-            @NonNull @Param("role") String role);
+            @NonNull @Param("role") String role,
+            @Param("rtoken") String rtoken,
+            @Param("rtoken_exp") LocalDateTime rtoken_exp);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
             value = "update users " +
-                    "set user_name=:name,user_surname=:sur,user_pass=:pass,user_email=:email,user_mobile=:mob,user_salt=:salt,user_active=:active,user_image=:img,city_id=:cty " +
+                    "set user_name=:name,user_surname=:sur,user_pass=:pass,user_email=:email,user_mobile=:mob,user_salt=:salt,user_active=:active,user_image=:img,city_id=:cty,user_role=:role,user_rtoken=:rtoken,user_rtoken_exp=:rtoken_exp " +
                     "where user_id=:id"
     )
     Integer edit(
@@ -73,7 +76,9 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
             @NonNull @Param("active") Boolean active,
             @NonNull @Param("img") String image,
             @NonNull @Param("cty") Long city_id,
-            @NonNull @Param("role") String role);
+            @NonNull @Param("role") String role,
+            @NonNull @Param("rtoken") String rtoken,
+            @NonNull @Param("rtoken_exp") LocalDateTime rtoken_exp);
 
     @Modifying
     @Transactional
@@ -109,4 +114,12 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
     )
     Optional<Users> findUserByUserName(
             @NonNull @Param("email") String username);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select * from users where user_rtoken=:token
+                    """
+    )
+    Optional<Users> findUserByResetToken(@NonNull @Param("token") String token);
 }

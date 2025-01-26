@@ -34,7 +34,9 @@ public class UsersController {
                     user.getCity().getCityId(),
                     user.getCity().getCityName(),
                     user.getCity().getRegion().getRegionName(),
-                    user.getRole()
+                    user.getUserRole(),
+                    user.getUserResetToken(),
+                    user.getUserResetTokenExpiry()
             );
             dtos.add(dto);
         }

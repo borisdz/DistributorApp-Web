@@ -3,6 +3,7 @@ package mk.ukim.finki.db.distributorapp.security.auth;
 import mk.ukim.finki.db.distributorapp.model.dto.LoginRequestDto;
 import mk.ukim.finki.db.distributorapp.model.dto.RegisterRequestDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Users;
+import mk.ukim.finki.db.distributorapp.model.enumerations.Role;
 import mk.ukim.finki.db.distributorapp.model.exceptions.InvalidArgumentsException;
 import mk.ukim.finki.db.distributorapp.model.exceptions.InvalidUserCredentialsException;
 import mk.ukim.finki.db.distributorapp.repository.ConfirmationTokenRepository;
@@ -73,7 +74,9 @@ public class AuthServiceImpl implements AuthService {
                 false,
                 null,
                 registerRequest.getCity(),
-                "ROLE_CUSTOMER");
+                Role.ROLE_CUSTOMER.name(),
+                null,
+                null);
 
         Users user = this.usersRepository.findUserByUserEmailIgnoreCase(registerRequest.getEmail()).orElseThrow(InvalidUserCredentialsException::new);
 

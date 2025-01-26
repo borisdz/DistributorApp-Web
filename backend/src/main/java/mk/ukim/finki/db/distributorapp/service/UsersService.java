@@ -11,4 +11,6 @@ public interface UsersService {
     Users findUserByEmail(String email);
     Integer edit(UserDto userDto);
     Integer deleteUserById(Long id);
+    UserDto buildDto(Users user);
+    Users findUserByResetToken(String token);
 }

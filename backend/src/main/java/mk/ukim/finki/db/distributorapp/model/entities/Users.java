@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 
@@ -48,8 +49,14 @@ public class Users implements UserDetails {
     private String userImage;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role")
-    private Role role;
+    @Column(name = "user_role")
+    private Role userRole;
+
+    @Column(name = "user_rtoken")
+    private String userResetToken;
+
+    @Column(name = "user_rtoken_exp")
+    private LocalDateTime userResetTokenExpiry;
 
     @ManyToOne
     @JoinColumn(name = "city_id", nullable = false)
