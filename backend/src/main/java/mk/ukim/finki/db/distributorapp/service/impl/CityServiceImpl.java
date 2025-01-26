@@ -33,6 +33,11 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
+    public List<City> listCitiesObj() {
+        return cityRepository.listAll();
+    }
+
+    @Override
     public List<CityDto> listCities() {
         List<City> cities = cityRepository.listAll();
         return buildDto(cities);

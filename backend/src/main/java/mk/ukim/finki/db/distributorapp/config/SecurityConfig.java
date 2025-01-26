@@ -67,7 +67,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/css/**", "/js/**").permitAll()
+                        .requestMatchers("/auth/**", "/rest/auth/**", "/css/**", "/js/**").permitAll()
                         .requestMatchers("/manager/**").hasAuthority("Manager")
                         .requestMatchers("/driver/**").hasAuthority("Driver")
                         .requestMatchers("/customer/**").hasAuthority("Customer")

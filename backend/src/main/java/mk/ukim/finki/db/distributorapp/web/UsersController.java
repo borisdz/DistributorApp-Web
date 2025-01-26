@@ -33,7 +33,8 @@ public class UsersController {
                     user.getUserImage(),
                     user.getCity().getCityId(),
                     user.getCity().getCityName(),
-                    user.getCity().getRegion().getRegionName()
+                    user.getCity().getRegion().getRegionName(),
+                    user.getRole()
             );
             dtos.add(dto);
         }

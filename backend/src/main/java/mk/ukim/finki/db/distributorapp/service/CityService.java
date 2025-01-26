@@ -8,6 +8,8 @@ import java.util.Optional;
 
 public interface CityService {
 
+    List<City> listCitiesObj();
+
     List<CityDto> listCities();
 
     CityDto getCityById(Long id);

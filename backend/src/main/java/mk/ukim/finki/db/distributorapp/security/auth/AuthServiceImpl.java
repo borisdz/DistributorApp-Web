@@ -6,6 +6,7 @@ import mk.ukim.finki.db.distributorapp.model.entities.Users;
 import mk.ukim.finki.db.distributorapp.model.exceptions.InvalidArgumentsException;
 import mk.ukim.finki.db.distributorapp.model.exceptions.InvalidUserCredentialsException;
 import mk.ukim.finki.db.distributorapp.repository.ConfirmationTokenRepository;
+import mk.ukim.finki.db.distributorapp.repository.CustomerRepository;
 import mk.ukim.finki.db.distributorapp.repository.UsersRepository;
 import mk.ukim.finki.db.distributorapp.security.ConfirmationToken;
 import mk.ukim.finki.db.distributorapp.security.EmailService;
@@ -24,12 +25,14 @@ public class AuthServiceImpl implements AuthService {
     private final ConfirmationTokenRepository confirmationTokenRepository;
     private final EmailService emailService;
     private final PassEncryptionPasswordEncoder passwordEncoder;
+    private final CustomerRepository customerRepository;
 
-    public AuthServiceImpl(UsersRepository usersRepository, ConfirmationTokenRepository confirmationTokenRepository, EmailService emailService, PassEncryptionPasswordEncoder passwordEncoder) {
+    public AuthServiceImpl(UsersRepository usersRepository, ConfirmationTokenRepository confirmationTokenRepository, EmailService emailService, PassEncryptionPasswordEncoder passwordEncoder, CustomerRepository customerRepository) {
         this.usersRepository = usersRepository;
         this.confirmationTokenRepository = confirmationTokenRepository;
         this.emailService = emailService;
         this.passwordEncoder = passwordEncoder;
+        this.customerRepository = customerRepository;
     }
 
     @Override
@@ -56,20 +59,21 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Users register(RegisterRequestDto registerRequest) {
+    public void register(RegisterRequestDto registerRequest) {
         String saltValue = PassEncryption.genSaltValue(30);
         String safePass = passwordEncoder.encodeWithSalt(registerRequest.getPassword(), saltValue);
 
         this.usersRepository.create(
-                registerRequest.getFirstName(),
-                registerRequest.getLastName(),
-                safePass,
-                registerRequest.getEmail(),
-                registerRequest.getPhone(),
-                saltValue,
+                "'"+registerRequest.getName()+"'",
+                "'"+registerRequest.getSurname()+"'",
+                "'"+safePass+"'",
+                "'"+registerRequest.getEmail()+"'",
+                "'"+registerRequest.getMobile()+"'",
+                "'"+saltValue+"'",
                 false,
-                registerRequest.getImage(),
-                registerRequest.getCityId());
+                null,
+                registerRequest.getCity(),
+                "ROLE_CUSTOMER");
 
         Users user = this.usersRepository.findUserByUserEmailIgnoreCase(registerRequest.getEmail()).orElseThrow(InvalidUserCredentialsException::new);
 
@@ -84,7 +88,7 @@ public class AuthServiceImpl implements AuthService {
         System.out.println("Confirmation Token: " + confirmationToken.getConfirmationToken());
         emailService.sendEmail(mailMessage);
 
-        return user;
+        this.customerRepository.create(user.getUserId(), registerRequest.getEdb(), registerRequest.getName(), registerRequest.getAddress(),registerRequest.getProfileImage());
     }
 
     @Override

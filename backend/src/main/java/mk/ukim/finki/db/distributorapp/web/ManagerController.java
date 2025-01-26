@@ -3,12 +3,11 @@ package mk.ukim.finki.db.distributorapp.web;
 import mk.ukim.finki.db.distributorapp.model.dto.ManagerDto;
 import mk.ukim.finki.db.distributorapp.service.ManagerService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/manager")
 public class ManagerController {
     private final ManagerService managerService;

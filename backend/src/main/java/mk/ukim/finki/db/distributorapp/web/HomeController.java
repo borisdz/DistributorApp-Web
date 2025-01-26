@@ -61,17 +61,21 @@ public class HomeController {
             return "home";
         }
 
-        Users user = (Users) authentication.getPrincipal();
+        Users user = (Users) authentication.getAuthorities();
 
-        if (user instanceof Customer) {
-            model.addAttribute("userType", "Customer");
-            return "redirect:home/customer";
-        } else if (user instanceof Driver) {
-            model.addAttribute("userType", "Driver");
-            return "redirect:home/driver";
-        } else if (user instanceof Manager) {
-            model.addAttribute("userType", "Manager");
-            return "redirect:home/manager";
+        switch (user.getRole().getAuthority()) {
+            case "ROLE_CUSTOMER" -> {
+                model.addAttribute("userType", "Customer");
+                return "redirect:home/customer";
+            }
+            case "ROLE_DRIVER" -> {
+                model.addAttribute("userType", "Driver");
+                return "redirect:home/driver";
+            }
+            case "ROLE_MANAGER" -> {
+                model.addAttribute("userType", "Manager");
+                return "redirect:home/manager";
+            }
         }
         model.addAttribute("userType", "Guest");
         return "home";

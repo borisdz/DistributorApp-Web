@@ -14,8 +14,8 @@ public interface CityRepository extends JpaRepository<City, Long> {
 
     @Query(
             nativeQuery = true,
-            value = "select * " +
-                    "from city c"
+            value = "select c.* " +
+                    "from city c join region r on c.region_id = r.region_id"
     )
     List<City> listAll();
 

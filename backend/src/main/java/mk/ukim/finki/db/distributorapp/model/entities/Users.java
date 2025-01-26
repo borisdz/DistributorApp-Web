@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import mk.ukim.finki.db.distributorapp.model.enumerations.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -46,9 +47,16 @@ public class Users implements UserDetails {
     @Column(name = "user_image")
     private String userImage;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role")
+    private Role role;
+
     @ManyToOne
     @JoinColumn(name = "city_id", nullable = false)
     private City city;
+
+    @Column(name = "clazz_")
+    private String clazz;
 
     @Override
     public String getUsername() {

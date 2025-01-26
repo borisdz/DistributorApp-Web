@@ -33,14 +33,14 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
             nativeQuery = true,
             value = "select * from users where user_id=:id"
     )
-    Optional<Users> findById(@NonNull @Param("id") Short id);
+    Optional<Users> findById(@NonNull @Param("id") Long id);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "insert into users(user_name, user_surname, user_pass, user_salt, user_email, user_mobile, user_email_conf, user_image, city_id) " +
-                    "values (:name,:sur,:pass,:salt,:email,:mob,:active,:img,:cty)"
+            value = "insert into users(user_name, user_surname, user_pass, user_salt, user_email, user_mobile, user_active, user_image, city_id, role) " +
+                    "values (:name,:sur,:pass,:salt,:email,:mob,:active,:img,:cty,:role)"
     )
     Integer create(
             @NonNull @Param("name") String name,
@@ -50,15 +50,16 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
             @NonNull @Param("mob") String mobile,
             @NonNull @Param("salt") String salt,
             @NonNull @Param("active") Boolean active,
-            @NonNull @Param("img") String image,
-            @NonNull @Param("cty") Long city_id);
+            @Param("img") String image,
+            @NonNull @Param("cty") Long city_id,
+            @NonNull @Param("role") String role);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
             value = "update users " +
-                    "set user_name=:name,user_surname=:sur,user_pass=:pass,user_email=:email,user_mobile=:mob,user_salt=:salt,user_email_conf=:active,user_image=:img,city_id=:cty " +
+                    "set user_name=:name,user_surname=:sur,user_pass=:pass,user_email=:email,user_mobile=:mob,user_salt=:salt,user_active=:active,user_image=:img,city_id=:cty " +
                     "where user_id=:id"
     )
     Integer edit(
@@ -71,7 +72,8 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
             @NonNull @Param("salt") String salt,
             @NonNull @Param("active") Boolean active,
             @NonNull @Param("img") String image,
-            @NonNull @Param("cty") Long city_id);
+            @NonNull @Param("cty") Long city_id,
+            @NonNull @Param("role") String role);
 
     @Modifying
     @Transactional
