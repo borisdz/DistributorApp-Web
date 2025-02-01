@@ -1,4 +1,4 @@
-package mk.ukim.finki.db.distributorapp.web;
+package mk.ukim.finki.db.distributorapp.web.rest;
 
 import mk.ukim.finki.db.distributorapp.model.dto.ManufacturerDto;
 import mk.ukim.finki.db.distributorapp.service.ManufacturerService;
@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/manufacturer")
-public class ManufacturerController {
+@RequestMapping("/rest/manufacturer")
+public class RestManufacturerController {
     private final ManufacturerService manufacturerService;
 
-    public ManufacturerController(ManufacturerService manufacturerService) {
+    public RestManufacturerController(ManufacturerService manufacturerService) {
         this.manufacturerService = manufacturerService;
     }
 

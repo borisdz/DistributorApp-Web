@@ -1,4 +1,4 @@
-package mk.ukim.finki.db.distributorapp.web;
+package mk.ukim.finki.db.distributorapp.web.rest;
 
 import mk.ukim.finki.db.distributorapp.model.dto.ArticleUnitDto;
 import mk.ukim.finki.db.distributorapp.service.ArticleUnitService;
@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/articleUnit")
-public class ArticleUnitController {
+@RequestMapping("/restarticleUnit")
+public class RestArticleUnitController {
     private final ArticleUnitService articleUnitService;
 
-    public ArticleUnitController(ArticleUnitService articleUnitService) {
+    public RestArticleUnitController(ArticleUnitService articleUnitService) {
         this.articleUnitService = articleUnitService;
     }
 

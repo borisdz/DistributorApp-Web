@@ -1,5 +1,6 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp.model.dto.WarehouseDto;
 import mk.ukim.finki.db.distributorapp.model.entities.City;
 import mk.ukim.finki.db.distributorapp.model.entities.Manager;
@@ -12,12 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class WarehouseServiceImpl implements WarehouseService {
     private final WarehouseRepository warehouseRepository;
-
-    public WarehouseServiceImpl(WarehouseRepository warehouseRepository) {
-        this.warehouseRepository = warehouseRepository;
-    }
 
     private List<WarehouseDto> buildDtoList(List<Warehouse> warehouses) {
         List<WarehouseDto> dtos = new ArrayList<>();

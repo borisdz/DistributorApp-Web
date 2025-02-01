@@ -1,5 +1,6 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp.model.dto.ManagerDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Manager;
 import mk.ukim.finki.db.distributorapp.repository.ManagerRepository;
@@ -10,12 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ManagerServiceImpl implements ManagerService {
     private final ManagerRepository managerRepository;
 
-    public ManagerServiceImpl(ManagerRepository managerRepository) {
-        this.managerRepository = managerRepository;
-    }
 
     private List<ManagerDto> buildDto(List<Manager> managers) {
         List<ManagerDto> dtos = new ArrayList<>();

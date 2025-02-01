@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,8 +38,10 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "insert into customer(user_id, cust_edb, cust_company_name, cust_address, cust_representative_img) " +
-                    "values (?1,?2,?3,?4,?5)"
+            value = """
+                    insert into customer(user_id, cust_edb, cust_company_name, cust_adr, cust_representative_img)
+                    values (?1,?2,?3,?4,?5)
+                    """
     )
     Integer create(
             @NonNull Long id,
@@ -54,7 +55,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Query(
             nativeQuery = true,
             value = "update customer " +
-                    "set cust_edb=?2,cust_company_name=?3,cust_address=?4,cust_representative_img=?5 " +
+                    "set cust_edb=?2,cust_company_name=?3,cust_adr=?4,cust_representative_img=?5 " +
                     "where user_id=?1"
     )
     Integer edit(

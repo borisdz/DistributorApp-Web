@@ -16,9 +16,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class ArticleControllerIntegrationTest {
+public class RestArticleControllerIntegrationTest {
 
-    private static final Logger logger = LoggerFactory.getLogger(ArticleControllerIntegrationTest.class);
+    private static final Logger logger = LoggerFactory.getLogger(RestArticleControllerIntegrationTest.class);
 
     @Autowired
     private RestTemplate restTemplate;

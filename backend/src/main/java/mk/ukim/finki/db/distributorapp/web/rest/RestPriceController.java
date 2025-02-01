@@ -1,4 +1,4 @@
-package mk.ukim.finki.db.distributorapp.web;
+package mk.ukim.finki.db.distributorapp.web.rest;
 
 import mk.ukim.finki.db.distributorapp.model.dto.PriceDto;
 import mk.ukim.finki.db.distributorapp.service.PriceService;
@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/price")
-public class PriceController {
+@RequestMapping("/rest/price")
+public class RestPriceController {
     private final PriceService priceService;
 
-    public PriceController(PriceService priceService) {
+    public RestPriceController(PriceService priceService) {
         this.priceService = priceService;
     }
 

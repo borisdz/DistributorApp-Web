@@ -25,6 +25,7 @@ public interface CityRepository extends JpaRepository<City, Long> {
                     "from city c " +
                     "where c.city_id = ?1"
     )
+    @Transactional
     Optional<City> findById(@NonNull Long id);
 
     @Query(

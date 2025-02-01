@@ -1,4 +1,4 @@
-package mk.ukim.finki.db.distributorapp.web;
+package mk.ukim.finki.db.distributorapp.web.rest;
 
 import mk.ukim.finki.db.distributorapp.model.dto.DeliveryStatusDto;
 import mk.ukim.finki.db.distributorapp.service.DeliveryStatusService;
@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/dStatus")
-public class DeliveryStatusController {
+@RequestMapping("/rest/dStatus")
+public class RestDeliveryStatusController {
     private final DeliveryStatusService deliveryStatusService;
 
-    public DeliveryStatusController(DeliveryStatusService deliveryStatusService) {
+    public RestDeliveryStatusController(DeliveryStatusService deliveryStatusService) {
         this.deliveryStatusService = deliveryStatusService;
     }
 

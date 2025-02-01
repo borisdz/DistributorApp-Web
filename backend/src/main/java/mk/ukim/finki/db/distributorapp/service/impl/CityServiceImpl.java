@@ -1,5 +1,6 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp.model.dto.CityDto;
 import mk.ukim.finki.db.distributorapp.model.entities.City;
 import mk.ukim.finki.db.distributorapp.repository.CityRepository;
@@ -11,12 +12,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class CityServiceImpl implements CityService {
     private final CityRepository cityRepository;
 
-    public CityServiceImpl(CityRepository cityRepository) {
-        this.cityRepository = cityRepository;
-    }
 
     private List<CityDto> buildDto(List<City> cities) {
         List<CityDto> dtos = new ArrayList<>();
@@ -45,9 +44,8 @@ public class CityServiceImpl implements CityService {
 
     @Override
     public CityDto getCityById(Long id) {
-        City city = cityRepository.findById(id).orElse(null);
+        City city = cityRepository.findById(id).orElseThrow();
 
-        assert city != null;
         return new CityDto(
                 city.getCityId(),
                 city.getCityName(),

@@ -1,4 +1,4 @@
-package mk.ukim.finki.db.distributorapp.web;
+package mk.ukim.finki.db.distributorapp.web.rest;
 
 import mk.ukim.finki.db.distributorapp.model.dto.RegionDto;
 import mk.ukim.finki.db.distributorapp.service.RegionService;
@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/region")
-public class RegionController {
+@RequestMapping("/rest/region")
+public class RestRegionController {
     private final RegionService regionService;
 
-    public RegionController(RegionService regionService) {
+    public RestRegionController(RegionService regionService) {
         this.regionService = regionService;
     }
 

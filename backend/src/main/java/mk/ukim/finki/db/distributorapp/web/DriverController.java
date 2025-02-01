@@ -1,42 +1,80 @@
 package mk.ukim.finki.db.distributorapp.web;
 
 import mk.ukim.finki.db.distributorapp.model.dto.DriverDto;
+import mk.ukim.finki.db.distributorapp.model.dto.RegisterRequestDto;
+import mk.ukim.finki.db.distributorapp.model.dto.UserDto;
+import mk.ukim.finki.db.distributorapp.model.dto.VehicleDto;
+import mk.ukim.finki.db.distributorapp.model.entities.Users;
+import mk.ukim.finki.db.distributorapp.security.auth.AuthService;
 import mk.ukim.finki.db.distributorapp.service.DriverService;
-import org.springframework.http.ResponseEntity;
+import mk.ukim.finki.db.distributorapp.service.UsersService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/driver")
 public class DriverController {
     private final DriverService driverService;
+    private final AuthService authService;
+    private final UsersService usersService;
 
-    public DriverController(DriverService driverService) {
+    public DriverController(DriverService driverService, AuthService authService, UsersService usersService) {
         this.driverService = driverService;
+        this.authService = authService;
+        this.usersService = usersService;
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<DriverDto>> getAllDrivers() {
+    public String allDrivers(Model model) {
         List<DriverDto> drivers = driverService.getAllDrivers();
-        return ResponseEntity.ok(drivers);
+        model.addAttribute("drivers", drivers);
+        return "all-drivers";
     }
 
-    @PutMapping("/add")
-    public ResponseEntity<Integer> addDriver(@RequestBody DriverDto driverDto) {
-        Integer result = this.driverService.create(driverDto);
-        return ResponseEntity.ok(result);
+    @GetMapping("/create")
+    public String createDriver(Model model) {
+        model.addAttribute("driver", new DriverDto());
+        model.addAttribute("user", new UserDto());
+        return "create-driver";
     }
 
-    @PutMapping("/edit")
-    public ResponseEntity<Integer> editDriver(@RequestBody DriverDto driverDto) {
-        Integer result = this.driverService.edit(driverDto);
-        return ResponseEntity.ok(result);
+    @PostMapping("/create")
+    public String createDriver(@ModelAttribute("driver") RegisterRequestDto requestDto, @ModelAttribute("vehicle") VehicleDto vehicleDto, Model model) throws Exception {
+        DriverDto driverDto = new DriverDto();
+
+        this.authService.register(requestDto);
+        Users user = this.usersService.findUserByEmail(requestDto.getEmail());
+
+        driverDto.setId(user.getUserId());
+        driverDto.setVehId(vehicleDto.getId());
+
+        Integer res = this.driverService.create(driverDto);
+        if (res == 1) {
+            model.addAttribute("create-success", true);
+        } else {
+            model.addAttribute("create-success", false);
+        }
+        return "all-drivers";
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteDriver(@PathVariable Long id) {
-        this.driverService.deleteById(id);
-        return ResponseEntity.noContent().build();
+    @GetMapping("/edit/{id}")
+    public String editDriver(@PathVariable("id") Long id, Model model) {
+        DriverDto driver = this.driverService.findById(id);
+        model.addAttribute("driver", driver);
+        return "edit-driver";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String editDriver(@PathVariable("id") Long id, @RequestBody DriverDto driverDto, Model model) {
+        Integer res = this.driverService.edit(driverDto);
+        if (res == 1) {
+            model.addAttribute("edit-success", true);
+        } else {
+            model.addAttribute("edit-success", false);
+        }
+        return "all-drivers";
     }
 }

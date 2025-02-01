@@ -15,24 +15,40 @@ import java.util.Optional;
 public interface UsersRepository extends JpaRepository<Users, Long> {
     @Query(
             nativeQuery = true,
-            value = "select u.*,c.*,d.*,m.*, 0 AS clazz_ " +
-                    "from users u " +
-                    "left join customer c on u.user_id = c.user_id " +
-                    "left join driver d on u.user_id = d.user_id " +
-                    "left join manager m on u.user_id = m.user_id " +
-                    "order by u.user_id"
+            value = """
+                    select *
+                    from users u
+                    left join customer c on u.user_id = c.user_id
+                    left join driver d on u.user_id = d.user_id
+                    left join manager m on u.user_id = m.user_id
+                    order by u.user_id
+                    """
     )
     List<Users> listAll();
 
     @Query(
             nativeQuery = true,
-            value = "select * from users where user_name like :name"
+            value = """
+                    select *
+                    from users u
+                    left join customer c on u.user_id = c.user_id
+                    left join driver d on u.user_id = d.user_id
+                    left join manager m on u.user_id = m.user_id
+                    where u.user_name like :name
+                    """
     )
     List<Users> findAllByName(@NonNull @Param("name") String name);
 
     @Query(
             nativeQuery = true,
-            value = "select * from users where user_id=:id"
+            value = """
+                    select *
+                    from users u
+                    left join customer c on u.user_id = c.user_id
+                    left join driver d on u.user_id = d.user_id
+                    left join manager m on u.user_id = m.user_id
+                    where u.user_id=:id
+                    """
     )
     Optional<Users> findById(@NonNull @Param("id") Long id);
 
@@ -92,17 +108,24 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
     // TODO: Update the queries bellow.
     @Query(
             nativeQuery = true,
-            value = "select * " +
-                    "from users " +
-                    "where user_email like :email"
+            value = """
+                    select *
+                    from users u
+                        left join customer c on u.user_id = c.user_id
+                        left join driver d on u.user_id = d.user_id
+                        left join manager m on u.user_id = m.user_id
+                    where user_email like :email
+                    """
     )
     Optional<Users> findUserByUserEmailIgnoreCase(@NonNull @Param("email") String email);
 
     @Query(
             nativeQuery = true,
-            value = "select * " +
-                    "from users " +
-                    "where user_email:email and user_pass=:pass"
+            value = """
+                    select *
+                    from users
+                    where user_email:email and user_pass=:pass
+                    """
     )
     Optional<Users> findUserByUserNameAndUserPassword(
             @NonNull @Param("pass") String password,
@@ -122,4 +145,6 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
                     """
     )
     Optional<Users> findUserByResetToken(@NonNull @Param("token") String token);
+
+    Optional<Users> findUsersByUserEmailIgnoreCase(String email);
 }

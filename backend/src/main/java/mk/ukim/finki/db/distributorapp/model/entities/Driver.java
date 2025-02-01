@@ -1,6 +1,7 @@
 package mk.ukim.finki.db.distributorapp.model.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -10,6 +11,7 @@ import lombok.EqualsAndHashCode;
 @Table(name = "driver")
 @DiscriminatorValue(value = "Driver")
 public class Driver extends Users {
+    @NotNull
     @OneToOne
     @JoinColumn(name = "veh_id", nullable = false)
     private Vehicle vehicle;

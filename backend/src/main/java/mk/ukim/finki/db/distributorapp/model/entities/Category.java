@@ -1,6 +1,8 @@
 package mk.ukim.finki.db.distributorapp.model.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.util.List;
@@ -14,6 +16,8 @@ public class Category {
     @Column(name = "ctg_id")
     private Long categoryId;
 
+    @Size(max = 255)
+    @NotNull
     @Column(name = "ctg_name", nullable = false)
     private String categoryName;
 

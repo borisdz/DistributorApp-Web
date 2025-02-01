@@ -1,6 +1,8 @@
 package mk.ukim.finki.db.distributorapp.model.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.util.LinkedHashSet;
@@ -14,6 +16,8 @@ public class Weekday {
     @Column(name = "day_id", nullable = false)
     private Short id;
 
+    @Size(max = 20)
+    @NotNull
     @Column(name = "day_name", nullable = false, length = 20)
     private String dayName;
 

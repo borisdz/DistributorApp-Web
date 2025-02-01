@@ -1,5 +1,7 @@
 package mk.ukim.finki.db.distributorapp.security.auth;
 
+import jakarta.persistence.EntityManager;
+import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp.model.dto.LoginRequestDto;
 import mk.ukim.finki.db.distributorapp.model.dto.RegisterRequestDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Users;
@@ -15,11 +17,17 @@ import mk.ukim.finki.db.distributorapp.security.PassEncryption;
 import mk.ukim.finki.db.distributorapp.security.PassEncryptionPasswordEncoder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
     private final UsersRepository usersRepository;
@@ -27,14 +35,8 @@ public class AuthServiceImpl implements AuthService {
     private final EmailService emailService;
     private final PassEncryptionPasswordEncoder passwordEncoder;
     private final CustomerRepository customerRepository;
-
-    public AuthServiceImpl(UsersRepository usersRepository, ConfirmationTokenRepository confirmationTokenRepository, EmailService emailService, PassEncryptionPasswordEncoder passwordEncoder, CustomerRepository customerRepository) {
-        this.usersRepository = usersRepository;
-        this.confirmationTokenRepository = confirmationTokenRepository;
-        this.emailService = emailService;
-        this.passwordEncoder = passwordEncoder;
-        this.customerRepository = customerRepository;
-    }
+    private final EntityManager entityManager;
+    private final AuthenticationManager authenticationManager;
 
     @Override
     public String getUserSalt(String username) {
@@ -60,23 +62,27 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void register(RegisterRequestDto registerRequest) {
+    @Transactional
+    public void register(RegisterRequestDto registerRequest) throws Exception {
         String saltValue = PassEncryption.genSaltValue(30);
         String safePass = passwordEncoder.encodeWithSalt(registerRequest.getPassword(), saltValue);
 
-        this.usersRepository.create(
-                "'"+registerRequest.getName()+"'",
-                "'"+registerRequest.getSurname()+"'",
-                "'"+safePass+"'",
-                "'"+registerRequest.getEmail()+"'",
-                "'"+registerRequest.getMobile()+"'",
-                "'"+saltValue+"'",
+        Integer res = this.usersRepository.create(
+                registerRequest.getName(),
+                registerRequest.getSurname(),
+                safePass,
+                registerRequest.getEmail(),
+                registerRequest.getMobile(),
+                saltValue,
                 false,
                 null,
                 registerRequest.getCity(),
-                Role.ROLE_CUSTOMER.name(),
+                Role.ROLE_CUSTOMER.toString(),
                 null,
                 null);
+        if (res == 0) {
+            throw new Exception("User insertion failed");
+        }
 
         Users user = this.usersRepository.findUserByUserEmailIgnoreCase(registerRequest.getEmail()).orElseThrow(InvalidUserCredentialsException::new);
 
@@ -91,21 +97,41 @@ public class AuthServiceImpl implements AuthService {
         System.out.println("Confirmation Token: " + confirmationToken.getConfirmationToken());
         emailService.sendEmail(mailMessage);
 
-        this.customerRepository.create(user.getUserId(), registerRequest.getEdb(), registerRequest.getName(), registerRequest.getAddress(),registerRequest.getProfileImage());
+        this.customerRepository.create(
+                user.getUserId(),
+                registerRequest.getEdb(),
+                registerRequest.getName(),
+                registerRequest.getAddress(),
+                registerRequest.getProfileImage());
     }
 
     @Override
+    @Transactional
     public Users login(LoginRequestDto loginRequest) {
-        if (loginRequest.getEmail() == null || loginRequest.getEmail().isEmpty() || loginRequest.getPassword() == null || loginRequest.getPassword().isEmpty()) {
+        if (loginRequest.getEmail() == null
+                || loginRequest.getEmail().isEmpty()
+                || loginRequest.getPassword() == null
+                || loginRequest.getPassword().isEmpty()) {
+
             throw new InvalidArgumentsException();
         }
 
-        String secPassword = passwordEncoder.encodeWithSalt
-                (
-                        loginRequest.getPassword(),
-                        usersRepository.findUserByUserName(loginRequest.getEmail()).get().getUserSalt()
-                );
+        Users user = this.usersRepository.findUsersByUserEmailIgnoreCase(loginRequest.getEmail())
+                .orElseThrow(InvalidUserCredentialsException::new);
 
-        return usersRepository.findUserByUserNameAndUserPassword(loginRequest.getEmail(), secPassword).orElseThrow(InvalidUserCredentialsException::new);
+        String secPassword = passwordEncoder
+                .encodeWithSalt(loginRequest.getPassword(), user.getUserSalt());
+
+        if (!secPassword.equals(user.getPassword())) {
+            throw new InvalidUserCredentialsException();
+        }
+
+        Authentication authentication = new UsernamePasswordAuthenticationToken(
+                user, null, user.getAuthorities()
+        );
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        return user;
     }
 }

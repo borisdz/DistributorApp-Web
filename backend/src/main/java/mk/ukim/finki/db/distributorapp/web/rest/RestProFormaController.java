@@ -1,4 +1,4 @@
-package mk.ukim.finki.db.distributorapp.web;
+package mk.ukim.finki.db.distributorapp.web.rest;
 
 import mk.ukim.finki.db.distributorapp.model.dto.ProFormaDto;
 import mk.ukim.finki.db.distributorapp.service.ProFormaService;
@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/pForma")
-public class ProFormaController {
+@RequestMapping("/rest/pForma")
+public class RestProFormaController {
     private final ProFormaService proFormaService;
 
-    public ProFormaController(ProFormaService proFormaService) {
+    public RestProFormaController(ProFormaService proFormaService) {
         this.proFormaService = proFormaService;
     }
 

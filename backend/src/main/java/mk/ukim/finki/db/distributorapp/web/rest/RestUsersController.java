@@ -1,4 +1,4 @@
-package mk.ukim.finki.db.distributorapp.web;
+package mk.ukim.finki.db.distributorapp.web.rest;
 
 import mk.ukim.finki.db.distributorapp.model.dto.UserDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Users;
@@ -12,12 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController()
-@RequestMapping("/users")
-public class UsersController {
+@RequestMapping("/rest/users")
+public class RestUsersController {
 
     private final UsersService usersService;
 
-    public UsersController(UsersService usersService) {
+    public RestUsersController(UsersService usersService) {
         this.usersService = usersService;
     }
 

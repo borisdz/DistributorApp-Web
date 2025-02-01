@@ -14,7 +14,7 @@ public interface AuthService {
 
     ResponseEntity<?> confirmEmail(String confirmationToken);
 
-    void register(RegisterRequestDto registerRequest);
+    void register(RegisterRequestDto registerRequest) throws Exception;
 
     Users login(LoginRequestDto loginRequest);
 }

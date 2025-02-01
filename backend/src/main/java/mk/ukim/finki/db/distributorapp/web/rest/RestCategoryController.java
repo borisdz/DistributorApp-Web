@@ -1,4 +1,4 @@
-package mk.ukim.finki.db.distributorapp.web;
+package mk.ukim.finki.db.distributorapp.web.rest;
 
 import mk.ukim.finki.db.distributorapp.model.dto.CategoryDto;
 import mk.ukim.finki.db.distributorapp.service.CategoryService;
@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/category")
-public class CategoryController {
+@RequestMapping("/rest/category")
+public class RestCategoryController {
     private final CategoryService categoryService;
 
-    public CategoryController(CategoryService categoryService) {
+    public RestCategoryController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
 

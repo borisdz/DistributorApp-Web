@@ -1,4 +1,4 @@
-package mk.ukim.finki.db.distributorapp.web;
+package mk.ukim.finki.db.distributorapp.web.rest;
 
 import mk.ukim.finki.db.distributorapp.model.dto.VehicleDto;
 import mk.ukim.finki.db.distributorapp.service.VehicleService;
@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/vehicle")
-public class VehicleController {
+@RequestMapping("/rest/vehicle")
+public class RestVehicleController {
     private final VehicleService vehicleService;
 
-    public VehicleController(VehicleService vehicleService) {
+    public RestVehicleController(VehicleService vehicleService) {
         this.vehicleService = vehicleService;
     }
 

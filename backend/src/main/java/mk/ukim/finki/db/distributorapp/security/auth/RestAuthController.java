@@ -28,7 +28,7 @@ public class RestAuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@ModelAttribute RegisterRequestDto registerRequest) {
+    public ResponseEntity<?> register(@ModelAttribute RegisterRequestDto registerRequest) throws Exception {
         authService.register(registerRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
     }

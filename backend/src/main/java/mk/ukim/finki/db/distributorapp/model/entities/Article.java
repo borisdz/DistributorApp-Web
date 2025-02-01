@@ -2,6 +2,8 @@ package mk.ukim.finki.db.distributorapp.model.entities;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.util.List;
@@ -15,20 +17,27 @@ public class Article {
     @Column(name = "art_id", nullable = false)
     private Long articleId;
 
+    @Size(max = 255)
+    @NotNull
     @Column(name = "art_name", nullable = false)
     private String articleName;
 
+    @NotNull
     @Column(name = "art_weight", nullable = false)
     private Integer articleWeight;
 
+    @Size(max = 255)
+    @NotNull
     @Column(name = "art_image", nullable = false)
     private String artImage;
 
-    @ManyToOne
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "ctg_id", nullable = false)
     private Category category;
 
-    @ManyToOne
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "man_id", nullable = false)
     private Manufacturer manufacturer;
 

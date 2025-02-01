@@ -1,6 +1,8 @@
 package mk.ukim.finki.db.distributorapp.model.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.util.List;
@@ -14,6 +16,8 @@ public class City {
     @Column(name = "city_id")
     private Long cityId;
 
+    @Size(max = 255)
+    @NotNull
     @Column(name = "city_name", nullable = false)
     private String cityName;
 
@@ -23,6 +27,7 @@ public class City {
     @OneToOne(mappedBy = "city")
     private Warehouse warehouse;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "region_id", nullable = false)
     private Region region;

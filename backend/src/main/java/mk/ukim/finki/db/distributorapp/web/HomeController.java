@@ -4,15 +4,18 @@ import mk.ukim.finki.db.distributorapp.model.entities.Customer;
 import mk.ukim.finki.db.distributorapp.model.entities.Driver;
 import mk.ukim.finki.db.distributorapp.model.entities.Manager;
 import mk.ukim.finki.db.distributorapp.model.entities.Users;
-import mk.ukim.finki.db.distributorapp.service.*;
+import mk.ukim.finki.db.distributorapp.service.DeliveryService;
+import mk.ukim.finki.db.distributorapp.service.OrdersService;
+import mk.ukim.finki.db.distributorapp.service.VehicleService;
+import mk.ukim.finki.db.distributorapp.service.WarehouseService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 @RequestMapping("/home")
 public class HomeController {
 
@@ -58,26 +61,30 @@ public class HomeController {
 
         if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
             model.addAttribute("userType", "Guest");
-            return "home";
+            return "authentication/login";
         }
 
-        Users user = (Users) authentication.getAuthorities();
+        Users user = (Users) authentication.getPrincipal();
 
-        switch (user.getUserRole().getAuthority()) {
-            case "ROLE_CUSTOMER" -> {
+        switch (user.getUserRole()) {
+            case ROLE_CUSTOMER -> {
                 model.addAttribute("userType", "Customer");
                 return "redirect:home/customer";
             }
-            case "ROLE_DRIVER" -> {
+            case ROLE_DRIVER -> {
                 model.addAttribute("userType", "Driver");
                 return "redirect:home/driver";
             }
-            case "ROLE_MANAGER" -> {
+            case ROLE_MANAGER -> {
                 model.addAttribute("userType", "Manager");
                 return "redirect:home/manager";
             }
+            case ROLE_ADMIN -> {
+                model.addAttribute("userType", "Admin");
+                return "redirect:home/admin";
+            }
         }
         model.addAttribute("userType", "Guest");
-        return "home";
+        return "authentication/login";
     }
 }

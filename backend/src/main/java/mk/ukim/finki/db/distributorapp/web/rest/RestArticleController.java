@@ -1,4 +1,4 @@
-package mk.ukim.finki.db.distributorapp.web;
+package mk.ukim.finki.db.distributorapp.web.rest;
 
 import mk.ukim.finki.db.distributorapp.model.dto.ArticleDto;
 import mk.ukim.finki.db.distributorapp.service.ArticleService;
@@ -9,11 +9,11 @@ import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping("/article")
-public class ArticleController {
+@RequestMapping("/rest/article")
+public class RestArticleController {
     private final ArticleService articleService;
 
-    public ArticleController(ArticleService articleService) {
+    public RestArticleController(ArticleService articleService) {
         this.articleService = articleService;
     }
 

@@ -1,4 +1,4 @@
-package mk.ukim.finki.db.distributorapp.web;
+package mk.ukim.finki.db.distributorapp.web.rest;
 
 import mk.ukim.finki.db.distributorapp.model.dto.CustomerWeekdayDto;
 import mk.ukim.finki.db.distributorapp.service.CustomerWeekdayService;
@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/customerWeekday")
-public class CustomerWeekdayController {
+@RequestMapping("/rest/customerWeekday")
+public class RestCustomerWeekdayController {
     private final CustomerWeekdayService customerWeekdayService;
 
-    public CustomerWeekdayController(CustomerWeekdayService customerWeekdayService) {
+    public RestCustomerWeekdayController(CustomerWeekdayService customerWeekdayService) {
         this.customerWeekdayService = customerWeekdayService;
     }
 
