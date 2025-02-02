@@ -9,20 +9,25 @@ import lombok.NoArgsConstructor;
 import mk.ukim.finki.db.distributorapp.model.enumerations.Role;
 import mk.ukim.finki.db.distributorapp.security.ConfirmationToken;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.security.auth.Subject;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.List;
+import java.util.Collections;
 
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(
+        name = "clazz_",
+        discriminatorType = DiscriminatorType.STRING
+)
 @Data
 @Table(name = "users")
-public class Users implements UserDetails {
+public class Users implements UserDetails, Principal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -82,7 +87,7 @@ public class Users implements UserDetails {
     @JoinColumn(name = "city_id", nullable = false)
     private City city;
 
-    @Column(name = "clazz_")
+    @Column(name = "clazz_", insertable = false, updatable = false)
     private String clazz;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -100,7 +105,7 @@ public class Users implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(this.getUserRole().name()));
+        return Collections.singletonList((GrantedAuthority) userRole);
     }
 
     @Override
@@ -121,5 +126,15 @@ public class Users implements UserDetails {
     @Override
     public boolean isEnabled() {
         return userActive;
+    }
+
+    @Override
+    public String getName() {
+        return userEmail;
+    }
+
+    @Override
+    public boolean implies(Subject subject) {
+        return Principal.super.implies(subject);
     }
 }

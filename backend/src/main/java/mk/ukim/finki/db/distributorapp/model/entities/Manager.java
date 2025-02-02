@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Data
 @Table(name = "manager")
-@DiscriminatorValue(value = "Manager")
+@DiscriminatorValue("MANAGER")
 public class Manager extends Users {
 
     @NotNull

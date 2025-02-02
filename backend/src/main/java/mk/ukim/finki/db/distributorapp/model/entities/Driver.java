@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @Data
 @Table(name = "driver")
-@DiscriminatorValue(value = "Driver")
+@DiscriminatorValue("DRIVER")
 public class Driver extends Users {
     @NotNull
     @OneToOne

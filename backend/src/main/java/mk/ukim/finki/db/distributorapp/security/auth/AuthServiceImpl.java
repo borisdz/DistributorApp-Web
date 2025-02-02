@@ -18,9 +18,6 @@ import mk.ukim.finki.db.distributorapp.security.PassEncryptionPasswordEncoder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -125,12 +122,6 @@ public class AuthServiceImpl implements AuthService {
         if (!secPassword.equals(user.getPassword())) {
             throw new InvalidUserCredentialsException();
         }
-
-        Authentication authentication = new UsernamePasswordAuthenticationToken(
-                user, null, user.getAuthorities()
-        );
-
-        SecurityContextHolder.getContext().setAuthentication(authentication);
 
         return user;
     }

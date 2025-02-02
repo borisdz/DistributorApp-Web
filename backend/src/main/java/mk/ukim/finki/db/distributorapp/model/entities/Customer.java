@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "customer")
-@DiscriminatorValue(value = "Customer")
+@DiscriminatorValue("CUSTOMER")
 public class Customer extends Users {
     @Size(max = 13)
     @NotNull
