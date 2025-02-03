@@ -41,7 +41,7 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
     @Override
-    public ManagerDto getManagerById(int id) {
+    public ManagerDto getManagerById(Long id) {
         Manager manager = this.managerRepository.findById(id).get();
 
         return new ManagerDto(
@@ -54,6 +54,10 @@ public class ManagerServiceImpl implements ManagerService {
                 manager.getWarehouse().getCity().getRegion().getRegionName(),
                 manager.getWarehouse().getCity().getCityName()
         );
+    }
+
+    public Manager getManagerByIdObj(Long id){
+        return this.managerRepository.findById(id).get();
     }
 
     @Override

@@ -78,4 +78,14 @@ public class AuthController {
     public String changePassword(Model model) {
         return "authentication/changePass";
     }
+
+    @GetMapping("/logout")
+    public String logout(RedirectAttributes redirectAttributes) {
+        return "redirect:/auth/login";
+    }
+
+    @PostMapping("/logout")
+    public String logout(Model model){
+        return "redirect:/auth/login";
+    }
 }

@@ -10,6 +10,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @Table(name = "driver")
 @DiscriminatorValue("DRIVER")
+@PrimaryKeyJoinColumn(name = "user_id")
 public class Driver extends Users {
     @NotNull
     @OneToOne

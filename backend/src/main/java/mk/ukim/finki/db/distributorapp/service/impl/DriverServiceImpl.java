@@ -57,6 +57,11 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
+    public Driver getDriverObjById(Long id) {
+        return this.driverRepository.findById(id).get();
+    }
+
+    @Override
     public Integer create(DriverDto driverDto) {
         return this.driverRepository.create(
                 driverDto.getId(),

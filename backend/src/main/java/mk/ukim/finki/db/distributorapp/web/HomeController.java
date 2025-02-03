@@ -1,13 +1,7 @@
 package mk.ukim.finki.db.distributorapp.web;
 
-import mk.ukim.finki.db.distributorapp.model.entities.Customer;
-import mk.ukim.finki.db.distributorapp.model.entities.Driver;
-import mk.ukim.finki.db.distributorapp.model.entities.Manager;
 import mk.ukim.finki.db.distributorapp.model.entities.Users;
-import mk.ukim.finki.db.distributorapp.service.DeliveryService;
-import mk.ukim.finki.db.distributorapp.service.OrdersService;
-import mk.ukim.finki.db.distributorapp.service.VehicleService;
-import mk.ukim.finki.db.distributorapp.service.WarehouseService;
+import mk.ukim.finki.db.distributorapp.service.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -16,44 +10,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/home")
+@RequestMapping({"/","/home"})
 public class HomeController {
 
     private final DeliveryService deliveryService;
     private final OrdersService ordersService;
     private final VehicleService vehicleService;
     private final WarehouseService warehouseService;
+    private final UsersService usersService;
 
-    public HomeController(DeliveryService deliveryService, OrdersService ordersService, VehicleService vehicleService, WarehouseService warehouseService) {
+    public HomeController(DeliveryService deliveryService, OrdersService ordersService, VehicleService vehicleService, WarehouseService warehouseService, UsersService usersService) {
         this.deliveryService = deliveryService;
         this.ordersService = ordersService;
         this.vehicleService = vehicleService;
         this.warehouseService = warehouseService;
+        this.usersService = usersService;
     }
-
-    @GetMapping("/customer")
-    public String customerHome(Model model, Customer customer) {
-        model.addAttribute("currentOrders", ordersService.findCurrentOrdersByCustomer(customer));
-        model.addAttribute("currentDeliveries", deliveryService.getCurrentDeliveriesByCustomer(customer));
-        return "home/customer";
-    }
-
-    @GetMapping("/manager")
-    public String managerHome(Model model, Manager manager) {
-        model.addAttribute("currentInventory", warehouseService.getInventoryByManager(manager));
-        model.addAttribute("vehicleStatus", vehicleService.getVehiclesByManager(manager));
-        model.addAttribute("newOrders", ordersService.getNewOrdersByManager(manager));
-        model.addAttribute("currentDeliveries", deliveryService.getCurrentDeliveriesByManager(manager));
-        return "home/manager";
-    }
-
-    @GetMapping("/driver")
-    public String driverHome(Model model, Driver driver) {
-        model.addAttribute("newDeliveries", deliveryService.getAllNewDeliveriesByDriver(driver));
-        model.addAttribute("doneDeliveries", deliveryService.getAllDeliveriesByDriver(driver));
-        return "home/driver";
-    }
-
 
     @GetMapping
     public String homePage(Model model) {
@@ -64,27 +36,32 @@ public class HomeController {
             return "authentication/login";
         }
 
-        Users user = (Users) authentication.getPrincipal();
+        String userEmail = authentication.getName();
+        Users user = this.usersService.findUserByEmail(userEmail);
+        System.out.println("Authentication principal: " + authentication.getPrincipal().getClass().getName());
+        System.out.println("Authorities: " + authentication.getAuthorities());
 
         switch (user.getUserRole()) {
             case ROLE_CUSTOMER -> {
-                model.addAttribute("userType", "Customer");
-                return "redirect:home/customer";
+                return "redirect:/customer/dashboard";
             }
             case ROLE_DRIVER -> {
-                model.addAttribute("userType", "Driver");
-                return "redirect:home/driver";
+                return "redirect:/driver/dashboard";
             }
             case ROLE_MANAGER -> {
-                model.addAttribute("userType", "Manager");
-                return "redirect:home/manager";
+                return "redirect:/manager/dashboard";
             }
             case ROLE_ADMIN -> {
-                model.addAttribute("userType", "Admin");
-                return "redirect:home/admin";
+                return "redirect:/admin";
             }
         }
         model.addAttribute("userType", "Guest");
         return "authentication/login";
+    }
+
+    @GetMapping("/access_denied")
+    public String getAccessDeniedPage(Model model) {
+        model.addAttribute("error", "access_denied");
+        return "authentication/access_denied";
     }
 }

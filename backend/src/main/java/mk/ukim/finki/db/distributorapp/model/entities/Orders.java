@@ -38,10 +38,10 @@ public class Orders {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "cust_id")
+    @JoinColumn(name = "cust_id", nullable = false)
     private Customer customer;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "del_id", nullable = false)
     private Delivery delivery;
 

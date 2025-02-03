@@ -28,9 +28,12 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
 
     @Query(
             nativeQuery = true,
-            value = "select * " +
-                    "from customer " +
-                    "where user_id=?1"
+            value = """
+                    select *
+                    from customer c
+                        join users u on c.user_id = u.user_id
+                    where c.user_id = ?1
+                    """
     )
     Optional<Customer> findById(@NonNull Long id);
 

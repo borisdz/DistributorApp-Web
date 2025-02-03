@@ -49,7 +49,6 @@ public class ArticleUnit {
     @JoinColumn(name = "wh_id",nullable = false)
     private Warehouse warehouse;
 
-    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ord_id")
     private Orders order;

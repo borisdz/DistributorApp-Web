@@ -26,7 +26,11 @@ public interface ManagerRepository extends JpaRepository<Manager, Integer> {
 
     @Query(
             nativeQuery = true,
-            value = "select * from manager where user_id=?1"
+            value = """
+                    select *
+                    from manager m join users u on m.user_id = u.user_id
+                    where m.user_id=?1
+                    """
     )
     Optional<Manager> findById(@NonNull Long id);
 

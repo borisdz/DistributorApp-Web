@@ -62,6 +62,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    public Customer getCustomerObjById(Long id) {
+        return this.customerRepository.findById(id).get();
+    }
+
+    @Override
     public Integer create(CustomerDto customerDto) {
         return this.customerRepository.create(
                 customerDto.getId(),

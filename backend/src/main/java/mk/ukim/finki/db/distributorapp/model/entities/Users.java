@@ -9,13 +9,13 @@ import lombok.NoArgsConstructor;
 import mk.ukim.finki.db.distributorapp.model.enumerations.Role;
 import mk.ukim.finki.db.distributorapp.security.ConfirmationToken;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.security.auth.Subject;
-import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor
@@ -27,7 +27,7 @@ import java.util.Collections;
 )
 @Data
 @Table(name = "users")
-public class Users implements UserDetails, Principal {
+public class Users implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
@@ -88,7 +88,7 @@ public class Users implements UserDetails, Principal {
     private City city;
 
     @Column(name = "clazz_", insertable = false, updatable = false)
-    private String clazz;
+    private String clazz_;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private ConfirmationToken confirmationToken;
@@ -105,7 +105,9 @@ public class Users implements UserDetails, Principal {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList((GrantedAuthority) userRole);
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(this.getUserRole().name()));
+        return authorities;
     }
 
     @Override
@@ -126,15 +128,5 @@ public class Users implements UserDetails, Principal {
     @Override
     public boolean isEnabled() {
         return userActive;
-    }
-
-    @Override
-    public String getName() {
-        return userEmail;
-    }
-
-    @Override
-    public boolean implies(Subject subject) {
-        return Principal.super.implies(subject);
     }
 }

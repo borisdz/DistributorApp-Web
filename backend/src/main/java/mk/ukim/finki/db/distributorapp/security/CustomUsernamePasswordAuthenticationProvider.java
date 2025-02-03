@@ -1,7 +1,6 @@
 package mk.ukim.finki.db.distributorapp.security;
 
 import lombok.RequiredArgsConstructor;
-import mk.ukim.finki.db.distributorapp.config.CustomUserDetailsService;
 import mk.ukim.finki.db.distributorapp.service.UsersService;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;

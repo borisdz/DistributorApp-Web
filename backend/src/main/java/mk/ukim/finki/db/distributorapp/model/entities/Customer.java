@@ -13,6 +13,7 @@ import java.util.List;
 @Data
 @Table(name = "customer")
 @DiscriminatorValue("CUSTOMER")
+@PrimaryKeyJoinColumn(name = "user_id")
 public class Customer extends Users {
     @Size(max = 13)
     @NotNull
@@ -34,9 +35,9 @@ public class Customer extends Users {
     @Column(name = "cust_representative_img")
     private String customerRepresentativeImage;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
     private List<Orders> orders;
 
-    @OneToMany(mappedBy = "customer")
+    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
     private List<CustomerWeekday> customerWeekdays;
 }

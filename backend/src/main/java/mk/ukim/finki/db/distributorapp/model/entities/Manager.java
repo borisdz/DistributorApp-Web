@@ -10,6 +10,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @Table(name = "manager")
 @DiscriminatorValue("MANAGER")
+@PrimaryKeyJoinColumn(name = "user_id")
 public class Manager extends Users {
 
     @NotNull

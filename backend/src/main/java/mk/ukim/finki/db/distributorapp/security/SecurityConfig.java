@@ -5,16 +5,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
-@EnableMethodSecurity
 public class SecurityConfig {
 
     private final CustomUsernamePasswordAuthenticationProvider authenticationProvider;
@@ -23,13 +22,14 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/rest/auth/**", "reset-password/**", "/css/**", "/js/**").permitAll()
-                        .requestMatchers("/manager/**").hasAuthority("ROLE_MANAGER")
-                        .requestMatchers("/driver/**").hasAuthority("ROLE_DRIVER")
-                        .requestMatchers("/customer/**").hasAuthority("ROLE_CUSTOMER")
-                        .anyRequest().authenticated()
+                        .requestMatchers("/auth/**", "/rest/auth/**", "/reset-password/**", "/css/**", "/js/**").permitAll()
+                        .requestMatchers("/customer/**").hasRole("CUSTOMER")
+                        .requestMatchers("/manager/**").hasRole("MANAGER")
+                        .requestMatchers("/driver/**").hasRole("DRIVER")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                            .anyRequest()
+                                .authenticated()
                 )
-                .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(login -> login
                         .loginPage("/auth/login")
                         .loginProcessingUrl("/auth/login")
@@ -47,7 +47,10 @@ public class SecurityConfig {
                         .deleteCookies("JSESSIONID")
                         .logoutSuccessUrl("/")
                         .permitAll()
-                );
+                )
+                .exceptionHandling((ex) -> ex
+                        .accessDeniedPage("/access-denied"))
+                .csrf(AbstractHttpConfigurer::disable);
 
         return http.build();
     }
@@ -58,6 +61,11 @@ public class SecurityConfig {
                 http.getSharedObject(AuthenticationManagerBuilder.class);
         authenticationManagerBuilder.authenticationProvider(authenticationProvider);
         return authenticationManagerBuilder.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new PassEncryptionPasswordEncoder();
     }
 
 }
