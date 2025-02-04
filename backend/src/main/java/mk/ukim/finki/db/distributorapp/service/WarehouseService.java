@@ -13,6 +13,8 @@ public interface WarehouseService {
 
     WarehouseDto findById(Integer id);
 
+    WarehouseDto findByCityId(Long id);
+
     Integer create(WarehouseDto warehouseDto);
 
     Integer edit(WarehouseDto warehouseDto);

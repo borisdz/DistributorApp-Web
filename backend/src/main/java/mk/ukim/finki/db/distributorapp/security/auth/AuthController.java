@@ -1,6 +1,7 @@
 package mk.ukim.finki.db.distributorapp.security.auth;
 
-import mk.ukim.finki.db.distributorapp.model.dto.CityDto;
+import jakarta.servlet.http.HttpServletRequest;
+import mk.ukim.finki.db.distributorapp.model.dto.CityDtoRegister;
 import mk.ukim.finki.db.distributorapp.model.dto.LoginRequestDto;
 import mk.ukim.finki.db.distributorapp.model.dto.RegisterRequestDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Users;
@@ -63,8 +64,8 @@ public class AuthController {
 
     @GetMapping("/register")
     public String registerCustomer(Model model) {
-        List<CityDto> cityDtos = this.cityService.listCities();
-        model.addAttribute("cityDtos", cityDtos);
+        List<CityDtoRegister> cities = this.cityService.findAllCityDtos();
+        model.addAttribute("cities", cities);
         return "authentication/register";
     }
 
@@ -80,7 +81,8 @@ public class AuthController {
     }
 
     @GetMapping("/logout")
-    public String logout(RedirectAttributes redirectAttributes) {
+    public String logout(HttpServletRequest req) {
+        req.getSession().invalidate();
         return "redirect:/auth/login";
     }
 

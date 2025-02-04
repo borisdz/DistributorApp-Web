@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping(value = "/warehouse")
 public class WarehouseController {
-
     @GetMapping("/create")
     public String createWarehouse(){
         return "create-warehouse";

@@ -82,4 +82,12 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Integer> {
                     """
     )
     List<ArticleUnit> getInventoryByManager(@NonNull @Param("manager") Long manager_id);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select * from warehouse where city_id=?1
+                    """
+    )
+    Warehouse findWarehouseByCityId(Long id);
 }

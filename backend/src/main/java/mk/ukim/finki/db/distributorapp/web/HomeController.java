@@ -37,6 +37,9 @@ public class HomeController {
         }
 
         String userEmail = authentication.getName();
+        if(userEmail.equals("superuser@admin.com")) {
+            return "redirect:/admin/dashboard";
+        }
         Users user = this.usersService.findUserByEmail(userEmail);
         System.out.println("Authentication principal: " + authentication.getPrincipal().getClass().getName());
         System.out.println("Authorities: " + authentication.getAuthorities());
@@ -50,9 +53,6 @@ public class HomeController {
             }
             case ROLE_MANAGER -> {
                 return "redirect:/manager/dashboard";
-            }
-            case ROLE_ADMIN -> {
-                return "redirect:/admin";
             }
         }
         model.addAttribute("userType", "Guest");

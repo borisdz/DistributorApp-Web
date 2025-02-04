@@ -21,9 +21,9 @@ public class RestUsersController {
         this.usersService = usersService;
     }
 
-    private List<UserDto> buildDto(List<mk.ukim.finki.db.distributorapp.model.entities.Users> users) {
+    private List<UserDto> buildDto(List<Users> users) {
         List<UserDto> dtos = new ArrayList<>();
-        for (mk.ukim.finki.db.distributorapp.model.entities.Users user : users) {
+        for (Users user : users) {
             UserDto dto = new UserDto(
                     user.getUserId(),
                     user.getUsername(),
@@ -36,7 +36,8 @@ public class RestUsersController {
                     user.getCity().getRegion().getRegionName(),
                     user.getUserRole(),
                     user.getUserResetToken(),
-                    user.getUserResetTokenExpiry()
+                    user.getUserResetTokenExpiry(),
+                    user.getClazz_()
             );
             dtos.add(dto);
         }

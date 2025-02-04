@@ -23,4 +23,5 @@ public class UserDto {
     private Role role;
     private String rtoken;
     private LocalDateTime rtoken_exp;
+    private String clazz_;
 }

@@ -1,6 +1,7 @@
 package mk.ukim.finki.db.distributorapp.repository;
 
 import lombok.NonNull;
+import mk.ukim.finki.db.distributorapp.model.dto.CityDtoRegister;
 import mk.ukim.finki.db.distributorapp.model.entities.City;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -18,6 +19,9 @@ public interface CityRepository extends JpaRepository<City, Long> {
                     "from city c join region r on c.region_id = r.region_id"
     )
     List<City> listAll();
+
+    @Query("select new mk.ukim.finki.db.distributorapp.model.dto.CityDtoRegister(c.cityId,c.cityName) from City c")
+    List<CityDtoRegister> findAllCityDtos();
 
     @Query(
             nativeQuery = true,

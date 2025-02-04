@@ -2,6 +2,7 @@ package mk.ukim.finki.db.distributorapp.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp.model.dto.CityDto;
+import mk.ukim.finki.db.distributorapp.model.dto.CityDtoRegister;
 import mk.ukim.finki.db.distributorapp.model.entities.City;
 import mk.ukim.finki.db.distributorapp.repository.CityRepository;
 import mk.ukim.finki.db.distributorapp.service.CityService;
@@ -15,7 +16,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CityServiceImpl implements CityService {
     private final CityRepository cityRepository;
-
 
     private List<CityDto> buildDto(List<City> cities) {
         List<CityDto> dtos = new ArrayList<>();
@@ -40,6 +40,11 @@ public class CityServiceImpl implements CityService {
     public List<CityDto> listCities() {
         List<City> cities = cityRepository.listAll();
         return buildDto(cities);
+    }
+
+    @Override
+    public List<CityDtoRegister> findAllCityDtos() {
+        return this.cityRepository.findAllCityDtos();
     }
 
     @Override

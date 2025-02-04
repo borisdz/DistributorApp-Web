@@ -8,7 +8,11 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -17,18 +21,19 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final CustomUsernamePasswordAuthenticationProvider authenticationProvider;
+    private final SuperUserAuthenticationProvider superUserAuthenticationProvider;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**", "/rest/auth/**", "/reset-password/**", "/css/**", "/js/**").permitAll()
-                        .requestMatchers("/customer/**").hasRole("CUSTOMER")
-                        .requestMatchers("/manager/**").hasRole("MANAGER")
-                        .requestMatchers("/driver/**").hasRole("DRIVER")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/customer/**").hasAnyRole("CUSTOMER", "ADMIN")
+                        .requestMatchers("/manager/**").hasAnyRole("MANAGER", "ADMIN")
+                        .requestMatchers("/driver/**").hasAnyRole("DRIVER","ADMIN")
                             .anyRequest()
-                                .authenticated()
+                                    .authenticated()
                 )
                 .formLogin(login -> login
                         .loginPage("/auth/login")
@@ -56,10 +61,26 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+    public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
+        PasswordEncoder standardEncoder = new BCryptPasswordEncoder();
+        UserDetails superUser = User.withUsername("superuser@admin.com")
+                .password(standardEncoder.encode("supersecret"))
+                .roles("ADMIN")
+                .build();
+        return new InMemoryUserDetailsManager(superUser);
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(
+            HttpSecurity http
+    ) throws Exception
+    {
         AuthenticationManagerBuilder authenticationManagerBuilder =
                 http.getSharedObject(AuthenticationManagerBuilder.class);
+
+        authenticationManagerBuilder.authenticationProvider(superUserAuthenticationProvider);
         authenticationManagerBuilder.authenticationProvider(authenticationProvider);
+
         return authenticationManagerBuilder.build();
     }
 

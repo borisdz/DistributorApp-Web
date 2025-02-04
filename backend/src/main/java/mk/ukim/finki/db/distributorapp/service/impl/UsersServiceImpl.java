@@ -28,7 +28,8 @@ public class UsersServiceImpl implements UsersService {
                 user.getCity().getRegion().getRegionName(),
                 user.getUserRole(),
                 user.getUserResetToken(),
-                user.getUserResetTokenExpiry());
+                user.getUserResetTokenExpiry(),
+                user.getClazz_());
     }
 
     @Override
@@ -62,7 +63,8 @@ public class UsersServiceImpl implements UsersService {
                 userDto.getCityId(),
                 userDto.getRole().name(),
                 userDto.getRtoken(),
-                userDto.getRtoken_exp()
+                userDto.getRtoken_exp(),
+                userDto.getClazz_()
         );
     }
 

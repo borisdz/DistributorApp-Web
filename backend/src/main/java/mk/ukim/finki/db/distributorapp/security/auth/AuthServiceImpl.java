@@ -1,23 +1,21 @@
 package mk.ukim.finki.db.distributorapp.security.auth;
 
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import mk.ukim.finki.db.distributorapp.model.dto.CreateDriverDto;
+import mk.ukim.finki.db.distributorapp.model.dto.CreateManagerDto;
 import mk.ukim.finki.db.distributorapp.model.dto.LoginRequestDto;
 import mk.ukim.finki.db.distributorapp.model.dto.RegisterRequestDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Users;
 import mk.ukim.finki.db.distributorapp.model.enumerations.Role;
 import mk.ukim.finki.db.distributorapp.model.exceptions.InvalidArgumentsException;
 import mk.ukim.finki.db.distributorapp.model.exceptions.InvalidUserCredentialsException;
-import mk.ukim.finki.db.distributorapp.repository.ConfirmationTokenRepository;
-import mk.ukim.finki.db.distributorapp.repository.CustomerRepository;
-import mk.ukim.finki.db.distributorapp.repository.UsersRepository;
+import mk.ukim.finki.db.distributorapp.repository.*;
 import mk.ukim.finki.db.distributorapp.security.ConfirmationToken;
 import mk.ukim.finki.db.distributorapp.security.EmailService;
 import mk.ukim.finki.db.distributorapp.security.PassEncryption;
 import mk.ukim.finki.db.distributorapp.security.PassEncryptionPasswordEncoder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,8 +30,8 @@ public class AuthServiceImpl implements AuthService {
     private final EmailService emailService;
     private final PassEncryptionPasswordEncoder passwordEncoder;
     private final CustomerRepository customerRepository;
-    private final EntityManager entityManager;
-    private final AuthenticationManager authenticationManager;
+    private final ManagerRepository managerRepository;
+    private final DriverRepository driverRepository;
 
     @Override
     public String getUserSalt(String username) {
@@ -74,9 +72,10 @@ public class AuthServiceImpl implements AuthService {
                 false,
                 null,
                 registerRequest.getCity(),
-                Role.ROLE_CUSTOMER.toString(),
+                Role.ROLE_CUSTOMER.name(),
                 null,
-                null);
+                null,
+                "CUSTOMER");
         if (res == 0) {
             throw new Exception("User insertion failed");
         }
@@ -100,6 +99,70 @@ public class AuthServiceImpl implements AuthService {
                 registerRequest.getName(),
                 registerRequest.getAddress(),
                 registerRequest.getProfileImage());
+    }
+
+    @Override
+    @Transactional
+    public void createManager(CreateManagerDto createManagerDto) throws Exception {
+        String saltValue = PassEncryption.genSaltValue(30);
+        String safePass = passwordEncoder.encodeWithSalt(createManagerDto.getPassword(), saltValue);
+
+        Integer res = this.usersRepository.create(
+                createManagerDto.getName(),
+                createManagerDto.getSurname(),
+                safePass,
+                createManagerDto.getEmail(),
+                createManagerDto.getMobile(),
+                saltValue,
+                false,
+                null,
+                createManagerDto.getCity(),
+                Role.ROLE_MANAGER.name(),
+                null,
+                null,
+                "MANAGER");
+
+        if (res == 0) {
+            throw new Exception("User insertion failed");
+        }
+
+        Users user = this.usersRepository.findUserByUserEmailIgnoreCase(createManagerDto.getEmail()).orElseThrow(InvalidUserCredentialsException::new);
+        this.managerRepository.create(
+                user.getUserId(),
+                createManagerDto.getWarehouse()
+        );
+    }
+
+    @Override
+    @Transactional
+    public void createDriver(CreateDriverDto createDriverDto) throws Exception{
+        String saltValue = PassEncryption.genSaltValue(30);
+        String safePass = passwordEncoder.encodeWithSalt(createDriverDto.getPassword(), saltValue);
+
+        Integer res = this.usersRepository.create(
+                createDriverDto.getName(),
+                createDriverDto.getSurname(),
+                safePass,
+                createDriverDto.getEmail(),
+                createDriverDto.getMobile(),
+                saltValue,
+                false,
+                null,
+                createDriverDto.getCity(),
+                Role.ROLE_DRIVER.name(),
+                null,
+                null,
+                "DRIVER");
+
+        if (res == 0) {
+            throw new Exception("User insertion failed");
+        }
+
+        Users user = this.usersRepository.findUserByUserEmailIgnoreCase(createDriverDto.getEmail()).orElseThrow(InvalidUserCredentialsException::new);
+        this.driverRepository.create(
+                user.getUserId(),
+                createDriverDto.getVehicle()
+        );
     }
 
     @Override

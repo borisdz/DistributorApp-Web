@@ -109,7 +109,7 @@
                             <label for="city" class="sr-only">City the company is located in: </label>
                             <select id="city" name="city" required class="form-control">
                                 <option value="" disabled selected>Select your city</option>
-                                <option th:each="city : ${cityDtos}"
+                                <option th:each="city : ${cities}"
                                         th:value="${city.getId()}"
                                         th:text="${city.getName()}">
                                 </option>

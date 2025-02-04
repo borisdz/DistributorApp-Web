@@ -59,6 +59,19 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
+    public WarehouseDto findByCityId(Long id) {
+        Warehouse wh = this.warehouseRepository.findWarehouseByCityId(id);
+        return new WarehouseDto(
+                wh.getWarehouseId(),
+                wh.getWarehouseAddress(),
+                wh.getCity().getCityId(),
+                wh.getCity().getCityName(),
+                wh.getCity().getRegion().getRegionId(),
+                wh.getCity().getRegion().getRegionName()
+        );
+    }
+
+    @Override
     public Integer create(WarehouseDto warehouseDto) {
         return this.warehouseRepository.create(
                 warehouseDto.getAddress(),

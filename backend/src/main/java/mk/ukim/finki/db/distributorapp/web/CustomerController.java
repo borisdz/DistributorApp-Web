@@ -1,5 +1,6 @@
 package mk.ukim.finki.db.distributorapp.web;
 
+import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp.model.entities.Customer;
 import mk.ukim.finki.db.distributorapp.model.entities.Users;
 import mk.ukim.finki.db.distributorapp.service.CustomerService;
@@ -14,19 +15,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping(value = "/customer")
 public class CustomerController {
     private final CustomerService customerService;
     private final UsersService usersService;
     private final OrdersService ordersService;
     private final DeliveryService deliveryService;
-
-    public CustomerController(CustomerService customerService, UsersService usersService, OrdersService ordersService, DeliveryService deliveryService) {
-        this.customerService = customerService;
-        this.usersService = usersService;
-        this.ordersService = ordersService;
-        this.deliveryService = deliveryService;
-    }
 
     @GetMapping("/dashboard")
     public String dashboard(Model model) {

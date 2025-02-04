@@ -12,7 +12,6 @@ import lombok.EqualsAndHashCode;
 @DiscriminatorValue("MANAGER")
 @PrimaryKeyJoinColumn(name = "user_id")
 public class Manager extends Users {
-
     @NotNull
     @OneToOne
     @JoinColumn(name = "wh_id", nullable = false, unique = true)

@@ -56,8 +56,8 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "insert into users(user_name,user_surname,user_pass,user_salt,user_email,user_mobile,user_active,user_image,city_id,user_role,user_rtoken,user_rtoken_exp) " +
-                    "values (:name,:sur,:pass,:salt,:email,:mob,:active,:img,:cty,:role,:rtoken,:rtoken_exp)"
+            value = "insert into users(user_name,user_surname,user_pass,user_salt,user_email,user_mobile,user_active,user_image,city_id,user_role,user_rtoken,user_rtoken_exp,clazz_) " +
+                    "values (:name,:sur,:pass,:salt,:email,:mob,:active,:img,:cty,:role,:rtoken,:rtoken_exp,:clazz_)"
     )
     Integer create(
             @NonNull @Param("name") String name,
@@ -71,14 +71,15 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
             @NonNull @Param("cty") Long city_id,
             @NonNull @Param("role") String role,
             @Param("rtoken") String rtoken,
-            @Param("rtoken_exp") LocalDateTime rtoken_exp);
+            @Param("rtoken_exp") LocalDateTime rtoken_exp,
+            @NonNull @Param("clazz_") String clazz_);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
             value = "update users " +
-                    "set user_name=:name,user_surname=:sur,user_pass=:pass,user_email=:email,user_mobile=:mob,user_salt=:salt,user_active=:active,user_image=:img,city_id=:cty,user_role=:role,user_rtoken=:rtoken,user_rtoken_exp=:rtoken_exp " +
+                    "set user_name=:name,user_surname=:sur,user_pass=:pass,user_email=:email,user_mobile=:mob,user_salt=:salt,user_active=:active,user_image=:img,city_id=:cty,user_role=:role,user_rtoken=:rtoken,user_rtoken_exp=:rtoken_exp,clazz_=:clazz_ " +
                     "where user_id=:id"
     )
     Integer edit(
@@ -94,7 +95,8 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
             @NonNull @Param("cty") Long city_id,
             @NonNull @Param("role") String role,
             @NonNull @Param("rtoken") String rtoken,
-            @NonNull @Param("rtoken_exp") LocalDateTime rtoken_exp);
+            @NonNull @Param("rtoken_exp") LocalDateTime rtoken_exp,
+            @NonNull @Param("clazz_") String clazz_);
 
     @Modifying
     @Transactional
