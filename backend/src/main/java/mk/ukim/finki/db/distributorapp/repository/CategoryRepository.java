@@ -5,6 +5,7 @@ import mk.ukim.finki.db.distributorapp.model.entities.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -13,34 +14,43 @@ import java.util.Optional;
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     @Query(
-            value = "select * " +
-                    "from category c " +
-                    "where c.ctg_name like ?1",
-            nativeQuery = true)
-    List<Category> findAllByName(@NonNull String name);
+            nativeQuery = true,
+            value = """
+                    select *
+                    from category c
+                    where c.ctg_name like :name
+                    """)
+    List<Category> findAllByName(@Param("name") @NonNull String name);
 
     @Query(
-            value = "select * " +
-                    "from category",
-            nativeQuery = true)
+            nativeQuery = true,
+            value = """
+                    select *
+                    from category
+                    """
+    )
     List<Category> listAll();
 
     @Query(
-            value = "select * " +
-                    "from category c " +
-                    "where c.ctg_id=?1",
-            nativeQuery = true
+            nativeQuery = true,
+            value = """
+                    select *
+                    from category c
+                    where c.ctg_id=:id
+                    """
     )
-    Optional<Category> findById(@NonNull Long id);
+    Optional<Category> findById(@Param("id") @NonNull Long id);
 
     @Modifying
     @Transactional
     @Query(
-            value = "insert into category(ctg_name) " +
-                    "values (?1)",
-            nativeQuery = true
+            nativeQuery = true,
+            value = """
+                    insert into category(ctg_name)
+                    values (:name)
+                    """
     )
-    Integer create(@NonNull String name);
+    Integer create(@Param("name") @NonNull String name);
 
     @Modifying
     @Transactional

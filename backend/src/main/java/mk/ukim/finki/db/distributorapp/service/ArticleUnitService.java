@@ -1,6 +1,7 @@
 package mk.ukim.finki.db.distributorapp.service;
 
 import mk.ukim.finki.db.distributorapp.model.dto.ArticleUnitDto;
+import mk.ukim.finki.db.distributorapp.model.dto.UnitPriceDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Warehouse;
 
 import java.util.List;
@@ -17,6 +18,8 @@ public interface ArticleUnitService {
     Integer create(ArticleUnitDto articleUnitDto);
 
     Integer edit(ArticleUnitDto articleUnitDto);
+
+    Integer addArticleUnitWithPrice(ArticleUnitDto articleUnitDto, UnitPriceDto unitPriceDto);
 
     void delete(Long id);
 }
