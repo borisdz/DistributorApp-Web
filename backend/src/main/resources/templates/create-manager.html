@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create a Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div th:replace="~{fragments/navbar :: navbar}"></div>
+<div class="container mb-4">
+    <form class="form-signin mt-xl-5" th:action="@{/admin/create-manager}" method="post" th:object="${manager}">
+        <h2 class="form-signin-heading">Create a Manager</h2>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="email" class="sr-only">Email: </label>
+                        <input type="email" id="email" name="email" class="form-control"
+                               placeholder="Email address" required="" autofocus="">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="password" class="sr-only">Password:</label>
+                        <input type="password" id="password" name="password" class="form-control"
+                               placeholder="Password" required="" autofocus="">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="repeatedPassword" class="sr-only">Repeat Password: </label>
+                        <input type="password" id="repeatedPassword" name="repeatedPassword" class="form-control"
+                               placeholder="Repeat Password" required="" autofocus="">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="name" class="sr-only">First Name: </label>
+                        <input type="text" id="name" name="name" class="form-control"
+                               placeholder="First Name" required="" autofocus="">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="surname" class="sr-only">Last Name: </label>
+                        <input type="text" id="surname" name="surname" class="form-control"
+                               placeholder="Last Name" required="" autofocus="">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="mobile" class="sr-only">Mobile: </label>
+                        <input type="tel" id="mobile" name="mobile" class="form-control"
+                               placeholder="Mobile" required="" autofocus="">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="profileImage" class="sr-only">Profile Picture: </label>
+                        <input type="file" id="profileImage" name="profileImage" class="form-control" accept="image/*">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="city" class="sr-only">City the company is located in: </label>
+                        <select id="city" name="city" required class="form-control">
+                            <option value="" disabled selected>Select your city</option>
+                            <option th:each="city:${cities}"
+                                    th:value="${city.getId()}"
+                                    th:text="${city.getName()}">
+                            </option>
+                        </select>
+                        <label for="warehouse"> Warehouse:</label>
+                        <input id="warehouse" type="text" name="warehouse" class="form-control" readonly/>
+                        <input type="hidden" id="warehouseId" name="warehouse">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var citySelect = document.getElementById("city");
+        var warehouseField = document.getElementById("warehouse");
+        var warehouseId = document.getElementById("warehouseId");
+
+        if (citySelect) {
+            citySelect.addEventListener("change", function () {
+                let selectedCityId = this.value;
+                console.log("City changed, value:", selectedCityId);
+
+                fetch("/admin/warehouse-by-city?cityId=" + selectedCityId)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("Network response was not ok " + response.statusText);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log("Fetched warehouse:", data);
+                        warehouseField.value = data.address || "";
+                        warehouseId.value = data.id;
+                    })
+                    .catch(error => {
+                        console.error("Fetch error:", error);
+                    });
+            });
+        }
+    });
+</script>
+
+</body>
+</html>

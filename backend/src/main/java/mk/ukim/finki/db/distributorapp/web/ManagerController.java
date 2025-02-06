@@ -1,43 +1,41 @@
 package mk.ukim.finki.db.distributorapp.web;
 
-import mk.ukim.finki.db.distributorapp.model.dto.ManagerDto;
-import mk.ukim.finki.db.distributorapp.service.ManagerService;
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
+import mk.ukim.finki.db.distributorapp.model.entities.Manager;
+import mk.ukim.finki.db.distributorapp.model.entities.Users;
+import mk.ukim.finki.db.distributorapp.service.*;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/manager")
+@RequestMapping(value = "/manager")
+@RequiredArgsConstructor
 public class ManagerController {
     private final ManagerService managerService;
 
-    public ManagerController(ManagerService managerService) {
-        this.managerService = managerService;
+    private final UsersService usersService;
+    private final VehicleService vehicleService;
+    private final OrdersService ordersService;
+    private final WarehouseService warehouseService;
+    private final DeliveryService deliveryService;
+
+
+    @GetMapping({"/dashboard","/"})
+    public String dashboard(Model model) {
+        Users user = this.usersService.findUserByEmail(model.getAttribute("email").toString());
+        Manager manager = this.managerService.getManagerByIdObj(user.getUserId());
+
+        model.addAttribute("currentInventory", warehouseService.getInventoryByManager(manager));
+        model.addAttribute("vehicleStatus", vehicleService.getVehiclesByManager(manager));
+        model.addAttribute("newOrders", ordersService.getNewOrdersByManager(manager));
+        model.addAttribute("currentDeliveries", deliveryService.getCurrentDeliveriesByManager(manager));
+        return "home/manager";
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<ManagerDto>> getAllManagers() {
-        List<ManagerDto> managers = managerService.getAllManagers();
-        return ResponseEntity.ok(managers);
-    }
-
-    @PutMapping("/add")
-    public ResponseEntity<Integer> addManager(@RequestBody ManagerDto ManagerDto) {
-        Integer result = this.managerService.create(ManagerDto);
-        return ResponseEntity.ok(result);
-    }
-
-    @PutMapping("/edit")
-    public ResponseEntity<Integer> editManager(@RequestBody ManagerDto ManagerDto) {
-        Integer result = this.managerService.edit(ManagerDto);
-        return ResponseEntity.ok(result);
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteManager(@PathVariable Long id) {
-        this.managerService.deleteById(id);
-        return ResponseEntity.noContent().build();
+    public String allManagers(Model model) {
+        return "all-managers";
     }
 }

@@ -1,7 +1,9 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp.model.dto.WarehouseDto;
 import mk.ukim.finki.db.distributorapp.model.entities.City;
+import mk.ukim.finki.db.distributorapp.model.entities.Manager;
 import mk.ukim.finki.db.distributorapp.model.entities.Warehouse;
 import mk.ukim.finki.db.distributorapp.repository.WarehouseRepository;
 import mk.ukim.finki.db.distributorapp.service.WarehouseService;
@@ -11,12 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class WarehouseServiceImpl implements WarehouseService {
     private final WarehouseRepository warehouseRepository;
-
-    public WarehouseServiceImpl(WarehouseRepository warehouseRepository) {
-        this.warehouseRepository = warehouseRepository;
-    }
 
     private List<WarehouseDto> buildDtoList(List<Warehouse> warehouses) {
         List<WarehouseDto> dtos = new ArrayList<>();
@@ -60,6 +59,11 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
+    public WarehouseDto findByCityId(Integer id) {
+        return this.warehouseRepository.findWarehouseDtoByCityId(id);
+    }
+
+    @Override
     public Integer create(WarehouseDto warehouseDto) {
         return this.warehouseRepository.create(
                 warehouseDto.getAddress(),
@@ -79,5 +83,10 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     public void deleteById(Integer id) {
         this.warehouseRepository.findById(id);
+    }
+
+    @Override
+    public List<WarehouseDto> getInventoryByManager(Manager manager) {
+        return List.of();
     }
 }

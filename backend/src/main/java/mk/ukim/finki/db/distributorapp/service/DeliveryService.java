@@ -1,7 +1,9 @@
 package mk.ukim.finki.db.distributorapp.service;
 
 import mk.ukim.finki.db.distributorapp.model.dto.DeliveryDto;
+import mk.ukim.finki.db.distributorapp.model.entities.Customer;
 import mk.ukim.finki.db.distributorapp.model.entities.Driver;
+import mk.ukim.finki.db.distributorapp.model.entities.Manager;
 import mk.ukim.finki.db.distributorapp.model.entities.Vehicle;
 
 import java.util.List;
@@ -20,4 +22,10 @@ public interface DeliveryService {
     Integer edit(DeliveryDto deliveryDto);
 
     void deleteById(Long del_id);
+
+    List<DeliveryDto> getAllNewDeliveriesByDriver(Driver driver);
+
+    List<DeliveryDto> getCurrentDeliveriesByCustomer (Customer customer);
+
+    List<DeliveryDto> getCurrentDeliveriesByManager (Manager manager);
 }

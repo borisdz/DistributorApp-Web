@@ -1,8 +1,10 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
+import lombok.RequiredArgsConstructor;
+import mk.ukim.finki.db.distributorapp.model.dto.VehicleBasicDto;
 import mk.ukim.finki.db.distributorapp.model.dto.VehicleDto;
+import mk.ukim.finki.db.distributorapp.model.entities.Manager;
 import mk.ukim.finki.db.distributorapp.model.entities.Vehicle;
-import mk.ukim.finki.db.distributorapp.model.entities.Warehouse;
 import mk.ukim.finki.db.distributorapp.repository.VehicleRepository;
 import mk.ukim.finki.db.distributorapp.service.VehicleService;
 import org.springframework.stereotype.Service;
@@ -11,12 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class VehicleServiceImpl implements VehicleService {
-    private final VehicleRepository vehicleRepository;
 
-    public VehicleServiceImpl(VehicleRepository vehicleRepository) {
-        this.vehicleRepository = vehicleRepository;
-    }
+    private final VehicleRepository vehicleRepository;
 
     private VehicleDto buildDto(Vehicle veh) {
         return new VehicleDto(
@@ -56,9 +56,8 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public List<VehicleDto> getVehiclesByWarehouse(Warehouse warehouse) {
-        List<Vehicle> vehicles = this.vehicleRepository.findAllByWarehouse(warehouse.getWarehouseId());
-        return buildDtoList(vehicles);
+    public List<VehicleBasicDto> getVehiclesByWarehouse(Integer warehouseId) {
+        return this.vehicleRepository.findAllByWarehouseDto(warehouseId);
     }
 
     @Override
@@ -95,5 +94,12 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public void deleteById(Integer id) {
         this.vehicleRepository.delete(id);
+    }
+    //------------------------------------------------------------------------------------------------------------------
+
+    @Override
+    public List<VehicleDto> getVehiclesByManager(Manager manager) {
+        List<Vehicle> vehicles = this.vehicleRepository.getVehiclesByManager(manager.getUserId());
+        return buildDtoList(vehicles);
     }
 }

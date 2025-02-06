@@ -1,6 +1,8 @@
 package mk.ukim.finki.db.distributorapp.model.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 import java.util.List;
@@ -14,6 +16,8 @@ public class Warehouse {
     @Column(name = "wh_id")
     private Integer warehouseId;
 
+    @Size(max = 255)
+    @NotNull
     @Column(name = "wh_adr", nullable = false)
     private String warehouseAddress;
 

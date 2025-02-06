@@ -1,5 +1,6 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp.model.dto.ManufacturerDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Manufacturer;
 import mk.ukim.finki.db.distributorapp.repository.ManufacturerRepository;
@@ -10,12 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ManufacturerServiceImpl implements ManufacturerService {
     private final ManufacturerRepository manufacturerRepository;
 
-    public ManufacturerServiceImpl(ManufacturerRepository manufacturerRepository) {
-        this.manufacturerRepository = manufacturerRepository;
-    }
 
     private List<ManufacturerDto> buildDto(List<Manufacturer> manufacturers) {
         List<ManufacturerDto> dtos = new ArrayList<>();

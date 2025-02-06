@@ -1,5 +1,6 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp.model.dto.CategoryDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Category;
 import mk.ukim.finki.db.distributorapp.repository.CategoryRepository;
@@ -10,13 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryRepository categoryRepository;
 
-    public CategoryServiceImpl(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
-
-    }
 
     private List<CategoryDto> buildDto(List<Category> categories) {
         List<CategoryDto> dtos = new ArrayList<>();

@@ -1,5 +1,6 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp.model.dto.RegionDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Region;
 import mk.ukim.finki.db.distributorapp.repository.RegionRepository;
@@ -10,13 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class RegionServiceImpl implements RegionService {
-
     private final RegionRepository regionRepository;
-
-    public RegionServiceImpl(RegionRepository regionRepository) {
-        this.regionRepository = regionRepository;
-    }
 
     private List<RegionDto> buildDto(List<Region> regions) {
         List<RegionDto> dtos = new ArrayList<>();
@@ -64,6 +61,11 @@ public class RegionServiceImpl implements RegionService {
                 regionDto.getId(),
                 regionDto.getName()
         );
+    }
+
+    @Override
+    public RegionDto getRegionByCityId(Integer cityId) {
+        return this.regionRepository.getRegionByCityId(cityId);
     }
 
     @Override
