@@ -1,6 +1,9 @@
 package mk.ukim.finki.db.distributorapp.security.auth;
 
-import mk.ukim.finki.db.distributorapp.model.entities.City;
+import mk.ukim.finki.db.distributorapp.model.dto.CreateDriverDto;
+import mk.ukim.finki.db.distributorapp.model.dto.CreateManagerDto;
+import mk.ukim.finki.db.distributorapp.model.dto.LoginRequestDto;
+import mk.ukim.finki.db.distributorapp.model.dto.RegisterRequestDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Users;
 import org.springframework.http.ResponseEntity;
 
@@ -13,8 +16,11 @@ public interface AuthService {
 
     ResponseEntity<?> confirmEmail(String confirmationToken);
 
-    Users register(String name, String surname, String email,
-                   String password, String mobile, String image, City city);
+    void register(RegisterRequestDto registerRequest) throws Exception;
 
-    Users login(String username, String password);
+    void createManager(CreateManagerDto createUserDto) throws Exception;
+
+    void createDriver(CreateDriverDto createDriverDto) throws Exception;
+
+    Users login(LoginRequestDto loginRequest);
 }

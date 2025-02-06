@@ -1,5 +1,6 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp.model.dto.ProFormaDto;
 import mk.ukim.finki.db.distributorapp.model.entities.ProForma;
 import mk.ukim.finki.db.distributorapp.repository.ProFormaRepository;
@@ -10,12 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ProFormaServiceImpl implements ProFormaService {
     private final ProFormaRepository proFormaRepository;
 
-    public ProFormaServiceImpl(ProFormaRepository proFormaRepository) {
-        this.proFormaRepository = proFormaRepository;
-    }
 
     private List<ProFormaDto> buildDto(List<ProForma> proFormas) {
         List<ProFormaDto> proFormaDtos = new ArrayList<>();

@@ -16,5 +16,7 @@ public interface RegionService {
 
     Integer edit(RegionDto regionDto);
 
+    RegionDto getRegionByCityId(Integer cityId);
+
     void deleteById(Integer id);
 }

@@ -6,8 +6,9 @@ import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class CityDto {
-    private Long id;
+    private Integer id;
     private String name;
     private Integer regionId;
     private String regionName;

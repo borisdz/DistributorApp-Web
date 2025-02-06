@@ -1,6 +1,7 @@
 package mk.ukim.finki.db.distributorapp.model.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.LocalDate;
@@ -16,9 +17,11 @@ public class Orders {
     @Column(name = "ord_id", nullable = false)
     private Long orderId;
 
+    @NotNull
     @Column(name = "ord_date", nullable = false)
     private LocalDate orderDate;
 
+    @NotNull
     @Column(name = "ord_sum", nullable = false)
     private Integer orderSum;
 
@@ -28,15 +31,17 @@ public class Orders {
     @Column(name = "ord_comment")
     private String orderComment;
 
-    @ManyToOne
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "o_status_id", nullable = false)
     private OrderStatus orderStatus;
 
-    @ManyToOne
-    @JoinColumn(name = "cust_id")
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "cust_id", nullable = false)
     private Customer customer;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "del_id", nullable = false)
     private Delivery delivery;
 

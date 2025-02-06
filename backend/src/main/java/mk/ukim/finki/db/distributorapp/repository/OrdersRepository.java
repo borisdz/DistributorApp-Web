@@ -5,6 +5,7 @@ import mk.ukim.finki.db.distributorapp.model.entities.Orders;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -76,4 +77,30 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
             value = "delete from orders where ord_id=?1"
     )
     void delete(@NonNull Long id);
+    //----------------------------------------------------------------------------------------------------------------------------------
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select *
+                    from orders o
+                    where o.cust_id=:customer and o.o_status_id between 2 and 6
+                    """
+    )
+    List<Orders> getCurrentOrdersByCustomer(@NonNull @Param("customer") Long customer_id);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select o.*
+                    from warehouse w
+                        join manager m on w.wh_id= m.wh_id
+                        join article_unit au on au.wh_id = w.wh_id
+                        join orders o on au.ord_id = o.ord_id
+                    where m.user_id = :manager
+                      and o.o_status_id = 1
+                    order by o.ord_date desc
+                    """
+    )
+    List<Orders> getNewOrdersByManager(@NonNull @Param("manager") Long manager_id);
 }

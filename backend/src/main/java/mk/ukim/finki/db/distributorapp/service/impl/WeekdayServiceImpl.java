@@ -1,5 +1,6 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp.model.dto.WeekdayDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Weekday;
 import mk.ukim.finki.db.distributorapp.repository.WeekdayRepository;
@@ -10,12 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class WeekdayServiceImpl implements WeekdayService {
     private final WeekdayRepository weekdayRepository;
-
-    public WeekdayServiceImpl(WeekdayRepository weekdayRepository) {
-        this.weekdayRepository = weekdayRepository;
-    }
 
     private List<WeekdayDto> buildDto(List<Weekday> weekdays) {
         List<WeekdayDto> dtos = new ArrayList<>();

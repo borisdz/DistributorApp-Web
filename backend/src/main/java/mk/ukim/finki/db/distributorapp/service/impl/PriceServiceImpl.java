@@ -1,5 +1,6 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp.model.dto.PriceDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Article;
 import mk.ukim.finki.db.distributorapp.model.entities.Price;
@@ -11,12 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PriceServiceImpl implements PriceService {
     private final PriceRepository priceRepository;
 
-    public PriceServiceImpl(PriceRepository priceRepository) {
-        this.priceRepository = priceRepository;
-    }
 
     private List<PriceDto> buildDto(List<Price> prices) {
         List<PriceDto> dtos = new ArrayList<>();

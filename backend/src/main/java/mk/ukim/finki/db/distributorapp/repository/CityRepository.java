@@ -1,6 +1,7 @@
 package mk.ukim.finki.db.distributorapp.repository;
 
 import lombok.NonNull;
+import mk.ukim.finki.db.distributorapp.model.dto.CityDtoRegister;
 import mk.ukim.finki.db.distributorapp.model.entities.City;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,10 +15,19 @@ public interface CityRepository extends JpaRepository<City, Long> {
 
     @Query(
             nativeQuery = true,
-            value = "select * " +
-                    "from city c"
+            value = "select c.* " +
+                    "from city c join region r on c.region_id = r.region_id"
     )
     List<City> listAll();
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select c.city_id as id, c.city_name as name
+                    from city c
+                    """
+    )
+    List<CityDtoRegister> findAllCityDtos();
 
     @Query(
             nativeQuery = true,
@@ -25,7 +35,8 @@ public interface CityRepository extends JpaRepository<City, Long> {
                     "from city c " +
                     "where c.city_id = ?1"
     )
-    Optional<City> findById(@NonNull Long id);
+    @Transactional
+    Optional<City> findById(@NonNull Integer id);
 
     @Query(
             nativeQuery = true,
@@ -55,7 +66,7 @@ public interface CityRepository extends JpaRepository<City, Long> {
                     "where city_id=?1"
     )
     Integer edit(
-            @NonNull Long id,
+            @NonNull Integer id,
             @NonNull String name,
             @NonNull Integer region);
 
@@ -66,5 +77,5 @@ public interface CityRepository extends JpaRepository<City, Long> {
             value = "delete from city c " +
                     "where c.city_id=?1"
     )
-    void deleteById(@NonNull Long id);
+    void deleteById(@NonNull Integer id);
 }

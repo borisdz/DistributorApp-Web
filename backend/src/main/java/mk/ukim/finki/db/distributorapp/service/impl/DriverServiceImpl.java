@@ -1,5 +1,6 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp.model.dto.DriverDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Driver;
 import mk.ukim.finki.db.distributorapp.repository.DriverRepository;
@@ -10,12 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class DriverServiceImpl implements DriverService {
     private final DriverRepository driverRepository;
-
-    public DriverServiceImpl(DriverRepository driverRepository) {
-        this.driverRepository = driverRepository;
-    }
 
     private List<DriverDto> buildDto(List<Driver> drivers) {
         List<DriverDto> dtos = new ArrayList<>();
@@ -56,6 +54,11 @@ public class DriverServiceImpl implements DriverService {
                 driver.getUserImage(),
                 driver.getVehicle().getVehicleId()
         );
+    }
+
+    @Override
+    public Driver getDriverObjById(Long id) {
+        return this.driverRepository.findById(id).get();
     }
 
     @Override

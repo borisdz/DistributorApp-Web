@@ -1,6 +1,8 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp.model.dto.CityDto;
+import mk.ukim.finki.db.distributorapp.model.dto.CityDtoRegister;
 import mk.ukim.finki.db.distributorapp.model.entities.City;
 import mk.ukim.finki.db.distributorapp.repository.CityRepository;
 import mk.ukim.finki.db.distributorapp.service.CityService;
@@ -11,12 +13,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class CityServiceImpl implements CityService {
     private final CityRepository cityRepository;
-
-    public CityServiceImpl(CityRepository cityRepository) {
-        this.cityRepository = cityRepository;
-    }
 
     private List<CityDto> buildDto(List<City> cities) {
         List<CityDto> dtos = new ArrayList<>();
@@ -33,16 +32,25 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
+    public List<City> listCitiesObj() {
+        return cityRepository.listAll();
+    }
+
+    @Override
     public List<CityDto> listCities() {
         List<City> cities = cityRepository.listAll();
         return buildDto(cities);
     }
 
     @Override
-    public CityDto getCityById(Long id) {
-        City city = cityRepository.findById(id).orElse(null);
+    public List<CityDtoRegister> findAllCityDtos() {
+        return this.cityRepository.findAllCityDtos();
+    }
 
-        assert city != null;
+    @Override
+    public CityDto getCityById(Integer id) {
+        City city = cityRepository.findById(id).orElseThrow();
+
         return new CityDto(
                 city.getCityId(),
                 city.getCityName(),
@@ -52,7 +60,7 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public Optional<City> getCityObjById(Long id){
+    public Optional<City> getCityObjById(Integer id){
         return this.cityRepository.findById(id);
     }
 
@@ -67,7 +75,7 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
         this.cityRepository.deleteById(id);
     }
 

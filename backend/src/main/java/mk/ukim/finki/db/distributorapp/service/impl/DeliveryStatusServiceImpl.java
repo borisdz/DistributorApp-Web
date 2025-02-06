@@ -1,5 +1,6 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
+import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp.model.dto.DeliveryStatusDto;
 import mk.ukim.finki.db.distributorapp.model.entities.DeliveryStatus;
 import mk.ukim.finki.db.distributorapp.repository.DeliveryStatusRepository;
@@ -10,12 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class DeliveryStatusServiceImpl implements DeliveryStatusService {
     private final DeliveryStatusRepository deliveryStatusRepository;
 
-    public DeliveryStatusServiceImpl(DeliveryStatusRepository deliveryStatusRepository) {
-        this.deliveryStatusRepository = deliveryStatusRepository;
-    }
 
     private List<DeliveryStatusDto> buildDto(List<DeliveryStatus> deliveryStatuses) {
         List<DeliveryStatusDto> dtos = new ArrayList<>();

@@ -5,6 +5,7 @@ import mk.ukim.finki.db.distributorapp.model.entities.Delivery;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
@@ -86,4 +87,41 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
             value = "delete from delivery where del_id=?1"
     )
     void delete(@NonNull Long id);
+
+    //------------------------------------------------------------------------------------------------------------------
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select de.*
+                    from driver d join vehicle v on d.veh_id = v.veh_id
+                    join delivery de on v.veh_id = de.veh_id
+                    where d.user_id=:driver and de.d_status_id =1
+                    order by de.del_date desc;
+                    """
+    )
+    List<Delivery> getNewDeliveriesByDriver(@NonNull @Param("driver") Long driver_id);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select d.*
+                    from delivery d join orders o on o.del_id=d.del_id
+                    where o.cust_id=:customer and d.d_status_id <> 4;
+                    """
+    )
+    List<Delivery> getCurrentDeliveriesByCustomer(@NonNull @Param("customer") Long customer_id);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select d.*
+                    from warehouse w
+                        join manager m on w.wh_id = m.wh_id
+                        join article_unit au on w.wh_id = au.wh_id
+                        join orders o on au.ord_id = o.ord_id
+                        join delivery d on o.del_id = d.del_id
+                    where m.user_id=:manager and d.d_status_id<>4
+                    """
+    )
+    List<Delivery> getCurrentDeliveriesByManager(@NonNull @Param("manager") Long manager_id);
 }

@@ -1,42 +1,43 @@
 package mk.ukim.finki.db.distributorapp.web;
 
-import mk.ukim.finki.db.distributorapp.model.dto.DriverDto;
+import lombok.RequiredArgsConstructor;
+import mk.ukim.finki.db.distributorapp.model.entities.Driver;
+import mk.ukim.finki.db.distributorapp.model.entities.Users;
+import mk.ukim.finki.db.distributorapp.security.auth.AuthService;
+import mk.ukim.finki.db.distributorapp.service.CityService;
+import mk.ukim.finki.db.distributorapp.service.DeliveryService;
 import mk.ukim.finki.db.distributorapp.service.DriverService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import mk.ukim.finki.db.distributorapp.service.UsersService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.List;
-
-@RestController
-@RequestMapping("/driver")
+@Controller
+@RequiredArgsConstructor
+@RequestMapping(value = "/driver")
 public class DriverController {
     private final DriverService driverService;
-
-    public DriverController(DriverService driverService) {
-        this.driverService = driverService;
-    }
+    private final AuthService authService;
+    private final UsersService usersService;
+    private final DeliveryService deliveryService;
+    private final CityService cityService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<DriverDto>> getAllDrivers() {
-        List<DriverDto> drivers = driverService.getAllDrivers();
-        return ResponseEntity.ok(drivers);
+    public String allDrivers(Model model) {
+//        List<DriverDto> drivers = driverService.getAllDrivers();
+//        model.addAttribute("drivers", drivers);
+        return "all-drivers";
     }
 
-    @PutMapping("/add")
-    public ResponseEntity<Integer> addDriver(@RequestBody DriverDto driverDto) {
-        Integer result = this.driverService.create(driverDto);
-        return ResponseEntity.ok(result);
+    @GetMapping({"/dashboard","/"})
+    public String dashboard(Model model) {
+        Users user = this.usersService.findUserByEmail(model.getAttribute("email").toString());
+        Driver driver = this.driverService.getDriverObjById(user.getUserId());
+        model.addAttribute("newDeliveries", deliveryService.getAllNewDeliveriesByDriver(driver));
+        model.addAttribute("doneDeliveries", deliveryService.getAllDeliveriesByDriver(driver));
+        return "home/driver";
     }
 
-    @PutMapping("/edit")
-    public ResponseEntity<Integer> editDriver(@RequestBody DriverDto driverDto) {
-        Integer result = this.driverService.edit(driverDto);
-        return ResponseEntity.ok(result);
-    }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteDriver(@PathVariable Long id) {
-        this.driverService.deleteById(id);
-        return ResponseEntity.noContent().build();
-    }
 }

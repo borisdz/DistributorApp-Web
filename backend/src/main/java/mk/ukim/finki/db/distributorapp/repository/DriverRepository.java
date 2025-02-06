@@ -26,7 +26,11 @@ public interface DriverRepository extends JpaRepository<Driver, Long> {
 
     @Query(
             nativeQuery = true,
-            value = "select * from driver where user_id=?1"
+            value = """
+                    select *
+                    from driver d join users u on d.user_id = u.user_id
+                    where d.user_id=?1
+                    """
     )
     Optional<Driver> findById(@NonNull Long id);
 
