@@ -1,8 +1,8 @@
 package mk.ukim.finki.db.distributorapp.service;
 
+import mk.ukim.finki.db.distributorapp.model.dto.VehicleBasicDto;
 import mk.ukim.finki.db.distributorapp.model.dto.VehicleDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Manager;
-import mk.ukim.finki.db.distributorapp.model.entities.Warehouse;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ public interface VehicleService {
 
     List<VehicleDto> getAllVehicles();
 
-    List<VehicleDto> getVehiclesByWarehouse(Warehouse warehouse);
+    List<VehicleBasicDto> getVehiclesByWarehouse(Integer warehouseId);
 
     Integer create(VehicleDto vehicleDto);
 

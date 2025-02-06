@@ -64,6 +64,11 @@ public class RegionServiceImpl implements RegionService {
     }
 
     @Override
+    public RegionDto getRegionByCityId(Integer cityId) {
+        return this.regionRepository.getRegionByCityId(cityId);
+    }
+
+    @Override
     public void deleteById(Integer id) {
         this.regionRepository.deleteById(id);
     }

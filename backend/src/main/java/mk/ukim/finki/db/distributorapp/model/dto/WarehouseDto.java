@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class WarehouseDto {
     private Integer id;
     private String address;
-    private Long cityId;
+    private Integer cityId;
     private String cityName;
     private Integer regionId;
     private String regionName;

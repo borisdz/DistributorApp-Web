@@ -1,7 +1,6 @@
 package mk.ukim.finki.db.distributorapp.web;
 
 import lombok.RequiredArgsConstructor;
-import mk.ukim.finki.db.distributorapp.model.dto.*;
 import mk.ukim.finki.db.distributorapp.model.entities.Driver;
 import mk.ukim.finki.db.distributorapp.model.entities.Users;
 import mk.ukim.finki.db.distributorapp.security.auth.AuthService;
@@ -11,9 +10,8 @@ import mk.ukim.finki.db.distributorapp.service.DriverService;
 import mk.ukim.finki.db.distributorapp.service.UsersService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequiredArgsConstructor
@@ -27,12 +25,12 @@ public class DriverController {
 
     @GetMapping("/all")
     public String allDrivers(Model model) {
-        List<DriverDto> drivers = driverService.getAllDrivers();
-        model.addAttribute("drivers", drivers);
+//        List<DriverDto> drivers = driverService.getAllDrivers();
+//        model.addAttribute("drivers", drivers);
         return "all-drivers";
     }
 
-    @GetMapping("/dashboard")
+    @GetMapping({"/dashboard","/"})
     public String dashboard(Model model) {
         Users user = this.usersService.findUserByEmail(model.getAttribute("email").toString());
         Driver driver = this.driverService.getDriverObjById(user.getUserId());

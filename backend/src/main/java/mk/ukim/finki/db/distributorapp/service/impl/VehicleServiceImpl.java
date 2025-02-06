@@ -1,10 +1,10 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import mk.ukim.finki.db.distributorapp.model.dto.VehicleBasicDto;
 import mk.ukim.finki.db.distributorapp.model.dto.VehicleDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Manager;
 import mk.ukim.finki.db.distributorapp.model.entities.Vehicle;
-import mk.ukim.finki.db.distributorapp.model.entities.Warehouse;
 import mk.ukim.finki.db.distributorapp.repository.VehicleRepository;
 import mk.ukim.finki.db.distributorapp.service.VehicleService;
 import org.springframework.stereotype.Service;
@@ -56,9 +56,8 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public List<VehicleDto> getVehiclesByWarehouse(Warehouse warehouse) {
-        List<Vehicle> vehicles = this.vehicleRepository.findAllByWarehouse(warehouse.getWarehouseId());
-        return buildDtoList(vehicles);
+    public List<VehicleBasicDto> getVehiclesByWarehouse(Integer warehouseId) {
+        return this.vehicleRepository.findAllByWarehouseDto(warehouseId);
     }
 
     @Override

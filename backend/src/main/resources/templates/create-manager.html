@@ -86,6 +86,7 @@
                         </select>
                         <label for="warehouse"> Warehouse:</label>
                         <input id="warehouse" type="text" name="warehouse" class="form-control" readonly/>
+                        <input type="hidden" id="warehouseId" name="warehouse">
                     </div>
                 </div>
             </div>
@@ -104,13 +105,14 @@
     document.addEventListener("DOMContentLoaded", function () {
         var citySelect = document.getElementById("city");
         var warehouseField = document.getElementById("warehouse");
+        var warehouseId = document.getElementById("warehouseId");
 
         if (citySelect) {
             citySelect.addEventListener("change", function () {
                 let selectedCityId = this.value;
                 console.log("City changed, value:", selectedCityId);
 
-                fetch("/warehouse-by-city?cityId=" + selectedCityId)
+                fetch("/admin/warehouse-by-city?cityId=" + selectedCityId)
                     .then(response => {
                         if (!response.ok) {
                             throw new Error("Network response was not ok " + response.statusText);
@@ -120,6 +122,7 @@
                     .then(data => {
                         console.log("Fetched warehouse:", data);
                         warehouseField.value = data.address || "";
+                        warehouseId.value = data.id;
                     })
                     .catch(error => {
                         console.error("Fetch error:", error);

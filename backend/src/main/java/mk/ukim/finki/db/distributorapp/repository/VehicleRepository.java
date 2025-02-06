@@ -1,6 +1,7 @@
 package mk.ukim.finki.db.distributorapp.repository;
 
 import lombok.NonNull;
+import mk.ukim.finki.db.distributorapp.model.dto.VehicleBasicDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Vehicle;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -24,6 +25,18 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
             value = "select * from vehicle where wh_id=?1"
     )
     List<Vehicle> findAllByWarehouse(@NonNull Integer warehouseId);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select veh_id as id,
+                           wh_id as warehouseId,
+                           veh_plate as plateNumber
+                    from vehicle
+                    where wh_id = ?1
+                    """
+    )
+    List<VehicleBasicDto> findAllByWarehouseDto(@NonNull Integer warehouseId);
 
     @Query(
             nativeQuery = true,

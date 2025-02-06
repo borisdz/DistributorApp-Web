@@ -15,15 +15,15 @@ public interface CityService {
 
     List<CityDtoRegister> findAllCityDtos();
 
-    CityDto getCityById(Long id);
+    CityDto getCityById(Integer id);
 
-    Optional<City> getCityObjById(Long id);
+    Optional<City> getCityObjById(Integer id);
 
     Integer create(CityDto cityDto);
 
     Integer edit(CityDto cityDto);
 
-    void deleteById(Long id);
+    void deleteById(Integer id);
 
     List<CityDto> searchCities(String text);
 }

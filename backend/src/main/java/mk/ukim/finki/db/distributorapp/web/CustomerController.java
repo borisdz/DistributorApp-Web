@@ -23,7 +23,7 @@ public class CustomerController {
     private final OrdersService ordersService;
     private final DeliveryService deliveryService;
 
-    @GetMapping("/dashboard")
+    @GetMapping({"/dashboard","/"})
     public String dashboard(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();

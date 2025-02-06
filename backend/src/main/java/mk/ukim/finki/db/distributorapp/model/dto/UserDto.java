@@ -17,7 +17,7 @@ public class UserDto {
     private String email;
     private String phone;
     private String image;
-    private Long cityId;
+    private Integer cityId;
     private String cityName;
     private String regionName;
     private Role role;

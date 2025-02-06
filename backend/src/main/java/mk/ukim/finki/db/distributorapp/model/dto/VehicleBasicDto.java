@@ -5,7 +5,8 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class CityDtoRegister {
+public class VehicleBasicDto {
     private Integer id;
-    private String name;
+    private Integer warehouseId;
+    private String plateNumber;
 }

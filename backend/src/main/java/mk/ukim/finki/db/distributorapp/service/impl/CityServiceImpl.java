@@ -48,7 +48,7 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public CityDto getCityById(Long id) {
+    public CityDto getCityById(Integer id) {
         City city = cityRepository.findById(id).orElseThrow();
 
         return new CityDto(
@@ -60,7 +60,7 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public Optional<City> getCityObjById(Long id){
+    public Optional<City> getCityObjById(Integer id){
         return this.cityRepository.findById(id);
     }
 
@@ -75,7 +75,7 @@ public class CityServiceImpl implements CityService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
         this.cityRepository.deleteById(id);
     }
 

@@ -15,6 +15,6 @@ public class CreateDriverDto {
     private String email;
     private String mobile;
     private String profileImage;
-    private Long city;
+    private Integer city;
     private Integer vehicle;
 }

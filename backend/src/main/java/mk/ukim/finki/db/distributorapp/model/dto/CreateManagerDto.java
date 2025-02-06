@@ -15,6 +15,6 @@ public class CreateManagerDto {
     private String email;
     private String mobile;
     private String profileImage;
-    private Long city;
-    private Integer warehouse;
+    private Integer city;
+    private Integer warehouseId;
 }

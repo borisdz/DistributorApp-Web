@@ -15,7 +15,7 @@ public class RegisterRequestDto {
     private String email;
     private String mobile;
     private String profileImage;
-    private Long city;
+    private Integer city;
     private String edb;
     private String compName;
     private String address;

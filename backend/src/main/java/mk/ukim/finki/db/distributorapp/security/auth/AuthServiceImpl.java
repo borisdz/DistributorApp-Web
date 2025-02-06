@@ -129,7 +129,7 @@ public class AuthServiceImpl implements AuthService {
         Users user = this.usersRepository.findUserByUserEmailIgnoreCase(createManagerDto.getEmail()).orElseThrow(InvalidUserCredentialsException::new);
         this.managerRepository.create(
                 user.getUserId(),
-                createManagerDto.getWarehouse()
+                createManagerDto.getWarehouseId()
         );
     }
 

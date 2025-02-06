@@ -1,6 +1,7 @@
 package mk.ukim.finki.db.distributorapp.repository;
 
 import lombok.NonNull;
+import mk.ukim.finki.db.distributorapp.model.dto.WarehouseDto;
 import mk.ukim.finki.db.distributorapp.model.entities.ArticleUnit;
 import mk.ukim.finki.db.distributorapp.model.entities.Warehouse;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,45 +22,45 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Integer> {
 
     @Query(
             nativeQuery = true,
-            value = "select * from warehouse where city_id=?1"
+            value = "select * from warehouse where city_id = ?1"
     )
-    List<Warehouse> findAllByCity(@NonNull Long city);
+    List<Warehouse> findAllByCity(@NonNull Integer city);
 
     @Query(
             nativeQuery = true,
-            value = "select * from warehouse where wh_id=?1"
+            value = "select * from warehouse where wh_id = ?1"
     )
-    Optional<Warehouse> findById(@NonNull Short id);
+    Optional<Warehouse> findById(@NonNull Integer id);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "insert into warehouse(wh_address, city_id) " +
+            value = "insert into warehouse(wh_adr, city_id) " +
                     "values (?1,?2)"
     )
     Integer create(
             @NonNull String whAddress,
-            @NonNull Long city);
+            @NonNull Integer city);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
             value = "update warehouse " +
-                    "set wh_address=?2,city_id=?3 " +
-                    "where wh_id=?1"
+                    "set wh_adr = ?2,city_id = ?3 " +
+                    "where wh_id = ?1"
     )
     Integer edit(
             @NonNull Integer id,
             @NonNull String whAddress,
-            @NonNull Long city);
+            @NonNull Integer city);
 
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "delete from warehouse where wh_id=?1"
+            value = "delete from warehouse where wh_id = ?1"
     )
     void delete(@NonNull Integer id);
     //-------------------------------------------------------------------------------------------------------------------
@@ -86,8 +87,30 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Integer> {
     @Query(
             nativeQuery = true,
             value = """
-                    select * from warehouse where city_id=?1
+                    select * from warehouse w where w.city_id = ?1
                     """
     )
-    Warehouse findWarehouseByCityId(Long id);
+    Warehouse findWarehouseByCityId(Integer id);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    with reg as (
+                        select r.*
+                        from city c1 join region r on c1.region_id = r.region_id
+                        where c1.city_id = :city
+                    )
+                    select w.wh_id as id,
+                           w.wh_adr as address,
+                           c.city_id as cityId,
+                           c.city_name as cityName,
+                           r1.region_id as regionId,
+                           r1.region_name as regionName
+                    from warehouse w
+                    join city c on c.city_id = w.city_id
+                    join reg r1 on r1.region_id = c.region_id
+                    where c.region_id = r1.region_id
+                   """
+    )
+    WarehouseDto findWarehouseDtoByCityId(@NonNull @Param("city") Integer cityId);
 }

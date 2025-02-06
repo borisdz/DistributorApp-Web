@@ -59,16 +59,8 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public WarehouseDto findByCityId(Long id) {
-        Warehouse wh = this.warehouseRepository.findWarehouseByCityId(id);
-        return new WarehouseDto(
-                wh.getWarehouseId(),
-                wh.getWarehouseAddress(),
-                wh.getCity().getCityId(),
-                wh.getCity().getCityName(),
-                wh.getCity().getRegion().getRegionId(),
-                wh.getCity().getRegion().getRegionName()
-        );
+    public WarehouseDto findByCityId(Integer id) {
+        return this.warehouseRepository.findWarehouseDtoByCityId(id);
     }
 
     @Override
@@ -95,7 +87,6 @@ public class WarehouseServiceImpl implements WarehouseService {
 
     @Override
     public List<WarehouseDto> getInventoryByManager(Manager manager) {
-
         return List.of();
     }
 }

@@ -1,10 +1,12 @@
 package mk.ukim.finki.db.distributorapp.repository;
 
 import lombok.NonNull;
+import mk.ukim.finki.db.distributorapp.model.dto.RegionDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Region;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -64,4 +66,16 @@ public interface RegionRepository extends JpaRepository<Region, Integer> {
                     "where region_id=?1"
     )
     void deleteById(@NonNull Integer id);
+
+//    -------------------------------------------------------------------------
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select r.region_id as id, r.region_name as name
+                    from region r join city c on r.region_id = c.region_id
+                    where c.city_id = :city
+                    """
+    )
+    RegionDto getRegionByCityId(@NonNull @Param("city") Integer cityId);
 }

@@ -3,9 +3,7 @@ package mk.ukim.finki.db.distributorapp.web;
 import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp.model.dto.*;
 import mk.ukim.finki.db.distributorapp.security.auth.AuthService;
-import mk.ukim.finki.db.distributorapp.service.CityService;
-import mk.ukim.finki.db.distributorapp.service.DriverService;
-import mk.ukim.finki.db.distributorapp.service.WarehouseService;
+import mk.ukim.finki.db.distributorapp.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,13 +19,13 @@ public class AdminController {
     private final CityService cityService;
     private final WarehouseService warehouseService;
     private final DriverService driverService;
+    private final VehicleService vehicleService;
 
-    @GetMapping("/dashboard")
+    @GetMapping({"/dashboard","/"})
     public String getDashboard(Model model)
     {
         return "home/admin";
     }
-
 
     //    MANAGER CONTROLS:
 
@@ -41,8 +39,10 @@ public class AdminController {
 
     @PostMapping("/create-manager")
     public String createManager(@ModelAttribute("manager") CreateManagerDto createManagerDto) throws Exception {
+        WarehouseDto wh = this.warehouseService.findByCityId(createManagerDto.getCity());
+        createManagerDto.setWarehouseId(wh.getId());
         this.authService.createManager(createManagerDto);
-        return "redirect:/manager";
+        return "redirect:/manager/all";
     }
 
     @GetMapping("/edit-manager")
@@ -52,7 +52,7 @@ public class AdminController {
 
     @GetMapping("/warehouse-by-city")
     @ResponseBody
-    public WarehouseDto getWarehouseByCity(@RequestParam("cityId") Long cityId) {
+    public WarehouseDto getWarehouseByCity(@RequestParam("cityId") Integer cityId) {
         return this.warehouseService.findByCityId(cityId);
     }
 
@@ -63,6 +63,13 @@ public class AdminController {
         model.addAttribute("cities", cities);
         model.addAttribute("driver", new CreateDriverDto());
         return "create-driver";
+    }
+
+    @GetMapping("/vehicle-by-city")
+    @ResponseBody
+    public List<VehicleBasicDto> getVehicleByCity(@RequestParam("cityId") Integer cityId) {
+        WarehouseDto wh = this.warehouseService.findByCityId(cityId);
+        return this.vehicleService.getVehiclesByWarehouse(wh.getId());
     }
 
     @PostMapping("/create-driver")

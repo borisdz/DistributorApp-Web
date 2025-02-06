@@ -20,7 +20,13 @@ public interface CityRepository extends JpaRepository<City, Long> {
     )
     List<City> listAll();
 
-    @Query("select new mk.ukim.finki.db.distributorapp.model.dto.CityDtoRegister(c.cityId,c.cityName) from City c")
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select c.city_id as id, c.city_name as name
+                    from city c
+                    """
+    )
     List<CityDtoRegister> findAllCityDtos();
 
     @Query(
@@ -30,7 +36,7 @@ public interface CityRepository extends JpaRepository<City, Long> {
                     "where c.city_id = ?1"
     )
     @Transactional
-    Optional<City> findById(@NonNull Long id);
+    Optional<City> findById(@NonNull Integer id);
 
     @Query(
             nativeQuery = true,
@@ -60,7 +66,7 @@ public interface CityRepository extends JpaRepository<City, Long> {
                     "where city_id=?1"
     )
     Integer edit(
-            @NonNull Long id,
+            @NonNull Integer id,
             @NonNull String name,
             @NonNull Integer region);
 
@@ -71,5 +77,5 @@ public interface CityRepository extends JpaRepository<City, Long> {
             value = "delete from city c " +
                     "where c.city_id=?1"
     )
-    void deleteById(@NonNull Long id);
+    void deleteById(@NonNull Integer id);
 }

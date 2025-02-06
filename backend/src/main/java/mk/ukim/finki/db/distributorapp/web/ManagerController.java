@@ -22,7 +22,7 @@ public class ManagerController {
     private final DeliveryService deliveryService;
 
 
-    @GetMapping("/dashboard")
+    @GetMapping({"/dashboard","/"})
     public String dashboard(Model model) {
         Users user = this.usersService.findUserByEmail(model.getAttribute("email").toString());
         Manager manager = this.managerService.getManagerByIdObj(user.getUserId());
@@ -32,5 +32,10 @@ public class ManagerController {
         model.addAttribute("newOrders", ordersService.getNewOrdersByManager(manager));
         model.addAttribute("currentDeliveries", deliveryService.getCurrentDeliveriesByManager(manager));
         return "home/manager";
+    }
+
+    @GetMapping("/all")
+    public String allManagers(Model model) {
+        return "all-managers";
     }
 }
