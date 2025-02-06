@@ -13,4 +13,5 @@ public interface UsersService {
     Integer deleteUserById(Long id);
     UserDto buildDto(Users user);
     Users findUserByResetToken(String token);
+    UserDto findUserDtoByEmail(String userEmail);
 }

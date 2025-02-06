@@ -3,7 +3,6 @@ package mk.ukim.finki.db.distributorapp.model.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import mk.ukim.finki.db.distributorapp.model.enumerations.Role;
 
 import java.time.LocalDateTime;
 
@@ -20,7 +19,7 @@ public class UserDto {
     private Integer cityId;
     private String cityName;
     private String regionName;
-    private Role role;
+    private String role;
     private String rtoken;
     private LocalDateTime rtoken_exp;
     private String clazz_;

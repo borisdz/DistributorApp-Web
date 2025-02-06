@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import mk.ukim.finki.db.distributorapp.model.dto.UsersLoadingDto;
 import mk.ukim.finki.db.distributorapp.model.enumerations.Role;
 import mk.ukim.finki.db.distributorapp.security.ConfirmationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -89,6 +90,21 @@ public class Users implements UserDetails{
 
     @Column(name = "clazz_", insertable = false, updatable = false)
     private String clazz_;
+
+    public Users(UsersLoadingDto dto) {
+        this.userRole = Role.valueOf(dto.getUserRole());
+        this.userId = dto.getUserId();
+        this.userName = dto.getUserName();
+        this.userSurname = dto.getUserSurname();
+        this.userPassword = dto.getUserPassword();
+        this.userEmail = dto.getUserEmail();
+        this.userMobile = dto.getUserMobile();
+        this.userSalt = dto.getUserSalt();
+        this.userActive = dto.getUserActive();
+        this.userImage = dto.getUserImage();
+        this.confirmationToken=null;
+        this.city=null;
+    }
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private ConfirmationToken confirmationToken;
