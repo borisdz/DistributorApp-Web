@@ -26,7 +26,7 @@ public class UsersServiceImpl implements UsersService {
                 user.getCity().getCityId(),
                 user.getCity().getCityName(),
                 user.getCity().getRegion().getRegionName(),
-                user.getUserRole(),
+                user.getUserRole().toString(),
                 user.getUserResetToken(),
                 user.getUserResetTokenExpiry(),
                 user.getClazz_());
@@ -61,7 +61,7 @@ public class UsersServiceImpl implements UsersService {
                 user.getUserActive(),
                 userDto.getImage(),
                 userDto.getCityId(),
-                userDto.getRole().name(),
+                userDto.getRole(),
                 userDto.getRtoken(),
                 userDto.getRtoken_exp(),
                 userDto.getClazz_()
@@ -71,6 +71,11 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public Users findUserByResetToken(String token) {
         return this.usersRepository.findUserByResetToken("'"+token+"'").get();
+    }
+
+    @Override
+    public UserDto findUserDtoByEmail(String userEmail) {
+        return this.usersRepository.findUserDtoByEmail(userEmail);
     }
 
     @Override
