@@ -1,6 +1,8 @@
 package mk.ukim.finki.db.distributorapp.repository;
 
 import lombok.NonNull;
+import mk.ukim.finki.db.distributorapp.model.dto.UserDto;
+import mk.ukim.finki.db.distributorapp.model.dto.UsersLoadingDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -149,4 +151,48 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
     Optional<Users> findUserByResetToken(@NonNull @Param("token") String token);
 
     Optional<Users> findUsersByUserEmailIgnoreCase(String email);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select user_id as userId,
+                           user_name as userName,
+                           user_surname as userSurname,
+                           user_pass as userPassword,
+                           user_email as userEmail,
+                           user_mobile as userMobile,
+                           user_salt as userSalt,
+                           user_active as userActive,
+                           user_image as userImage,
+                           user_role as userRole,
+                           clazz_
+                    from users
+                    where user_email = ?1
+                    """
+    )
+    UsersLoadingDto findUsersByUserEmailIgnoreCaseDto(String email);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select u.user_id as id,
+                           u.user_name as firstName,
+                           u.user_surname as lastName,
+                           u.user_email as email,
+                           u.user_mobile as phone,
+                           u.user_image as image,
+                           u.city_id as cityId,
+                           c.city_name as cityName,
+                           r.region_name as regionName,
+                           u.user_role as role,
+                           u.user_rtoken as rtoken,
+                           user_rtoken_exp as rtoken_exp,
+                           clazz_ as clazz_
+                    from users u
+                    join city c on u.city_id = c.city_id
+                    join region r on c.region_id = r.region_id
+                    where user_email = ?1
+                    """
+    )
+    UserDto findUserDtoByEmail(String userEmail);
 }

@@ -1,13 +1,15 @@
 package mk.ukim.finki.db.distributorapp.web;
 
 import lombok.RequiredArgsConstructor;
-import mk.ukim.finki.db.distributorapp.model.entities.Driver;
-import mk.ukim.finki.db.distributorapp.model.entities.Users;
+import mk.ukim.finki.db.distributorapp.model.dto.DriverDto;
+import mk.ukim.finki.db.distributorapp.model.dto.UserDto;
 import mk.ukim.finki.db.distributorapp.security.auth.AuthService;
 import mk.ukim.finki.db.distributorapp.service.CityService;
 import mk.ukim.finki.db.distributorapp.service.DeliveryService;
 import mk.ukim.finki.db.distributorapp.service.DriverService;
 import mk.ukim.finki.db.distributorapp.service.UsersService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,10 +34,12 @@ public class DriverController {
 
     @GetMapping({"/dashboard","/"})
     public String dashboard(Model model) {
-        Users user = this.usersService.findUserByEmail(model.getAttribute("email").toString());
-        Driver driver = this.driverService.getDriverObjById(user.getUserId());
-        model.addAttribute("newDeliveries", deliveryService.getAllNewDeliveriesByDriver(driver));
-        model.addAttribute("doneDeliveries", deliveryService.getAllDeliveriesByDriver(driver));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        UserDto user = this.usersService.findUserDtoByEmail(userEmail);
+        DriverDto driver = this.driverService.findById(user.getId());
+//        model.addAttribute("newDeliveries", deliveryService.getAllNewDeliveriesByDriver(driver));
+//        model.addAttribute("doneDeliveries", deliveryService.getAllDeliveriesByDriver(driver));
         return "home/driver";
     }
 

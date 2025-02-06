@@ -1,7 +1,8 @@
 package mk.ukim.finki.db.distributorapp.web;
 
-import mk.ukim.finki.db.distributorapp.model.entities.Users;
-import mk.ukim.finki.db.distributorapp.service.*;
+import lombok.RequiredArgsConstructor;
+import mk.ukim.finki.db.distributorapp.model.dto.UserDto;
+import mk.ukim.finki.db.distributorapp.service.UsersService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -10,22 +11,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping({"/","/home"})
 public class HomeController {
 
-    private final DeliveryService deliveryService;
-    private final OrdersService ordersService;
-    private final VehicleService vehicleService;
-    private final WarehouseService warehouseService;
     private final UsersService usersService;
 
-    public HomeController(DeliveryService deliveryService, OrdersService ordersService, VehicleService vehicleService, WarehouseService warehouseService, UsersService usersService) {
-        this.deliveryService = deliveryService;
-        this.ordersService = ordersService;
-        this.vehicleService = vehicleService;
-        this.warehouseService = warehouseService;
-        this.usersService = usersService;
-    }
 
     @GetMapping
     public String homePage(Model model) {
@@ -40,18 +31,16 @@ public class HomeController {
         if(userEmail.equals("superuser@admin.com")) {
             return "redirect:/admin/dashboard";
         }
-        Users user = this.usersService.findUserByEmail(userEmail);
-        System.out.println("Authentication principal: " + authentication.getPrincipal().getClass().getName());
-        System.out.println("Authorities: " + authentication.getAuthorities());
+        UserDto user = this.usersService.findUserDtoByEmail(userEmail);
 
-        switch (user.getUserRole()) {
-            case ROLE_CUSTOMER -> {
+        switch (user.getRole()) {
+            case "ROLE_CUSTOMER" -> {
                 return "redirect:/customer/dashboard";
             }
-            case ROLE_DRIVER -> {
+            case "ROLE_DRIVER" -> {
                 return "redirect:/driver/dashboard";
             }
-            case ROLE_MANAGER -> {
+            case "ROLE_MANAGER" -> {
                 return "redirect:/manager/dashboard";
             }
         }

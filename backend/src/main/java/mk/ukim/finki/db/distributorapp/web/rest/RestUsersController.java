@@ -34,7 +34,7 @@ public class RestUsersController {
                     user.getCity().getCityId(),
                     user.getCity().getCityName(),
                     user.getCity().getRegion().getRegionName(),
-                    user.getUserRole(),
+                    user.getUserRole().toString(),
                     user.getUserResetToken(),
                     user.getUserResetTokenExpiry(),
                     user.getClazz_()

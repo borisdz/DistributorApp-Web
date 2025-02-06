@@ -1,9 +1,10 @@
 package mk.ukim.finki.db.distributorapp.web;
 
 import lombok.RequiredArgsConstructor;
-import mk.ukim.finki.db.distributorapp.model.entities.Manager;
-import mk.ukim.finki.db.distributorapp.model.entities.Users;
+import mk.ukim.finki.db.distributorapp.model.dto.UserDto;
 import mk.ukim.finki.db.distributorapp.service.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,14 +24,15 @@ public class ManagerController {
 
 
     @GetMapping({"/dashboard","/"})
-    public String dashboard(Model model) {
-        Users user = this.usersService.findUserByEmail(model.getAttribute("email").toString());
-        Manager manager = this.managerService.getManagerByIdObj(user.getUserId());
+    public String dashboard() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        UserDto user = this.usersService.findUserDtoByEmail(userEmail);
 
-        model.addAttribute("currentInventory", warehouseService.getInventoryByManager(manager));
-        model.addAttribute("vehicleStatus", vehicleService.getVehiclesByManager(manager));
-        model.addAttribute("newOrders", ordersService.getNewOrdersByManager(manager));
-        model.addAttribute("currentDeliveries", deliveryService.getCurrentDeliveriesByManager(manager));
+//        model.addAttribute("currentInventory", warehouseService.getInventoryByManager(manager.getId()));
+//        model.addAttribute("vehicleStatus", vehicleService.getVehiclesByManager(manager.getId()));
+//        model.addAttribute("newOrders", ordersService.getNewOrdersByManager(manager.getId()));
+//        model.addAttribute("currentDeliveries", deliveryService.getCurrentDeliveriesByManager(manager.getId()));
         return "home/manager";
     }
 
