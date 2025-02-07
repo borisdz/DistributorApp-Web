@@ -84,7 +84,7 @@ public class DeliveryServiceImpl implements DeliveryService {
                 deliveryDto.getDelStartKm(),
                 deliveryDto.getDelEndKm(),
                 deliveryDto.getDelStartTime(),
-                deliveryDto.getDeliveryEndTime(),
+                deliveryDto.getDelEndTime(),
                 deliveryDto.getDStatusId(),
                 deliveryDto.getVehId()
         );
@@ -99,7 +99,7 @@ public class DeliveryServiceImpl implements DeliveryService {
                 deliveryDto.getDelStartKm(),
                 deliveryDto.getDelEndKm(),
                 deliveryDto.getDelStartTime(),
-                deliveryDto.getDeliveryEndTime(),
+                deliveryDto.getDelEndTime(),
                 deliveryDto.getDStatusId(),
                 deliveryDto.getVehId()
         );
@@ -108,12 +108,6 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public void deleteById(Long del_id) {
         this.deliveryRepository.delete(del_id);
-    }
-
-    @Override
-    public List<DeliveryDto> getAllNewDeliveriesByDriver(Driver driver) {
-        List<Delivery> deliveries = this.deliveryRepository.getNewDeliveriesByDriver(driver.getUserId());
-        return buildDto(deliveries);
     }
 
     @Override
