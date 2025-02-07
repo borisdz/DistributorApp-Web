@@ -111,12 +111,6 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
-    public List<DeliveryDto> getAllNewDeliveriesByDriver(Driver driver) {
-        List<Delivery> deliveries = this.deliveryRepository.getNewDeliveriesByDriver(driver.getUserId());
-        return buildDto(deliveries);
-    }
-
-    @Override
     public List<DeliveryDto> getCurrentDeliveriesByCustomer(Customer customer) {
         List<Delivery> deliveries = this.deliveryRepository.getCurrentDeliveriesByCustomer(customer.getUserId());
         return buildDto(deliveries);

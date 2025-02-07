@@ -22,8 +22,6 @@ public interface DeliveryService {
 
     void deleteById(Long del_id);
 
-    List<DeliveryDto> getAllNewDeliveriesByDriver(Driver driver);
-
     List<DeliveryDto> getCurrentDeliveriesByCustomer (Customer customer);
 
     List<DeliveryDto> getCurrentDeliveriesByManager (Long managerId);
