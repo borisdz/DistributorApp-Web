@@ -3,7 +3,6 @@ package mk.ukim.finki.db.distributorapp.service.impl;
 import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp.model.dto.OrdersDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Customer;
-import mk.ukim.finki.db.distributorapp.model.entities.Manager;
 import mk.ukim.finki.db.distributorapp.model.entities.Orders;
 import mk.ukim.finki.db.distributorapp.repository.OrdersRepository;
 import mk.ukim.finki.db.distributorapp.service.OrdersService;
@@ -88,7 +87,7 @@ public class OrdersServiceImpl implements OrdersService {
         return this.ordersRepository.create(
                 ordersDto.getOrdDate(),
                 ordersDto.getOrdSum(),
-                ordersDto.getOrderFulfillmentDate(),
+                ordersDto.getOrdFulfillmentDate(),
                 ordersDto.getOrdComment(),
                 ordersDto.getOStatusId(),
                 ordersDto.getCustomerId(),
@@ -103,7 +102,7 @@ public class OrdersServiceImpl implements OrdersService {
                 ordersDto.getId(),
                 ordersDto.getOrdDate(),
                 ordersDto.getOrdSum(),
-                ordersDto.getOrderFulfillmentDate(),
+                ordersDto.getOrdFulfillmentDate(),
                 ordersDto.getOrdComment(),
                 ordersDto.getOStatusId(),
                 ordersDto.getCustomerId(),
@@ -124,8 +123,7 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public List<OrdersDto> getNewOrdersByManager(Manager manager) {
-        List<Orders> orders = this.ordersRepository.getNewOrdersByManager(manager.getUserId());
-        return buildDto(orders);
+    public List<OrdersDto> getNewOrdersByManager(Long managerId) {
+         return this.ordersRepository.getNewOrdersByManager(managerId);
     }
 }

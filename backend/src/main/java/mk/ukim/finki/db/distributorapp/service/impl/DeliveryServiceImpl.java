@@ -80,11 +80,11 @@ public class DeliveryServiceImpl implements DeliveryService {
     public Integer create(DeliveryDto deliveryDto) {
         return this.deliveryRepository.create(
                 deliveryDto.getDateCreated(),
-                deliveryDto.getDeliveryDate(),
+                deliveryDto.getDelDate(),
                 deliveryDto.getDelStartKm(),
                 deliveryDto.getDelEndKm(),
                 deliveryDto.getDelStartTime(),
-                deliveryDto.getDeliveryEndTime(),
+                deliveryDto.getDelEndTime(),
                 deliveryDto.getDStatusId(),
                 deliveryDto.getVehId()
         );
@@ -95,11 +95,11 @@ public class DeliveryServiceImpl implements DeliveryService {
         return this.deliveryRepository.edit(
                 deliveryDto.getId(),
                 deliveryDto.getDateCreated(),
-                deliveryDto.getDeliveryDate(),
+                deliveryDto.getDelDate(),
                 deliveryDto.getDelStartKm(),
                 deliveryDto.getDelEndKm(),
                 deliveryDto.getDelStartTime(),
-                deliveryDto.getDeliveryEndTime(),
+                deliveryDto.getDelEndTime(),
                 deliveryDto.getDStatusId(),
                 deliveryDto.getVehId()
         );
@@ -123,8 +123,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
-    public List<DeliveryDto> getCurrentDeliveriesByManager(Manager manager) {
-        List<Delivery> deliveries = this.deliveryRepository.getCurrentDeliveriesByManager(manager.getUserId());
-        return buildDto(deliveries);
+    public List<DeliveryDto> getCurrentDeliveriesByManager(Long managerId) {
+        return this.deliveryRepository.getCurrentDeliveriesByManager(managerId);
     }
 }

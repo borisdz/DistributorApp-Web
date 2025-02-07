@@ -1,9 +1,10 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import mk.ukim.finki.db.distributorapp.model.dto.ArticleUnitDto;
 import mk.ukim.finki.db.distributorapp.model.dto.WarehouseDto;
+import mk.ukim.finki.db.distributorapp.model.dto.WarehouseInventoryDto;
 import mk.ukim.finki.db.distributorapp.model.entities.City;
-import mk.ukim.finki.db.distributorapp.model.entities.Manager;
 import mk.ukim.finki.db.distributorapp.model.entities.Warehouse;
 import mk.ukim.finki.db.distributorapp.repository.WarehouseRepository;
 import mk.ukim.finki.db.distributorapp.service.WarehouseService;
@@ -86,7 +87,7 @@ public class WarehouseServiceImpl implements WarehouseService {
     }
 
     @Override
-    public List<WarehouseDto> getInventoryByManager(Manager manager) {
-        return List.of();
+    public List<WarehouseInventoryDto> getInventoryByManager(Long managerId) {
+        return this.warehouseRepository.getInventoryByManager(managerId);
     }
 }

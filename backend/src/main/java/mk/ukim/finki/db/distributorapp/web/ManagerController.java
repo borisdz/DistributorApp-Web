@@ -24,15 +24,16 @@ public class ManagerController {
 
 
     @GetMapping({"/dashboard","/"})
-    public String dashboard() {
+    public String dashboard(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
         UserDto user = this.usersService.findUserDtoByEmail(userEmail);
 
-//        model.addAttribute("currentInventory", warehouseService.getInventoryByManager(manager.getId()));
-//        model.addAttribute("vehicleStatus", vehicleService.getVehiclesByManager(manager.getId()));
-//        model.addAttribute("newOrders", ordersService.getNewOrdersByManager(manager.getId()));
-//        model.addAttribute("currentDeliveries", deliveryService.getCurrentDeliveriesByManager(manager.getId()));
+        model.addAttribute("user", user);
+        model.addAttribute("currentInventory", warehouseService.getInventoryByManager(user.getId()));
+        model.addAttribute("vehicleStatus", vehicleService.getVehiclesByManager(user.getId()));
+        model.addAttribute("newOrders", ordersService.getNewOrdersByManager(user.getId()));
+        model.addAttribute("currentDeliveries", deliveryService.getCurrentDeliveriesByManager(user.getId()));
         return "home/manager";
     }
 
