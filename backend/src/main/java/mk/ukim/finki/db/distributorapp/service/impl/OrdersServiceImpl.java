@@ -117,9 +117,8 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public List<OrdersDto> findCurrentOrdersByCustomer(Customer customer) {
-        List<Orders> orders = this.ordersRepository.getCurrentOrdersByCustomer(customer.getUserId());
-        return buildDto(orders);
+    public List<OrdersDto> findCurrentOrdersByCustomer(Long customerId) {
+        return this.ordersRepository.getCurrentOrdersByCustomer(customerId);
     }
 
     @Override

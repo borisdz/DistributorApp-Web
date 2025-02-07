@@ -24,13 +24,13 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
     @Query(
             nativeQuery = true,
             value = "select * from delivery " +
-                    "where veh_id=?1"
+                    "where veh_id = ?1"
     )
     List<Delivery> findAllByVehicle(@NonNull Integer veh_id);
 
     @Query(
             nativeQuery = true,
-            value = "select * from delivery where del_id=?1"
+            value = "select * from delivery where del_id = ?1"
     )
     Optional<Delivery> findById(@NonNull Long id);
 
@@ -39,7 +39,7 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
             value = "select d.* " +
                     "from delivery d join vehicle v on d.veh_id = v.veh_id " +
                     "join driver dr on v.veh_id = dr.veh_id " +
-                    "where dr.user_id=?1"
+                    "where dr.user_id = ?1"
     )
     List<Delivery> findDeliveriesByDriver(@NonNull Long driver_id);
 
@@ -47,7 +47,7 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "insert into delivery(del_date_created, del_date, del_start_km, del_end_km, del_start_time, del_end_time, del_status_id, veh_id) " +
+            value = "insert into delivery(del_date_created, del_date, del_start_km, del_end_km, del_start_time, del_end_time, d_status_id, veh_id) " +
                     "values (?1,?2,?3,?4,?5,?6,?7,?8)"
     )
     Integer create(
@@ -66,8 +66,8 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
     @Query(
             nativeQuery = true,
             value = "update delivery " +
-                    "set del_date_created=?2,del_date=?3,del_start_km=?4,del_end_km=?5,del_start_time=?6,del_end_time=?7,del_status_id=?8,veh_id=?9 " +
-                    "where del_id=?1"
+                    "set del_date_created = ?2,del_date = ?3,del_start_km = ?4,del_end_km = ?5,del_start_time = ?6,del_end_time = ?7,d_status_id = ?8,veh_id = ?9 " +
+                    "where del_id = ?1"
     )
     Integer edit(
             @NonNull Long id,
@@ -85,7 +85,7 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "delete from delivery where del_id=?1"
+            value = "delete from delivery where del_id = ?1"
     )
     void delete(@NonNull Long id);
 
@@ -105,12 +105,30 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
     @Query(
             nativeQuery = true,
             value = """
-                    select d.*
-                    from delivery d join orders o on o.del_id=d.del_id
-                    where o.cust_id=:customer and d.d_status_id <> 4;
+                    select del.del_id as id,
+                           del.del_date_created as dateCreated,
+                           del.del_date as deliveryDate,
+                           del.del_start_km as delStartKm,
+                           del.del_end_km as delEndKm,
+                           del.del_start_time as delStartTime,
+                           del.del_end_time as delEndTime,
+                           del.d_status_id as dStatusId,
+                           ds.d_status_name as delStatus,
+                           v.veh_id as vehId,
+                           dr.user_id as driverId,
+                           u.user_name as driverName,
+                           u.user_image as driverImage
+                    from delivery del
+                        join orders o on o.del_id=del.del_id
+                        join delivery d on o.del_id = d.del_id
+                        join delivery_status ds on d.d_status_id=ds.d_status_id
+                        join vehicle v on v.veh_id=d.veh_id
+                        join driver dr on dr.veh_id=v.veh_id
+                        join users u on u.user_id=dr.user_id
+                    where o.cust_id=:customer and del.d_status_id <> 4;
                     """
     )
-    List<Delivery> getCurrentDeliveriesByCustomer(@NonNull @Param("customer") Long customer_id);
+    List<DeliveryDto> getCurrentDeliveriesByCustomer(@NonNull @Param("customer") Long customer_id);
 
     @Query(
             nativeQuery = true,

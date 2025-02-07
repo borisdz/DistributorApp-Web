@@ -111,9 +111,8 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
-    public List<DeliveryDto> getCurrentDeliveriesByCustomer(Customer customer) {
-        List<Delivery> deliveries = this.deliveryRepository.getCurrentDeliveriesByCustomer(customer.getUserId());
-        return buildDto(deliveries);
+    public List<DeliveryDto> getCurrentDeliveriesByCustomer(Long customerId) {
+        return this.deliveryRepository.getCurrentDeliveriesByCustomer(customerId);
     }
 
     @Override

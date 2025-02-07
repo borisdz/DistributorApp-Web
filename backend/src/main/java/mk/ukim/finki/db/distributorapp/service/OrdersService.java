@@ -18,7 +18,7 @@ public interface OrdersService {
 
     void deleteById(Long id);
 
-    List<OrdersDto> findCurrentOrdersByCustomer(Customer customer);
+    List<OrdersDto> findCurrentOrdersByCustomer(Long customerId);
 
     List<OrdersDto> getNewOrdersByManager(Long managerId);
 }
