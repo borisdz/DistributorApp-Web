@@ -9,8 +9,89 @@
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <div class="container mt-4">
-    <h1>Welcome to the Home Page</h1>
-    <p th:text="'Hello, ' + ${userType} + '!'"></p>
+    <h1 th:text="'Here is your dashboard '+${user.getFirstName()}"></h1>
+    <div class="row">
+        <div class="col-md-6">
+            <h2> Current inventory</h2>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Article</th>
+                    <th>Manufacturer</th>
+                    <th>Quantity</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="inventory : ${currentInventory}">
+                    <td th:text="${inventory.getArticleName()}"></td>
+                    <td th:text="${inventory.getManufacturerName()}"></td>
+                    <td th:text="${inventory.getTotalUnits()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <h2>Vehicle Status</h2>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Vehicle plate</th>
+                    <th>Registration Date</th>
+                    <th>Driver Name</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="vehicle : ${vehicleStatus}">
+                    <td th:text="${vehicle.getPlate()}"></td>
+                    <td th:text="${vehicle.getRegistrationDate()}"></td>
+                    <td th:text="${vehicle.getDriverName()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <h2>New Orders</h2>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Order Date</th>
+                    <th>Order Sum</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order : ${newOrders}">
+                    <td th:text="${order.getCustomerName()}"></td>
+                    <td th:text="${order.getOrdDate()}"></td>
+                    <td th:text="${order.getOrdSum()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-6">
+            <h2>Current Deliveries</h2>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Delivery Driver</th>
+                    <th>Delivery Start Time</th>
+                    <th>Delivery Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="delivery : ${currentDeliveries}">
+                    <td th:text="${delivery.getDriverName()}"></td>
+                    <td th:text="${delivery.getDelStartTime()}"></td>
+                    <td th:text="${delivery.getDelStatus()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
