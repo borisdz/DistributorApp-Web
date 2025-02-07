@@ -1,6 +1,7 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import mk.ukim.finki.db.distributorapp.model.dto.DeliveryDto;
 import mk.ukim.finki.db.distributorapp.model.dto.DriverDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Driver;
 import mk.ukim.finki.db.distributorapp.repository.DriverRepository;
@@ -79,5 +80,15 @@ public class DriverServiceImpl implements DriverService {
     @Override
     public void deleteById(Long id) {
         this.driverRepository.deleteById(id);
+    }
+
+    @Override
+    public List<DeliveryDto> getNewAssignedDeliveries(Long driverId) {
+        return this.driverRepository.activeAssignedDeliveries(driverId);
+    }
+
+    @Override
+    public List<DeliveryDto> getFinishedAssignedDeliveries(Long driverId) {
+        return this.driverRepository.finishedAssignedDeliveries(driverId);
     }
 }
