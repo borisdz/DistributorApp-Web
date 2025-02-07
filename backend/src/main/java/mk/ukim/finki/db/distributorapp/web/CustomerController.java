@@ -1,6 +1,8 @@
 package mk.ukim.finki.db.distributorapp.web;
 
 import lombok.RequiredArgsConstructor;
+import mk.ukim.finki.db.distributorapp.model.dto.CustomerDto;
+import mk.ukim.finki.db.distributorapp.model.dto.UserDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Customer;
 import mk.ukim.finki.db.distributorapp.model.entities.Users;
 import mk.ukim.finki.db.distributorapp.service.CustomerService;
@@ -27,11 +29,11 @@ public class CustomerController {
     public String dashboard(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
-        Users user = this.usersService.findUserByEmail(userEmail);
-        Customer customer = this.customerService.getCustomerObjById(user.getUserId());
+        UserDto user = this.usersService.findUserDtoByEmail(userEmail);
+        CustomerDto customer = this.customerService.findCustomerById(user.getId());
         model.addAttribute("customer", customer);
-        model.addAttribute("currentOrders", ordersService.findCurrentOrdersByCustomer(customer));
-        model.addAttribute("currentDeliveries", deliveryService.getCurrentDeliveriesByCustomer(customer));
+        model.addAttribute("currentOrders", ordersService.findCurrentOrdersByCustomer(customer.getId()));
+        model.addAttribute("currentDeliveries", deliveryService.getCurrentDeliveriesByCustomer(customer.getId()));
         return "home/customer";
     }
 }

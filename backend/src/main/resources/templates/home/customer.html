@@ -9,8 +9,48 @@
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
 <div class="container mt-4">
-    <h1>Welcome to the Home Page</h1>
-    <p th:text="'Hello, ' + ${customer.getUsername()} + '!'"></p>
+    <h1 th:text="'Here is your dashboard '+${customer.getCompName()}" class="mb-4"></h1>
+    <div class="row">
+        <div class="col-md-6">
+            <h2>Your Current Orders</h2>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Order Date</th>
+                    <th>Order Sum</th>
+                    <th>Order Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="order : ${currentOrders}">
+                    <td th:text="${order.getOrdDate()}"></td>
+                    <td th:text="${order.getOrdSum()}"></td>
+                    <td th:text="${order.getStatusName()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-6">
+            <h2>Your Current Deliveries</h2>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Delivery Date</th>
+                    <th>Driver Name</th>
+                    <th>Delivery Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="delivery : ${currentDeliveries}">
+                    <td th:text="${delivery.getDelDate()}"></td>
+                    <td th:text="${delivery.getDriverName()}"></td>
+                    <td th:text="${delivery.getDelStatus()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
