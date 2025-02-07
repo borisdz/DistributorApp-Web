@@ -72,7 +72,7 @@ public interface DriverRepository extends JpaRepository<Driver, Long> {
             value = """
                     select de.del_id as id,
                            de.del_date_created as dateCreated,
-                           de.del_date as deliveryDate,
+                           de.del_date as delDate,
                            de.del_start_km as delStartKm,
                            de.del_end_km as delEndKm,
                            de.del_start_time as delStartTime,
@@ -99,7 +99,7 @@ public interface DriverRepository extends JpaRepository<Driver, Long> {
             value = """
                     select de.del_id as id,
                            de.del_date_created as dateCreated,
-                           de.del_date as deliveryDate,
+                           de.del_date as delDate,
                            de.del_start_km as delStartKm,
                            de.del_end_km as delEndKm,
                            de.del_start_time as delStartTime,

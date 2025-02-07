@@ -11,7 +11,7 @@ import java.time.LocalTime;
 public class DeliveryDto {
     private Long id;
     private LocalDate dateCreated;
-    private LocalDate deliveryDate;
+    private LocalDate delDate;
     private Integer delStartKm;
     private Integer delEndKm;
     private LocalTime delStartTime;

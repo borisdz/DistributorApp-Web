@@ -30,6 +30,7 @@ public class DriverController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
         UserDto user = this.usersService.findUserDtoByEmail(userEmail);
+        model.addAttribute("user", user);
         model.addAttribute("newDeliveries", this.driverService.getNewAssignedDeliveries(user.getId()));
         model.addAttribute("finishedDeliveries", this.driverService.getFinishedAssignedDeliveries(user.getId()));
         return "home/driver";

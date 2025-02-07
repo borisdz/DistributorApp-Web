@@ -80,7 +80,7 @@ public class DeliveryServiceImpl implements DeliveryService {
     public Integer create(DeliveryDto deliveryDto) {
         return this.deliveryRepository.create(
                 deliveryDto.getDateCreated(),
-                deliveryDto.getDeliveryDate(),
+                deliveryDto.getDelDate(),
                 deliveryDto.getDelStartKm(),
                 deliveryDto.getDelEndKm(),
                 deliveryDto.getDelStartTime(),
@@ -95,7 +95,7 @@ public class DeliveryServiceImpl implements DeliveryService {
         return this.deliveryRepository.edit(
                 deliveryDto.getId(),
                 deliveryDto.getDateCreated(),
-                deliveryDto.getDeliveryDate(),
+                deliveryDto.getDelDate(),
                 deliveryDto.getDelStartKm(),
                 deliveryDto.getDelEndKm(),
                 deliveryDto.getDelStartTime(),
