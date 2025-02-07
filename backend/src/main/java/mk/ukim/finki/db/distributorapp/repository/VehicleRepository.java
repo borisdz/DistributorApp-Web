@@ -2,6 +2,7 @@ package mk.ukim.finki.db.distributorapp.repository;
 
 import lombok.NonNull;
 import mk.ukim.finki.db.distributorapp.model.dto.VehicleBasicDto;
+import mk.ukim.finki.db.distributorapp.model.dto.VehicleDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Vehicle;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -95,14 +96,35 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
     @Query(
             nativeQuery = true,
             value = """
-                    select v.veh_plate,v.veh_reg
+                    select v.veh_id as id,
+                           v.veh_carry_weight as carryWeight,
+                           v.veh_service_interval as serviceInterval,
+                           v.veh_kilometers as kilometers,
+                           v.veh_last_service as lastServiceDate,
+                           v.veh_last_service_km as lastServiceKm,
+                           v.veh_plate as plate,
+                           v.veh_vin as vin,
+                           v.veh_reg as registrationDate,
+                           w.wh_id as whId,
+                           c.city_name as city,
+                           r.region_name as region,
+                           d.user_id as driverId,
+                           u1.user_name as driverName,
+                           u1.user_email as driverEmail,
+                           u1.user_mobile as driverPhone,
+                           u1.user_image as driverImg
                     from warehouse w
-                             join manager m on w.wh_id = m.wh_id
-                             join vehicle v on w.wh_id=v.wh_id
-                    where m.user_id=:manager
-                    group by v.veh_plate, v.veh_reg
+                    join city c on w.city_id = c.city_id
+                    join region r on c.region_id = r.region_id
+                    join manager m on w.wh_id = m.wh_id
+                    join users u on m.user_id = u.user_id
+                    join vehicle v on w.wh_id=v.wh_id
+                    join driver d on d.veh_id=v.veh_id
+                    join users u1 on d.user_id=u1.user_id
+                    where m.user_id = :manager
+                    group by v.veh_id, v.veh_carry_weight, v.veh_service_interval, v.veh_kilometers, v.veh_last_service, v.veh_last_service_km, v.veh_plate, v.veh_vin, v.veh_reg, w.wh_id, c.city_name, r.region_name, d.user_id, u1.user_name, u1.user_email, u1.user_mobile, u1.user_image
                     order by v.veh_reg
-                    """
+                   """
     )
-    List<Vehicle> getVehiclesByManager(@NonNull @Param("manager") Long managerId);
+    List<VehicleDto> getVehiclesByManager(@NonNull @Param("manager") Long managerId);
 }

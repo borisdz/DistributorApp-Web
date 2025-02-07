@@ -1,8 +1,8 @@
 package mk.ukim.finki.db.distributorapp.service;
 
 import mk.ukim.finki.db.distributorapp.model.dto.WarehouseDto;
+import mk.ukim.finki.db.distributorapp.model.dto.WarehouseInventoryDto;
 import mk.ukim.finki.db.distributorapp.model.entities.City;
-import mk.ukim.finki.db.distributorapp.model.entities.Manager;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public interface WarehouseService {
 
     void deleteById(Integer id);
 
-    List<WarehouseDto> getInventoryByManager(Manager manager);
+    List<WarehouseInventoryDto> getInventoryByManager(Long managerId);
 
     
 }

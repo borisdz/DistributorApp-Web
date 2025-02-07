@@ -1,6 +1,7 @@
 package mk.ukim.finki.db.distributorapp.repository;
 
 import lombok.NonNull;
+import mk.ukim.finki.db.distributorapp.model.dto.OrdersDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Orders;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -92,15 +93,37 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
     @Query(
             nativeQuery = true,
             value = """
-                    select o.*
+                    select o.ord_id as id,
+                           o.ord_date as ordDate,
+                           o.ord_sum as ordSum,
+                           o.ord_fulfillment_date as ordFulfillmentDate,
+                           o.ord_comment as ordComment,
+                           o.o_status_id as oStatusId,
+                           os.o_status_name as statusName,
+                           c.user_id as customerId,
+                           c.cust_company_name as customerName,
+                           u.user_mobile as customerPhone,
+                           u.user_email as customerEmail,
+                           null as deliveryid,
+                           null as driverId,
+                           null as driverName,
+                           null as driverPhone,
+                           null as driverEmail,
+                           pf.pf_status_id as pfId,
+                           pfs.pf_status_name as pfStatus
                     from warehouse w
                         join manager m on w.wh_id= m.wh_id
                         join article_unit au on au.wh_id = w.wh_id
                         join orders o on au.ord_id = o.ord_id
+                        join order_status os on os.o_status_id = o.o_status_id
+                        join customer c on o.cust_id = c.user_id
+                        join users u on c.user_id = u.user_id
+                        join pro_forma pf on o.pf_id = pf.pf_id
+                        join pro_forma_status pfs on pf.pf_status_id=pfs.pf_status_id
                     where m.user_id = :manager
                       and o.o_status_id = 1
                     order by o.ord_date desc
                     """
     )
-    List<Orders> getNewOrdersByManager(@NonNull @Param("manager") Long manager_id);
+    List<OrdersDto> getNewOrdersByManager(@NonNull @Param("manager") Long manager_id);
 }

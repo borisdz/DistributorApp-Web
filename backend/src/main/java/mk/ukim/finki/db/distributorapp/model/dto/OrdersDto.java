@@ -12,7 +12,7 @@ public class OrdersDto {
     private Long id;
     private LocalDate ordDate;
     private Integer ordSum;
-    private LocalDateTime orderFulfillmentDate;
+    private LocalDateTime ordFulfillmentDate;
     private String ordComment;
     private Short oStatusId;
     private String statusName;

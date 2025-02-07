@@ -3,7 +3,6 @@ package mk.ukim.finki.db.distributorapp.service.impl;
 import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp.model.dto.VehicleBasicDto;
 import mk.ukim.finki.db.distributorapp.model.dto.VehicleDto;
-import mk.ukim.finki.db.distributorapp.model.entities.Manager;
 import mk.ukim.finki.db.distributorapp.model.entities.Vehicle;
 import mk.ukim.finki.db.distributorapp.repository.VehicleRepository;
 import mk.ukim.finki.db.distributorapp.service.VehicleService;
@@ -98,8 +97,7 @@ public class VehicleServiceImpl implements VehicleService {
     //------------------------------------------------------------------------------------------------------------------
 
     @Override
-    public List<VehicleDto> getVehiclesByManager(Manager manager) {
-        List<Vehicle> vehicles = this.vehicleRepository.getVehiclesByManager(manager.getUserId());
-        return buildDtoList(vehicles);
+    public List<VehicleDto> getVehiclesByManager(Long managerId) {
+        return this.vehicleRepository.getVehiclesByManager(managerId);
     }
 }
