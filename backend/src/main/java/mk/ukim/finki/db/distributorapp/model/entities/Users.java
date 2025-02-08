@@ -8,12 +8,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import mk.ukim.finki.db.distributorapp.model.dto.UsersLoadingDto;
 import mk.ukim.finki.db.distributorapp.model.enumerations.Role;
-import mk.ukim.finki.db.distributorapp.security.ConfirmationToken;
+import mk.ukim.finki.db.distributorapp.security.Token;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -76,12 +75,8 @@ public class Users implements UserDetails{
     @Column(name = "user_role")
     private Role userRole;
 
-    @Size(max = 255)
-    @Column(name = "user_rtoken")
-    private String userResetToken;
-
-    @Column(name = "user_rtoken_exp")
-    private LocalDateTime userResetTokenExpiry;
+    @OneToMany(mappedBy = "user")
+    private List<Token> tokens;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -102,12 +97,9 @@ public class Users implements UserDetails{
         this.userSalt = dto.getUserSalt();
         this.userActive = dto.getUserActive();
         this.userImage = dto.getUserImage();
-        this.confirmationToken=null;
+        this.tokens=null;
         this.city=null;
     }
-
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private ConfirmationToken confirmationToken;
 
     @Override
     public String getUsername() {

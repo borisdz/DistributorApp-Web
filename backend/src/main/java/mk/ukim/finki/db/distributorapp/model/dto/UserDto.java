@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,7 +18,6 @@ public class UserDto {
     private String cityName;
     private String regionName;
     private String role;
-    private String rtoken;
-    private LocalDateTime rtoken_exp;
     private String clazz_;
+    Boolean userActive;
 }

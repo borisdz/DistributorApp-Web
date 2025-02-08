@@ -96,8 +96,6 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
             @NonNull @Param("img") String image,
             @NonNull @Param("cty") Integer city_id,
             @NonNull @Param("role") String role,
-            @NonNull @Param("rtoken") String rtoken,
-            @NonNull @Param("rtoken_exp") LocalDateTime rtoken_exp,
             @NonNull @Param("clazz_") String clazz_);
 
     @Modifying
@@ -185,9 +183,8 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
                            c.city_name as cityName,
                            r.region_name as regionName,
                            u.user_role as role,
-                           u.user_rtoken as rtoken,
-                           user_rtoken_exp as rtoken_exp,
-                           clazz_ as clazz_
+                           clazz_ as clazz_,
+                           u.user_active as userActive
                     from users u
                     join city c on u.city_id = c.city_id
                     join region r on c.region_id = r.region_id

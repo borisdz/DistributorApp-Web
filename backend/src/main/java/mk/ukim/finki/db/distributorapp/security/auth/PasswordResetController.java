@@ -1,9 +1,13 @@
 package mk.ukim.finki.db.distributorapp.security.auth;
 
+import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp.model.dto.UserDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Users;
+import mk.ukim.finki.db.distributorapp.model.enumerations.TokenType;
+import mk.ukim.finki.db.distributorapp.repository.TokenRepository;
 import mk.ukim.finki.db.distributorapp.security.EmailService;
 import mk.ukim.finki.db.distributorapp.security.PassEncryptionPasswordEncoder;
+import mk.ukim.finki.db.distributorapp.security.Token;
 import mk.ukim.finki.db.distributorapp.service.UsersService;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
@@ -14,20 +18,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/reset-password")
 public class PasswordResetController {
     private final UsersService usersService;
     private final EmailService emailService;
     private final PassEncryptionPasswordEncoder passwordEncoder;
+    private final TokenRepository tokenRepository;
 
-    public PasswordResetController(UsersService usersService, EmailService emailService, PassEncryptionPasswordEncoder passwordEncoder) {
-        this.usersService = usersService;
-        this.emailService = emailService;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @GetMapping("/request")
     public String resetPasswordRequest() {
@@ -43,9 +43,8 @@ public class PasswordResetController {
             return "authentication/reset-password-request";
         }
 
-        String token = UUID.randomUUID().toString();
-        user.setUserResetToken(token);
-        user.setUserResetTokenExpiry(LocalDateTime.now().plusHours(1));
+        Token token = new Token(user, TokenType.TOKEN_RESET);
+        tokenRepository.save(token);
 
         UserDto dto = this.usersService.buildDto(user);
         this.usersService.edit(dto);
@@ -64,10 +63,11 @@ public class PasswordResetController {
     }
 
     @GetMapping("/reset-password")
-    public String showResetPasswordForm(@RequestParam("token") String token, Model model){
+    public String showResetPasswordForm(@RequestParam("token") String tokenValue, Model model){
 
-        Users user = usersService.findUserByResetToken(token);
-        if(user==null || user.getUserResetTokenExpiry().isBefore(LocalDateTime.now())){
+        Users user = usersService.findUserByResetToken(tokenValue);
+        Token token = tokenRepository.findTokenByValue(tokenValue);
+        if(user==null || token.getTokenExpiryDate().isBefore(LocalDateTime.now())){
             model.addAttribute("error", "Invalid or expired token.");
             return "authentication/reset-password";
         }
@@ -77,13 +77,14 @@ public class PasswordResetController {
 
     @PostMapping("/reset-password")
     public String handleResetPassword(
-            @RequestParam("token") String token,
+            @RequestParam("token") String tokenValue,
             @RequestParam("newPassword") String newPassword,
             @RequestParam("confirmPassword") String confirmPassword,
             Model model){
 
-        Users user = this.usersService.findUserByResetToken(token);
-        if (user == null || user.getUserResetTokenExpiry().isBefore(LocalDateTime.now())) {
+        Users user = usersService.findUserByResetToken(tokenValue);
+        Token token = tokenRepository.findTokenByValue(tokenValue);
+        if (user == null || token.getTokenExpiryDate().isBefore(LocalDateTime.now())) {
             model.addAttribute("error", "Invalid or expired token.");
             return "authentication/reset-password";
         }
@@ -94,8 +95,9 @@ public class PasswordResetController {
         }
 
         user.setUserPassword(passwordEncoder.encodeWithSalt(newPassword,user.getUserSalt()));
-        user.setUserResetToken(null);
-        user.setUserResetTokenExpiry(null);
+        token.setTokenValidatedAt(LocalDateTime.now());
+        tokenRepository.save(token);
+
         UserDto dto = this.usersService.buildDto(user);
         this.usersService.edit(dto);
 
