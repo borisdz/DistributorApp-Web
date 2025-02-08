@@ -1,16 +1,14 @@
 package mk.ukim.finki.db.distributorapp.security.auth;
 
 import lombok.RequiredArgsConstructor;
-import mk.ukim.finki.db.distributorapp.model.dto.CreateDriverDto;
-import mk.ukim.finki.db.distributorapp.model.dto.CreateManagerDto;
-import mk.ukim.finki.db.distributorapp.model.dto.LoginRequestDto;
-import mk.ukim.finki.db.distributorapp.model.dto.RegisterRequestDto;
+import mk.ukim.finki.db.distributorapp.model.dto.*;
 import mk.ukim.finki.db.distributorapp.model.entities.Users;
 import mk.ukim.finki.db.distributorapp.model.enumerations.Role;
+import mk.ukim.finki.db.distributorapp.model.enumerations.TokenType;
 import mk.ukim.finki.db.distributorapp.model.exceptions.InvalidArgumentsException;
 import mk.ukim.finki.db.distributorapp.model.exceptions.InvalidUserCredentialsException;
 import mk.ukim.finki.db.distributorapp.repository.*;
-import mk.ukim.finki.db.distributorapp.security.ConfirmationToken;
+import mk.ukim.finki.db.distributorapp.security.Token;
 import mk.ukim.finki.db.distributorapp.security.EmailService;
 import mk.ukim.finki.db.distributorapp.security.PassEncryption;
 import mk.ukim.finki.db.distributorapp.security.PassEncryptionPasswordEncoder;
@@ -19,6 +17,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -26,7 +25,7 @@ import java.util.Optional;
 public class AuthServiceImpl implements AuthService {
 
     private final UsersRepository usersRepository;
-    private final ConfirmationTokenRepository confirmationTokenRepository;
+    private final TokenRepository tokenRepository;
     private final EmailService emailService;
     private final PassEncryptionPasswordEncoder passwordEncoder;
     private final CustomerRepository customerRepository;
@@ -45,11 +44,15 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public ResponseEntity<?> confirmEmail(String confirmationToken) {
-        ConfirmationToken token = this.confirmationTokenRepository.findConfirmationTokenByToken(confirmationToken);
+        Token token = this.tokenRepository.findTokenByValue(confirmationToken);
 
         if (token != null) {
             Users user = this.usersRepository.findUserByUserEmailIgnoreCase(token.getUser().getUserEmail()).get();
-//            this.usersRepository.edit(user);
+            UserDto userDto = this.usersRepository.findUserDtoByEmail(token.getUser().getUserEmail());
+            userDto.setUserActive(true);
+//            this.usersRepository.edit(userDto);
+            token.setTokenValidatedAt(LocalDateTime.now());
+            this.tokenRepository.save(token);
             return ResponseEntity.ok("Email verified successfully!");
         }
 
@@ -82,15 +85,15 @@ public class AuthServiceImpl implements AuthService {
 
         Users user = this.usersRepository.findUserByUserEmailIgnoreCase(registerRequest.getEmail()).orElseThrow(InvalidUserCredentialsException::new);
 
-        ConfirmationToken confirmationToken = new ConfirmationToken(user);
-        confirmationTokenRepository.save(confirmationToken);
+        Token token = new Token(user, TokenType.TOKEN_VERIFICATION);
+        tokenRepository.save(token);
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(registerRequest.getEmail());
         mailMessage.setSubject("Complete Registration!");
         mailMessage.setText(("To confirm your account, please click here: " +
-                "https://localhost:8080/register/confirm-account?token=" + confirmationToken.getConfirmationToken()));
-        System.out.println("Confirmation Token: " + confirmationToken.getConfirmationToken());
+                "https://localhost:8080/register/confirm-account?token=" + token.getTokenValue()));
+        System.out.println("Confirmation Token: " + token.getTokenValue());
         emailService.sendEmail(mailMessage);
 
         this.customerRepository.create(

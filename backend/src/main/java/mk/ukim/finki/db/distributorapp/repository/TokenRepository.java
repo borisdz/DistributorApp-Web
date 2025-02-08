@@ -1,11 +1,11 @@
 package mk.ukim.finki.db.distributorapp.repository;
 
 import lombok.NonNull;
-import mk.ukim.finki.db.distributorapp.security.ConfirmationToken;
+import mk.ukim.finki.db.distributorapp.security.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface ConfirmationTokenRepository extends JpaRepository<ConfirmationToken, Long> {
+public interface TokenRepository extends JpaRepository<Token, Long> {
 
     @Query(
             nativeQuery = true,
@@ -13,5 +13,5 @@ public interface ConfirmationTokenRepository extends JpaRepository<ConfirmationT
                     "from token " +
                     "where t_value=?1"
     )
-    ConfirmationToken findConfirmationTokenByToken(@NonNull String token);
+    Token findTokenByValue(@NonNull String token);
 }
