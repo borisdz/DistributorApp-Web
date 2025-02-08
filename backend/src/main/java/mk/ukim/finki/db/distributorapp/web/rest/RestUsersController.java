@@ -35,9 +35,8 @@ public class RestUsersController {
                     user.getCity().getCityName(),
                     user.getCity().getRegion().getRegionName(),
                     user.getUserRole().toString(),
-                    user.getUserResetToken(),
-                    user.getUserResetTokenExpiry(),
-                    user.getClazz_()
+                    user.getClazz_(),
+                    user.getUserActive()
             );
             dtos.add(dto);
         }
