@@ -1,6 +1,7 @@
 package mk.ukim.finki.db.distributorapp.repository;
 
 import lombok.NonNull;
+import mk.ukim.finki.db.distributorapp.model.dto.ArticleUnitDto;
 import mk.ukim.finki.db.distributorapp.model.entities.ArticleUnit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -35,9 +36,33 @@ public interface ArticleUnitRepository extends JpaRepository<ArticleUnit, Long> 
 
     @Query(
             nativeQuery = true,
-            value = "select * from article_unit where wh_id=?1"
+            value = """
+                    select au.unit_id as id,
+                    au.unit_expiration_date as expiryDate,
+                    au.unit_serial_number as serialNo,
+                    au.unit_batch_number as batchNo,
+                    au.unit_manufacture_date as manufactureDate,
+                    au.unit_cost_price as costPrice,
+                    a.art_id as artId,
+                    a.art_name as artName,
+                    au.wh_id as whId,
+                    r.region_name as whRegion,
+                    c.city_name as whCity,
+                    au.ord_id as ordId,
+                    u.user_email as customerEmail
+                    from article_unit au
+                    join warehouse wh on au.wh_id = wh.wh_id
+                    join city c on wh.city_id = c.city_id
+                    join region r on c.region_id = r.region_id
+                    join unit_price up on au.unit_id = up.unit_id
+                    join price p on up.price_id = p.price_id
+                    join article a on p.art_id = a.art_id
+                    join orders o on au.ord_id = o.ord_id
+                    join customer cust on o.cust_id = cust.user_id
+                    join users u on cust.user_id = u.user_id
+                    """
     )
-    List<ArticleUnit> findAllByWarehouse(@NonNull @Param("wh") Integer wh_id);
+    List<ArticleUnitDto> findAllByWarehouse(@NonNull @Param("wh") Integer wh_id);
 
     @Modifying
     @Transactional

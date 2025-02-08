@@ -22,4 +22,6 @@ public interface ArticleUnitService {
     Integer addArticleUnitWithPrice(ArticleUnitDto articleUnitDto, UnitPriceDto unitPriceDto);
 
     void delete(Long id);
+
+    List<ArticleUnitDto> getAllArticleUnitsByWarehouse(Integer warehouseId);
 }

@@ -88,4 +88,9 @@ public class ArticleServiceImpl implements ArticleService {
                 art.getCategoryId(),
                 art.getManufacturerId());
     }
+
+    @Override
+    public List<ArticleDto> getAllArticlesByWarehouse(Integer warehouseId) {
+        return this.articleRepository.findAllByWarehouse(warehouseId);
+    }
 }

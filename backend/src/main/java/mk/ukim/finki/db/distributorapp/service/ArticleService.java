@@ -16,4 +16,6 @@ public interface ArticleService {
     Integer editById(ArticleDto article);
 
     Integer create(ArticleDto article);
+
+    List<ArticleDto> getAllArticlesByWarehouse(Integer warehouseId);
 }

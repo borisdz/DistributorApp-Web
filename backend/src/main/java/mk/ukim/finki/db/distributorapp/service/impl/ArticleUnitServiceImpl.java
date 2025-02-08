@@ -64,8 +64,7 @@ public class ArticleUnitServiceImpl implements ArticleUnitService {
 
     @Override
     public List<ArticleUnitDto> findAllByWarehouse(Warehouse warehouse) {
-        List<ArticleUnit> articleUnits = this.articleUnitRepository.findAllByWarehouse(warehouse.getWarehouseId());
-        return buildDto(articleUnits);
+        return this.articleUnitRepository.findAllByWarehouse(warehouse.getWarehouseId());
     }
 
     @Override
@@ -141,5 +140,10 @@ public class ArticleUnitServiceImpl implements ArticleUnitService {
     @Override
     public void delete(Long id) {
         this.articleUnitRepository.deleteById(id);
+    }
+
+    @Override
+    public List<ArticleUnitDto> getAllArticleUnitsByWarehouse(Integer warehouseId) {
+        return this.articleUnitRepository.findAllByWarehouse(warehouseId);
     }
 }
