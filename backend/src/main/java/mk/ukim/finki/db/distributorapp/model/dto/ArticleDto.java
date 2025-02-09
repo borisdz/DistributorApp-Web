@@ -14,7 +14,7 @@ public class ArticleDto {
     private Long manufacturerId;
     private BigDecimal price;
     private String category;
-    private Long categoryId;
+    private Integer categoryId;
     private Integer weight;
     private String image;
 }

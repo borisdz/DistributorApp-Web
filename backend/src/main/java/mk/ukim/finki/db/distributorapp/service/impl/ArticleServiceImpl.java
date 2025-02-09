@@ -16,18 +16,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<ArticleDto> getAllArticles() {
-        List<Article> articles = this.articleRepository.listAll();
-        return articles.stream().map(art -> new ArticleDto(
-                art.getArticleId(),
-                art.getArticleName(),
-                art.getManufacturer().getManufacturerName(),
-                art.getManufacturer().getManufacturerId(),
-                art.getPrices().get(art.getPrices().size() - 1).getPrice(),
-                art.getCategory().getCategoryName(),
-                art.getCategory().getCategoryId(),
-                art.getArticleWeight(),
-                art.getArtImage()
-        )).toList();
+        return this.articleRepository.listAll();
     }
 
     @Override

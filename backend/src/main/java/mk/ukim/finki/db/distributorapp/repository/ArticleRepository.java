@@ -16,9 +16,23 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
 
     @Query(
             nativeQuery = true,
-            value = "select * from article"
+            value = """
+                    select a.art_id as id,
+                           a.art_name as name,
+                           m.man_name as manufacturer,
+                           a.man_id as manufacturerId,
+                           p.price as price,
+                           c.ctg_name as category,
+                           a.ctg_id as categoryId,
+                           a.art_weight as weight,
+                           a.art_image as image
+                    from article a
+                    join manufacturer m on a.man_id = m.man_id
+                    join price p on p.art_id = a.art_id
+                    join category c on a.ctg_id = c.ctg_id
+                    """
     )
-    List<Article> listAll();
+    List<ArticleDto> listAll();
 
     @Query(
             nativeQuery = true,
@@ -47,7 +61,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
             @NonNull @Param("name") String name,
             @NonNull @Param("image") String image,
             @NonNull @Param("weight") Integer weight,
-            @NonNull @Param("ctg") Long ctg_id,
+            @NonNull @Param("ctg") Integer ctg_id,
             @NonNull @Param("man") Long man_id);
 
     @Modifying
@@ -63,7 +77,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
             @NonNull @Param("name") String name,
             @NonNull @Param("img") String image,
             @NonNull @Param("weight") Integer weight,
-            @NonNull @Param("ctg") Long ctg_id,
+            @NonNull @Param("ctg") Integer ctg_id,
             @NonNull @Param("man") Long man_id);
 
     @Modifying
