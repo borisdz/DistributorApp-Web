@@ -11,6 +11,7 @@ public class ArticleDto {
     private Long id;
     private String name;
     private String manufacturer;
+    private Long quantity;
     private Long manufacturerId;
     private BigDecimal price;
     private String category;

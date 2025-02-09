@@ -50,10 +50,9 @@ public class CustomerController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
         UserDto user = this.usersService.findUserDtoByEmail(userEmail);
-
         WarehouseDto warehouse = this.warehouseService.findByCityId(user.getCityId());
         List<CategoryDto> categories = this.categoryService.listCategories();
-        List<ArticleDto> articles = this.articleService.getAllArticles();
+        List<ArticleDto> articles = this.articleService.getAllArticlesByWarehouse(warehouse.getId());
         List<ManufacturerDto> manufacturers = this.manufacturerService.getAllManufacturers();
         List<ArticleUnitDto> articleUnits = this.articleUnitService.getAllArticleUnitsByWarehouse(warehouse.getId());
         model.addAttribute("categories", categories);

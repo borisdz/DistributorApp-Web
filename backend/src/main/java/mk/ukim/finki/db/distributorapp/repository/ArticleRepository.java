@@ -20,6 +20,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
                     select a.art_id as id,
                            a.art_name as name,
                            m.man_name as manufacturer,
+                           0 as quantity,
                            a.man_id as manufacturerId,
                            p.price as price,
                            c.ctg_name as category,
@@ -92,9 +93,19 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
     @Query(
             nativeQuery = true,
             value = """
+                    with stock as (
+                        select a.art_id,
+                               count(au.unit_id) as quantity
+                        from article a
+                        join price p on a.art_id = p.art_id
+                        join unit_price up on p.price_id = up.price_id
+                        join article_unit au on up.unit_id = au.unit_id
+                        group by a.art_id
+                    )
                     select a.art_id as id,
                            a.art_name as name,
                            m.man_name as manufacturer,
+                           st.quantity as quantity,
                            m.man_id as manufacturerId,
                            p.price as price,
                            c.ctg_name as category,
@@ -102,6 +113,7 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
                            a.art_weight as weight,
                            a.art_image as image
                     from article a
+                    join stock st on st.art_id=a.art_id
                     join manufacturer m on a.man_id = m.man_id
                     join category c on a.ctg_id = c.ctg_id
                     join price p on a.art_id = p.art_id
