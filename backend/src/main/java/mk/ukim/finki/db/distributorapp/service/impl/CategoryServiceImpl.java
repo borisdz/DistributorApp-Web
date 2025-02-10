@@ -35,7 +35,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public CategoryDto getCategoryById(Long id) {
+    public CategoryDto getCategoryById(Integer id) {
         Category ctg = this.categoryRepository.findById(id).get();
         return new CategoryDto(
                 ctg.getCategoryId(),
@@ -54,7 +54,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
         this.categoryRepository.deleteById(id);
     }
 

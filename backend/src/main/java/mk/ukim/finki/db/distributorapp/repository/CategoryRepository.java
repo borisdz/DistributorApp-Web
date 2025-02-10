@@ -39,7 +39,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
                     where c.ctg_id=:id
                     """
     )
-    Optional<Category> findById(@Param("id") @NonNull Long id);
+    Optional<Category> findById(@Param("id") @NonNull Integer id);
 
     @Modifying
     @Transactional
@@ -60,7 +60,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
                     "set ctg_name=?2 " +
                     "where ctg_id=?1"
     )
-    Integer edit(@NonNull Long id,
+    Integer edit(@NonNull Integer id,
                  @NonNull String name);
 
     @Modifying
@@ -69,5 +69,5 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
             value = "delete from category " +
                     "where ctg_id = ?1",
             nativeQuery = true)
-    void deleteById(@NonNull Long id);
+    void deleteById(@NonNull Integer id);
 }

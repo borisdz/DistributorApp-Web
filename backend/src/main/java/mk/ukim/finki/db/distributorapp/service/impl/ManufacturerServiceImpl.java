@@ -33,8 +33,7 @@ public class ManufacturerServiceImpl implements ManufacturerService {
 
     @Override
     public List<ManufacturerDto> getAllManufacturers() {
-        List<Manufacturer> manufacturers = this.manufacturerRepository.listAll();
-        return buildDto(manufacturers);
+        return this.manufacturerRepository.listAll();
     }
 
     @Override
