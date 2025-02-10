@@ -109,4 +109,20 @@ public interface ArticleUnitRepository extends JpaRepository<ArticleUnit, Long> 
             value = "delete from article_unit where unit_id=?1"
     )
     void delete(@NonNull @Param("id") Long id);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select *
+                    from article_unit au
+                    join warehouse wh on au.wh_id = wh.wh_id
+                    join unit_price up on au.unit_id = up.unit_id
+                    join price p on up.price_id = p.price_id
+                    join article a on p.art_id = a.art_id
+                    join manufacturer m on a.man_id = m.man_id
+                    where wh.wh_id = :warehouse and a.art_id = :article
+                    order by au.unit_manufacture_date;
+                    """
+    )
+    List<ArticleUnitDto> findAllByArticleAndWarehouse(@NonNull @Param("article") Long articleId, @NonNull @Param("warehouse") Integer warehouseId);
 }

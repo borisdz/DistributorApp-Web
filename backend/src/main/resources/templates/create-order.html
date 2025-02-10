@@ -43,12 +43,13 @@
 
     <div class="scrollable-cards row row-cols-1 row-cols-md-2 row-cols-lg-3 g-3" id="articleContainer">
         <div class="col" th:each="art : ${articles}"
-             th:attr="data-category=${art.categoryId}, data-manufacturer=${art.manufacturerId}, data-article-name=${art.name}">
+             th:attr="data-category=${art.categoryId}, data-manufacturer=${art.manufacturerId}, data-article-name=${art.name}, data-manufacturer-name=${art.manufacturer}">
             <div class="card h-100">
                 <img th:src="@{${art.image}}" class="card-img-top" alt="Article Image" onerror="this.style.display='none'">
                 <div class="card-body">
                     <h5 class="card-title" th:text="${art.name}">Article Name</h5>
                     <p class="card-text">
+                        Manufacturer: <span th:text="${art.manufacturer}">Manufacturer</span><br>
                         Price: $<span th:text="${art.price}">0.00</span><br>
                         In Stock: <span th:text="${art.quantity}">0</span>
                     </p>
@@ -72,6 +73,7 @@
         <tr>
             <th>Article</th>
             <th>Unit Price</th>
+            <th>Manufacturer</th>
             <th>Quantity</th>
             <th>Line Total</th>
             <th>Action</th>
@@ -110,6 +112,7 @@
             row.innerHTML = `
         <td>${item.articleName}</td>
         <td>${item.unitPrice.toFixed(2)}</td>
+        <td>${item.manufacturerName}</td>
         <td>${item.quantity}</td>
         <td>${(item.unitPrice * item.quantity).toFixed(2)}</td>
         <td><button type="button" class="btn btn-danger btn-sm" data-index="${index}">Remove</button></td>
@@ -125,6 +128,7 @@
         button.addEventListener('click', function() {
             const articleId = this.getAttribute('data-article-id');
             const articleName = this.getAttribute('data-article-name');
+            const manufacturerName = this.getAttribute('data-manufacturer-name');
             const unitPrice = parseFloat(this.getAttribute('data-unit-price'));
             const available = parseInt(this.getAttribute('data-available'), 10);
 
@@ -142,6 +146,7 @@
             const orderItem = {
                 articleId: articleId,
                 articleName: articleName,
+                manufacturerName: manufacturerName,
                 unitPrice: unitPrice,
                 quantity: quantity
             };

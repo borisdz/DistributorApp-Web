@@ -146,4 +146,9 @@ public class ArticleUnitServiceImpl implements ArticleUnitService {
     public List<ArticleUnitDto> getAllArticleUnitsByWarehouse(Integer warehouseId) {
         return this.articleUnitRepository.findAllByWarehouse(warehouseId);
     }
+
+    @Override
+    public List<ArticleUnitDto> findAllByArticleAndWarehouse(Long articleId, Integer warehouseId) {
+        return this.articleUnitRepository.findAllByArticleAndWarehouse(articleId,warehouseId);
+    }
 }

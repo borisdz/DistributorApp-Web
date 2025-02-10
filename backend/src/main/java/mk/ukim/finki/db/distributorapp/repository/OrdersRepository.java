@@ -47,8 +47,8 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
             String ord_comment,
             @NonNull Short ord_status_id,
             @NonNull Long cust_id,
-            @NonNull Long del_id,
-            @NonNull Long pf_id
+            Long del_id,
+            Long pf_id
     );
 
     @Modifying

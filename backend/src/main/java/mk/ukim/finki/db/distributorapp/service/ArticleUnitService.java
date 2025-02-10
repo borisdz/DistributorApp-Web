@@ -24,4 +24,6 @@ public interface ArticleUnitService {
     void delete(Long id);
 
     List<ArticleUnitDto> getAllArticleUnitsByWarehouse(Integer warehouseId);
+
+    List<ArticleUnitDto> findAllByArticleAndWarehouse(Long articleId, Integer warehouseId);
 }
