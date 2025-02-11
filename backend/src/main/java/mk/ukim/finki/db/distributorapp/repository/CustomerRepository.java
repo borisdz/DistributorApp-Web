@@ -1,6 +1,7 @@
 package mk.ukim.finki.db.distributorapp.repository;
 
 import lombok.NonNull;
+import mk.ukim.finki.db.distributorapp.model.dto.CustomerDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -8,7 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Query(
@@ -29,13 +29,19 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Query(
             nativeQuery = true,
             value = """
-                    select *
+                    select c.user_id as id,
+                           u.user_name as name,
+                           u.user_email as email,
+                           u.user_mobile as phone,
+                           c.cust_edb as edb,
+                           c.cust_company_name as compName,
+                           c.cust_adr as address,
+                           c.cust_representative_img
                     from customer c
-                        join users u on c.user_id = u.user_id
-                    where c.user_id = ?1
+                    join users u on c.user_id = u.user_id
                     """
     )
-    Optional<Customer> findById(@NonNull Long id);
+    CustomerDto findCustomerById(@NonNull Long id);
 
     @Modifying
     @Transactional

@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -37,7 +38,7 @@ public class ArticleUnit {
 
     @NotNull
     @Column(name = "unit_cost_price", nullable = false)
-    private Double unitCostPrice;
+    private BigDecimal unitCostPrice;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

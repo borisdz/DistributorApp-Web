@@ -2,8 +2,8 @@ package mk.ukim.finki.db.distributorapp.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
@@ -14,7 +14,7 @@ public class ArticleUnitDto {
     private String serialNo;
     private String batchNo;
     private Date manufactureDate;
-    private Double costPrice;
+    private BigDecimal costPrice;
     private Long artId;
     private String artName;
     private Integer whId;

@@ -8,7 +8,7 @@ public interface CategoryService {
 
     List<CategoryDto> listCategories();
 
-    CategoryDto getCategoryById(Long id);
+    CategoryDto getCategoryById(Integer id);
 
     List<CategoryDto> searchCategories(String text);
 
@@ -16,5 +16,5 @@ public interface CategoryService {
 
     Integer edit(CategoryDto categoryDto);
 
-    void deleteById(Long id);
+    void deleteById(Integer id);
 }
