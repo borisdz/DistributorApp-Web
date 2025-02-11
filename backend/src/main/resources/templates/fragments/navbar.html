@@ -41,12 +41,12 @@
                 <li class="nav-item" sec:authorize="hasRole('DRIVER')">
                     <a class="nav-link" href="/driver/dashboard">Home</a>
                 </li>
-                <li class="nav-item" sec:authorize="hasRole('DRIVER')">
+                <li class="nav-item" sec:authorize="hasRole('Driver')">
                     <a class="nav-link" href="/driver/deliveries">Deliveries</a>
                 </li>
-                <!--                <li class="nav-item" sec:authorize="hasRole('ADMIN')">-->
-                <!--                    <a class="nav-link" href="/home/admin">Admin Dashboard</a>-->
-                <!--                </li>-->
+<!--                <li class="nav-item" sec:authorize="hasRole('ADMIN')">-->
+<!--                    <a class="nav-link" href="/home/admin">Admin Dashboard</a>-->
+<!--                </li>-->
                 <li class="nav-item" sec:authorize="hasRole('ADMIN')">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                        data-bs-toggle="dropdown" aria-expanded="false">Create</a>
