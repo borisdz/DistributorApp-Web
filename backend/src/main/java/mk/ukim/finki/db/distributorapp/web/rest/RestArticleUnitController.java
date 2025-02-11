@@ -1,6 +1,7 @@
 package mk.ukim.finki.db.distributorapp.web.rest;
 
 import mk.ukim.finki.db.distributorapp.model.dto.ArticleUnitDto;
+import mk.ukim.finki.db.distributorapp.model.dto.ArticleUnitSimpleDto;
 import mk.ukim.finki.db.distributorapp.service.ArticleUnitService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +18,8 @@ public class RestArticleUnitController {
     }
 
     @GetMapping("/all")
-    public ResponseEntity<List<ArticleUnitDto>> getAllUnits() {
-        List<ArticleUnitDto> units = this.articleUnitService.getAllArticleUnits();
+    public ResponseEntity<List<ArticleUnitSimpleDto>> getAllUnits() {
+        List<ArticleUnitSimpleDto> units = this.articleUnitService.getAllArticleUnits();
         return ResponseEntity.ok(units);
     }
 

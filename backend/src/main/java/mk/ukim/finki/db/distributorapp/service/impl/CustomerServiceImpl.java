@@ -41,29 +41,8 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<CustomerDto> findCustomerByName(String name) {
-        List<Customer> customers = this.customerRepository.findAllByName("'"+name+"'");
-        return buildDto(customers);
-    }
-
-    @Override
     public CustomerDto findCustomerById(Long id) {
-        Customer customer = this.customerRepository.findById(id).get();
-        return new CustomerDto(
-                customer.getUserId(),
-                customer.getUsername(),
-                customer.getUserEmail(),
-                customer.getUserMobile(),
-                customer.getCustomerEDB(),
-                customer.getCustomerCompanyName(),
-                customer.getCustomerAddress(),
-                customer.getCustomerRepresentativeImage()
-        );
-    }
-
-    @Override
-    public Customer getCustomerObjById(Long id) {
-        return this.customerRepository.findById(id).get();
+        return this.customerRepository.findCustomerById(id);
     }
 
     @Override

@@ -6,6 +6,7 @@ import mk.ukim.finki.db.distributorapp.model.entities.ProForma;
 import mk.ukim.finki.db.distributorapp.repository.ProFormaRepository;
 import mk.ukim.finki.db.distributorapp.service.ProFormaService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,9 +38,9 @@ public class ProFormaServiceImpl implements ProFormaService {
     }
 
     @Override
+    @Transactional
     public List<ProFormaDto> getAllProForma() {
-        List<ProForma> proFormas = this.proFormaRepository.listAll();
-        return buildDto(proFormas);
+        return this.proFormaRepository.listAll();
     }
 
     @Override

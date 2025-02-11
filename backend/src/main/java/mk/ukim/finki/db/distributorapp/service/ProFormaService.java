@@ -1,10 +1,12 @@
 package mk.ukim.finki.db.distributorapp.service;
 
 import mk.ukim.finki.db.distributorapp.model.dto.ProFormaDto;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 public interface ProFormaService {
+    @Transactional
     List<ProFormaDto> getAllProForma();
 
     ProFormaDto findProFormaById(Long id);

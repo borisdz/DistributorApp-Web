@@ -1,6 +1,7 @@
 package mk.ukim.finki.db.distributorapp.repository;
 
 import lombok.NonNull;
+import mk.ukim.finki.db.distributorapp.model.dto.ManufacturerDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Manufacturer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -13,9 +14,16 @@ import java.util.Optional;
 public interface ManufacturerRepository extends JpaRepository<Manufacturer, Long> {
     @Query(
             nativeQuery = true,
-            value = "select * from manufacturer"
+            value = """
+                    select m.man_id as id,
+                           m.man_name as name,
+                           m.man_adr as address,
+                           m.man_mobile as phone,
+                           m.man_email as email
+                    from manufacturer m
+                    """
     )
-    List<Manufacturer> listAll();
+    List<ManufacturerDto> listAll();
 
     @Query(
             nativeQuery = true,
