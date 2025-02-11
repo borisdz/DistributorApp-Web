@@ -1,5 +1,7 @@
 package mk.ukim.finki.db.distributorapp.web;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp.model.dto.*;
 import mk.ukim.finki.db.distributorapp.service.*;
@@ -7,13 +9,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
-import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -31,7 +30,7 @@ public class CustomerController {
     private final ManufacturerService manufacturerService;
     private final ProFormaService proFormaService;
 
-    @GetMapping({"/dashboard","/"})
+    @GetMapping({"/dashboard", "/"})
     public String dashboard(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
@@ -51,13 +50,18 @@ public class CustomerController {
     @GetMapping("/create-order")
     public String createOrder(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         String userEmail = authentication.getName();
+
         UserDto user = this.usersService.findUserDtoByEmail(userEmail);
+
         WarehouseDto warehouse = this.warehouseService.findByCityId(user.getCityId());
+
         List<CategoryDto> categories = this.categoryService.listCategories();
         List<ArticleDto> articles = this.articleService.getAllArticlesByWarehouse(warehouse.getId());
         List<ManufacturerDto> manufacturers = this.manufacturerService.getAllManufacturers();
         List<ArticleUnitDto> articleUnits = this.articleUnitService.getAllArticleUnitsByWarehouse(warehouse.getId());
+
         model.addAttribute("categories", categories);
         model.addAttribute("articles", articles);
         model.addAttribute("manufacturers", manufacturers);
@@ -65,45 +69,44 @@ public class CustomerController {
         return "create-order";
     }
 
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        binder.registerCustomEditor(List.class, "orderItems", new java.beans.PropertyEditorSupport() {
+            @Override
+            public void setAsText(String text) throws IllegalArgumentException {
+                try {
+                    List<OrderItemDto> items = objectMapper.readValue(
+                            text, new TypeReference<List<OrderItemDto>>() {
+                            }
+                    );
+                    setValue(items);
+                } catch (Exception e) {
+                    throw new IllegalArgumentException("Invalid JSON for order items", e);
+                }
+            }
+        });
+    }
+
     @PostMapping("/create-order")
     public String createOrder(@ModelAttribute CreateOrderDto createOrderDto, Principal principal) {
+
+        this.ordersService.create(createOrderDto, principal);
+
         String userEmail = principal.getName();
+
         UserDto user = this.usersService.findUserDtoByEmail(userEmail);
+
         CustomerDto customer = this.customerService.findCustomerById(user.getId());
 
+        List<OrderSimpleDto> simpleCustomerOrders = this.ordersService.findSimpleOrdersByCustoemr(customer.getId());
+        OrderSimpleDto createdOrder = simpleCustomerOrders.get(simpleCustomerOrders.size() - 1);
         WarehouseDto wh = this.warehouseService.findByCityId(user.getCityId());
 
-        OrdersDto order = new OrdersDto();
+        List<ArticleUnitSimpleDto> editedUnits = this.articleUnitService.addArticleUnitToOrder(createOrderDto.getOrderItems(), createdOrder.getId(), wh.getId());
 
-        if(createOrderDto.isProForma()){
-            ProFormaDto pf = new ProFormaDto();
-            pf.setPfDeadline(LocalDate.now().plusWeeks(1));
-            pf.setPfDateCreated(LocalDate.now());
-            pf.setStatusId((short)1);
-            this.proFormaService.create(pf);
-        }
-
-        order.setCustomerId(customer.getId());
-        order.setOrdDate(LocalDate.now());
-        order.setOrdFulfillmentDate(null);
-        order.setOStatusId((short) 1);
-        order.setDeliveryId(null);
-        order.setPfId(null);
-        order.setOrdComment(null);
-        if(createOrderDto.isProForma()){
-            order.setPfId(this.proFormaService.findProFormaById(1L).getId());
-        }
-        this.ordersService.create(order);
-
-        for(int i=0;i<createOrderDto.getOrderItems().size();i++) {
-            Long articleId = createOrderDto.getOrderItems().get(i).getArticleId();
-            Integer quantity = createOrderDto.getOrderItems().get(i).getQuantity();
-
-            List<ArticleUnitDto> articleUnitItems = this.articleUnitService.findAllByArticleAndWarehouse(articleId,wh.getId());
-            for(int j=0;j<quantity;j++) {
-                articleUnitItems.get(j).setOrdId(order.getId());
-                this.articleUnitService.edit(articleUnitItems.get(j));
-            }
+        for (ArticleUnitSimpleDto unit : editedUnits) {
+            this.articleUnitService.simpleEdit(unit);
         }
 
         return "redirect:/customer/my-orders";

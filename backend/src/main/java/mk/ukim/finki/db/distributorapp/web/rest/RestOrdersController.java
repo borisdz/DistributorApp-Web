@@ -23,12 +23,6 @@ public class RestOrdersController {
         return ResponseEntity.ok(orders);
     }
 
-    @PutMapping("/add")
-    public ResponseEntity<Integer> addOrders(@RequestBody OrdersDto OrdersDto) {
-        Integer result = this.OrderService.create(OrdersDto);
-        return ResponseEntity.ok(result);
-    }
-
     @PutMapping("/edit")
     public ResponseEntity<Integer> editOrders(@RequestBody OrdersDto OrdersDto) {
         Integer result =this.OrderService.edit(OrdersDto);

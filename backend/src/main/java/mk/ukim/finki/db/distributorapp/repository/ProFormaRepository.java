@@ -1,6 +1,7 @@
 package mk.ukim.finki.db.distributorapp.repository;
 
 import lombok.NonNull;
+import mk.ukim.finki.db.distributorapp.model.dto.ProFormaDto;
 import mk.ukim.finki.db.distributorapp.model.entities.ProForma;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,9 +15,25 @@ import java.util.Optional;
 public interface ProFormaRepository extends JpaRepository<ProForma, Long> {
     @Query(
             nativeQuery = true,
-            value = "select * from pro_forma"
+            value = """
+                    select pf.pf_id as id,
+                           pf.pf_deadline as pfDeadline,
+                           pf.pf_date_created as pfDateCreated,
+                           pf.pf_status_id as statusId,
+                           pfs.pf_status_name as statusName,
+                           o.ord_id as ordId,
+                           o.cust_id as customerId,
+                           c.cust_company_name as customerName,
+                           u.user_email as customerEmail,
+                           u.user_mobile as customerPhone
+                    from pro_forma pf
+                    join pro_forma_status pfs on pf.pf_status_id = pfs.pf_status_id
+                    join orders o on pf.pf_id = o.pf_id
+                    join customer c on o.cust_id = c.user_id
+                    join users u on c.user_id = u.user_id
+                    """
     )
-    List<ProForma> listAll();
+    List<ProFormaDto> listAll();
 
     @Query(
             nativeQuery = true,

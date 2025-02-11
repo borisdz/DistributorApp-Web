@@ -1,6 +1,7 @@
 package mk.ukim.finki.db.distributorapp.repository;
 
 import lombok.NonNull;
+import mk.ukim.finki.db.distributorapp.model.dto.OrderSimpleDto;
 import mk.ukim.finki.db.distributorapp.model.dto.OrdersDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Orders;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,26 +13,102 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 public interface OrdersRepository extends JpaRepository<Orders, Long> {
     @Query(
             nativeQuery = true,
-            value = "select * from orders"
+            value = """
+                    select o.ord_id as id,
+                           o.ord_date as ordDate,
+                           o.ord_sum as ordSum,
+                           o.ord_fulfillment_date as ordFulfillmentDate,
+                           o.ord_comment as ordComment,
+                           o.o_status_id as oStatusId,
+                           os.o_status_name as statusName,
+                           o.cust_id as customerId,
+                           c.cust_company_name as customerName,
+                           u.user_mobile as customerPhone,
+                           u.user_email as customerEmail,
+                           o.del_id as deliveryId,
+                           d.user_id as driverId,
+                           u1.user_name as driverName,
+                           u1.user_mobile as driverPhone,
+                           u1.user_email as driverEmail,
+                           o.pf_id as pfId,
+                           pfs.pf_status_name as pfStatus
+                    from orders o
+                    join order_status os on o.o_status_id = os.o_status_id
+                    join customer c on c.user_id=o.cust_id
+                    join users u on c.user_id=u.user_id
+                    join delivery del on o.del_id = del.del_id
+                    join vehicle v on del.veh_id = v.veh_id
+                    join driver d on d.veh_id=v.veh_id
+                    join users u1 on d.user_id=u1.user_id
+                    join pro_forma pf on o.pf_id = pf.pf_id
+                    join pro_forma_status pfs on pfs.pf_status_id=pf.pf_status_id
+                    """
     )
-    List<Orders> listAll();
+    List<OrdersDto> listAll();
 
     @Query(
             nativeQuery = true,
-            value = "select * from orders where cust_id=?1"
+            value = """
+                    select o.ord_id as id,
+                           o.ord_date as ordDate,
+                           o.ord_sum as ordSum,
+                           o.ord_fulfillment_date as ordFulfillmentDate,
+                           o.ord_comment as ordComment,
+                           o.o_status_id as oStatusId,
+                           os.o_status_name as statusName,
+                           o.cust_id as customerId,
+                           c.cust_company_name as customerName,
+                           u.user_mobile as customerPhone,
+                           u.user_email as customerEmail,
+                           del.del_id as deliveryId,
+                           d.user_id as driverId,
+                           u1.user_name as driverName,
+                           u1.user_mobile as driverPhone,
+                           u1.user_email as driverEmail,
+                           pf.pf_id as pfId,
+                           pfs.pf_status_name as pfStatus
+                    from orders o
+                    join order_status os on o.o_status_id = os.o_status_id
+                    join customer c on o.cust_id = c.user_id
+                    join users u on c.user_id = u.user_id
+                    join delivery del on o.del_id = del.del_id
+                    join vehicle v on del.veh_id = v.veh_id
+                    join driver d on d.veh_id=v.veh_id
+                    join users u1 on d.user_id=u1.user_id
+                    join pro_forma pf on o.pf_id = pf.pf_id
+                    join pro_forma_status pfs on pfs.pf_status_id=pf.pf_status_id
+                    where o.cust_id = ?1
+                    """
     )
-    List<Orders> findByCustomer(@NonNull Long id);
+    List<OrdersDto> findOrdersByCustomer(@NonNull Long id);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select o.ord_id as id,
+                           o.ord_date as ordDate,
+                           o.ord_sum as ordSum,
+                           o.ord_fulfillment_date as ordFulfillmentDate,
+                           o.ord_comment as ordComment,
+                           o.o_status_id as oStatusId,
+                           o.cust_id as customerId,
+                           o.del_id as deliveryId,
+                           o.pf_id as pfId
+                    from orders o
+                    where o.cust_id = ?1
+                    """
+    )
+    List<OrderSimpleDto> findSimpleOrdersByCustomer(@NonNull Long id);
 
     @Query(
             nativeQuery = true,
             value = "select * from orders where ord_id=?1"
     )
-    Optional<Orders> findById(@NonNull Long id);
+    OrdersDto findOrderById(@NonNull Long id);
 
     @Modifying
     @Transactional

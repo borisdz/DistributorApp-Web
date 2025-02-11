@@ -1,18 +1,24 @@
 package mk.ukim.finki.db.distributorapp.service;
 
+import mk.ukim.finki.db.distributorapp.model.dto.CreateOrderDto;
+import mk.ukim.finki.db.distributorapp.model.dto.OrderSimpleDto;
 import mk.ukim.finki.db.distributorapp.model.dto.OrdersDto;
-import mk.ukim.finki.db.distributorapp.model.entities.Customer;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.security.Principal;
 import java.util.List;
 
 public interface OrdersService {
     List<OrdersDto> getAllOrders();
 
-    List<OrdersDto> findOrdersByCustomer(Customer customer);
+    List<OrdersDto> findOrdersByCustomer(Long customerId);
+
+    List<OrderSimpleDto> findSimpleOrdersByCustoemr(Long customerId);
 
     OrdersDto findById(Long id);
 
-    Integer create(OrdersDto ordersDto);
+    @Transactional
+    Integer create(CreateOrderDto createOrderDto, Principal principal);
 
     Integer edit(OrdersDto ordersDto);
 
