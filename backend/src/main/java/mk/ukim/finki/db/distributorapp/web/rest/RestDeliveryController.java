@@ -1,10 +1,12 @@
 package mk.ukim.finki.db.distributorapp.web.rest;
 
+import mk.ukim.finki.db.distributorapp.model.dto.DeliveryCreateDto;
 import mk.ukim.finki.db.distributorapp.model.dto.DeliveryDto;
 import mk.ukim.finki.db.distributorapp.service.DeliveryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -23,8 +25,8 @@ public class RestDeliveryController {
     }
 
     @PutMapping("/add")
-    public ResponseEntity<Integer> addDelivery(@RequestBody DeliveryDto DeliveryDto) {
-        Integer result = this.deliveryService.create(DeliveryDto);
+    public ResponseEntity<Integer> addDelivery(@RequestBody DeliveryCreateDto deliveryDto) throws ParseException {
+        Integer result = this.deliveryService.create(deliveryDto);
         return ResponseEntity.ok(result);
     }
 

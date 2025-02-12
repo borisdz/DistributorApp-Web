@@ -28,4 +28,6 @@ public interface OrdersService {
     List<OrdersDto> findCurrentOrdersByCustomer(Long customerId);
 
     List<OrderManagerDto> getNewOrdersByManager(Long managerId);
+
+    void addOrdersToDelivery(List<Long> orders, Long delId);
 }
