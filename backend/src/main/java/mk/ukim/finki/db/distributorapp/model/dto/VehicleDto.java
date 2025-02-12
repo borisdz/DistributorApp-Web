@@ -3,7 +3,7 @@ package mk.ukim.finki.db.distributorapp.model.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -12,11 +12,11 @@ public class VehicleDto {
     private Integer carryWeight;
     private Short serviceInterval;
     private Integer kilometers;
-    private LocalDate lastServiceDate;
+    private Date lastServiceDate;
     private Integer lastServiceKm;
     private String plate;
     private String vin;
-    private LocalDate registrationDate;
+    private Date registrationDate;
     private Integer whId;
     private String city;
     private String region;

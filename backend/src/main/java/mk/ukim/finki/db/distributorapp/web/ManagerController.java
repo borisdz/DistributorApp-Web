@@ -41,4 +41,13 @@ public class ManagerController {
     public String allManagers(Model model) {
         return "all-managers";
     }
+
+    @GetMapping("/create-delivery")
+    public String createDelivery(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        UserDto user = this.usersService.findUserDtoByEmail(userEmail);
+
+        return "create-delivery";
+    }
 }

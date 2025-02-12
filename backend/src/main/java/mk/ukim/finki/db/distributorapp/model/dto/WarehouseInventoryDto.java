@@ -8,5 +8,5 @@ import lombok.Data;
 public class WarehouseInventoryDto {
     String articleName;
     String manufacturerName;
-    Integer totalUnits;
+    Long totalUnits;
 }
