@@ -3,6 +3,7 @@ package mk.ukim.finki.db.distributorapp.service.impl;
 import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp.model.dto.DeliveryCreateDto;
 import mk.ukim.finki.db.distributorapp.model.dto.DeliveryDto;
+import mk.ukim.finki.db.distributorapp.model.dto.DeliverySimpleDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Delivery;
 import mk.ukim.finki.db.distributorapp.model.entities.Driver;
 import mk.ukim.finki.db.distributorapp.model.entities.Vehicle;
@@ -127,5 +128,10 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public List<DeliveryDto> getCurrentDeliveriesByManager(Long managerId) {
         return this.deliveryRepository.getCurrentDeliveriesByManager(managerId);
+    }
+
+    @Override
+    public List<DeliverySimpleDto> getDeliveriesByVehicle(Integer vehicleId) {
+        return this.deliveryRepository.getDeliveriesByVehicle(vehicleId);
     }
 }

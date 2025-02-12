@@ -1,9 +1,7 @@
 package mk.ukim.finki.db.distributorapp.web;
 
 import lombok.RequiredArgsConstructor;
-import mk.ukim.finki.db.distributorapp.model.dto.DeliveryCreateDto;
-import mk.ukim.finki.db.distributorapp.model.dto.DeliveryDto;
-import mk.ukim.finki.db.distributorapp.model.dto.UserDto;
+import mk.ukim.finki.db.distributorapp.model.dto.*;
 import mk.ukim.finki.db.distributorapp.service.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -69,12 +67,15 @@ public class ManagerController {
         String userEmail = authentication.getName();
         UserDto user = this.usersService.findUserDtoByEmail(userEmail);
 
+        WarehouseDto wh = this.warehouseService.findByCityId(user.getCityId());
+
         this.deliveryService.create(newDelivery);
 
-        List<DeliveryDto> deliveries = this.deliveryService.getCurrentDeliveriesByManager(user.getId());
-        DeliveryDto createdDelivery = deliveries.get(deliveries.size()-1);
+        List<DeliverySimpleDto> deliveries = this.deliveryService.getDeliveriesByVehicle(newDelivery.getVehId());
+        // TODO: deliveries.get(0)
+        DeliverySimpleDto createdDelivery = deliveries.get(deliveries.size()-1);
 
-        this.ordersService.addOrdersToDelivery(newDelivery.getOrders(),createdDelivery.getId());
+        this.ordersService.addOrdersToDelivery(newDelivery.getOrders(),createdDelivery.getDeliveryId());
 
         return "all-deliveries";
     }

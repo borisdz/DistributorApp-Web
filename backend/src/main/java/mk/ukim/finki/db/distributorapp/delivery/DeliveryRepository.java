@@ -1,7 +1,9 @@
-package mk.ukim.finki.db.distributorapp.delivery;
+package mk.ukim.finki.db.distributorapp.repository;
 
 import lombok.NonNull;
-import mk.ukim.finki.db.distributorapp.delivery.dto.DeliveryDto;
+import mk.ukim.finki.db.distributorapp.model.dto.DeliveryDto;
+import mk.ukim.finki.db.distributorapp.model.dto.DeliverySimpleDto;
+import mk.ukim.finki.db.distributorapp.model.entities.Delivery;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -158,4 +160,22 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
                     """
     )
     List<DeliveryDto> getCurrentDeliveriesByManager(@NonNull @Param("manager") Long manager_id);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select del.del_id as deliveryId,
+                           u.user_name as driverName,
+                           v.veh_plate as vehiclePlate,
+                           del.d_status_id as delStatusId,
+                           ds.d_status_name as delStatusName
+                    from delivery del
+                    join delivery_status ds on ds.d_status_id=del.d_status_id
+                    join vehicle v on v.veh_id=del.veh_id
+                    join driver d on v.veh_id = d.veh_id
+                    join users u on d.user_id = u.user_id
+                    where v.veh_id = ?1
+                    """
+    )
+    List<DeliverySimpleDto> getDeliveriesByVehicle(Integer vehicleId);
 }

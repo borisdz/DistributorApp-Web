@@ -33,7 +33,6 @@ public class OrdersServiceImpl implements OrdersService {
     private final ProFormaService proFormaService;
 
 
-
     private List<OrdersDto> buildDto(List<Orders> orders) {
         List<OrdersDto> dtos = new ArrayList<>();
         for (Orders ord : orders) {
@@ -73,13 +72,13 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public List<OrderSimpleDto> findSimpleOrdersByCustoemr(Long customerId){
+    public List<OrderSimpleDto> findSimpleOrdersByCustoemr(Long customerId) {
         return this.ordersRepository.findSimpleOrdersByCustomer(customerId);
     }
 
     @Override
     public OrdersDto findById(Long id) {
-        return  this.ordersRepository.findOrderById(id);
+        return this.ordersRepository.findOrderById(id);
     }
 
     @Override
@@ -91,14 +90,14 @@ public class OrdersServiceImpl implements OrdersService {
 
         OrdersDto order = new OrdersDto();
 
-        if(createOrderDto.isProForma()){
+        if (createOrderDto.isProForma()) {
             ProFormaDto pf = new ProFormaDto();
             pf.setPfDeadline(LocalDate.now().plusWeeks(1));
             pf.setPfDateCreated(LocalDate.now());
-            pf.setStatusId((short)1);
+            pf.setStatusId((short) 1);
             this.proFormaService.create(pf);
             List<ProFormaDto> proFormaList = this.proFormaService.getAllProForma();
-            ProFormaDto createdProForma = proFormaList.get(proFormaList.size()-1);
+            ProFormaDto createdProForma = proFormaList.get(proFormaList.size() - 1);
             order.setPfId(createdProForma.getId());
         }
 
@@ -112,8 +111,8 @@ public class OrdersServiceImpl implements OrdersService {
 
         Integer sum = createOrderDto.getOrderItems()
                 .stream()
-                .map(i->i.getUnitPrice().multiply(BigDecimal.valueOf(i.getQuantity())))
-                .reduce(BigDecimal.ZERO,BigDecimal::add)
+                .map(i -> i.getUnitPrice().multiply(BigDecimal.valueOf(i.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .intValue();
         order.setOrdSum(sum);
 
@@ -158,16 +157,26 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Override
     public List<OrderManagerDto> getNewOrdersByManager(Long managerId) {
-         return this.ordersRepository.getNewOrdersByManager(managerId);
+        return this.ordersRepository.getNewOrdersByManager(managerId);
     }
 
     @Override
     @Transactional
     public void addOrdersToDelivery(List<Long> orders, Long delId) {
-        for(Long orderId : orders){
-            OrdersDto order = this.ordersRepository.findOrderById(orderId);
+        for (Long orderId : orders) {
+            OrderSimpleDto order = this.ordersRepository.findSimpleOrdersByOrderId(orderId);
             order.setDeliveryId(delId);
-            edit(order);
+            this.ordersRepository.edit(
+                    order.getId(),
+                    order.getOrdDate().toLocalDate(),
+                    order.getOrdSum(),
+                    order.getOrdFulfillmentDate(),
+                    order.getOrdComment(),
+                    order.getOStatusId(),
+                    order.getCustomerId(),
+                    order.getDeliveryId(),
+                    order.getPfId()
+            );
         }
     }
 }
