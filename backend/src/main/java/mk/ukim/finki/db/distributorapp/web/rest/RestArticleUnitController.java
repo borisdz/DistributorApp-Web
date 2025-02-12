@@ -1,8 +1,8 @@
 package mk.ukim.finki.db.distributorapp.web.rest;
 
-import mk.ukim.finki.db.distributorapp.model.dto.ArticleUnitDto;
-import mk.ukim.finki.db.distributorapp.model.dto.ArticleUnitSimpleDto;
-import mk.ukim.finki.db.distributorapp.service.ArticleUnitService;
+import mk.ukim.finki.db.distributorapp.articleUnit.dto.ArticleUnitDto;
+import mk.ukim.finki.db.distributorapp.articleUnit.dto.ArticleUnitSimpleDto;
+import mk.ukim.finki.db.distributorapp.articleUnit.ArticleUnitService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

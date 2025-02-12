@@ -1,0 +1,84 @@
+package mk.ukim.finki.db.distributorapp.city;
+
+import lombok.RequiredArgsConstructor;
+import mk.ukim.finki.db.distributorapp.city.dto.CityDto;
+import mk.ukim.finki.db.distributorapp.city.dto.CityDtoRegister;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+@Service
+@RequiredArgsConstructor
+public class CityServiceImpl implements CityService {
+    private final CityRepository cityRepository;
+
+    private List<CityDto> buildDto(List<City> cities) {
+        List<CityDto> dtos = new ArrayList<>();
+        for (City city : cities) {
+            CityDto dto = new CityDto(
+                    city.getCityId(),
+                    city.getCityName(),
+                    city.getRegion().getRegionId(),
+                    city.getRegion().getRegionName()
+            );
+            dtos.add(dto);
+        }
+        return dtos;
+    }
+
+    @Override
+    public List<City> listCitiesObj() {
+        return cityRepository.listAll();
+    }
+
+    @Override
+    public List<CityDto> listCities() {
+        List<City> cities = cityRepository.listAll();
+        return buildDto(cities);
+    }
+
+    @Override
+    public List<CityDtoRegister> findAllCityDtos() {
+        return this.cityRepository.findAllCityDtos();
+    }
+
+    @Override
+    public CityDto getCityById(Integer id) {
+        City city = cityRepository.findById(id).orElseThrow();
+
+        return new CityDto(
+                city.getCityId(),
+                city.getCityName(),
+                city.getRegion().getRegionId(),
+                city.getRegion().getRegionName()
+        );
+    }
+
+    @Override
+    public Optional<City> getCityObjById(Integer id){
+        return this.cityRepository.findById(id);
+    }
+
+    @Override
+    public Integer create(CityDto dto) {
+        return this.cityRepository.create(dto.getName(), dto.getRegionId());
+    }
+
+    @Override
+    public Integer edit(CityDto dto) {
+        return this.cityRepository.edit(dto.getId(), dto.getName(), dto.getRegionId());
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        this.cityRepository.deleteById(id);
+    }
+
+    @Override
+    public List<CityDto> searchCities(String text) {
+        List<City> cities = this.cityRepository.findByName("'" + text + "'");
+        return buildDto(cities);
+    }
+}

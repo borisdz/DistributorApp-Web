@@ -1,7 +1,7 @@
 package mk.ukim.finki.db.distributorapp.web.rest;
 
-import mk.ukim.finki.db.distributorapp.model.dto.ProFormaDto;
-import mk.ukim.finki.db.distributorapp.service.ProFormaService;
+import mk.ukim.finki.db.distributorapp.proForma.dto.ProFormaDto;
+import mk.ukim.finki.db.distributorapp.proForma.ProFormaService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

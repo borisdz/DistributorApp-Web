@@ -1,7 +1,7 @@
 package mk.ukim.finki.db.distributorapp.web.rest;
 
-import mk.ukim.finki.db.distributorapp.model.dto.DeliveryStatusDto;
-import mk.ukim.finki.db.distributorapp.service.DeliveryStatusService;
+import mk.ukim.finki.db.distributorapp.delivery.dto.DeliveryStatusDto;
+import mk.ukim.finki.db.distributorapp.delivery.DeliveryStatusService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

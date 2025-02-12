@@ -1,0 +1,72 @@
+package mk.ukim.finki.db.distributorapp.region;
+
+import lombok.RequiredArgsConstructor;
+import mk.ukim.finki.db.distributorapp.region.dto.RegionDto;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class RegionServiceImpl implements RegionService {
+    private final RegionRepository regionRepository;
+
+    private List<RegionDto> buildDto(List<Region> regions) {
+        List<RegionDto> dtos = new ArrayList<>();
+        for (Region region : regions) {
+            RegionDto dto = new RegionDto(
+                    region.getRegionId(),
+                    region.getRegionName()
+            );
+            dtos.add(dto);
+        }
+        return dtos;
+    }
+
+    @Override
+    public List<RegionDto> getAllRegions() {
+        List<Region> regions = this.regionRepository.listAll();
+        return buildDto(regions);
+    }
+
+    @Override
+    public RegionDto getRegionById(Integer id) {
+        Region region = this.regionRepository.findById(id).get();
+        return new RegionDto(
+                region.getRegionId(),
+                region.getRegionName()
+        );
+    }
+
+    @Override
+    public List<RegionDto> searchRegions(String name) {
+        List<Region> regions = this.regionRepository.findByName("'" + name + "'");
+        return buildDto(regions);
+    }
+
+    @Override
+    public Integer create(RegionDto regionDto) {
+        return this.regionRepository.create(
+                regionDto.getName()
+        );
+    }
+
+    @Override
+    public Integer edit(RegionDto regionDto) {
+        return this.regionRepository.edit(
+                regionDto.getId(),
+                regionDto.getName()
+        );
+    }
+
+    @Override
+    public RegionDto getRegionByCityId(Integer cityId) {
+        return this.regionRepository.getRegionByCityId(cityId);
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        this.regionRepository.deleteById(id);
+    }
+}

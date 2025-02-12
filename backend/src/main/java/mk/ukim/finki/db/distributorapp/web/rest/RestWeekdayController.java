@@ -1,7 +1,7 @@
 package mk.ukim.finki.db.distributorapp.web.rest;
 
-import mk.ukim.finki.db.distributorapp.model.dto.WeekdayDto;
-import mk.ukim.finki.db.distributorapp.service.WeekdayService;
+import mk.ukim.finki.db.distributorapp.weekday.dto.WeekdayDto;
+import mk.ukim.finki.db.distributorapp.weekday.WeekdayService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

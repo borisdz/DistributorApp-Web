@@ -1,7 +1,7 @@
 package mk.ukim.finki.db.distributorapp.web.rest;
 
-import mk.ukim.finki.db.distributorapp.model.dto.PriceDto;
-import mk.ukim.finki.db.distributorapp.service.PriceService;
+import mk.ukim.finki.db.distributorapp.price.dto.PriceDto;
+import mk.ukim.finki.db.distributorapp.price.PriceService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
