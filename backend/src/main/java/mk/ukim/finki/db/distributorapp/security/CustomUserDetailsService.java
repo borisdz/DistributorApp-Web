@@ -1,11 +1,11 @@
 package mk.ukim.finki.db.distributorapp.security;
 
 import lombok.RequiredArgsConstructor;
-import mk.ukim.finki.db.distributorapp.model.entities.Users;
-import mk.ukim.finki.db.distributorapp.repository.CustomerRepository;
-import mk.ukim.finki.db.distributorapp.repository.DriverRepository;
-import mk.ukim.finki.db.distributorapp.repository.ManagerRepository;
-import mk.ukim.finki.db.distributorapp.repository.UsersRepository;
+import mk.ukim.finki.db.distributorapp.users.Users;
+import mk.ukim.finki.db.distributorapp.customer.CustomerRepository;
+import mk.ukim.finki.db.distributorapp.driver.DriverRepository;
+import mk.ukim.finki.db.distributorapp.manager.ManagerRepository;
+import mk.ukim.finki.db.distributorapp.users.UsersRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

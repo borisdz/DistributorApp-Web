@@ -1,0 +1,79 @@
+package mk.ukim.finki.db.distributorapp.users;
+
+import lombok.RequiredArgsConstructor;
+import mk.ukim.finki.db.distributorapp.users.dto.UserDto;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class UsersServiceImpl implements UsersService {
+
+    private final UsersRepository usersRepository;
+
+    public UserDto buildDto(Users user){
+        return new UserDto(
+                user.getUserId(),
+                user.getUsername(),
+                user.getUserSurname(),
+                user.getUserEmail(),
+                user.getUserMobile(),
+                user.getUserImage(),
+                user.getCity().getCityId(),
+                user.getCity().getCityName(),
+                user.getCity().getRegion().getRegionName(),
+                user.getUserRole().toString(),
+                user.getClazz_(),
+                user.getUserActive());
+    }
+
+    @Override
+    public List<Users> findAllUsers() {
+        return this.usersRepository.listAll();
+    }
+
+    @Override
+    public Users findUserById(Long id) {
+        return this.usersRepository.findById(id).get();
+    }
+
+    @Override
+    public Users findUserByEmail(String email) {
+        return this.usersRepository.findUserByUserEmailIgnoreCase(email).get();
+    }
+
+    @Override
+    public Integer edit(UserDto userDto) {
+        Users user = this.usersRepository.findUserByUserEmailIgnoreCase(userDto.getEmail()).get();
+        return this.usersRepository.edit(
+                userDto.getId(),
+                userDto.getFirstName(),
+                userDto.getLastName(),
+                user.getUserPassword(),
+                userDto.getEmail(),
+                userDto.getPhone(),
+                user.getUserSalt(),
+                userDto.getUserActive(),
+                userDto.getImage(),
+                userDto.getCityId(),
+                userDto.getRole(),
+                userDto.getClazz_()
+        );
+    }
+
+    @Override
+    public Users findUserByResetToken(String token) {
+        return this.usersRepository.findUserByResetToken("'"+token+"'").get();
+    }
+
+    @Override
+    public UserDto findUserDtoByEmail(String userEmail) {
+        return this.usersRepository.findUserDtoByEmail(userEmail);
+    }
+
+    @Override
+    public Integer deleteUserById(Long id) {
+        return 0;
+    }
+}

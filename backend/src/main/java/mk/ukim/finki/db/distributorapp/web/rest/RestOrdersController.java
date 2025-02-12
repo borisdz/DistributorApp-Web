@@ -1,7 +1,7 @@
 package mk.ukim.finki.db.distributorapp.web.rest;
 
-import mk.ukim.finki.db.distributorapp.model.dto.OrdersDto;
-import mk.ukim.finki.db.distributorapp.service.OrdersService;
+import mk.ukim.finki.db.distributorapp.orders.dto.OrdersDto;
+import mk.ukim.finki.db.distributorapp.orders.OrdersService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

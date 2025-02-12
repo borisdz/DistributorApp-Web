@@ -5,8 +5,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import mk.ukim.finki.db.distributorapp.model.entities.Users;
-import mk.ukim.finki.db.distributorapp.model.enumerations.TokenType;
+import mk.ukim.finki.db.distributorapp.users.Users;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

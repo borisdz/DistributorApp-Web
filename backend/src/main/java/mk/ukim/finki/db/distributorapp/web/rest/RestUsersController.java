@@ -1,8 +1,8 @@
 package mk.ukim.finki.db.distributorapp.web.rest;
 
-import mk.ukim.finki.db.distributorapp.model.dto.UserDto;
-import mk.ukim.finki.db.distributorapp.model.entities.Users;
-import mk.ukim.finki.db.distributorapp.service.UsersService;
+import mk.ukim.finki.db.distributorapp.users.dto.UserDto;
+import mk.ukim.finki.db.distributorapp.users.Users;
+import mk.ukim.finki.db.distributorapp.users.UsersService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

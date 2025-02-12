@@ -1,14 +1,14 @@
 package mk.ukim.finki.db.distributorapp.security.auth;
 
 import lombok.RequiredArgsConstructor;
-import mk.ukim.finki.db.distributorapp.model.dto.UserDto;
-import mk.ukim.finki.db.distributorapp.model.entities.Users;
-import mk.ukim.finki.db.distributorapp.model.enumerations.TokenType;
-import mk.ukim.finki.db.distributorapp.repository.TokenRepository;
+import mk.ukim.finki.db.distributorapp.users.dto.UserDto;
+import mk.ukim.finki.db.distributorapp.users.Users;
+import mk.ukim.finki.db.distributorapp.security.TokenType;
+import mk.ukim.finki.db.distributorapp.security.TokenRepository;
 import mk.ukim.finki.db.distributorapp.security.EmailService;
 import mk.ukim.finki.db.distributorapp.security.PassEncryptionPasswordEncoder;
 import mk.ukim.finki.db.distributorapp.security.Token;
-import mk.ukim.finki.db.distributorapp.service.UsersService;
+import mk.ukim.finki.db.distributorapp.users.UsersService;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

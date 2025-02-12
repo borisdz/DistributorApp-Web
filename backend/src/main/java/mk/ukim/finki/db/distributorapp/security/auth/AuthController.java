@@ -1,12 +1,12 @@
 package mk.ukim.finki.db.distributorapp.security.auth;
 
 import jakarta.servlet.http.HttpServletRequest;
-import mk.ukim.finki.db.distributorapp.model.dto.CityDtoRegister;
-import mk.ukim.finki.db.distributorapp.model.dto.LoginRequestDto;
-import mk.ukim.finki.db.distributorapp.model.dto.RegisterRequestDto;
-import mk.ukim.finki.db.distributorapp.model.entities.Users;
-import mk.ukim.finki.db.distributorapp.model.exceptions.InvalidUserCredentialsException;
-import mk.ukim.finki.db.distributorapp.service.CityService;
+import mk.ukim.finki.db.distributorapp.city.dto.CityDtoRegister;
+import mk.ukim.finki.db.distributorapp.security.dto.LoginRequestDto;
+import mk.ukim.finki.db.distributorapp.security.dto.RegisterRequestDto;
+import mk.ukim.finki.db.distributorapp.users.Users;
+import mk.ukim.finki.db.distributorapp.exceptions.InvalidUserCredentialsException;
+import mk.ukim.finki.db.distributorapp.city.CityService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

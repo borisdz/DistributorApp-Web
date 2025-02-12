@@ -1,8 +1,13 @@
 package mk.ukim.finki.db.distributorapp.web;
 
 import lombok.RequiredArgsConstructor;
-import mk.ukim.finki.db.distributorapp.model.dto.UserDto;
-import mk.ukim.finki.db.distributorapp.service.*;
+import mk.ukim.finki.db.distributorapp.delivery.DeliveryService;
+import mk.ukim.finki.db.distributorapp.manager.ManagerService;
+import mk.ukim.finki.db.distributorapp.users.dto.UserDto;
+import mk.ukim.finki.db.distributorapp.orders.OrdersService;
+import mk.ukim.finki.db.distributorapp.users.UsersService;
+import mk.ukim.finki.db.distributorapp.vehicle.VehicleService;
+import mk.ukim.finki.db.distributorapp.warehouse.WarehouseService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;

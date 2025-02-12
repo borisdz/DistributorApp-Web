@@ -1,7 +1,7 @@
 package mk.ukim.finki.db.distributorapp.web.rest;
 
-import mk.ukim.finki.db.distributorapp.model.dto.CityDto;
-import mk.ukim.finki.db.distributorapp.service.CityService;
+import mk.ukim.finki.db.distributorapp.city.dto.CityDto;
+import mk.ukim.finki.db.distributorapp.city.CityService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
