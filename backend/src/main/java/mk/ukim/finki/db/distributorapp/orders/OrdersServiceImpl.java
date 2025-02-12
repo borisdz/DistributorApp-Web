@@ -117,6 +117,8 @@ public class OrdersServiceImpl implements OrdersService {
                 .intValue();
         order.setOrdSum(sum);
 
+        // TODO: Calculate total weight of the order. Add an attribute for weight.
+
         return this.ordersRepository.create(
                 order.getOrdDate(),
                 order.getOrdSum(),
@@ -157,5 +159,15 @@ public class OrdersServiceImpl implements OrdersService {
     @Override
     public List<OrderManagerDto> getNewOrdersByManager(Long managerId) {
          return this.ordersRepository.getNewOrdersByManager(managerId);
+    }
+
+    @Override
+    @Transactional
+    public void addOrdersToDelivery(List<Long> orders, Long delId) {
+        for(Long orderId : orders){
+            OrdersDto order = this.ordersRepository.findOrderById(orderId);
+            order.setDeliveryId(delId);
+            edit(order);
+        }
     }
 }

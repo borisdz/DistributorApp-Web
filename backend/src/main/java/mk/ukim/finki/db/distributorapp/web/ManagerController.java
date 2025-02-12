@@ -1,19 +1,21 @@
 package mk.ukim.finki.db.distributorapp.web;
 
 import lombok.RequiredArgsConstructor;
-import mk.ukim.finki.db.distributorapp.delivery.DeliveryService;
-import mk.ukim.finki.db.distributorapp.manager.ManagerService;
-import mk.ukim.finki.db.distributorapp.users.dto.UserDto;
-import mk.ukim.finki.db.distributorapp.orders.OrdersService;
-import mk.ukim.finki.db.distributorapp.users.UsersService;
-import mk.ukim.finki.db.distributorapp.vehicle.VehicleService;
-import mk.ukim.finki.db.distributorapp.warehouse.WarehouseService;
+import mk.ukim.finki.db.distributorapp.model.dto.DeliveryCreateDto;
+import mk.ukim.finki.db.distributorapp.model.dto.DeliveryDto;
+import mk.ukim.finki.db.distributorapp.model.dto.UserDto;
+import mk.ukim.finki.db.distributorapp.service.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.text.ParseException;
+import java.util.List;
 
 @Controller
 @RequestMapping(value = "/manager")
@@ -53,6 +55,27 @@ public class ManagerController {
         String userEmail = authentication.getName();
         UserDto user = this.usersService.findUserDtoByEmail(userEmail);
 
+        model.addAttribute("user", user);
+        model.addAttribute("newDelivery", new DeliveryCreateDto());
+        model.addAttribute("newOrders", ordersService.getNewOrdersByManager(user.getId()));
+        model.addAttribute("vehicles", vehicleService.getVehiclesByManager(user.getId()));
+
         return "create-delivery";
+    }
+
+    @PostMapping("/create-delivery")
+    public String createDelivery(@ModelAttribute DeliveryCreateDto newDelivery) throws ParseException {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        UserDto user = this.usersService.findUserDtoByEmail(userEmail);
+
+        this.deliveryService.create(newDelivery);
+
+        List<DeliveryDto> deliveries = this.deliveryService.getCurrentDeliveriesByManager(user.getId());
+        DeliveryDto createdDelivery = deliveries.get(deliveries.size()-1);
+
+        this.ordersService.addOrdersToDelivery(newDelivery.getOrders(),createdDelivery.getId());
+
+        return "all-deliveries";
     }
 }

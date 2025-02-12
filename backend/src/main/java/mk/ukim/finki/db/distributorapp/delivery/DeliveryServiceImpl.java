@@ -1,18 +1,26 @@
-package mk.ukim.finki.db.distributorapp.delivery;
+package mk.ukim.finki.db.distributorapp.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import mk.ukim.finki.db.distributorapp.driver.Driver;
-import mk.ukim.finki.db.distributorapp.delivery.dto.DeliveryDto;
-import mk.ukim.finki.db.distributorapp.vehicle.Vehicle;
+import mk.ukim.finki.db.distributorapp.model.dto.DeliveryCreateDto;
+import mk.ukim.finki.db.distributorapp.model.dto.DeliveryDto;
+import mk.ukim.finki.db.distributorapp.model.entities.Delivery;
+import mk.ukim.finki.db.distributorapp.model.entities.Driver;
+import mk.ukim.finki.db.distributorapp.model.entities.Vehicle;
+import mk.ukim.finki.db.distributorapp.repository.DeliveryRepository;
+import mk.ukim.finki.db.distributorapp.service.DeliveryService;
+import mk.ukim.finki.db.distributorapp.service.OrdersService;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class DeliveryServiceImpl implements DeliveryService {
     private final DeliveryRepository deliveryRepository;
+    private final OrdersService ordersService;
 
     private List<DeliveryDto> buildDto(List<Delivery> deliveries) {
         List<DeliveryDto> dtos = new ArrayList<>();
@@ -76,15 +84,17 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
-    public Integer create(DeliveryDto deliveryDto) {
+    public Integer create(DeliveryCreateDto deliveryDto) throws ParseException {
+        Date currentDate = new Date();
+
         return this.deliveryRepository.create(
-                deliveryDto.getDateCreated(),
+                currentDate,
                 deliveryDto.getDelDate(),
-                deliveryDto.getDelStartKm(),
-                deliveryDto.getDelEndKm(),
-                deliveryDto.getDelStartTime(),
-                deliveryDto.getDelEndTime(),
-                deliveryDto.getDStatusId(),
+                null,
+                null,
+                null,
+                null,
+                (short) 1,
                 deliveryDto.getVehId()
         );
     }

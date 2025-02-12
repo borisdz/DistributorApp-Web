@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,12 +50,12 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
                     "values (?1,?2,?3,?4,?5,?6,?7,?8)"
     )
     Integer create(
-            @NonNull LocalDate del_date_created,
-            @NonNull LocalDate del_date,
-            @NonNull Integer del_start_km,
-            @NonNull Integer del_end_km,
-            @NonNull LocalTime del_start_time,
-            @NonNull LocalTime del_end_time,
+            @NonNull Date del_date_created,
+            @NonNull Date del_date,
+            Integer del_start_km,
+            Integer del_end_km,
+            LocalTime del_start_time,
+            LocalTime del_end_time,
             @NonNull Short del_status_id,
             @NonNull Integer veh_id
     );
@@ -70,8 +70,8 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
     )
     Integer edit(
             @NonNull Long id,
-            @NonNull LocalDate del_date_created,
-            @NonNull LocalDate del_date,
+            @NonNull Date del_date_created,
+            @NonNull Date del_date,
             @NonNull Integer del_start_km,
             @NonNull Integer del_end_km,
             @NonNull LocalTime del_start_time,
@@ -154,7 +154,7 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
                         join vehicle v on v.veh_id=d.veh_id
                         join driver dr on dr.veh_id=v.veh_id
                         join users u on u.user_id=dr.user_id
-                    where m.user_id=:manager and d.d_status_id<>4
+                    where m.user_id=:manager
                     """
     )
     List<DeliveryDto> getCurrentDeliveriesByManager(@NonNull @Param("manager") Long manager_id);

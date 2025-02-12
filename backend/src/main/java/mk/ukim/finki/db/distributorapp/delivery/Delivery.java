@@ -6,8 +6,8 @@ import lombok.Data;
 import mk.ukim.finki.db.distributorapp.orders.Orders;
 import mk.ukim.finki.db.distributorapp.vehicle.Vehicle;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -21,11 +21,11 @@ public class Delivery {
 
     @NotNull
     @Column(name = "del_date_created", nullable = false)
-    private LocalDate deliveryDateCreated;
+    private Date deliveryDateCreated;
 
     @NotNull
     @Column(name = "del_date", nullable = false)
-    private LocalDate deliveryDate;
+    private Date deliveryDate;
 
     @Column(name = "del_start_km")
     private Integer deliveryStartKm;
