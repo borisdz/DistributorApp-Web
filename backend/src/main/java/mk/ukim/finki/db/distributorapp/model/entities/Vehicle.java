@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -30,7 +30,7 @@ public class Vehicle {
     private Integer vehicleKilometers;
 
     @Column(name = "veh_last_service")
-    private LocalDate vehicleLastService;
+    private Date vehicleLastService;
 
     @Column(name = "veh_last_service_km")
     private Integer vehicleLastServiceKm;
@@ -47,7 +47,7 @@ public class Vehicle {
 
     @NotNull
     @Column(name = "veh_reg", nullable = false)
-    private LocalDate vehicleRegDate;
+    private Date vehicleRegDate;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

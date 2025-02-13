@@ -1,5 +1,6 @@
 package mk.ukim.finki.db.distributorapp.web.rest;
 
+import mk.ukim.finki.db.distributorapp.model.dto.DeliveryCreateDto;
 import mk.ukim.finki.db.distributorapp.model.dto.DeliveryDto;
 import mk.ukim.finki.db.distributorapp.service.DeliveryService;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class RestDeliveryController {
     }
 
     @PutMapping("/add")
-    public ResponseEntity<Integer> addDelivery(@RequestBody DeliveryDto DeliveryDto) {
+    public ResponseEntity<Integer> addDelivery(@RequestBody DeliveryCreateDto DeliveryDto) {
         Integer result = this.deliveryService.create(DeliveryDto);
         return ResponseEntity.ok(result);
     }

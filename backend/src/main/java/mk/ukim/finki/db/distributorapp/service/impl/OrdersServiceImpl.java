@@ -65,7 +65,7 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public List<OrderSimpleDto> findSimpleOrdersByCustoemr(Long customerId){
+    public List<OrderSimpleDto> findSimpleOrdersByCustomer(Long customerId){
         return this.ordersRepository.findSimpleOrdersByCustomer(customerId);
     }
 
@@ -147,7 +147,26 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public List<OrdersDto> getNewOrdersByManager(Long managerId) {
+    public List<OrderManagerDto> getNewOrdersByManager(Long managerId) {
          return this.ordersRepository.getNewOrdersByManager(managerId);
+    }
+
+    @Override
+    public void addOrdersToDelivery(List<Long> orderIds, Long deliveryId) {
+        for(Long i : orderIds){
+            OrderSimpleDto order = this.ordersRepository.findSimpleOrdersById(i);
+            order.setDeliveryId(deliveryId);
+            this.ordersRepository.edit(
+                    order.getId(),
+                    order.getOrdDate().toLocalDate(),
+                    order.getOrdSum(),
+                    order.getOrdFulfillmentDate(),
+                    order.getOrdComment(),
+                    order.getOStatusId(),
+                    order.getCustomerId(),
+                    order.getDeliveryId(),
+                    order.getPfId()
+            );
+        }
     }
 }

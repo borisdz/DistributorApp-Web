@@ -1,13 +1,18 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import mk.ukim.finki.db.distributorapp.model.dto.DeliveryCreateDto;
 import mk.ukim.finki.db.distributorapp.model.dto.DeliveryDto;
-import mk.ukim.finki.db.distributorapp.model.entities.*;
+import mk.ukim.finki.db.distributorapp.model.dto.DeliverySimpleDto;
+import mk.ukim.finki.db.distributorapp.model.entities.Delivery;
+import mk.ukim.finki.db.distributorapp.model.entities.Driver;
+import mk.ukim.finki.db.distributorapp.model.entities.Vehicle;
 import mk.ukim.finki.db.distributorapp.repository.DeliveryRepository;
 import mk.ukim.finki.db.distributorapp.service.DeliveryService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -77,15 +82,16 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
-    public Integer create(DeliveryDto deliveryDto) {
+    public Integer create(DeliveryCreateDto deliveryDto) {
+        Date currentDate = new Date();
         return this.deliveryRepository.create(
-                deliveryDto.getDateCreated(),
+                currentDate,
                 deliveryDto.getDelDate(),
-                deliveryDto.getDelStartKm(),
-                deliveryDto.getDelEndKm(),
-                deliveryDto.getDelStartTime(),
-                deliveryDto.getDelEndTime(),
-                deliveryDto.getDStatusId(),
+                null,
+                null,
+                null,
+                null,
+                (short) 1,
                 deliveryDto.getVehId()
         );
     }
@@ -118,5 +124,10 @@ public class DeliveryServiceImpl implements DeliveryService {
     @Override
     public List<DeliveryDto> getCurrentDeliveriesByManager(Long managerId) {
         return this.deliveryRepository.getCurrentDeliveriesByManager(managerId);
+    }
+
+    @Override
+    public List<DeliverySimpleDto> getDeliveriesByVehicle(Integer vehicleId) {
+        return this.deliveryRepository.getDeliveriesByVehicle(vehicleId);
     }
 }

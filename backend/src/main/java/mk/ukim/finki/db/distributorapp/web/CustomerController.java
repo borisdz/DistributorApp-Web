@@ -99,7 +99,7 @@ public class CustomerController {
 
         CustomerDto customer = this.customerService.findCustomerById(user.getId());
 
-        List<OrderSimpleDto> simpleCustomerOrders = this.ordersService.findSimpleOrdersByCustoemr(customer.getId());
+        List<OrderSimpleDto> simpleCustomerOrders = this.ordersService.findSimpleOrdersByCustomer(customer.getId());
         OrderSimpleDto createdOrder = simpleCustomerOrders.get(simpleCustomerOrders.size() - 1);
         WarehouseDto wh = this.warehouseService.findByCityId(user.getCityId());
 
@@ -109,6 +109,6 @@ public class CustomerController {
             this.articleUnitService.simpleEdit(unit);
         }
 
-        return "redirect:/customer/my-orders";
+        return "redirect:/customer/dashboard";
     }
 }

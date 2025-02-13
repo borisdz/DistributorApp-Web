@@ -3,15 +3,15 @@ package mk.ukim.finki.db.distributorapp.model.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
 public class DeliveryDto {
     private Long id;
-    private LocalDate dateCreated;
-    private LocalDate delDate;
+    private Date dateCreated;
+    private Date delDate;
     private Integer delStartKm;
     private Integer delEndKm;
     private LocalTime delStartTime;
