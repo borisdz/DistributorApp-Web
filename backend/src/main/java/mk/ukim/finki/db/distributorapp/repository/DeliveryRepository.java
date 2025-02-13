@@ -2,6 +2,7 @@ package mk.ukim.finki.db.distributorapp.repository;
 
 import lombok.NonNull;
 import mk.ukim.finki.db.distributorapp.model.dto.DeliveryDto;
+import mk.ukim.finki.db.distributorapp.model.dto.DeliveryFullDto;
 import mk.ukim.finki.db.distributorapp.model.dto.DeliverySimpleDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Delivery;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -111,8 +112,8 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
                            del.del_date as deliveryDate,
                            del.del_start_km as delStartKm,
                            del.del_end_km as delEndKm,
-                           del.del_start_time as delStartTime,
-                           del.del_end_time as delEndTime,
+                           to_char(d.del_start_time, 'HH24:MI:22') as delStartTime,
+                           to_char(d.del_end_time, 'HH24:MI:SS') as delEndTime,
                            del.d_status_id as dStatusId,
                            ds.d_status_name as delStatus,
                            v.veh_id as vehId,
@@ -139,8 +140,8 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
                            d.del_date as deliveryDate,
                            d.del_start_km as delStartKm,
                            d.del_end_km as delEndKm,
-                           d.del_start_time as delStartTime,
-                           d.del_end_time as delEndTime,
+                           to_char(d.del_start_time, 'HH24:MI:22') as delStartTime,
+                           to_char(d.del_end_time, 'HH24:MI:SS') as delEndTime,
                            d.d_status_id as dStatusId,
                            ds.d_status_name as delStatus,
                            v.veh_id as vehId,
@@ -179,4 +180,22 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
                     """
     )
     List<DeliverySimpleDto> getDeliveriesByVehicle(Integer vehicleId);
+
+        @Query(
+            nativeQuery = true,
+            value = """
+                    select d.del_id as delId,
+                           d.del_date_created as delDateCreated,
+                           d.del_date as delDate,
+                           d.del_start_km as delStartKm,
+                           d.del_end_km as delEndKm,
+                           to_char(d.del_start_time, 'HH24:MI:22') as delStartTime,
+                           to_char(d.del_end_time, 'HH24:MI:SS') as delEndTime,
+                           d.d_status_id as delStatusId,
+                           d.veh_id as veh_id
+                    from delivery d
+                    where d.del_id = ?1
+                    """
+    )
+    DeliveryFullDto findDeliveryDtoById(@Param("id") Long id);
 }

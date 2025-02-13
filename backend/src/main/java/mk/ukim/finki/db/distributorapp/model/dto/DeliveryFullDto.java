@@ -2,15 +2,17 @@ package mk.ukim.finki.db.distributorapp.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalTime;
 import java.util.Date;
 
 @Data
 @AllArgsConstructor
-public class DeliveryDto {
-    private Long id;
-    private Date dateCreated;
+@NoArgsConstructor
+public class DeliveryFullDto {
+    private Long delId;
+    private Date delDateCreated;
     private Date delDate;
     private Integer delStartKm;
     private Integer delEndKm;
@@ -18,13 +20,8 @@ public class DeliveryDto {
     private String delStartTime;
     private String delEndTime;
 
-    private Short dStatusId;
-    private String delStatus;
-    private Integer vehId;
-    private Long driverId;
-    private String driverName;
-    private String driverImg;
-
+    private Short delStatusId;
+    private Integer veh_id;
 
     public LocalTime getParsedDelStartTime() {
         return delStartTime != null ? LocalTime.parse(delStartTime) : null;

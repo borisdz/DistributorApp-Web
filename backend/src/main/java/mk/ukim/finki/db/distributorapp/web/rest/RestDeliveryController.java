@@ -2,6 +2,7 @@ package mk.ukim.finki.db.distributorapp.web.rest;
 
 import mk.ukim.finki.db.distributorapp.model.dto.DeliveryCreateDto;
 import mk.ukim.finki.db.distributorapp.model.dto.DeliveryDto;
+import mk.ukim.finki.db.distributorapp.model.dto.DeliveryFullDto;
 import mk.ukim.finki.db.distributorapp.service.DeliveryService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,7 @@ public class RestDeliveryController {
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<Integer> editDelivery(@RequestBody DeliveryDto DeliveryDto) {
+    public ResponseEntity<Integer> editDelivery(@RequestBody DeliveryFullDto DeliveryDto) {
         Integer result = this.deliveryService.edit(DeliveryDto);
         return ResponseEntity.ok(result);
     }
