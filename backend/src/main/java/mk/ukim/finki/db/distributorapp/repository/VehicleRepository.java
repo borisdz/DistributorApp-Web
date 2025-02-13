@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,11 +56,11 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
             @NonNull Integer vehicleCarryWeight,
             @NonNull Short vehicleServiceInterval,
             @NonNull Integer vehicleKilometers,
-            @NonNull LocalDate vehicleLastService,
+            @NonNull Date vehicleLastService,
             @NonNull Integer vehicleLastServiceKm,
             @NonNull String vehiclePlate,
             @NonNull String vehicleVIN,
-            @NonNull LocalDate vehicleRegDate,
+            @NonNull Date vehicleRegDate,
             @NonNull Integer whId);
 
     @Modifying
@@ -77,11 +77,11 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
             @NonNull Integer vehicleCarryWeight,
             @NonNull Short vehicleServiceInterval,
             @NonNull Integer vehicleKilometers,
-            @NonNull LocalDate vehicleLastService,
+            @NonNull Date vehicleLastService,
             @NonNull Integer vehicleLastServiceKm,
             @NonNull String vehiclePlate,
             @NonNull String vehicleVIN,
-            @NonNull LocalDate vehicleRegDate,
+            @NonNull Date vehicleRegDate,
             @NonNull Integer whId);
 
     @Modifying
