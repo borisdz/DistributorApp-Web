@@ -1,6 +1,8 @@
 package mk.ukim.finki.db.distributorapp.web;
 
 import lombok.RequiredArgsConstructor;
+import mk.ukim.finki.db.distributorapp.model.dto.DeliveryEndDto;
+import mk.ukim.finki.db.distributorapp.model.dto.DeliveryStartDto;
 import mk.ukim.finki.db.distributorapp.model.dto.UserDto;
 import mk.ukim.finki.db.distributorapp.service.DriverService;
 import mk.ukim.finki.db.distributorapp.service.UsersService;
@@ -9,6 +11,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -18,22 +22,31 @@ public class DriverController {
     private final DriverService driverService;
     private final UsersService usersService;
 
-    @GetMapping("/all")
-    public String allDrivers(Model model) {
-//        List<DriverDto> drivers = driverService.getAllDrivers();
-//        model.addAttribute("drivers", drivers);
-        return "all-drivers";
-    }
-
     @GetMapping({"/dashboard","/"})
     public String dashboard(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
         UserDto user = this.usersService.findUserDtoByEmail(userEmail);
+
         model.addAttribute("user", user);
+        model.addAttribute("startDelivery", new DeliveryStartDto());
+        model.addAttribute("endDelivery", new DeliveryEndDto());
+        model.addAttribute("ongoingDeliveries", this.driverService.getOngoingDeliveries(user.getId()));
         model.addAttribute("newDeliveries", this.driverService.getNewAssignedDeliveries(user.getId()));
         model.addAttribute("finishedDeliveries", this.driverService.getFinishedAssignedDeliveries(user.getId()));
         return "home/driver";
+    }
+
+    @PostMapping("/start-delivery")
+    public String startDelivery(@ModelAttribute("startDelivery") DeliveryStartDto delivery) {
+        this.driverService.startDelivery(delivery);
+        return "redirect:/driver/dashboard";
+    }
+
+    @PostMapping("/end-delivery")
+    public String endDelivery(@ModelAttribute("endDelivery") DeliveryEndDto delivery) {
+        this.driverService.endDelivery(delivery);
+        return "redirect:/driver/dashboard";
     }
 
 

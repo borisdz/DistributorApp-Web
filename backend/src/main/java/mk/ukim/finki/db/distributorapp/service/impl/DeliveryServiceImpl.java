@@ -3,6 +3,7 @@ package mk.ukim.finki.db.distributorapp.service.impl;
 import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp.model.dto.DeliveryCreateDto;
 import mk.ukim.finki.db.distributorapp.model.dto.DeliveryDto;
+import mk.ukim.finki.db.distributorapp.model.dto.DeliveryFullDto;
 import mk.ukim.finki.db.distributorapp.model.dto.DeliverySimpleDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Delivery;
 import mk.ukim.finki.db.distributorapp.model.entities.Driver;
@@ -29,8 +30,8 @@ public class DeliveryServiceImpl implements DeliveryService {
                     del.getDeliveryDate(),
                     del.getDeliveryStartKm(),
                     del.getDeliveryEndKm(),
-                    del.getDeliveryStartTime(),
-                    del.getDeliveryEndTime(),
+                    null,
+                    null,
                     del.getDeliveryStatus().getDeliveryStatusId(),
                     del.getDeliveryStatus().getDeliveryStatusName(),
                     del.getVehicle().getVehicleId(),
@@ -62,23 +63,8 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
-    public DeliveryDto findDeliveryById(Long id) {
-        Delivery del = this.deliveryRepository.findById(id).get();
-        return new DeliveryDto(
-                del.getDeliveryId(),
-                del.getDeliveryDateCreated(),
-                del.getDeliveryDate(),
-                del.getDeliveryStartKm(),
-                del.getDeliveryEndKm(),
-                del.getDeliveryStartTime(),
-                del.getDeliveryEndTime(),
-                del.getDeliveryStatus().getDeliveryStatusId(),
-                del.getDeliveryStatus().getDeliveryStatusName(),
-                del.getVehicle().getVehicleId(),
-                del.getVehicle().getDriver().getUserId(),
-                del.getVehicle().getDriver().getUsername(),
-                del.getVehicle().getDriver().getUserImage()
-        );
+    public DeliveryFullDto findDeliveryById(Long id) {
+        return this.deliveryRepository.findDeliveryDtoById(id);
     }
 
     @Override
@@ -97,17 +83,17 @@ public class DeliveryServiceImpl implements DeliveryService {
     }
 
     @Override
-    public Integer edit(DeliveryDto deliveryDto) {
+    public Integer edit(DeliveryFullDto deliveryDto) {
         return this.deliveryRepository.edit(
-                deliveryDto.getId(),
-                deliveryDto.getDateCreated(),
+                deliveryDto.getDelId(),
+                deliveryDto.getDelDateCreated(),
                 deliveryDto.getDelDate(),
                 deliveryDto.getDelStartKm(),
                 deliveryDto.getDelEndKm(),
-                deliveryDto.getDelStartTime(),
-                deliveryDto.getDelEndTime(),
-                deliveryDto.getDStatusId(),
-                deliveryDto.getVehId()
+                deliveryDto.getParsedDelStartTime(),
+                deliveryDto.getParsedDelEndTime(),
+                deliveryDto.getDelStatusId(),
+                deliveryDto.getVeh_id()
         );
     }
 

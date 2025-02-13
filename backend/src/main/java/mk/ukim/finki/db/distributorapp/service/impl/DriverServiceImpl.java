@@ -1,13 +1,16 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import mk.ukim.finki.db.distributorapp.model.dto.DeliveryDto;
-import mk.ukim.finki.db.distributorapp.model.dto.DriverDto;
+import mk.ukim.finki.db.distributorapp.model.dto.*;
 import mk.ukim.finki.db.distributorapp.model.entities.Driver;
 import mk.ukim.finki.db.distributorapp.repository.DriverRepository;
+import mk.ukim.finki.db.distributorapp.service.DeliveryService;
 import mk.ukim.finki.db.distributorapp.service.DriverService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DriverServiceImpl implements DriverService {
     private final DriverRepository driverRepository;
+    private final DeliveryService deliveryService;
 
     private List<DriverDto> buildDto(List<Driver> drivers) {
         List<DriverDto> dtos = new ArrayList<>();
@@ -83,12 +87,41 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
-    public List<DeliveryDto> getNewAssignedDeliveries(Long driverId) {
+    public List<DeliverySimpleDto> getNewAssignedDeliveries(Long driverId) {
         return this.driverRepository.activeAssignedDeliveries(driverId);
     }
 
     @Override
-    public List<DeliveryDto> getFinishedAssignedDeliveries(Long driverId) {
+    public List<DeliverySimpleDto> getFinishedAssignedDeliveries(Long driverId) {
         return this.driverRepository.finishedAssignedDeliveries(driverId);
+    }
+
+    @Override
+    public List<DeliverySimpleDto> getOngoingDeliveries(Long driverId) {
+        return this.driverRepository.getOngoingDeliveries(driverId);
+    }
+
+    @Override
+    @Transactional
+    public void startDelivery(DeliveryStartDto delivery) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+        DeliveryFullDto deliveryDto = this.deliveryService.findDeliveryById(delivery.getId());
+        deliveryDto.setDelStartKm(delivery.getDelStartKm());
+        deliveryDto.setDelStartTime(LocalTime.now().format(formatter));
+        deliveryDto.setDelStatusId((short)3);
+        this.deliveryService.edit(deliveryDto);
+    }
+
+    @Override
+    @Transactional
+    public void endDelivery(DeliveryEndDto delivery) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+        DeliveryFullDto deliveryDto = this.deliveryService.findDeliveryById(delivery.getId());
+        deliveryDto.setDelEndKm(delivery.getDelEndKm());
+        deliveryDto.setDelEndTime(LocalTime.now().format(formatter));
+        deliveryDto.setDelStatusId((short)4);
+        this.deliveryService.edit(deliveryDto);
     }
 }

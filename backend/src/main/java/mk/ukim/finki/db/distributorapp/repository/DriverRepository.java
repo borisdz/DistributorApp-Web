@@ -1,7 +1,7 @@
 package mk.ukim.finki.db.distributorapp.repository;
 
 import lombok.NonNull;
-import mk.ukim.finki.db.distributorapp.model.dto.DeliveryDto;
+import mk.ukim.finki.db.distributorapp.model.dto.DeliverySimpleDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Driver;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -70,54 +70,57 @@ public interface DriverRepository extends JpaRepository<Driver, Long> {
     @Query(
             nativeQuery = true,
             value = """
-                    select de.del_id as id,
-                           de.del_date_created as dateCreated,
-                           de.del_date as delDate,
-                           de.del_start_km as delStartKm,
-                           de.del_end_km as delEndKm,
-                           de.del_start_time as delStartTime,
-                           de.del_end_time as delEndTime,
-                           de.d_status_id as delStatusId,
-                           ds.d_status_name as delStatus,
-                           v.veh_id as vehId,
-                           d.user_id as driverId,
+                    select del.del_id as deliveryId,
                            u.user_name as driverName,
-                           u.user_image as driverImg
-                    from driver d
+                           del.del_date as deliveryDate,
+                           del.del_date_created as deliveryCreatedDate,
+                           del.d_status_id as deliveryStatus,
+                           ds.d_status_name as deliveryStatusName
+                    from delivery del
+                    join delivery_status ds on del.d_status_id = ds.d_status_id
+                    join vehicle v on del.veh_id = v.veh_id
+                    join driver d on v.veh_id = d.veh_id
                     join users u on u.user_id = d.user_id
-                    join vehicle v on d.veh_id = v.veh_id
-                    join delivery de on v.veh_id = de.veh_id
-                    join delivery_status ds on de.d_status_id = ds.d_status_id
-                    where d.user_id = ?1 and de.d_status_id = 1
-                    order by de.del_date desc
+                    where d.user_id = ?1 and del.d_status_id = 1
                     """
     )
-    List<DeliveryDto> activeAssignedDeliveries(@NonNull Long id);
+    List<DeliverySimpleDto> activeAssignedDeliveries(@NonNull Long id);
 
     @Query(
             nativeQuery = true,
             value = """
-                    select de.del_id as id,
-                           de.del_date_created as dateCreated,
-                           de.del_date as delDate,
-                           de.del_start_km as delStartKm,
-                           de.del_end_km as delEndKm,
-                           de.del_start_time as delStartTime,
-                           de.del_end_time as delEndTime,
-                           de.d_status_id as delStatusId,
-                           ds.d_status_name as delStatus,
-                           v.veh_id as vehId,
-                           d.user_id as driverId,
+                    select del.del_id as deliveryId,
                            u.user_name as driverName,
-                           u.user_image as driverImg
-                    from driver d
+                           del.del_date as deliveryDate,
+                           del.del_date_created as deliveryCreatedDate,
+                           del.d_status_id as deliveryStatus,
+                           ds.d_status_name as deliveryStatusName
+                    from delivery del
+                    join delivery_status ds on del.d_status_id = ds.d_status_id
+                    join vehicle v on del.veh_id = v.veh_id
+                    join driver d on v.veh_id = d.veh_id
                     join users u on u.user_id = d.user_id
-                    join vehicle v on d.veh_id = v.veh_id
-                    join delivery de on v.veh_id = de.veh_id
-                    join delivery_status ds on de.d_status_id = ds.d_status_id
-                    where d.user_id = ?1 and de.d_status_id not between 1 and 3
-                    order by de.del_date desc
+                    where d.user_id = ?1 and del.d_status_id not between 1 and 3
                     """
     )
-    List<DeliveryDto> finishedAssignedDeliveries(@NonNull Long id);
+    List<DeliverySimpleDto> finishedAssignedDeliveries(@NonNull Long id);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select del.del_id as deliveryId,
+                           u.user_name as driverName,
+                           del.del_date as deliveryDate,
+                           del.del_date_created as deliveryCreatedDate,
+                           del.d_status_id as deliveryStatus,
+                           ds.d_status_name as deliveryStatusName
+                    from delivery del
+                    join delivery_status ds on del.d_status_id = ds.d_status_id
+                    join vehicle v on del.veh_id = v.veh_id
+                    join driver d on v.veh_id = d.veh_id
+                    join users u on u.user_id = d.user_id
+                    where d.user_id = ?1 and del.d_status_id = 3
+                    """
+    )
+    List<DeliverySimpleDto> getOngoingDeliveries(Long driverId);
 }
