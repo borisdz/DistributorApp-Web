@@ -7,7 +7,10 @@ import mk.ukim.finki.db.distributorapp.repository.DriverRepository;
 import mk.ukim.finki.db.distributorapp.service.DeliveryService;
 import mk.ukim.finki.db.distributorapp.service.DriverService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -94,26 +97,31 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
-    public void startDelivery(DeliveryStartDto delivery) {
-        DeliveryFullDto deliveryDto = this.deliveryService.findDeliveryById(delivery.getId());
-        deliveryDto.setDelStartKm(delivery.getDelStartKm());
-        deliveryDto.setDelStartTime(delivery.getDelStartTime());
-        deliveryDto.setDelStatusId((short)3);
-        this.deliveryService.edit(deliveryDto);
-    }
-
-    @Override
     public List<DeliverySimpleDto> getOngoingDeliveries(Long driverId) {
         return this.driverRepository.getOngoingDeliveries(driverId);
     }
 
     @Override
-    public void endDelivery(DeliveryEndDto delivery) {
+    @Transactional
+    public void startDelivery(DeliveryStartDto delivery) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
-        DeliveryFullDto deliveryFullDto = this.deliveryService.findDeliveryById(delivery.getId());
-        deliveryFullDto.setDelEndKm(delivery.getDelEndKm());
-        deliveryFullDto.setDelEndTime(delivery.getDelEndTime());
-        deliveryFullDto.setDelStatusId((short)4);
-        this.deliveryService.edit(deliveryFullDto);
+        DeliveryFullDto deliveryDto = this.deliveryService.findDeliveryById(delivery.getId());
+        deliveryDto.setDelStartKm(delivery.getDelStartKm());
+        deliveryDto.setDelStartTime(LocalTime.now().format(formatter));
+        deliveryDto.setDelStatusId((short)3);
+        this.deliveryService.edit(deliveryDto);
+    }
+
+    @Override
+    @Transactional
+    public void endDelivery(DeliveryEndDto delivery) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+
+        DeliveryFullDto deliveryDto = this.deliveryService.findDeliveryById(delivery.getId());
+        deliveryDto.setDelEndKm(delivery.getDelEndKm());
+        deliveryDto.setDelEndTime(LocalTime.now().format(formatter));
+        deliveryDto.setDelStatusId((short)4);
+        this.deliveryService.edit(deliveryDto);
     }
 }

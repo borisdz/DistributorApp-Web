@@ -30,8 +30,8 @@ public class DeliveryServiceImpl implements DeliveryService {
                     del.getDeliveryDate(),
                     del.getDeliveryStartKm(),
                     del.getDeliveryEndKm(),
-                    del.getDeliveryStartTime(),
-                    del.getDeliveryEndTime(),
+                    null,
+                    null,
                     del.getDeliveryStatus().getDeliveryStatusId(),
                     del.getDeliveryStatus().getDeliveryStatusName(),
                     del.getVehicle().getVehicleId(),
@@ -90,8 +90,8 @@ public class DeliveryServiceImpl implements DeliveryService {
                 deliveryDto.getDelDate(),
                 deliveryDto.getDelStartKm(),
                 deliveryDto.getDelEndKm(),
-                deliveryDto.getDelStartTime(),
-                deliveryDto.getDelEndTime(),
+                deliveryDto.getParsedDelStartTime(),
+                deliveryDto.getParsedDelEndTime(),
                 deliveryDto.getDelStatusId(),
                 deliveryDto.getVeh_id()
         );

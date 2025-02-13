@@ -52,7 +52,7 @@
             </div>
         </div>
 
-        <div class="col-md-12">
+        <div class="col-md-6">
             <h2>Ongoing Deliveries</h2>
             <div class="scrollable-table">
                 <table class="table table-striped">
@@ -65,13 +65,11 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <!-- Assume ongoingDeliveries contains deliveries that have been started but not finished -->
                     <tr th:each="delivery : ${ongoingDeliveries}">
                         <td th:text="${delivery.deliveryId}">1</td>
                         <td th:text="${delivery.driverName}">Driver Name</td>
                         <td th:text="${delivery.deliveryDate}">2025-02-14</td>
                         <td>
-                            <!-- End Delivery button opens the modal -->
                             <button type="button"
                                     class="btn btn-danger btn-sm end-delivery-btn"
                                     data-bs-toggle="modal"
@@ -101,12 +99,6 @@
                     <!-- Hidden input for the delivery ID -->
                     <input type="hidden" name="deliveryId" th:field="*{id}" id="modalDeliveryId"/>
 
-                    <!-- Delivery Start Time (maps to delStartTime in DeliveryStartDto) -->
-                    <div class="mb-3">
-                        <label for="delStartTime" class="form-label">Start Time</label>
-                        <input type="time" name="delStartTime" id="delStartTime" class="form-control" required>
-                    </div>
-
                     <!-- Odometer Reading at Start (maps to delStartKm) -->
                     <div class="mb-3">
                         <label for="delStartKm" class="form-label">Odometer Start (Km)</label>
@@ -135,20 +127,13 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <!-- Hidden field for the delivery ID -->
                     <input type="hidden" th:field="*{id}" id="endDeliveryId" />
 
-                    <!-- Odometer Reading at End -->
                     <div class="mb-3">
                         <label for="delEndKm" class="form-label">Odometer End (Km)</label>
                         <input type="number" th:field="*{delEndKm}" id="delEndKm" class="form-control" required>
                     </div>
 
-                    <!-- Delivery End Time -->
-                    <div class="mb-3">
-                        <label for="delEndTime" class="form-label">End Time</label>
-                        <input type="time" th:field="*{delEndTime}" id="delEndTime" class="form-control" required>
-                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>

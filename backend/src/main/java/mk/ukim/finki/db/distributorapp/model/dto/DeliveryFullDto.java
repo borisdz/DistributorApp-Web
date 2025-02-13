@@ -16,8 +16,18 @@ public class DeliveryFullDto {
     private Date delDate;
     private Integer delStartKm;
     private Integer delEndKm;
-    private LocalTime delStartTime;
-    private LocalTime delEndTime;
+
+    private String delStartTime;
+    private String delEndTime;
+
     private Short delStatusId;
     private Integer veh_id;
+
+    public LocalTime getParsedDelStartTime() {
+        return delStartTime != null ? LocalTime.parse(delStartTime) : null;
+    }
+
+    public LocalTime getParsedDelEndTime() {
+        return delEndTime != null ? LocalTime.parse(delEndTime) : null;
+    }
 }

@@ -14,12 +14,23 @@ public class DeliveryDto {
     private Date delDate;
     private Integer delStartKm;
     private Integer delEndKm;
-    private LocalTime delStartTime;
-    private LocalTime delEndTime;
+
+    private String delStartTime;
+    private String delEndTime;
+
     private Short dStatusId;
     private String delStatus;
     private Integer vehId;
     private Long driverId;
     private String driverName;
     private String driverImg;
+
+
+    public LocalTime getParsedDelStartTime() {
+        return delStartTime != null ? LocalTime.parse(delStartTime) : null;
+    }
+
+    public LocalTime getParsedDelEndTime() {
+        return delEndTime != null ? LocalTime.parse(delEndTime) : null;
+    }
 }
