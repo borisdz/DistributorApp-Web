@@ -2,6 +2,7 @@ package mk.ukim.finki.db.distributorapp.repository;
 
 import lombok.NonNull;
 import mk.ukim.finki.db.distributorapp.model.dto.DeliveryDto;
+import mk.ukim.finki.db.distributorapp.model.dto.DeliveryFullDto;
 import mk.ukim.finki.db.distributorapp.model.dto.DeliverySimpleDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Delivery;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -179,4 +180,22 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
                     """
     )
     List<DeliverySimpleDto> getDeliveriesByVehicle(Integer vehicleId);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select d.del_id as delId,
+                           d.del_date_created as delDateCreated,
+                           d.del_date as delDate,
+                           d.del_start_km as delStartKm,
+                           d.del_end_km as delEndKm,
+                           d.del_start_time as delStartTime,
+                           d.del_end_time as delEndTime,
+                           d.d_status_id as delStatusId,
+                           d.veh_id as veh_id
+                    from delivery d
+                    where d.del_id = ?1
+                    """
+    )
+    DeliveryFullDto findDeliveryDtoById(Long id);
 }

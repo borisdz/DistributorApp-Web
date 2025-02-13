@@ -2,6 +2,7 @@ package mk.ukim.finki.db.distributorapp.service;
 
 import mk.ukim.finki.db.distributorapp.model.dto.DeliveryCreateDto;
 import mk.ukim.finki.db.distributorapp.model.dto.DeliveryDto;
+import mk.ukim.finki.db.distributorapp.model.dto.DeliveryFullDto;
 import mk.ukim.finki.db.distributorapp.model.dto.DeliverySimpleDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Driver;
 import mk.ukim.finki.db.distributorapp.model.entities.Vehicle;
@@ -15,11 +16,11 @@ public interface DeliveryService {
 
     List<DeliveryDto> getAllDeliveriesByDriver(Driver driver);
 
-    DeliveryDto findDeliveryById(Long id);
+    DeliveryFullDto findDeliveryById(Long id);
 
     Integer create(DeliveryCreateDto deliveryDto);
 
-    Integer edit(DeliveryDto deliveryDto);
+    Integer edit(DeliveryFullDto deliveryDto);
 
     void deleteById(Long del_id);
 

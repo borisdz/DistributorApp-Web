@@ -1,10 +1,10 @@
 package mk.ukim.finki.db.distributorapp.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import mk.ukim.finki.db.distributorapp.model.dto.DeliveryDto;
-import mk.ukim.finki.db.distributorapp.model.dto.DriverDto;
+import mk.ukim.finki.db.distributorapp.model.dto.*;
 import mk.ukim.finki.db.distributorapp.model.entities.Driver;
 import mk.ukim.finki.db.distributorapp.repository.DriverRepository;
+import mk.ukim.finki.db.distributorapp.service.DeliveryService;
 import mk.ukim.finki.db.distributorapp.service.DriverService;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +15,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DriverServiceImpl implements DriverService {
     private final DriverRepository driverRepository;
+    private final DeliveryService deliveryService;
 
     private List<DriverDto> buildDto(List<Driver> drivers) {
         List<DriverDto> dtos = new ArrayList<>();
@@ -83,12 +84,36 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
-    public List<DeliveryDto> getNewAssignedDeliveries(Long driverId) {
+    public List<DeliverySimpleDto> getNewAssignedDeliveries(Long driverId) {
         return this.driverRepository.activeAssignedDeliveries(driverId);
     }
 
     @Override
-    public List<DeliveryDto> getFinishedAssignedDeliveries(Long driverId) {
+    public List<DeliverySimpleDto> getFinishedAssignedDeliveries(Long driverId) {
         return this.driverRepository.finishedAssignedDeliveries(driverId);
+    }
+
+    @Override
+    public void startDelivery(DeliveryStartDto delivery) {
+        DeliveryFullDto deliveryDto = this.deliveryService.findDeliveryById(delivery.getId());
+        deliveryDto.setDelStartKm(delivery.getDelStartKm());
+        deliveryDto.setDelStartTime(delivery.getDelStartTime());
+        deliveryDto.setDelStatusId((short)3);
+        this.deliveryService.edit(deliveryDto);
+    }
+
+    @Override
+    public List<DeliverySimpleDto> getOngoingDeliveries(Long driverId) {
+        return this.driverRepository.getOngoingDeliveries(driverId);
+    }
+
+    @Override
+    public void endDelivery(DeliveryEndDto delivery) {
+
+        DeliveryFullDto deliveryFullDto = this.deliveryService.findDeliveryById(delivery.getId());
+        deliveryFullDto.setDelEndKm(delivery.getDelEndKm());
+        deliveryFullDto.setDelEndTime(delivery.getDelEndTime());
+        deliveryFullDto.setDelStatusId((short)4);
+        this.deliveryService.edit(deliveryFullDto);
     }
 }
