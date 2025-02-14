@@ -35,12 +35,6 @@ public interface ProFormaRepository extends JpaRepository<ProForma, Long> {
     )
     List<ProFormaDto> listAll();
 
-    @Query(
-            nativeQuery = true,
-            value = "select * from pro_forma where pf_id=?1"
-    )
-    Optional<ProForma> findById(@NonNull Short id);
-
     @Modifying
     @Transactional
     @Query(

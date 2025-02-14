@@ -8,23 +8,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 public interface CustomerRepository extends JpaRepository<Customer, Long> {
-    @Query(
-            nativeQuery = true,
-            value = "select * " +
-                    "from customer c join users u on c.user_id = u.user_id"
-    )
-    List<Customer> listAll();
-
-    @Query(
-            nativeQuery = true,
-            value = "select * " +
-                    "from customer c " +
-                    "where cust_company_name like ?1"
-    )
-    List<Customer> findAllByName(@NonNull String name);
 
     @Query(
             nativeQuery = true,

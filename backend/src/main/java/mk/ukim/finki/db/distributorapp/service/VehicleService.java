@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface VehicleService {
 
-    List<VehicleDto> getAllVehicles();
-
     List<VehicleBasicDto> getVehiclesByWarehouse(Integer warehouseId);
 
     Integer create(VehicleDto vehicleDto);

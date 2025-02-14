@@ -1,10 +1,7 @@
 package mk.ukim.finki.db.distributorapp.security.auth;
 
 import jakarta.servlet.http.HttpServletRequest;
-import mk.ukim.finki.db.distributorapp.model.dto.CityDtoRegister;
-import mk.ukim.finki.db.distributorapp.model.dto.LoginRequestDto;
-import mk.ukim.finki.db.distributorapp.model.dto.RegisterRequestDto;
-import mk.ukim.finki.db.distributorapp.model.entities.Users;
+import mk.ukim.finki.db.distributorapp.model.dto.*;
 import mk.ukim.finki.db.distributorapp.model.exceptions.InvalidUserCredentialsException;
 import mk.ukim.finki.db.distributorapp.service.CityService;
 import org.springframework.stereotype.Controller;
@@ -13,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
+
 
 @Controller
 @RequestMapping("/auth")
@@ -37,19 +35,19 @@ public class AuthController {
     @PostMapping("/login")
     public String login(@ModelAttribute LoginRequestDto loginRequest, RedirectAttributes redirectAttributes) {
         try{
-            Users user = authService.login(loginRequest);
+            UsersLoadingDto user = authService.login(loginRequest);
 
             switch (user.getUserRole()){
-                case ROLE_CUSTOMER -> {
+                case "ROLE_CUSTOMER" -> {
                     return "redirect:/home/customer";
                 }
-                case ROLE_ADMIN -> {
+                case "ROLE_ADMIN" -> {
                     return "redirect:/home/admin";
                 }
-                case ROLE_MANAGER -> {
+                case "ROLE_MANAGER" -> {
                     return "redirect:/home/manager";
                 }
-                case ROLE_DRIVER -> {
+                case "ROLE_DRIVER" -> {
                     return "redirect:/home/driver";
                 }
                 default -> {

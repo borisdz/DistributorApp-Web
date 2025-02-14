@@ -14,36 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
-    @Query(
-            nativeQuery = true,
-            value = "select * from delivery"
-    )
-    List<Delivery> listAll();
-
-    @Query(
-            nativeQuery = true,
-            value = "select * from delivery " +
-                    "where veh_id = ?1"
-    )
-    List<Delivery> findAllByVehicle(@NonNull Integer veh_id);
-
-    @Query(
-            nativeQuery = true,
-            value = "select * from delivery where del_id = ?1"
-    )
-    Optional<Delivery> findById(@NonNull Long id);
-
-    @Query(
-            nativeQuery = true,
-            value = "select d.* " +
-                    "from delivery d join vehicle v on d.veh_id = v.veh_id " +
-                    "join driver dr on v.veh_id = dr.veh_id " +
-                    "where dr.user_id = ?1"
-    )
-    List<Delivery> findDeliveriesByDriver(@NonNull Long driver_id);
 
     @Modifying
     @Transactional
@@ -92,18 +64,6 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
     void delete(@NonNull Long id);
 
     //------------------------------------------------------------------------------------------------------------------
-    @Query(
-            nativeQuery = true,
-            value = """
-                    select de.*
-                    from driver d join vehicle v on d.veh_id = v.veh_id
-                    join delivery de on v.veh_id = de.veh_id
-                    where d.user_id=:driver and de.d_status_id =1
-                    order by de.del_date desc;
-                    """
-    )
-    List<Delivery> getNewDeliveriesByDriver(@NonNull @Param("driver") Long driver_id);
-
     @Query(
             nativeQuery = true,
             value = """
@@ -181,7 +141,7 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
     )
     List<DeliverySimpleDto> getDeliveriesByVehicle(Integer vehicleId);
 
-        @Query(
+    @Query(
             nativeQuery = true,
             value = """
                     select d.del_id as delId,

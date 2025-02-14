@@ -10,9 +10,6 @@ import java.security.Principal;
 import java.util.List;
 
 public interface OrdersService {
-    List<OrdersDto> getAllOrders();
-
-    List<OrdersDto> findOrdersByCustomer(Long customerId);
 
     List<OrderSimpleDto> findSimpleOrdersByCustomer(Long customerId);
 

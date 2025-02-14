@@ -5,14 +5,10 @@ import mk.ukim.finki.db.distributorapp.model.dto.DeliveryCreateDto;
 import mk.ukim.finki.db.distributorapp.model.dto.DeliveryDto;
 import mk.ukim.finki.db.distributorapp.model.dto.DeliveryFullDto;
 import mk.ukim.finki.db.distributorapp.model.dto.DeliverySimpleDto;
-import mk.ukim.finki.db.distributorapp.model.entities.Delivery;
-import mk.ukim.finki.db.distributorapp.model.entities.Driver;
-import mk.ukim.finki.db.distributorapp.model.entities.Vehicle;
 import mk.ukim.finki.db.distributorapp.repository.DeliveryRepository;
 import mk.ukim.finki.db.distributorapp.service.DeliveryService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,47 +16,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DeliveryServiceImpl implements DeliveryService {
     private final DeliveryRepository deliveryRepository;
-
-    private List<DeliveryDto> buildDto(List<Delivery> deliveries) {
-        List<DeliveryDto> dtos = new ArrayList<>();
-        for (Delivery del : deliveries) {
-            DeliveryDto dto = new DeliveryDto(
-                    del.getDeliveryId(),
-                    del.getDeliveryDateCreated(),
-                    del.getDeliveryDate(),
-                    del.getDeliveryStartKm(),
-                    del.getDeliveryEndKm(),
-                    null,
-                    null,
-                    del.getDeliveryStatus().getDeliveryStatusId(),
-                    del.getDeliveryStatus().getDeliveryStatusName(),
-                    del.getVehicle().getVehicleId(),
-                    del.getVehicle().getDriver().getUserId(),
-                    del.getVehicle().getDriver().getUsername(),
-                    del.getVehicle().getDriver().getUserImage()
-            );
-            dtos.add(dto);
-        }
-        return dtos;
-    }
-
-    @Override
-    public List<DeliveryDto> getAllDeliveries() {
-        List<Delivery> deliveries = this.deliveryRepository.listAll();
-        return buildDto(deliveries);
-    }
-
-    @Override
-    public List<DeliveryDto> getAllDeliveriesByVehicleId(Vehicle vehicle) {
-        List<Delivery> deliveries = this.deliveryRepository.findAllByVehicle(vehicle.getVehicleId());
-        return buildDto(deliveries);
-    }
-
-    @Override
-    public List<DeliveryDto> getAllDeliveriesByDriver(Driver driver) {
-        List<Delivery> deliveries = this.deliveryRepository.findDeliveriesByDriver(driver.getUserId());
-        return buildDto(deliveries);
-    }
 
     @Override
     public DeliveryFullDto findDeliveryById(Long id) {

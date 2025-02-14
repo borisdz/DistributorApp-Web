@@ -13,7 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 public interface ArticleUnitRepository extends JpaRepository<ArticleUnit, Long> {
     @Query(
@@ -21,20 +20,6 @@ public interface ArticleUnitRepository extends JpaRepository<ArticleUnit, Long> 
             value = "select * from article_unit"
     )
     List<ArticleUnitSimpleDto> listAll();
-
-    @Query(
-            nativeQuery = true,
-            value = "select * " +
-                    "from article_unit au join article a on au.art_id = a.art_id " +
-                    "where a.art_name like ?1"
-    )
-    List<ArticleUnit> findAllByName(@NonNull @Param("name") String name);
-
-    @Query(
-            nativeQuery = true,
-            value = "select * from article_unit where unit_id=?1"
-    )
-    Optional<ArticleUnit> findById(@NonNull @Param("id") Long id);
 
     @Query(
             nativeQuery = true,
@@ -109,22 +94,6 @@ public interface ArticleUnitRepository extends JpaRepository<ArticleUnit, Long> 
             value = "delete from article_unit where unit_id=?1"
     )
     void delete(@NonNull @Param("id") Long id);
-
-    @Query(
-            nativeQuery = true,
-            value = """
-                    select *
-                    from article_unit au
-                    join warehouse wh on au.wh_id = wh.wh_id
-                    join unit_price up on au.unit_id = up.unit_id
-                    join price p on up.price_id = p.price_id
-                    join article a on p.art_id = a.art_id
-                    join manufacturer m on a.man_id = m.man_id
-                    where wh.wh_id = :warehouse and a.art_id = :article
-                    order by au.unit_manufacture_date;
-                    """
-    )
-    List<ArticleUnitDto> findAllByArticleAndWarehouse(@NonNull @Param("article") Long articleId, @NonNull @Param("warehouse") Integer warehouseId);
 
     @Query(
             nativeQuery = true,

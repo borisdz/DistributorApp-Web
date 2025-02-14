@@ -11,29 +11,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ManagerRepository extends JpaRepository<Manager, Integer> {
-    @Query(
-            nativeQuery = true,
-            value = "select * from manager m join users u on m.user_id = u.user_id"
-    )
-    List<Manager> listAll();
-
-    @Query(
-            nativeQuery = true,
-            value = "select * from manager m join users u on m.user_id = u.user_id " +
-                    "where user_name like ?1"
-    )
-    List<Manager> findAllByName(@NonNull String name);
-
-    @Query(
-            nativeQuery = true,
-            value = """
-                    select *
-                    from manager m join users u on m.user_id = u.user_id
-                    where m.user_id=?1
-                    """
-    )
-    Optional<Manager> findById(@NonNull Long id);
-
     @Modifying
     @Transactional
     @Query(

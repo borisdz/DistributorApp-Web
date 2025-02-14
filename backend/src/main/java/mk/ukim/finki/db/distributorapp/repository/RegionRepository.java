@@ -9,33 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-import java.util.Optional;
-
 public interface RegionRepository extends JpaRepository<Region, Integer> {
-    @Query(
-            nativeQuery = true,
-            value = "select * " +
-                    "from region c"
-    )
-    List<Region> listAll();
-
-    @Query(
-            nativeQuery = true,
-            value = "select * " +
-                    "from region " +
-                    "where region_id=?1"
-    )
-    Optional<Region> findById(@NonNull Integer id);
-
-    @Query(
-            nativeQuery = true,
-            value = "select * " +
-                    "from region " +
-                    "where region.region_name like ?1"
-    )
-    List<Region> findByName(@NonNull String name);
-
     @Modifying
     @Transactional
     @Query(

@@ -28,13 +28,13 @@ public class CustomerController {
     private final ArticleService articleService;
     private final ArticleUnitService articleUnitService;
     private final ManufacturerService manufacturerService;
-    private final ProFormaService proFormaService;
 
     @GetMapping({"/dashboard", "/"})
     public String dashboard(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
         UserDto user = this.usersService.findUserDtoByEmail(userEmail);
+
         CustomerDto customer = this.customerService.findCustomerById(user.getId());
         model.addAttribute("customer", customer);
         model.addAttribute("currentOrders", ordersService.findCurrentOrdersByCustomer(customer.getId()));

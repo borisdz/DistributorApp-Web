@@ -9,7 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ManufacturerRepository extends JpaRepository<Manufacturer, Long> {
     @Query(
@@ -25,24 +24,12 @@ public interface ManufacturerRepository extends JpaRepository<Manufacturer, Long
     )
     List<ManufacturerDto> listAll();
 
-    @Query(
-            nativeQuery = true,
-            value = "select * from manufacturer where man_name like ?1"
-    )
-    List<Manufacturer> findAllByName(@NonNull String name);
-
-    @Query(
-            nativeQuery = true,
-            value = "select * from manufacturer where man_id=?1"
-    )
-    Optional<Manufacturer> findById(@NonNull Long id);
-
     @Modifying
     @Transactional
     @Query(
             nativeQuery = true,
             value = """
-                    insert into manufacturer(man_name, man_address, man_mobile, man_email)
+                    insert into manufacturer(man_name, man_adr, man_mobile, man_email)
                     values (?1,?2,?3,?4)
                     """
     )
@@ -58,7 +45,7 @@ public interface ManufacturerRepository extends JpaRepository<Manufacturer, Long
             nativeQuery = true,
             value = """
                     update manufacturer
-                    set man_name=?2,man_address=?3,man_mobile=?4,man_email=?5
+                    set man_name=?2,man_adr=?3,man_mobile=?4,man_email=?5
                     where man_id=?1
                     """
     )

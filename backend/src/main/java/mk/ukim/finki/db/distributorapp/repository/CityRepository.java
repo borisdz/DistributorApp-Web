@@ -9,16 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CityRepository extends JpaRepository<City, Long> {
-
-    @Query(
-            nativeQuery = true,
-            value = "select c.* " +
-                    "from city c join region r on c.region_id = r.region_id"
-    )
-    List<City> listAll();
 
     @Query(
             nativeQuery = true,
@@ -28,23 +20,6 @@ public interface CityRepository extends JpaRepository<City, Long> {
                     """
     )
     List<CityDtoRegister> findAllCityDtos();
-
-    @Query(
-            nativeQuery = true,
-            value = "select * " +
-                    "from city c " +
-                    "where c.city_id = ?1"
-    )
-    @Transactional
-    Optional<City> findById(@NonNull Integer id);
-
-    @Query(
-            nativeQuery = true,
-            value = "select * " +
-                    "from city c " +
-                    "where c.city_name like ?1"
-    )
-    List<City> findByName(@NonNull String name);
 
     @Modifying
     @Transactional

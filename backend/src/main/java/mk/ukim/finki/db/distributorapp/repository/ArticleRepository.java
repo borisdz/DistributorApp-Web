@@ -10,7 +10,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ArticleRepository extends JpaRepository<Article, Long> {
 
@@ -34,22 +33,6 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
                     """
     )
     List<ArticleDto> listAll();
-
-    @Query(
-            nativeQuery = true,
-            value = "select * " +
-                    "from article a " +
-                    "where a.art_name like ?1"
-    )
-    List<Article> findAllByName(@NonNull @Param("name") String name);
-
-    @Query(
-            nativeQuery = true,
-            value = "select * " +
-                    "from article a " +
-                    "where a.art_id=?1"
-    )
-    Optional<Article> findById(@NonNull @Param("id") Long id);
 
     @Modifying
     @Transactional

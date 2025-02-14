@@ -7,9 +7,6 @@ import mk.ukim.finki.db.distributorapp.model.entities.City;
 import java.util.List;
 
 public interface WarehouseService {
-    List<WarehouseDto> getAllWarehouses();
-
-    List<WarehouseDto> findAllByCity(City city);
 
     WarehouseDto findById(Integer id);
 
