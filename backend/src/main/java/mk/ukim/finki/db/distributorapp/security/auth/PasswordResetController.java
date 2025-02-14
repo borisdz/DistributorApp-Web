@@ -1,14 +1,14 @@
 package mk.ukim.finki.db.distributorapp.security.auth;
 
 import lombok.RequiredArgsConstructor;
-import mk.ukim.finki.db.distributorapp.model.dto.TokenDto;
-import mk.ukim.finki.db.distributorapp.model.dto.UserDto;
-import mk.ukim.finki.db.distributorapp.model.dto.UsersLoadingDto;
-import mk.ukim.finki.db.distributorapp.model.enumerations.TokenType;
-import mk.ukim.finki.db.distributorapp.repository.TokenRepository;
+import mk.ukim.finki.db.distributorapp.token.dto.TokenDto;
+import mk.ukim.finki.db.distributorapp.users.dto.UserDto;
+import mk.ukim.finki.db.distributorapp.users.dto.UsersLoadingDto;
+import mk.ukim.finki.db.distributorapp.token.TokenType;
+import mk.ukim.finki.db.distributorapp.token.TokenRepository;
 import mk.ukim.finki.db.distributorapp.security.EmailService;
 import mk.ukim.finki.db.distributorapp.security.PassEncryptionPasswordEncoder;
-import mk.ukim.finki.db.distributorapp.service.UsersService;
+import mk.ukim.finki.db.distributorapp.users.UsersService;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,7 +39,7 @@ public class PasswordResetController {
     public String resetPasswordRequest(@RequestParam("email") String email, Model model) {
 
         UsersLoadingDto user = this.usersService.findFullUserDtoByEmail(email);
-        if(user==null){
+        if (user == null) {
             model.addAttribute("error", "No user found with this email.");
             return "authentication/reset-password-request";
         }
@@ -70,11 +70,11 @@ public class PasswordResetController {
     }
 
     @GetMapping("/reset-password")
-    public String showResetPasswordForm(@RequestParam("token") String tokenValue, Model model){
+    public String showResetPasswordForm(@RequestParam("token") String tokenValue, Model model) {
 
         UsersLoadingDto user = usersService.findUserByResetToken(tokenValue);
         TokenDto token = tokenRepository.findTokenByValue(tokenValue);
-        if(user==null || token.getT_expiry().isBefore(LocalDateTime.now())){
+        if (user == null || token.getT_expiry().isBefore(LocalDateTime.now())) {
             model.addAttribute("error", "Invalid or expired token.");
             return "authentication/reset-password";
         }
@@ -87,7 +87,7 @@ public class PasswordResetController {
             @RequestParam("token") String tokenValue,
             @RequestParam("newPassword") String newPassword,
             @RequestParam("confirmPassword") String confirmPassword,
-            Model model){
+            Model model) {
 
         UsersLoadingDto user = usersService.findUserByResetToken(tokenValue);
         TokenDto token = tokenRepository.findTokenByValue(tokenValue);
@@ -96,12 +96,12 @@ public class PasswordResetController {
             return "authentication/reset-password";
         }
 
-        if(!newPassword.equals(confirmPassword)){
+        if (!newPassword.equals(confirmPassword)) {
             model.addAttribute("error", "Passwords do not match.");
             return "authentication/reset-password";
         }
 
-        user.setUserPassword(passwordEncoder.encodeWithSalt(newPassword,user.getUserSalt()));
+        user.setUserPassword(passwordEncoder.encodeWithSalt(newPassword, user.getUserSalt()));
         token.setT_validated_at(LocalDateTime.now());
         tokenRepository.edit(
                 token.getT_id(),

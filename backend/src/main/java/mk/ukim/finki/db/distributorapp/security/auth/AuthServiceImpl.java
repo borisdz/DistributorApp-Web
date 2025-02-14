@@ -1,15 +1,25 @@
 package mk.ukim.finki.db.distributorapp.security.auth;
 
 import lombok.RequiredArgsConstructor;
-import mk.ukim.finki.db.distributorapp.model.dto.*;
-import mk.ukim.finki.db.distributorapp.model.enumerations.Role;
-import mk.ukim.finki.db.distributorapp.model.enumerations.TokenType;
-import mk.ukim.finki.db.distributorapp.model.exceptions.InvalidArgumentsException;
-import mk.ukim.finki.db.distributorapp.model.exceptions.InvalidUserCredentialsException;
-import mk.ukim.finki.db.distributorapp.repository.*;
+import mk.ukim.finki.db.distributorapp.customer.CustomerRepository;
+import mk.ukim.finki.db.distributorapp.driver.DriverRepository;
+import mk.ukim.finki.db.distributorapp.driver.dto.CreateDriverDto;
+import mk.ukim.finki.db.distributorapp.manager.ManagerRepository;
+import mk.ukim.finki.db.distributorapp.manager.dto.CreateManagerDto;
+import mk.ukim.finki.db.distributorapp.token.TokenRepository;
+import mk.ukim.finki.db.distributorapp.users.Role;
+import mk.ukim.finki.db.distributorapp.token.TokenType;
+import mk.ukim.finki.db.distributorapp.exceptions.InvalidArgumentsException;
+import mk.ukim.finki.db.distributorapp.exceptions.InvalidUserCredentialsException;
 import mk.ukim.finki.db.distributorapp.security.EmailService;
 import mk.ukim.finki.db.distributorapp.security.PassEncryption;
 import mk.ukim.finki.db.distributorapp.security.PassEncryptionPasswordEncoder;
+import mk.ukim.finki.db.distributorapp.security.dto.LoginRequestDto;
+import mk.ukim.finki.db.distributorapp.security.dto.RegisterRequestDto;
+import mk.ukim.finki.db.distributorapp.token.dto.TokenDto;
+import mk.ukim.finki.db.distributorapp.users.UsersRepository;
+import mk.ukim.finki.db.distributorapp.users.dto.UserDto;
+import mk.ukim.finki.db.distributorapp.users.dto.UsersLoadingDto;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,7 +70,7 @@ public class AuthServiceImpl implements AuthService {
                 TokenType.TOKEN_VERIFICATION.name()
         );
 
-        TokenDto createdToken = this .tokenRepository.findTokenByValue(t_value);
+        TokenDto createdToken = this.tokenRepository.findTokenByValue(t_value);
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(registerRequest.getEmail());
@@ -110,7 +120,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public void createDriver(CreateDriverDto createDriverDto) throws Exception{
+    public void createDriver(CreateDriverDto createDriverDto) throws Exception {
         String saltValue = PassEncryption.genSaltValue(30);
         String safePass = passwordEncoder.encodeWithSalt(createDriverDto.getPassword(), saltValue);
 

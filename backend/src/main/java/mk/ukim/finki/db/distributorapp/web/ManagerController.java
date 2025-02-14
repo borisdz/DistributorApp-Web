@@ -1,10 +1,14 @@
 package mk.ukim.finki.db.distributorapp.web;
 
 import lombok.RequiredArgsConstructor;
-import mk.ukim.finki.db.distributorapp.model.dto.DeliveryCreateDto;
-import mk.ukim.finki.db.distributorapp.model.dto.DeliverySimpleDto;
-import mk.ukim.finki.db.distributorapp.model.dto.UserDto;
-import mk.ukim.finki.db.distributorapp.service.*;
+import mk.ukim.finki.db.distributorapp.delivery.DeliveryService;
+import mk.ukim.finki.db.distributorapp.delivery.dto.DeliveryCreateDto;
+import mk.ukim.finki.db.distributorapp.delivery.dto.DeliverySimpleDto;
+import mk.ukim.finki.db.distributorapp.order.OrdersService;
+import mk.ukim.finki.db.distributorapp.users.UsersService;
+import mk.ukim.finki.db.distributorapp.users.dto.UserDto;
+import mk.ukim.finki.db.distributorapp.vehicle.VehicleService;
+import mk.ukim.finki.db.distributorapp.warehouse.WarehouseService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -26,7 +30,7 @@ public class ManagerController {
     private final WarehouseService warehouseService;
     private final DeliveryService deliveryService;
 
-    @GetMapping({"/dashboard","/"})
+    @GetMapping({"/dashboard", "/"})
     public String dashboard(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
@@ -46,7 +50,7 @@ public class ManagerController {
     }
 
     @GetMapping("/create-delivery")
-    public String createDelivery(Model model){
+    public String createDelivery(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
         UserDto user = this.usersService.findUserDtoByEmail(userEmail);
@@ -60,7 +64,7 @@ public class ManagerController {
     }
 
     @PostMapping("/create-delivery")
-    public String createDelivery(@ModelAttribute DeliveryCreateDto newDelivery){
+    public String createDelivery(@ModelAttribute DeliveryCreateDto newDelivery) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
         UserDto user = this.usersService.findUserDtoByEmail(userEmail);
@@ -70,7 +74,7 @@ public class ManagerController {
         List<DeliverySimpleDto> deliveries = this.deliveryService.getDeliveriesByVehicle(newDelivery.getVehId());
         DeliverySimpleDto createdDelivery = deliveries.get(0);
 
-        this.ordersService.addOrdersToDelivery(newDelivery.getOrders(),createdDelivery.getDeliveryId());
+        this.ordersService.addOrdersToDelivery(newDelivery.getOrders(), createdDelivery.getDeliveryId());
 
         return "redirect:/manager/dashboard";
     }

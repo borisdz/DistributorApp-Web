@@ -1,7 +1,7 @@
 package mk.ukim.finki.db.distributorapp.security;
 
 import lombok.RequiredArgsConstructor;
-import mk.ukim.finki.db.distributorapp.service.UsersService;
+import mk.ukim.finki.db.distributorapp.users.UsersService;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,15 +21,15 @@ public class CustomUsernamePasswordAuthenticationProvider implements Authenticat
         String email = authentication.getName();
         String password = authentication.getCredentials().toString();
 
-        if("".equals(email)||"".equals(password)){
+        if ("".equals(email) || "".equals(password)) {
             throw new BadCredentialsException("Invalid email or password");
         }
 
         UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(email);
         String salt = this.usersService.findFullUserDtoByEmail(email).getUserSalt();
-        if(!PassEncryption.verifyUserPassword(password, userDetails.getPassword(), salt))
+        if (!PassEncryption.verifyUserPassword(password, userDetails.getPassword(), salt))
             throw new BadCredentialsException("Invalid password");
-        return new UsernamePasswordAuthenticationToken(userDetails,userDetails.getPassword(), userDetails.getAuthorities());
+        return new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
     }
 
     @Override

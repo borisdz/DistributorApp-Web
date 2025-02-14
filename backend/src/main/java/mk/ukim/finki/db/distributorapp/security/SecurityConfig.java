@@ -31,9 +31,9 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/customer/**").hasAnyRole("CUSTOMER", "ADMIN")
                         .requestMatchers("/manager/**").hasAnyRole("MANAGER", "ADMIN")
-                        .requestMatchers("/driver/**").hasAnyRole("DRIVER","ADMIN")
-                            .anyRequest()
-                                    .authenticated()
+                        .requestMatchers("/driver/**").hasAnyRole("DRIVER", "ADMIN")
+                        .anyRequest()
+                        .authenticated()
                 )
                 .formLogin(login -> login
                         .loginPage("/auth/login")
@@ -73,8 +73,7 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(
             HttpSecurity http
-    ) throws Exception
-    {
+    ) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder =
                 http.getSharedObject(AuthenticationManagerBuilder.class);
 
