@@ -11,24 +11,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProFormaStatusRepository extends JpaRepository<ProFormaStatus, Short> {
-    @Query(
-            nativeQuery = true,
-            value = "select * from pro_forma_status"
-    )
-    List<ProFormaStatus> listAll();
-
-    @Query(
-            nativeQuery = true,
-            value = "select * from pro_forma_status where pf_status_name like ?1"
-    )
-    List<ProFormaStatus> findAllByName(@NonNull String name);
-
-    @Query(
-            nativeQuery = true,
-            value = "select * from pro_forma_status where pf_status_id=?1"
-    )
-    Optional<ProFormaStatus> findById(@NonNull Short id);
-
     @Modifying
     @Transactional
     @Query(

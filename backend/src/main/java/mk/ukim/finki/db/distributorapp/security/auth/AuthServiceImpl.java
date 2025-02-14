@@ -2,23 +2,20 @@ package mk.ukim.finki.db.distributorapp.security.auth;
 
 import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp.model.dto.*;
-import mk.ukim.finki.db.distributorapp.model.entities.Users;
 import mk.ukim.finki.db.distributorapp.model.enumerations.Role;
 import mk.ukim.finki.db.distributorapp.model.enumerations.TokenType;
 import mk.ukim.finki.db.distributorapp.model.exceptions.InvalidArgumentsException;
 import mk.ukim.finki.db.distributorapp.model.exceptions.InvalidUserCredentialsException;
 import mk.ukim.finki.db.distributorapp.repository.*;
-import mk.ukim.finki.db.distributorapp.security.Token;
 import mk.ukim.finki.db.distributorapp.security.EmailService;
 import mk.ukim.finki.db.distributorapp.security.PassEncryption;
 import mk.ukim.finki.db.distributorapp.security.PassEncryptionPasswordEncoder;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -31,33 +28,6 @@ public class AuthServiceImpl implements AuthService {
     private final CustomerRepository customerRepository;
     private final ManagerRepository managerRepository;
     private final DriverRepository driverRepository;
-
-    @Override
-    public String getUserSalt(String username) {
-        return usersRepository.findUserByUserName(username).get().getUserSalt();
-    }
-
-    @Override
-    public Optional<Users> getUserByEmail(String email) {
-        return this.usersRepository.findUserByUserEmailIgnoreCase(email);
-    }
-
-    @Override
-    public ResponseEntity<?> confirmEmail(String confirmationToken) {
-        Token token = this.tokenRepository.findTokenByValue(confirmationToken);
-
-        if (token != null) {
-            Users user = this.usersRepository.findUserByUserEmailIgnoreCase(token.getUser().getUserEmail()).get();
-            UserDto userDto = this.usersRepository.findUserDtoByEmail(token.getUser().getUserEmail());
-            userDto.setUserActive(true);
-//            this.usersRepository.edit(userDto);
-            token.setTokenValidatedAt(LocalDateTime.now());
-            this.tokenRepository.save(token);
-            return ResponseEntity.ok("Email verified successfully!");
-        }
-
-        return ResponseEntity.badRequest().body("Error: Couldn't verify email");
-    }
 
     @Override
     @Transactional
@@ -76,28 +46,32 @@ public class AuthServiceImpl implements AuthService {
                 null,
                 registerRequest.getCity(),
                 Role.ROLE_CUSTOMER.name(),
-                null,
-                null,
                 "CUSTOMER");
         if (res == 0) {
             throw new Exception("User insertion failed");
         }
 
-        Users user = this.usersRepository.findUserByUserEmailIgnoreCase(registerRequest.getEmail()).orElseThrow(InvalidUserCredentialsException::new);
+        UserDto user = this.usersRepository.findUserDtoByEmail(registerRequest.getEmail());
+        String t_value = UUID.randomUUID().toString();
+        tokenRepository.create(
+                t_value,
+                LocalDateTime.now().plusHours(1),
+                user.getId(),
+                TokenType.TOKEN_VERIFICATION.name()
+        );
 
-        Token token = new Token(user, TokenType.TOKEN_VERIFICATION);
-        tokenRepository.save(token);
+        TokenDto createdToken = this .tokenRepository.findTokenByValue(t_value);
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(registerRequest.getEmail());
         mailMessage.setSubject("Complete Registration!");
         mailMessage.setText(("To confirm your account, please click here: " +
-                "https://localhost:8080/register/confirm-account?token=" + token.getTokenValue()));
-        System.out.println("Confirmation Token: " + token.getTokenValue());
+                "https://localhost:8080/register/confirm-account?token=" + createdToken.getT_value()));
+        System.out.println("Confirmation Token: " + createdToken.getT_value());
         emailService.sendEmail(mailMessage);
 
         this.customerRepository.create(
-                user.getUserId(),
+                user.getId(),
                 registerRequest.getEdb(),
                 registerRequest.getName(),
                 registerRequest.getAddress(),
@@ -121,17 +95,15 @@ public class AuthServiceImpl implements AuthService {
                 null,
                 createManagerDto.getCity(),
                 Role.ROLE_MANAGER.name(),
-                null,
-                null,
                 "MANAGER");
 
         if (res == 0) {
             throw new Exception("User insertion failed");
         }
 
-        Users user = this.usersRepository.findUserByUserEmailIgnoreCase(createManagerDto.getEmail()).orElseThrow(InvalidUserCredentialsException::new);
+        UserDto user = this.usersRepository.findUserDtoByEmail(createManagerDto.getEmail());
         this.managerRepository.create(
-                user.getUserId(),
+                user.getId(),
                 createManagerDto.getWarehouseId()
         );
     }
@@ -153,24 +125,22 @@ public class AuthServiceImpl implements AuthService {
                 null,
                 createDriverDto.getCity(),
                 Role.ROLE_DRIVER.name(),
-                null,
-                null,
                 "DRIVER");
 
         if (res == 0) {
             throw new Exception("User insertion failed");
         }
 
-        Users user = this.usersRepository.findUserByUserEmailIgnoreCase(createDriverDto.getEmail()).orElseThrow(InvalidUserCredentialsException::new);
+        UserDto user = this.usersRepository.findUserDtoByEmail(createDriverDto.getEmail());
         this.driverRepository.create(
-                user.getUserId(),
+                user.getId(),
                 createDriverDto.getVehicle()
         );
     }
 
     @Override
     @Transactional
-    public Users login(LoginRequestDto loginRequest) {
+    public UsersLoadingDto login(LoginRequestDto loginRequest) {
         if (loginRequest.getEmail() == null
                 || loginRequest.getEmail().isEmpty()
                 || loginRequest.getPassword() == null
@@ -179,13 +149,12 @@ public class AuthServiceImpl implements AuthService {
             throw new InvalidArgumentsException();
         }
 
-        Users user = this.usersRepository.findUsersByUserEmailIgnoreCase(loginRequest.getEmail())
-                .orElseThrow(InvalidUserCredentialsException::new);
+        UsersLoadingDto user = this.usersRepository.findUsersByUserEmailIgnoreCaseDto(loginRequest.getEmail());
 
         String secPassword = passwordEncoder
                 .encodeWithSalt(loginRequest.getPassword(), user.getUserSalt());
 
-        if (!secPassword.equals(user.getPassword())) {
+        if (!secPassword.equals(user.getUserPassword())) {
             throw new InvalidUserCredentialsException();
         }
 

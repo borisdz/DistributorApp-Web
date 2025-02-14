@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class SuperUserAuthenticationProvider implements AuthenticationProvider {
 
-    private static final String SUPERUSER_ENCODED_PASSWORD = "$2a$12$KC9Z0kHyu06iV4xlpKOgL.p2KH3NS9EY/N3g97nGAtC/NCpRXVgXa"; // example value
+    private static final String SUPERUSER_ENCODED_PASSWORD = "$2a$12$KC9Z0kHyu06iV4xlpKOgL.p2KH3NS9EY/N3g97nGAtC/NCpRXVgXa";
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 

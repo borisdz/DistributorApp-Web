@@ -20,14 +20,11 @@ import java.util.List;
 @RequestMapping(value = "/manager")
 @RequiredArgsConstructor
 public class ManagerController {
-    private final ManagerService managerService;
-
     private final UsersService usersService;
     private final VehicleService vehicleService;
     private final OrdersService ordersService;
     private final WarehouseService warehouseService;
     private final DeliveryService deliveryService;
-
 
     @GetMapping({"/dashboard","/"})
     public String dashboard(Model model) {

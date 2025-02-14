@@ -9,28 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
 
 public interface PriceRepository extends JpaRepository<Price, Integer> {
-    @Query(
-            nativeQuery = true,
-            value = "select * from price"
-    )
-    List<Price> listAll();
-
-    @Query(
-            nativeQuery = true,
-            value = "select * from price where art_id=?1"
-    )
-    List<Price> findAllByArticleId(@NonNull Long id);
-
-    @Query(
-            nativeQuery = true,
-            value = "select * from price where price_id=?1"
-    )
-    Optional<Price> findById(@NonNull Short id);
-
     @Modifying
     @Transactional
     @Query(

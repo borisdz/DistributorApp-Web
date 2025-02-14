@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 @RequestMapping({"/","/home"})
 public class HomeController {
-
     private final UsersService usersService;
-
 
     @GetMapping
     public String homePage(Model model) {

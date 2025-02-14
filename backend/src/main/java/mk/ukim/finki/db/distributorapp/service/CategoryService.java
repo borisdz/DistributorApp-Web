@@ -8,10 +8,6 @@ public interface CategoryService {
 
     List<CategoryDto> listCategories();
 
-    CategoryDto getCategoryById(Integer id);
-
-    List<CategoryDto> searchCategories(String text);
-
     Integer create(CategoryDto categoryDto);
 
     Integer edit(CategoryDto categoryDto);

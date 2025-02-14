@@ -1,13 +1,13 @@
 package mk.ukim.finki.db.distributorapp.security.auth;
 
 import lombok.RequiredArgsConstructor;
+import mk.ukim.finki.db.distributorapp.model.dto.TokenDto;
 import mk.ukim.finki.db.distributorapp.model.dto.UserDto;
-import mk.ukim.finki.db.distributorapp.model.entities.Users;
+import mk.ukim.finki.db.distributorapp.model.dto.UsersLoadingDto;
 import mk.ukim.finki.db.distributorapp.model.enumerations.TokenType;
 import mk.ukim.finki.db.distributorapp.repository.TokenRepository;
 import mk.ukim.finki.db.distributorapp.security.EmailService;
 import mk.ukim.finki.db.distributorapp.security.PassEncryptionPasswordEncoder;
-import mk.ukim.finki.db.distributorapp.security.Token;
 import mk.ukim.finki.db.distributorapp.service.UsersService;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Controller;
@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
@@ -37,19 +38,25 @@ public class PasswordResetController {
     @PostMapping("/reset-password-request")
     public String resetPasswordRequest(@RequestParam("email") String email, Model model) {
 
-        Users user = this.usersService.findUserByEmail(email);
+        UsersLoadingDto user = this.usersService.findFullUserDtoByEmail(email);
         if(user==null){
             model.addAttribute("error", "No user found with this email.");
             return "authentication/reset-password-request";
         }
 
-        Token token = new Token(user, TokenType.TOKEN_RESET);
-        tokenRepository.save(token);
+        String t_value = UUID.randomUUID().toString();
+        tokenRepository.create(
+                t_value,
+                LocalDateTime.now().plusHours(1),
+                user.getUserId(),
+                TokenType.TOKEN_RESET.name()
+        );
+        TokenDto createdToken = this.tokenRepository.findTokenByValue(t_value);
 
-        UserDto dto = this.usersService.buildDto(user);
+        UserDto dto = this.usersService.findUserDtoByEmail(email);
         this.usersService.edit(dto);
 
-        String resetLink = "https://localhost:8080/reset-password?token=" + token;
+        String resetLink = "https://localhost:8080/reset-password?token=" + createdToken.getT_value();
         String emailBody = "Click the link to reset your password: " + resetLink;
 
         SimpleMailMessage message = new SimpleMailMessage();
@@ -65,9 +72,9 @@ public class PasswordResetController {
     @GetMapping("/reset-password")
     public String showResetPasswordForm(@RequestParam("token") String tokenValue, Model model){
 
-        Users user = usersService.findUserByResetToken(tokenValue);
-        Token token = tokenRepository.findTokenByValue(tokenValue);
-        if(user==null || token.getTokenExpiryDate().isBefore(LocalDateTime.now())){
+        UsersLoadingDto user = usersService.findUserByResetToken(tokenValue);
+        TokenDto token = tokenRepository.findTokenByValue(tokenValue);
+        if(user==null || token.getT_expiry().isBefore(LocalDateTime.now())){
             model.addAttribute("error", "Invalid or expired token.");
             return "authentication/reset-password";
         }
@@ -82,9 +89,9 @@ public class PasswordResetController {
             @RequestParam("confirmPassword") String confirmPassword,
             Model model){
 
-        Users user = usersService.findUserByResetToken(tokenValue);
-        Token token = tokenRepository.findTokenByValue(tokenValue);
-        if (user == null || token.getTokenExpiryDate().isBefore(LocalDateTime.now())) {
+        UsersLoadingDto user = usersService.findUserByResetToken(tokenValue);
+        TokenDto token = tokenRepository.findTokenByValue(tokenValue);
+        if (user.getUserId() == null || token.getT_expiry().isBefore(LocalDateTime.now())) {
             model.addAttribute("error", "Invalid or expired token.");
             return "authentication/reset-password";
         }
@@ -95,10 +102,17 @@ public class PasswordResetController {
         }
 
         user.setUserPassword(passwordEncoder.encodeWithSalt(newPassword,user.getUserSalt()));
-        token.setTokenValidatedAt(LocalDateTime.now());
-        tokenRepository.save(token);
+        token.setT_validated_at(LocalDateTime.now());
+        tokenRepository.edit(
+                token.getT_id(),
+                token.getT_value(),
+                token.getT_expiry(),
+                token.getUser_id(),
+                token.getT_validated_at(),
+                token.getT_type()
+        );
 
-        UserDto dto = this.usersService.buildDto(user);
+        UserDto dto = this.usersService.findUserDtoByEmail(user.getUserEmail());
         this.usersService.edit(dto);
 
         model.addAttribute("success", "Your password has been reset successfully.");

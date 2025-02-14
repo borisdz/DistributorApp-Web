@@ -9,8 +9,6 @@ public interface ProFormaService {
     @Transactional
     List<ProFormaDto> getAllProForma();
 
-    ProFormaDto findProFormaById(Long id);
-
     Integer create(ProFormaDto proFormaDto);
 
     Integer edit(ProFormaDto proFormaDto);

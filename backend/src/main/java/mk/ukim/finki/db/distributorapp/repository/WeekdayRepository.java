@@ -11,30 +11,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface WeekdayRepository extends JpaRepository<Weekday, Short> {
-
-    @Query(
-            nativeQuery = true,
-            value = "select * " +
-                    "from weekday"
-    )
-    List<Weekday> listAll();
-
-    @Query(
-            nativeQuery = true,
-            value = "select * " +
-                    "from weekday " +
-                    "where day_id=?1"
-    )
-    Optional<Weekday> findWeekdayById(@NonNull Short id);
-
-    @Query(
-            nativeQuery = true,
-            value = "select * " +
-                    "from weekday " +
-                    "where day_name like ?1"
-    )
-    Optional<Weekday> findWeekdayByName(@NonNull String dayName);
-
     @Modifying
     @Transactional
     @Query(

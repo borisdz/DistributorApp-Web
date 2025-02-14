@@ -2,7 +2,6 @@ package mk.ukim.finki.db.distributorapp.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp.model.dto.ArticleDto;
-import mk.ukim.finki.db.distributorapp.model.entities.Article;
 import mk.ukim.finki.db.distributorapp.repository.ArticleRepository;
 import mk.ukim.finki.db.distributorapp.service.ArticleService;
 import org.springframework.stereotype.Service;
@@ -17,41 +16,6 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<ArticleDto> getAllArticles() {
         return this.articleRepository.listAll();
-    }
-
-    @Override
-    public ArticleDto findById(Long id) {
-        Article art = this.articleRepository.findById(id).get();
-        return new ArticleDto(
-                art.getArticleId(),
-                art.getArticleName(),
-                art.getManufacturer().getManufacturerName(),
-                0L,
-                art.getManufacturer().getManufacturerId(),
-                art.getPrices().get(art.getPrices().size() - 1).getPrice(),
-                art.getCategory().getCategoryName(),
-                art.getCategory().getCategoryId(),
-                art.getArticleWeight(),
-                art.getArtImage()
-        );
-    }
-
-    @Override
-    public List<ArticleDto> findAllByName(String name) {
-        List<Article> articles = this.articleRepository.findAllByName("'" + name + "'");
-
-        return articles.stream().map(art -> new ArticleDto(
-                art.getArticleId(),
-                art.getArticleName(),
-                art.getManufacturer().getManufacturerName(),
-                0L,
-                art.getManufacturer().getManufacturerId(),
-                art.getPrices().get(art.getPrices().size() - 1).getPrice(),
-                art.getCategory().getCategoryName(),
-                art.getCategory().getCategoryId(),
-                art.getArticleWeight(),
-                art.getArtImage()
-        )).toList();
     }
 
     @Override

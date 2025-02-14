@@ -1,6 +1,7 @@
 package mk.ukim.finki.db.distributorapp.repository;
 
 import lombok.NonNull;
+import mk.ukim.finki.db.distributorapp.model.dto.CategoryDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Category;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -9,37 +10,18 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     @Query(
             nativeQuery = true,
             value = """
-                    select *
-                    from category c
-                    where c.ctg_name like :name
-                    """)
-    List<Category> findAllByName(@Param("name") @NonNull String name);
-
-    @Query(
-            nativeQuery = true,
-            value = """
-                    select *
+                    select ctg_id as id,
+                           ctg_name as name
                     from category
                     """
     )
-    List<Category> listAll();
-
-    @Query(
-            nativeQuery = true,
-            value = """
-                    select *
-                    from category c
-                    where c.ctg_id=:id
-                    """
-    )
-    Optional<Category> findById(@Param("id") @NonNull Integer id);
+    List<CategoryDto> listAll();
 
     @Modifying
     @Transactional

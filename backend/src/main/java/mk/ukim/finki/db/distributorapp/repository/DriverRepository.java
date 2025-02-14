@@ -2,39 +2,17 @@ package mk.ukim.finki.db.distributorapp.repository;
 
 import lombok.NonNull;
 import mk.ukim.finki.db.distributorapp.model.dto.DeliverySimpleDto;
+import mk.ukim.finki.db.distributorapp.model.dto.DriverDto;
 import mk.ukim.finki.db.distributorapp.model.entities.Driver;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface DriverRepository extends JpaRepository<Driver, Long> {
-    @Query(
-            nativeQuery = true,
-            value = "select * from driver d join users u on d.user_id = u.user_id"
-    )
-    List<Driver> listAll();
-
-    @Query(
-            nativeQuery = true,
-            value = "select d.* from driver d join users u on d.user_id = u.user_id " +
-                    "where u.user_name like ?1"
-    )
-    List<Driver> findAllByName(@NonNull String name);
-
-    @Query(
-            nativeQuery = true,
-            value = """
-                    select *
-                    from driver d join users u on d.user_id = u.user_id
-                    where d.user_id=?1
-                    """
-    )
-    Optional<Driver> findById(@NonNull Long id);
-
     @Modifying
     @Transactional
     @Query(
@@ -65,6 +43,22 @@ public interface DriverRepository extends JpaRepository<Driver, Long> {
             value = "delete from driver where user_id=?1"
     )
     void delete(@NonNull Long id);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select d.user_id as id,
+                           u.user_name as name,
+                           u.user_email as email,
+                           u.user_mobile as phone,
+                           u.user_image as image,
+                           d.veh_id as vehId
+                    from driver d
+                    join users u on d.user_id = u.user_id
+                    where d.user_id = :id
+                    """
+    )
+    DriverDto findDriverById(@NonNull @Param("id") Long id);
 
     //    ---------------Dashboard queries------------------------------------------
     @Query(
@@ -122,5 +116,5 @@ public interface DriverRepository extends JpaRepository<Driver, Long> {
                     where d.user_id = ?1 and del.d_status_id = 3
                     """
     )
-    List<DeliverySimpleDto> getOngoingDeliveries(Long driverId);
+    List<DeliverySimpleDto> getOngoingDeliveries(@NonNull Long driverId);
 }

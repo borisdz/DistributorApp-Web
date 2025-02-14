@@ -96,7 +96,6 @@ public class AdminController {
         return "all-drivers";
     }
 
-
     //    WAREHOUSE CONTROLS:
 
     @GetMapping("/create-warehouse")

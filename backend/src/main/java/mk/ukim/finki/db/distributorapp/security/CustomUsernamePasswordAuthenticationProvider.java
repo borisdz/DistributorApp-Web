@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class CustomUsernamePasswordAuthenticationProvider implements AuthenticationProvider {
-
     private final UsersService usersService;
     private final CustomUserDetailsService customUserDetailsService;
 
@@ -27,7 +26,7 @@ public class CustomUsernamePasswordAuthenticationProvider implements Authenticat
         }
 
         UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(email);
-        String salt = this.usersService.findUserByEmail(email).getUserSalt();
+        String salt = this.usersService.findFullUserDtoByEmail(email).getUserSalt();
         if(!PassEncryption.verifyUserPassword(password, userDetails.getPassword(), salt))
             throw new BadCredentialsException("Invalid password");
         return new UsernamePasswordAuthenticationToken(userDetails,userDetails.getPassword(), userDetails.getAuthorities());

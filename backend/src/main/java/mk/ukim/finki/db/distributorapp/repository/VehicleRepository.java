@@ -12,21 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
-    @Query(
-            nativeQuery = true,
-            value = "select * from vehicle"
-    )
-    List<Vehicle> listAll();
-
-    @Query(
-            nativeQuery = true,
-            value = "select * from vehicle where wh_id=?1"
-    )
-    List<Vehicle> findAllByWarehouse(@NonNull Integer warehouseId);
-
     @Query(
             nativeQuery = true,
             value = """
@@ -38,12 +25,6 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
                     """
     )
     List<VehicleBasicDto> findAllByWarehouseDto(@NonNull Integer warehouseId);
-
-    @Query(
-            nativeQuery = true,
-            value = "select * from vehicle where veh_id=?1"
-    )
-    Optional<Vehicle> findById(@NonNull Integer id);
 
     @Modifying
     @Transactional

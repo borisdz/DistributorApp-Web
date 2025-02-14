@@ -11,27 +11,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface WarehouseRepository extends JpaRepository<Warehouse, Integer> {
-    @Query(
-            nativeQuery = true,
-            value = "select * from warehouse"
-    )
-    List<Warehouse> listAll();
-
-    @Query(
-            nativeQuery = true,
-            value = "select * from warehouse where city_id = ?1"
-    )
-    List<Warehouse> findAllByCity(@NonNull Integer city);
-
-    @Query(
-            nativeQuery = true,
-            value = "select * from warehouse where wh_id = ?1"
-    )
-    Optional<Warehouse> findById(@NonNull Integer id);
-
     @Modifying
     @Transactional
     @Query(
@@ -84,14 +65,6 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Integer> {
                     """
     )
     List<WarehouseInventoryDto> getInventoryByManager(@NonNull @Param("manager") Long manager_id);
-
-    @Query(
-            nativeQuery = true,
-            value = """
-                    select * from warehouse w where w.city_id = ?1
-                    """
-    )
-    Warehouse findWarehouseByCityId(Integer id);
 
     @Query(
             nativeQuery = true,
