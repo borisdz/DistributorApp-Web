@@ -1,9 +1,12 @@
 package mk.ukim.finki.db.distributorapp.security.auth;
 
 import jakarta.servlet.http.HttpServletRequest;
-import mk.ukim.finki.db.distributorapp.model.dto.*;
-import mk.ukim.finki.db.distributorapp.model.exceptions.InvalidUserCredentialsException;
-import mk.ukim.finki.db.distributorapp.service.CityService;
+import mk.ukim.finki.db.distributorapp.city.dto.CityDtoRegister;
+import mk.ukim.finki.db.distributorapp.security.dto.LoginRequestDto;
+import mk.ukim.finki.db.distributorapp.security.dto.RegisterRequestDto;
+import mk.ukim.finki.db.distributorapp.users.dto.UsersLoadingDto;
+import mk.ukim.finki.db.distributorapp.exceptions.InvalidUserCredentialsException;
+import mk.ukim.finki.db.distributorapp.city.CityService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -34,10 +37,10 @@ public class AuthController {
 
     @PostMapping("/login")
     public String login(@ModelAttribute LoginRequestDto loginRequest, RedirectAttributes redirectAttributes) {
-        try{
+        try {
             UsersLoadingDto user = authService.login(loginRequest);
 
-            switch (user.getUserRole()){
+            switch (user.getUserRole()) {
                 case "ROLE_CUSTOMER" -> {
                     return "redirect:/home/customer";
                 }
@@ -54,7 +57,7 @@ public class AuthController {
                     return "redirect:/home";
                 }
             }
-        }catch (InvalidUserCredentialsException e) {
+        } catch (InvalidUserCredentialsException e) {
             redirectAttributes.addFlashAttribute("error", "Invalid credentials.");
             return "redirect:/auth/login";
         }
@@ -85,7 +88,7 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public String logout(Model model){
+    public String logout(Model model) {
         return "redirect:/auth/login";
     }
 }

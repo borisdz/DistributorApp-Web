@@ -1,0 +1,35 @@
+package mk.ukim.finki.db.distributorapp.price;
+
+import lombok.RequiredArgsConstructor;
+import mk.ukim.finki.db.distributorapp.price.dto.PriceDto;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class PriceServiceImpl implements PriceService {
+    private final PriceRepository priceRepository;
+
+    @Override
+    public Integer create(PriceDto priceDto) {
+        return this.priceRepository.create(
+                priceDto.getPrice(),
+                priceDto.getDateEffective(),
+                priceDto.getArtId()
+        );
+    }
+
+    @Override
+    public Integer edit(PriceDto priceDto) {
+        return this.priceRepository.edit(
+                priceDto.getId(),
+                priceDto.getPrice(),
+                priceDto.getDateEffective(),
+                priceDto.getArtId()
+        );
+    }
+
+    @Override
+    public void deleteById(Integer id) {
+        this.priceRepository.delete(id);
+    }
+}

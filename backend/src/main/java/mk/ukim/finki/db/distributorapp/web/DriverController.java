@@ -1,11 +1,11 @@
 package mk.ukim.finki.db.distributorapp.web;
 
 import lombok.RequiredArgsConstructor;
-import mk.ukim.finki.db.distributorapp.model.dto.DeliveryEndDto;
-import mk.ukim.finki.db.distributorapp.model.dto.DeliveryStartDto;
-import mk.ukim.finki.db.distributorapp.model.dto.UserDto;
-import mk.ukim.finki.db.distributorapp.service.DriverService;
-import mk.ukim.finki.db.distributorapp.service.UsersService;
+import mk.ukim.finki.db.distributorapp.delivery.dto.DeliveryEndDto;
+import mk.ukim.finki.db.distributorapp.delivery.dto.DeliveryStartDto;
+import mk.ukim.finki.db.distributorapp.users.dto.UserDto;
+import mk.ukim.finki.db.distributorapp.driver.DriverService;
+import mk.ukim.finki.db.distributorapp.users.UsersService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -22,7 +22,7 @@ public class DriverController {
     private final DriverService driverService;
     private final UsersService usersService;
 
-    @GetMapping({"/dashboard","/"})
+    @GetMapping({"/dashboard", "/"})
     public String dashboard(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
