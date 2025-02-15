@@ -7,7 +7,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import mk.ukim.finki.db.distributorapp.customerWeekday.CustomerWeekday;
 import mk.ukim.finki.db.distributorapp.order.Orders;
-import mk.ukim.finki.db.distributorapp.users.Users;
+import mk.ukim.finki.db.distributorapp.users.User;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import java.util.List;
 @Table(name = "customer")
 @DiscriminatorValue("CUSTOMER")
 @PrimaryKeyJoinColumn(name = "user_id")
-public class Customer extends Users {
+public class Customer extends User {
     @Size(max = 13)
     @NotNull
     @Column(name = "cust_EDB", nullable = false, length = 13)

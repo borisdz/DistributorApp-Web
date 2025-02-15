@@ -49,7 +49,7 @@ public class Vehicle {
     private String vehicleVin;
 
     @NotNull
-    @Column(name = "veh_reg", nullable = false)
+    @Column(name = "veh_reg_date", nullable = false)
     private Date vehicleRegDate;
 
     @NotNull

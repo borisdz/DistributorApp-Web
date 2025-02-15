@@ -37,8 +37,10 @@ public interface ProFormaRepository extends JpaRepository<ProForma, Long> {
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "insert into pro_forma(pf_deadline, pf_date_created, pf_status_id) " +
-                    "values (?1,?2,?3)"
+            value = """
+                    insert into pro_forma(pf_deadline, pf_date_created, pf_status_id)
+                    values (?1,?2,?3)
+                    """
     )
     Integer create(
             @NonNull LocalDate pf_deadline,

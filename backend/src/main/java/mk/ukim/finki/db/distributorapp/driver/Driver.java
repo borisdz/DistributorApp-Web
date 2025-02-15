@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import mk.ukim.finki.db.distributorapp.users.Users;
+import mk.ukim.finki.db.distributorapp.users.User;
 import mk.ukim.finki.db.distributorapp.vehicle.Vehicle;
 
 @EqualsAndHashCode(callSuper = true)
@@ -13,7 +13,7 @@ import mk.ukim.finki.db.distributorapp.vehicle.Vehicle;
 @Table(name = "driver")
 @DiscriminatorValue("DRIVER")
 @PrimaryKeyJoinColumn(name = "user_id")
-public class Driver extends Users {
+public class Driver extends User {
     @NotNull
     @OneToOne
     @JoinColumn(name = "veh_id", nullable = false)

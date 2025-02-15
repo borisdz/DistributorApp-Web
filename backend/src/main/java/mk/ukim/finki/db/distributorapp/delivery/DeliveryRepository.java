@@ -20,8 +20,10 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "insert into delivery(del_date_created, del_date, del_start_km, del_end_km, del_start_time, del_end_time, d_status_id, veh_id) " +
-                    "values (?1,?2,?3,?4,?5,?6,?7,?8)"
+            value = """
+                    insert into delivery(del_date_created, del_date, del_start_km, del_end_km, del_start_time, del_end_time, d_status_id, veh_id)
+                    values (?1,?2,?3,?4,?5,?6,?7,?8)
+                    """
     )
     Integer create(
             @NonNull Date del_date_created,
@@ -38,9 +40,11 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "update delivery " +
-                    "set del_date_created = ?2,del_date = ?3,del_start_km = ?4,del_end_km = ?5,del_start_time = ?6,del_end_time = ?7,d_status_id = ?8,veh_id = ?9 " +
-                    "where del_id = ?1"
+            value = """
+                    update delivery
+                    set del_date_created = ?2,del_date = ?3,del_start_km = ?4,del_end_km = ?5,del_start_time = ?6,del_end_time = ?7,d_status_id = ?8,veh_id = ?9
+                    where del_id = ?1
+                    """
     )
     Integer edit(
             @NonNull Long id,

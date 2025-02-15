@@ -5,16 +5,15 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import mk.ukim.finki.db.distributorapp.users.Users;
+import mk.ukim.finki.db.distributorapp.users.User;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "token")
+@Table(name = "token_")
 public class Token {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,12 +38,5 @@ public class Token {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "t_user", referencedColumnName = "user_id", nullable = false, unique = true)
-    private Users user;
-
-    public Token(Users user, TokenType tokenType) {
-        this.user = user;
-        this.tokenType = tokenType;
-        this.createdDate = LocalDateTime.now();
-        this.tokenValue = UUID.randomUUID().toString();
-    }
+    private User user;
 }

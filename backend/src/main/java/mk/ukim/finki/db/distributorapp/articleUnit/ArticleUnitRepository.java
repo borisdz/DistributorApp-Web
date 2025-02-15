@@ -24,18 +24,18 @@ public interface ArticleUnitRepository extends JpaRepository<ArticleUnit, Long> 
             nativeQuery = true,
             value = """
                     select au.unit_id as id,
-                    au.unit_expiration_date as expiryDate,
-                    au.unit_serial_number as serialNo,
-                    au.unit_batch_number as batchNo,
-                    au.unit_manufacture_date as manufactureDate,
-                    au.unit_cost_price as costPrice,
-                    a.art_id as artId,
-                    a.art_name as artName,
-                    au.wh_id as whId,
-                    r.region_name as whRegion,
-                    c.city_name as whCity,
-                    au.ord_id as ordId,
-                    u.user_email as customerEmail
+                            au.unit_expiration_date as expiryDate,
+                            au.unit_serial_number as serialNo,
+                            au.unit_batch_number as batchNo,
+                            au.unit_manufacture_date as manufactureDate,
+                            au.unit_cost_price as costPrice,
+                            a.art_id as artId,
+                            a.art_name as artName,
+                            au.wh_id as whId,
+                            r.region_name as whRegion,
+                            c.city_name as whCity,
+                            au.ord_id as ordId,
+                            u.user_email as customerEmail
                     from article_unit au
                     join warehouse wh on au.wh_id = wh.wh_id
                     join city c on wh.city_id = c.city_id
@@ -71,9 +71,11 @@ public interface ArticleUnitRepository extends JpaRepository<ArticleUnit, Long> 
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "update article_unit " +
-                    "set unit_expiration_date = ?2, unit_serial_number = ?3, unit_batch_number = ?4,unit_manufacture_date = ?5,unit_cost_price = ?6,wh_id = ?7,ord_id = ?8 " +
-                    "where unit_id=?1"
+            value = """
+                    update article_unit
+                    set unit_expiration_date = ?2, unit_serial_number = ?3, unit_batch_number = ?4,unit_manufacture_date = ?5,unit_cost_price = ?6,wh_id = ?7,ord_id = ?8
+                    where unit_id=?1
+                    """
     )
     Integer edit(
             @NonNull @Param("id") Long id,
