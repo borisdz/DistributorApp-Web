@@ -15,7 +15,7 @@ import java.util.Set;
 public class Weekday {
     @Id
     @Column(name = "day_id", nullable = false)
-    private Short id;
+    private Short weekdayId;
 
     @Size(max = 20)
     @NotNull
@@ -24,5 +24,5 @@ public class Weekday {
 
     @OneToMany(mappedBy = "day")
     private Set<CustomerWeekday> customerWeekdays = new LinkedHashSet<>();
-
+    // ? Set<CustomerWeekday> or List<CustomerWeekday>
 }

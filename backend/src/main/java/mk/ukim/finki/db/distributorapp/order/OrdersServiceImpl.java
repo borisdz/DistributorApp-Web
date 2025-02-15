@@ -9,7 +9,7 @@ import mk.ukim.finki.db.distributorapp.order.dto.OrdersDto;
 import mk.ukim.finki.db.distributorapp.proForma.dto.ProFormaDto;
 import mk.ukim.finki.db.distributorapp.customer.CustomerService;
 import mk.ukim.finki.db.distributorapp.proForma.ProFormaService;
-import mk.ukim.finki.db.distributorapp.users.UsersService;
+import mk.ukim.finki.db.distributorapp.users.UserService;
 import mk.ukim.finki.db.distributorapp.users.dto.UserDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrdersServiceImpl implements OrdersService {
     private final OrdersRepository ordersRepository;
-    private final UsersService usersService;
+    private final UserService userService;
     private final CustomerService customerService;
     private final ProFormaService proFormaService;
 
@@ -41,7 +41,7 @@ public class OrdersServiceImpl implements OrdersService {
     @Transactional
     public Integer create(CreateOrderDto createOrderDto, Principal principal) {
         String userEmail = principal.getName();
-        UserDto user = this.usersService.findUserDtoByEmail(userEmail);
+        UserDto user = this.userService.findUserDtoByEmail(userEmail);
         CustomerDto customer = this.customerService.findCustomerById(user.getId());
 
         OrdersDto order = new OrdersDto();

@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import mk.ukim.finki.db.distributorapp.region.Region;
-import mk.ukim.finki.db.distributorapp.users.Users;
+import mk.ukim.finki.db.distributorapp.users.User;
 import mk.ukim.finki.db.distributorapp.warehouse.Warehouse;
 
 import java.util.List;
@@ -25,7 +25,7 @@ public class City {
     private String cityName;
 
     @OneToMany(mappedBy = "city")
-    private List<Users> users;
+    private List<User> users;
 
     @OneToOne(mappedBy = "city")
     private Warehouse warehouse;

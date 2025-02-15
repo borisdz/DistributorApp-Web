@@ -114,8 +114,10 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "insert into orders (ord_date, ord_sum, ord_fulfillment_date, ord_comment, o_status_id, cust_id, del_id, pf_id) " +
-                    "values (?1,?2,?3,?4,?5,?6,?7,?8)"
+            value = """
+                    insert into orders (ord_date, ord_sum, ord_fulfillment_date, ord_comment, o_status_id, cust_id, del_id, pf_id)
+                    values (?1,?2,?3,?4,?5,?6,?7,?8)
+                    """
     )
     Integer create(
             @NonNull LocalDate ord_date,
@@ -132,9 +134,11 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "update orders " +
-                    "set ord_date=?2,ord_sum=?3,ord_fulfillment_date=?4,ord_comment=?5,o_status_id=?6,cust_id=?7,del_id=?8,pf_id=?9 " +
-                    "where ord_id=?1"
+            value = """
+                    update orders
+                    set ord_date=?2,ord_sum=?3,ord_fulfillment_date=?4,ord_comment=?5,o_status_id=?6,cust_id=?7,del_id=?8,pf_id=?9
+                    where ord_id=?1
+                    """
     )
     Integer edit(
             @NonNull Long id,

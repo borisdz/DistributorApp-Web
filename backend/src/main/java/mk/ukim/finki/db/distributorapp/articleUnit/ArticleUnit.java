@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import mk.ukim.finki.db.distributorapp.article.Article;
 import mk.ukim.finki.db.distributorapp.order.Orders;
 import mk.ukim.finki.db.distributorapp.price.Price;
 import mk.ukim.finki.db.distributorapp.warehouse.Warehouse;
@@ -20,6 +19,7 @@ import java.util.Set;
 public class ArticleUnit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "unit_id")
     private Long unitId;
 
     @NotNull
@@ -46,11 +46,6 @@ public class ArticleUnit {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "art_id", nullable = false)
-    private Article article;
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "wh_id", nullable = false)
     private Warehouse warehouse;
 
@@ -65,4 +60,5 @@ public class ArticleUnit {
             inverseJoinColumns = @JoinColumn(name = "price_id")
     )
     private Set<Price> prices = new LinkedHashSet<>();
+    // Hm...? Set<Price> or List<Price>
 }

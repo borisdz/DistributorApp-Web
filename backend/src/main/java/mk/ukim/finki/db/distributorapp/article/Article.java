@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
-import mk.ukim.finki.db.distributorapp.articleUnit.ArticleUnit;
 import mk.ukim.finki.db.distributorapp.category.Category;
 import mk.ukim.finki.db.distributorapp.manufacturer.Manufacturer;
 import mk.ukim.finki.db.distributorapp.price.Price;
@@ -47,7 +46,4 @@ public class Article {
 
     @OneToMany(mappedBy = "article")
     private List<Price> prices;
-
-    @OneToMany(mappedBy = "article")
-    private List<ArticleUnit> articleUnits;
 }
