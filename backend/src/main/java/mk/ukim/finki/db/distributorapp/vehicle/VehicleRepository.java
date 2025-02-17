@@ -29,7 +29,7 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
     @Transactional
     @Query(
             nativeQuery = true,
-            value = "insert into vehicle(veh_carry_weight, veh_service_interval, veh_kilometers, veh_last_service, veh_last_service_km, veh_plate, veh_vin, veh_reg, wh_id) " +
+            value = "insert into vehicle(veh_carry_weight, veh_service_interval, veh_kilometers, veh_last_service, veh_last_service_km, veh_plate, veh_vin, veh_reg_date, wh_id) " +
                     "values (?1,?2,?3,?4,?5,?6,?7,?8,?9)"
     )
     Integer create(
@@ -49,7 +49,7 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
             nativeQuery = true,
             value = "update vehicle " +
                     "set veh_carry_weight=?2,veh_service_interval=?3,veh_kilometers=?4," +
-                    "veh_last_service=?5,veh_last_service_km=?6,veh_plate=?7,veh_vin=?8,veh_reg=?9,wh_id=?10 " +
+                    "veh_last_service=?5,veh_last_service_km=?6,veh_plate=?7,veh_vin=?8,veh_reg_date=?9,wh_id=?10 " +
                     "where veh_id=?1"
     )
     Integer edit(
@@ -84,7 +84,7 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
                             v.veh_last_service_km as lastServiceKm,
                             v.veh_plate as plate,
                             v.veh_vin as vin,
-                            v.veh_reg as registrationDate,
+                            v.veh_reg_date as registrationDate,
                             w.wh_id as whId,
                             c.city_name as city,
                             r.region_name as region,
@@ -102,8 +102,8 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
                      join driver d on d.veh_id=v.veh_id
                      join users u1 on d.user_id=u1.user_id
                      where m.user_id = :manager
-                     group by v.veh_id, v.veh_carry_weight, v.veh_service_interval, v.veh_kilometers, v.veh_last_service, v.veh_last_service_km, v.veh_plate, v.veh_vin, v.veh_reg, w.wh_id, c.city_name, r.region_name, d.user_id, u1.user_name, u1.user_email, u1.user_mobile, u1.user_image
-                     order by v.veh_reg
+                     group by v.veh_id, v.veh_carry_weight, v.veh_service_interval, v.veh_kilometers, v.veh_last_service, v.veh_last_service_km, v.veh_plate, v.veh_vin, v.veh_reg_date, w.wh_id, c.city_name, r.region_name, d.user_id, u1.user_name, u1.user_email, u1.user_mobile, u1.user_image
+                     order by v.veh_reg_date
                     """
     )
     List<VehicleDto> getVehiclesByManager(@NonNull @Param("manager") Long managerId);
