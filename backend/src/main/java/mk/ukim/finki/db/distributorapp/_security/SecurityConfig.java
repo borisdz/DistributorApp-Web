@@ -26,10 +26,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .requiresChannel(channel -> channel
-                        .anyRequest().requiresSecure() // Force HTTPS for all requests.
-
-                )
+                // Force HTTPS for all requests.
+                .requiresChannel(channel -> channel.anyRequest().requiresSecure())
+                // Configure authorization rules
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**", "/api/auth/**", "/reset-password/**", "/css/**", "/js/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
@@ -39,6 +38,7 @@ public class SecurityConfig {
                         .anyRequest()
                         .authenticated()
                 )
+                // Configure form login if you still want to use it for fallback
                 .formLogin(login -> login
                         .loginPage("/auth/login")
                         .loginProcessingUrl("/auth/login")
@@ -48,6 +48,10 @@ public class SecurityConfig {
                         .failureUrl("/auth/login?error=true")
                         .permitAll()
                 )
+                // Enable OAuth2 Login
+                .oauth2Login(oauth2 -> oauth2
+                        // Optionally configure your OAuth2 success handler here
+                        .defaultSuccessUrl("/home",true))
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
