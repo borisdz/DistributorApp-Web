@@ -15,4 +15,5 @@ public interface ProFormaService {
 
     void deleteById(Long id);
 
+    List<ProFormaDto> getCurentProFormasByCustomer(Long customerId);
 }
