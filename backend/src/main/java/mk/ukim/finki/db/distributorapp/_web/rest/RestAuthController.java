@@ -1,4 +1,4 @@
-package mk.ukim.finki.db.distributorapp._web.REST;
+package mk.ukim.finki.db.distributorapp._web.rest;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

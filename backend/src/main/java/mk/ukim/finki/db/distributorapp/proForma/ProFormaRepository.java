@@ -68,4 +68,27 @@ public interface ProFormaRepository extends JpaRepository<ProForma, Long> {
             value = "delete from pro_forma where pf_id=?1"
     )
     void delete(@NonNull Long id);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select pf.pf_id as id,
+                           pf_deadline as pfDeadline,
+                           pf_date_created as pfDateCreated,
+                           pfs.pf_status_id as statusId,
+                           pfs.pf_status_name as statusName,
+                           o.ord_id as ordId,
+                           c.user_id as customerId,
+                           c.cust_company_name as customerName,
+                           u.user_email as customerEmail,
+                           u.user_mobile as customerPhone
+                    from pro_forma pf
+                    join pro_forma_status pfs on pf.pf_status_id=pfs.pf_status_id
+                    join orders o on pf.pf_id = o.pf_id
+                    join customer c on o.cust_id = c.user_id
+                    join users u on c.user_id = u.user_id
+                    where c.user_id = ?1
+                    """
+    )
+    List<ProFormaDto> getCurrentProFormasByCustomer(Long customerId);
 }

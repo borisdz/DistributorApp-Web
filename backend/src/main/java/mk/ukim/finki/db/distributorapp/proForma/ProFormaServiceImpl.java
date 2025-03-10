@@ -41,4 +41,9 @@ public class ProFormaServiceImpl implements ProFormaService {
     public void deleteById(Long id) {
         this.proFormaRepository.deleteById(id);
     }
+
+    @Override
+    public List<ProFormaDto> getCurentProFormasByCustomer(Long customerId) {
+        return this.proFormaRepository.getCurrentProFormasByCustomer(customerId);
+    }
 }
