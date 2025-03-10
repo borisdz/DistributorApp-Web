@@ -10,16 +10,14 @@ import mk.ukim.finki.db.distributorapp.order.dto.OrderSimpleDto;
 import mk.ukim.finki.db.distributorapp.proForma.ProFormaService;
 import mk.ukim.finki.db.distributorapp.proForma.dto.ProFormaDto;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/customer")
+@CrossOrigin(origins = "*")
 public class RestCustomerController {
     private final CustomerService customerService;
     private final OrdersService ordersService;
