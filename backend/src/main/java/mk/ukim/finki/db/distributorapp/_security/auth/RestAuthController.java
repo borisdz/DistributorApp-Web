@@ -1,24 +1,21 @@
-package mk.ukim.finki.db.distributorapp._web.rest;
+package mk.ukim.finki.db.distributorapp._security.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import mk.ukim.finki.db.distributorapp._security.auth.AuthService;
-import mk.ukim.finki.db.distributorapp._security.dto.LoginRequestDto;
-import mk.ukim.finki.db.distributorapp._security.dto.LoginResponseDto;
 import mk.ukim.finki.db.distributorapp._security.jwt.JwtTokenProvider;
-import mk.ukim.finki.db.distributorapp.users.dto.UsersLoadingDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.stereotype.Service;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,19 +25,18 @@ public class RestAuthController {
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
 
-//    @PostMapping("/login")
-//    public ResponseEntity<UsersLoadingDto> login(@RequestBody final LoginRequestDto user) {
-//        UsersLoadingDto loggedUser = authService.login(user);
-//        return ResponseEntity.ok(loggedUser);
-//    }
-
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest request){
         try{
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword()
-            ));
-            String token = jwtTokenProvider.createToken(request.getEmail());
+            var authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
+            );
+            String email = authentication.getName();
+            List<String> roles = authentication.getAuthorities()
+                    .stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .toList();
+            String token = jwtTokenProvider.createToken(email,roles);
             return ResponseEntity.ok(new AuthResponse(token));
         }catch (AuthenticationException e){
             return ResponseEntity.status(404).body("Invalid email/password supplied");

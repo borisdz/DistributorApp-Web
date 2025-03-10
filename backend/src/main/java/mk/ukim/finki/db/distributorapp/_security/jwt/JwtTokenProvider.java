@@ -1,26 +1,34 @@
 package mk.ukim.finki.db.distributorapp._security.jwt;
 
 import io.jsonwebtoken.*;
-import jakarta.annotation.PostConstruct;
-import org.springframework.stereotype.Component;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.List;
 
 @Component
 public class JwtTokenProvider {
 
+    @Value("${jwt.secret}")
+    private String secret;
+
+    @Value("${jwt.validity}")
+    private long validityInMilliseconds;
+
     private Key secretKey;
-    private final long validityInMilliseconds = 3600000;
 
     @PostConstruct
     protected void init() {
-        secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+        secretKey = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
-    public String createToken(String email) {
+    public String createToken(String email, List<String> roles) {
         Claims claims = Jwts.claims().setSubject(email);
+        claims.put("roles", roles);
         Date now = new Date();
         Date validity = new Date(now.getTime() + validityInMilliseconds);
 
@@ -51,5 +59,14 @@ public class JwtTokenProvider {
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
+    }
+
+    public List<String> getRolesFromToken(String token) {
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return (List<String>) claims.get("roles");
     }
 }
