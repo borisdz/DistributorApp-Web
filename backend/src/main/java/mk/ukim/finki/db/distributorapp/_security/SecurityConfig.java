@@ -1,5 +1,6 @@
 package mk.ukim.finki.db.distributorapp._security;
 
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp._security.jwt.JwtAuthenticationFilter;
 import mk.ukim.finki.db.distributorapp._security.jwt.JwtTokenProvider;
@@ -38,7 +39,6 @@ public class SecurityConfig {
         http
                 .requiresChannel(channel -> channel
                         .anyRequest().requiresSecure() // Force HTTPS for all requests.
-
                 )
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
@@ -51,15 +51,15 @@ public class SecurityConfig {
                         .authenticated()
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
-                .formLogin(login -> login
-                        .loginPage("/auth/login")
-                        .loginProcessingUrl("/auth/login")
-                        .usernameParameter("email")
-                        .passwordParameter("password")
-                        .defaultSuccessUrl("/home", true)
-                        .failureUrl("/auth/login?error=true")
-                        .permitAll()
-                )
+//                .formLogin(login -> login
+//                        .loginPage("/auth/login")
+//                        .loginProcessingUrl("/auth/login")
+//                        .usernameParameter("email")
+//                        .passwordParameter("password")
+//                        .defaultSuccessUrl("/home", true)
+//                        .failureUrl("/auth/login?error=true")
+//                        .permitAll()
+//                )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")
@@ -69,8 +69,11 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/")
                         .permitAll()
                 )
-                .exceptionHandling((ex) -> ex
-                        .accessDeniedPage("/access-denied"))
+                .exceptionHandling(exception ->
+                        exception.authenticationEntryPoint((request, response, authException) -> {
+                            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+                        })
+                )
                 .csrf(AbstractHttpConfigurer::disable);
 
         return http.build();
@@ -80,7 +83,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("https://10.0.2.2:8080"));
+        configuration.setAllowedOrigins(List.of("https://10.0.2.2:8443"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);

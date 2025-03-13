@@ -1,4 +1,4 @@
-package mk.ukim.finki.db.distributorapp._web.rest;
+package mk.ukim.finki.db.distributorapp._web.api;
 
 import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp.customer.CustomerService;
