@@ -1,21 +1,20 @@
 package mk.ukim.finki.db.distributorapp.order;
 
 import lombok.RequiredArgsConstructor;
+import mk.ukim.finki.db.distributorapp.customer.CustomerService;
 import mk.ukim.finki.db.distributorapp.customer.dto.CustomerDto;
 import mk.ukim.finki.db.distributorapp.order.dto.CreateOrderDto;
 import mk.ukim.finki.db.distributorapp.order.dto.OrderManagerDto;
 import mk.ukim.finki.db.distributorapp.order.dto.OrderSimpleDto;
 import mk.ukim.finki.db.distributorapp.order.dto.OrdersDto;
-import mk.ukim.finki.db.distributorapp.proForma.dto.ProFormaDto;
-import mk.ukim.finki.db.distributorapp.customer.CustomerService;
 import mk.ukim.finki.db.distributorapp.proForma.ProFormaService;
+import mk.ukim.finki.db.distributorapp.proForma.dto.ProFormaDto;
 import mk.ukim.finki.db.distributorapp.users.UserService;
 import mk.ukim.finki.db.distributorapp.users.dto.UserDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.security.Principal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -39,8 +38,7 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Override
     @Transactional
-    public Integer create(CreateOrderDto createOrderDto, Principal principal) {
-        String userEmail = principal.getName();
+    public Integer create(CreateOrderDto createOrderDto, String userEmail) {
         UserDto user = this.userService.findUserDtoByEmail(userEmail);
         CustomerDto customer = this.customerService.findCustomerById(user.getId());
 

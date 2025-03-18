@@ -6,7 +6,6 @@ import mk.ukim.finki.db.distributorapp.order.dto.OrderSimpleDto;
 import mk.ukim.finki.db.distributorapp.order.dto.OrdersDto;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.Principal;
 import java.util.List;
 
 public interface OrdersService {
@@ -16,7 +15,7 @@ public interface OrdersService {
     OrdersDto findById(Long id);
 
     @Transactional
-    Integer create(CreateOrderDto createOrderDto, Principal principal);
+    Integer create(CreateOrderDto createOrderDto, String userEmail);
 
     Integer edit(OrdersDto ordersDto);
 

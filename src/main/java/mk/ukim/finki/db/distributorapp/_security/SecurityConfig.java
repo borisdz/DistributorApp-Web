@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -26,8 +27,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import java.util.List;
 
 @Configuration
-@EnableWebSecurity
 @RequiredArgsConstructor
+@EnableWebSecurity
+@EnableMethodSecurity()
 public class SecurityConfig {
 
     private final CustomUsernamePasswordAuthenticationProvider authenticationProvider;
@@ -51,15 +53,6 @@ public class SecurityConfig {
                         .authenticated()
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
-//                .formLogin(login -> login
-//                        .loginPage("/auth/login")
-//                        .loginProcessingUrl("/auth/login")
-//                        .usernameParameter("email")
-//                        .passwordParameter("password")
-//                        .defaultSuccessUrl("/home", true)
-//                        .failureUrl("/auth/login?error=true")
-//                        .permitAll()
-//                )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout")

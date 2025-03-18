@@ -105,7 +105,7 @@ public class CustomerController {
     @PostMapping("/create-order")
     public String createOrder(@ModelAttribute CreateOrderDto createOrderDto, Principal principal) {
 
-        this.ordersService.create(createOrderDto, principal);
+        this.ordersService.create(createOrderDto, principal.getName());
 
         String userEmail = principal.getName();
 

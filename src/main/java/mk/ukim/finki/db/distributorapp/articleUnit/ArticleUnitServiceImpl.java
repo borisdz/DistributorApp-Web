@@ -87,7 +87,7 @@ public class ArticleUnitServiceImpl implements ArticleUnitService {
     public List<ArticleUnitSimpleDto> addArticleUnitToOrder(List<OrderItemDto> orderItems, Long id, Integer whId) {
         List<ArticleUnitSimpleDto> editedUnits = new ArrayList<>();
         for (OrderItemDto orderItem : orderItems) {
-            Long articleId = orderItem.getArticleId();
+            Long articleId = orderItem.getArticle().getId();
             Integer quantity = orderItem.getQuantity();
 
             List<ArticleUnitSimpleDto> articleUnitItems = findAllSimpleByArticleAndWarehouse(articleId, whId);
