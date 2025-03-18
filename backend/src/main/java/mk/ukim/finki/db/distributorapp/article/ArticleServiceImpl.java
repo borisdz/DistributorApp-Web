@@ -46,4 +46,9 @@ public class ArticleServiceImpl implements ArticleService {
     public List<ArticleDto> getAllArticlesByWarehouse(Integer warehouseId) {
         return this.articleRepository.findAllByWarehouse(warehouseId);
     }
+
+    @Override
+    public ArticleDto findById(Long articleId, Integer warehouseId) {
+        return this.articleRepository.findById(articleId, warehouseId);
+    }
 }

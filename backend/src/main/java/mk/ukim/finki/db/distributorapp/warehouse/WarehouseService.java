@@ -20,4 +20,5 @@ public interface WarehouseService {
     List<WarehouseInventoryDto> getInventoryByManager(Long managerId);
 
 
+    WarehouseDto findByUserId(Integer cityId);
 }
