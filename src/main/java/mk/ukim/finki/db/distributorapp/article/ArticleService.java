@@ -14,4 +14,6 @@ public interface ArticleService {
     Integer create(ArticleDto article);
 
     List<ArticleDto> getAllArticlesByWarehouse(Integer warehouseId);
+
+    ArticleDto findById(Long articleId, Integer warehouseId);
 }

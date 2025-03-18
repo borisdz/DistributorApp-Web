@@ -56,4 +56,9 @@ public class WarehouseServiceImpl implements WarehouseService {
     public List<WarehouseInventoryDto> getInventoryByManager(Long managerId) {
         return this.warehouseRepository.getInventoryByManager(managerId);
     }
+
+    @Override
+    public WarehouseDto findByUserId(Integer cityId) {
+        return this.warehouseRepository.findWarehouseDtoByCityId(cityId);
+    }
 }
