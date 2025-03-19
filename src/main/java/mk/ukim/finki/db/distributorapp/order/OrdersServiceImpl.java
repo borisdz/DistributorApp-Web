@@ -65,7 +65,7 @@ public class OrdersServiceImpl implements OrdersService {
 
         Integer sum = createOrderDto.getOrderItems()
                 .stream()
-                .map(i -> i.getUnitPrice().multiply(BigDecimal.valueOf(i.getQuantity())))
+                .map(i -> i.getArticle().getPrice().multiply(BigDecimal.valueOf(i.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .intValue();
         order.setOrdSum(sum);
