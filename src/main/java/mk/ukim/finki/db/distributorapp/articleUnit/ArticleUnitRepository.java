@@ -116,4 +116,26 @@ public interface ArticleUnitRepository extends JpaRepository<ArticleUnit, Long> 
                     """
     )
     List<ArticleUnitSimpleDto> findAllSimpleByArticleAndWarehouse(Long articleId, Integer warehouseId);
+
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select au.unit_id as id,
+                           au.unit_expiration_date as expiryDate,
+                           au.unit_serial_number as serialNo,
+                           au.unit_batch_number as batchNo,
+                           au.unit_manufacture_date as manufactureDate,
+                           au.unit_cost_price as costPrice,
+                           a.art_id as artId,
+                           au.wh_id as whId,
+                           au.ord_id as ordId
+                    from article_unit au
+                    join unit_price up on au.unit_id = up.unit_id
+                    join price p on up.price_id = p.price_id
+                    join article a on p.art_id = a.art_id
+                    where au.ord_id = ?1
+                    """
+    )
+    List<ArticleUnitSimpleDto> getAllArticleUnitsByOrderId(Long orderId);
 }

@@ -51,4 +51,9 @@ public class ArticleServiceImpl implements ArticleService {
     public ArticleDto findById(Long articleId, Integer warehouseId) {
         return this.articleRepository.findArticleDtoById(articleId, warehouseId);
     }
+
+    @Override
+    public List<ArticleDto> getArticlesByOrder(Long orderId) {
+        return this.articleRepository.getArticlesByOrder(orderId);
+    }
 }

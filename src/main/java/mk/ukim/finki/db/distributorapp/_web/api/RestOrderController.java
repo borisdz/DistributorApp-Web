@@ -1,6 +1,8 @@
 package mk.ukim.finki.db.distributorapp._web.api;
 
 import lombok.RequiredArgsConstructor;
+import mk.ukim.finki.db.distributorapp.article.ArticleService;
+import mk.ukim.finki.db.distributorapp.article.dto.ArticleDto;
 import mk.ukim.finki.db.distributorapp.articleUnit.ArticleUnitService;
 import mk.ukim.finki.db.distributorapp.articleUnit.dto.ArticleUnitSimpleDto;
 import mk.ukim.finki.db.distributorapp.customer.CustomerService;
@@ -8,6 +10,7 @@ import mk.ukim.finki.db.distributorapp.customer.dto.CustomerDto;
 import mk.ukim.finki.db.distributorapp.order.OrdersService;
 import mk.ukim.finki.db.distributorapp.order.dto.CreateOrderDto;
 import mk.ukim.finki.db.distributorapp.order.dto.OrderSimpleDto;
+import mk.ukim.finki.db.distributorapp.order.dto.OrderWithItemsDto;
 import mk.ukim.finki.db.distributorapp.users.UserService;
 import mk.ukim.finki.db.distributorapp.users.dto.UserDto;
 import mk.ukim.finki.db.distributorapp.warehouse.WarehouseService;
@@ -30,6 +33,7 @@ public class RestOrderController {
     private final CustomerService customerService;
     private final WarehouseService warehouseService;
     private final ArticleUnitService articleUnitService;
+    private final ArticleService articleService;
 
     @PostMapping("/create")
     @PreAuthorize("hasAnyRole('CUSTOMER','ADMIN')")
@@ -58,5 +62,17 @@ public class RestOrderController {
         }
 
         return ResponseEntity.ok(createdOrder);
+    }
+
+    @GetMapping("/{orderId}")
+    @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMIN')")
+    public ResponseEntity<?> getOrder(@PathVariable Long orderId) {
+        // TODO: In the JSON result add a list of article DTOs of the articles that are in that order.
+        OrderSimpleDto order = this.ordersService.findSimpleOrderById(orderId);
+        OrderWithItemsDto result = new OrderWithItemsDto();
+        result.setOrder(order);
+        List<ArticleDto> orderArticles = this.articleService.getArticlesByOrder(orderId);
+        result.setItems(orderArticles);
+        return ResponseEntity.ok(result);
     }
 }

@@ -1,6 +1,7 @@
 package mk.ukim.finki.db.distributorapp.articleUnit;
 
 import lombok.RequiredArgsConstructor;
+import mk.ukim.finki.db.distributorapp.article.dto.ArticleDto;
 import mk.ukim.finki.db.distributorapp.articleUnit.dto.ArticleUnitDto;
 import mk.ukim.finki.db.distributorapp.articleUnit.dto.ArticleUnitSimpleDto;
 import mk.ukim.finki.db.distributorapp.order.dto.OrderItemDto;
@@ -97,5 +98,10 @@ public class ArticleUnitServiceImpl implements ArticleUnitService {
             }
         }
         return editedUnits;
+    }
+
+    @Override
+    public List<ArticleUnitSimpleDto> getAllArticleUnitsByOrderId(Long orderId) {
+        return this.articleUnitRepository.getAllArticleUnitsByOrderId(orderId);
     }
 }

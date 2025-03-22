@@ -142,4 +142,41 @@ public interface ArticleRepository extends JpaRepository<Article, Long> {
                     """
     )
     ArticleDto findArticleDtoById(Long articleId, Integer warehouseId);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select a.art_id as id,
+                           a.art_name as name,
+                           m.man_name as manufacturer,
+                           cast(count(au.unit_id) as int) as quantity,
+                           m.man_id as manufacturerId,
+                           p.price as price,
+                           c.ctg_name as category,
+                           c.ctg_id as categoryId,
+                           a.art_weight as weight,
+                           a.art_image as image
+                    from article a
+                           join manufacturer m on a.man_id = m.man_id
+                           join category c on a.ctg_id = c.ctg_id
+                           join price p on a.art_id = p.art_id
+                           join unit_price up on p.price_id = up.price_id
+                           join article_unit au on up.unit_id = au.unit_id
+                           join warehouse w on w.wh_id = au.wh_id
+                    where au.ord_id = ?1
+                    group by a.art_id,
+                             a.art_name,
+                             m.man_name,
+                             m.man_id,
+                             p.price,
+                             c.ctg_name,
+                             c.ctg_id,
+                             a.art_weight,
+                             a.art_image,
+                             p.price_eff_date
+                    order by a.art_name, p.price_eff_date;
+                    
+                    """
+    )
+    List<ArticleDto> getArticlesByOrder(Long orderId);
 }

@@ -16,4 +16,6 @@ public interface ArticleService {
     List<ArticleDto> getAllArticlesByWarehouse(Integer warehouseId);
 
     ArticleDto findById(Long articleId, Integer warehouseId);
+
+    List<ArticleDto> getArticlesByOrder(Long orderId);
 }

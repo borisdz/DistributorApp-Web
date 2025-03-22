@@ -26,4 +26,6 @@ public interface OrdersService {
     List<OrderManagerDto> getNewOrdersByManager(Long managerId);
 
     void addOrdersToDelivery(List<Long> orderIds, Long deliveryId);
+
+    OrderSimpleDto findSimpleOrderById(Long orderId);
 }

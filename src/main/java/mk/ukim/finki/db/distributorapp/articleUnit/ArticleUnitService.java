@@ -25,4 +25,6 @@ public interface ArticleUnitService {
     List<ArticleUnitSimpleDto> findAllSimpleByArticleAndWarehouse(Long articleId, Integer warehouseId);
 
     List<ArticleUnitSimpleDto> addArticleUnitToOrder(List<OrderItemDto> orderItems, Long id, Integer whId);
+
+    List<ArticleUnitSimpleDto> getAllArticleUnitsByOrderId(Long orderId);
 }
