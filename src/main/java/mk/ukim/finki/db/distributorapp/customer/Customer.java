@@ -43,4 +43,10 @@ public class Customer extends User {
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
     private List<CustomerWeekday> customerWeekdays;
+
+    @Column(name = "cust_loc_latitude")
+    private Double customerLatitude;
+
+    @Column(name = "cust_loc_longitude")
+    private Double customerLongitude;
 }

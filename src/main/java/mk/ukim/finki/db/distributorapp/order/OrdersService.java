@@ -28,4 +28,6 @@ public interface OrdersService {
     void addOrdersToDelivery(List<Long> orderIds, Long deliveryId);
 
     OrderSimpleDto findSimpleOrderById(Long orderId);
+
+    List<OrdersDto> findOrdersByDelivery(Long deliveryId);
 }

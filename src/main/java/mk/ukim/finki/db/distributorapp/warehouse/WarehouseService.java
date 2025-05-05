@@ -21,4 +21,6 @@ public interface WarehouseService {
 
 
     WarehouseDto findByUserId(Integer cityId);
+
+    List<WarehouseDto> findAll();
 }

@@ -12,6 +12,21 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 public interface WarehouseRepository extends JpaRepository<Warehouse, Integer> {
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select w.wh_id as id,
+                            w.wh_adr as address,
+                            w.city_id as cityid,
+                            c.city_name as cityName,
+                            c.region_id as regionId,
+                            r.region_name as regionName
+                    from warehouse w join city c on w.city_id = c.city_id join region r on c.region_id = r.region_id
+                    """
+    )
+    List<WarehouseDto> findAllDTO();
+
     @Modifying
     @Transactional
     @Query(

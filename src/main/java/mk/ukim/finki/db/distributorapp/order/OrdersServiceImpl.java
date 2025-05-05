@@ -135,4 +135,9 @@ public class OrdersServiceImpl implements OrdersService {
     public OrderSimpleDto findSimpleOrderById(Long orderId) {
         return this.ordersRepository.findSimpleOrdersById(orderId);
     }
+
+    @Override
+    public List<OrdersDto> findOrdersByDelivery(Long deliveryId) {
+        return this.ordersRepository.findOrdersByDelivery(deliveryId);
+    }
 }

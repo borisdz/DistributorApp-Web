@@ -238,4 +238,40 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
                     """
     )
     OrderSimpleDto findSimpleOrdersById(Long orderId);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select o.ord_id as id,
+                           o.ord_date as ordDate,
+                           o.ord_sum as ordSum,
+                           o.ord_fulfillment_date as ordFulfillmentDate,
+                           o.ord_comment as ordComment,
+                           o.o_status_id as oStatusId,
+                           os.o_status_name as statusName,
+                           o.cust_id as customerId,
+                           c.cust_company_name as customerName,
+                           u.user_mobile as customerPhone,
+                           u.user_email as customerEmail,
+                           o.del_id as deliveryId,
+                           d.user_id as driverId,
+                           u1.user_name as driverName,
+                           u1.user_mobile as driverPhone,
+                           u1.user_email as driverEmail,
+                           o.pf_id as pfId,
+                           pfs.pf_status_name as pfStatus
+                    from orders o
+                        join order_status os on o.o_status_id = os.o_status_id
+                        join customer c on c.user_id=o.cust_id
+                        join users u on c.user_id=u.user_id
+                        join delivery del on o.del_id = del.del_id
+                        join vehicle v on del.veh_id = v.veh_id
+                        join driver d on d.veh_id=v.veh_id
+                        join users u1 on d.user_id=u1.user_id
+                        join pro_forma pf on o.pf_id = pf.pf_id
+                        join pro_forma_status pfs on pfs.pf_status_id=pf.pf_status_id
+                    where o.del_id=:delivery
+                    """
+    )
+    List<OrdersDto> findOrdersByDelivery(@Param("delivery") Long deliveryId);
 }
