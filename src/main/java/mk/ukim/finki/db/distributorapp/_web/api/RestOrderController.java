@@ -11,16 +11,19 @@ import mk.ukim.finki.db.distributorapp.order.OrdersService;
 import mk.ukim.finki.db.distributorapp.order.dto.CreateOrderDto;
 import mk.ukim.finki.db.distributorapp.order.dto.OrderSimpleDto;
 import mk.ukim.finki.db.distributorapp.order.dto.OrderWithItemsDto;
+import mk.ukim.finki.db.distributorapp.order.dto.OrdersDto;
 import mk.ukim.finki.db.distributorapp.users.UserService;
 import mk.ukim.finki.db.distributorapp.users.dto.UserDto;
 import mk.ukim.finki.db.distributorapp.warehouse.WarehouseService;
 import mk.ukim.finki.db.distributorapp.warehouse.dto.WarehouseDto;
+import org.springframework.data.domain.jaxb.SpringDataJaxb;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -73,6 +76,15 @@ public class RestOrderController {
         result.setOrder(order);
         List<ArticleDto> orderArticles = this.articleService.getArticlesByOrder(orderId);
         result.setItems(orderArticles);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/customer-current-orders")
+    @PreAuthorize("hasAnyRole('CUSTOMER')")
+    public ResponseEntity<List<OrdersDto>> getCurrentOrders(Principal principal) {
+        String email = principal.getName();
+        UserDto user = this.userService.findUserDtoByEmail(email);
+        List<OrdersDto> result = this.ordersService.findCurrentOrdersByCustomer(user.getId());
         return ResponseEntity.ok(result);
     }
 }
