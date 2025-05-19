@@ -13,4 +13,8 @@ public interface UserService {
     UserDto findUserDtoByEmail(String userEmail);
 
     UsersLoadingDto findFullUserDtoByEmail(String userEmail);
+
+    void updateUser(Long id, String firstName, String lastName, String email, String phone, String image, Integer cityId);
+
+    void updateUserDetails(Long id, String firstName, String lastName, String email, String phone, Integer cityId);
 }
