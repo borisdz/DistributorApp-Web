@@ -40,9 +40,9 @@ public class RestOrderController {
 
     @PostMapping("/create")
     @PreAuthorize("hasAnyRole('CUSTOMER','ADMIN')")
-    public ResponseEntity<?> createOrder(@RequestBody CreateOrderDto order) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String userEmail = auth.getPrincipal().toString();
+    public ResponseEntity<?> createOrder(@RequestBody CreateOrderDto order, Principal principal) {
+
+        String userEmail = principal.getName();
 
         UserDto user = this.userService.findUserDtoByEmail(userEmail);
 
