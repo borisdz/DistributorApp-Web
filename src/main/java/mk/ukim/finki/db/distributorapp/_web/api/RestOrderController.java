@@ -11,7 +11,6 @@ import mk.ukim.finki.db.distributorapp.order.OrdersService;
 import mk.ukim.finki.db.distributorapp.order.dto.CreateOrderDto;
 import mk.ukim.finki.db.distributorapp.order.dto.OrderSimpleDto;
 import mk.ukim.finki.db.distributorapp.order.dto.OrderWithItemsDto;
-import mk.ukim.finki.db.distributorapp.order.dto.OrdersDto;
 import mk.ukim.finki.db.distributorapp.users.UserService;
 import mk.ukim.finki.db.distributorapp.users.dto.UserDto;
 import mk.ukim.finki.db.distributorapp.warehouse.WarehouseService;
@@ -78,10 +77,10 @@ public class RestOrderController {
 
     @GetMapping("/customer-current-orders")
     @PreAuthorize("hasAnyRole('CUSTOMER')")
-    public ResponseEntity<List<OrdersDto>> getCurrentOrders(Principal principal) {
+    public ResponseEntity<List<OrderSimpleDto>> getCurrentOrders(Principal principal) {
         String email = principal.getName();
         UserDto user = this.userService.findUserDtoByEmail(email);
-        List<OrdersDto> result = this.ordersService.findCurrentOrdersByCustomer(user.getId());
+        List<OrderSimpleDto> result = this.ordersService.findSimpleOrdersByCustomer(user.getId());
         return ResponseEntity.ok(result);
     }
 }

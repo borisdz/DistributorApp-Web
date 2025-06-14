@@ -58,6 +58,7 @@ public class SecurityConfig {
                         .requestMatchers("/customer/**", "/api/customer/**").hasAnyRole("CUSTOMER", "ADMIN")
                         .requestMatchers("/manager/**", "/api/manager/**").hasAnyRole("MANAGER", "ADMIN")
                         .requestMatchers("/driver/**", "/api/driver/**").hasAnyRole("DRIVER", "ADMIN")
+                        .requestMatchers("/api/images/upload").hasAnyRole("CUSTOMER","DRIVER","MANAGER","ADMIN")
                         .anyRequest()
                         .authenticated()
                 )
