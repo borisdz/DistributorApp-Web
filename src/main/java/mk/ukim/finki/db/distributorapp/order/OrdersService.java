@@ -1,9 +1,6 @@
 package mk.ukim.finki.db.distributorapp.order;
 
-import mk.ukim.finki.db.distributorapp.order.dto.CreateOrderDto;
-import mk.ukim.finki.db.distributorapp.order.dto.OrderManagerDto;
-import mk.ukim.finki.db.distributorapp.order.dto.OrderSimpleDto;
-import mk.ukim.finki.db.distributorapp.order.dto.OrdersDto;
+import mk.ukim.finki.db.distributorapp.order.dto.*;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -30,4 +27,6 @@ public interface OrdersService {
     OrderSimpleDto findSimpleOrderById(Long orderId);
 
     List<OrdersDto> findOrdersByDelivery(Long deliveryId);
+
+    List<OrdersDeliveryDto> findDeliveryOrdersByDelivery(Long deliveryId);
 }

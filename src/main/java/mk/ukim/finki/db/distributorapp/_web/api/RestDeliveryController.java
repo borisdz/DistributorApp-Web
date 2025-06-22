@@ -8,6 +8,7 @@ import mk.ukim.finki.db.distributorapp.delivery.dto.DeliveryDto;
 import mk.ukim.finki.db.distributorapp.delivery.dto.DeliveryFullDto;
 import mk.ukim.finki.db.distributorapp.delivery.dto.DeliveryWithOrdersDto;
 import mk.ukim.finki.db.distributorapp.order.OrdersService;
+import mk.ukim.finki.db.distributorapp.order.dto.OrdersDeliveryDto;
 import mk.ukim.finki.db.distributorapp.order.dto.OrdersDto;
 import mk.ukim.finki.db.distributorapp.users.UserService;
 import mk.ukim.finki.db.distributorapp.users.dto.UserDto;
@@ -33,7 +34,7 @@ public class RestDeliveryController {
         DeliveryWithOrdersDto result = new DeliveryWithOrdersDto();
         DeliveryFullDto delivery = this.deliveryService.findDeliveryById(deliveryId);
         result.setDelivery(delivery);
-        List<OrdersDto> deliveryOrders = this.ordersService.findOrdersByDelivery(deliveryId);
+        List<OrdersDeliveryDto> deliveryOrders = this.ordersService.findDeliveryOrdersByDelivery(deliveryId);
         result.setOrders(deliveryOrders);
         return ResponseEntity.ok(result);
     }

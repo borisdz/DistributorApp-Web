@@ -3,6 +3,7 @@ package mk.ukim.finki.db.distributorapp.order;
 import lombok.NonNull;
 import mk.ukim.finki.db.distributorapp.order.dto.OrderManagerDto;
 import mk.ukim.finki.db.distributorapp.order.dto.OrderSimpleDto;
+import mk.ukim.finki.db.distributorapp.order.dto.OrdersDeliveryDto;
 import mk.ukim.finki.db.distributorapp.order.dto.OrdersDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -274,4 +275,24 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
                     """
     )
     List<OrdersDto> findOrdersByDelivery(@Param("delivery") Long deliveryId);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select o.ord_id as id,
+                           o.ord_date as ordDate,
+                           o.ord_sum as ordSum,
+                           o.ord_fulfillment_date as ordFulfillmentDate,
+                           o.ord_comment as ordComment,
+                           o.o_status_id as oStatusId,
+                           o.cust_id as customerId,
+                           o.del_id as deliveryId,
+                           c.cust_loc_latitude as latitude,
+                           c.cust_loc_longitude as longitude
+                    from orders o
+                        join customer c on c.user_id=o.cust_id
+                    where o.del_id=:delivery
+                    """
+    )
+    List<OrdersDeliveryDto> findDeliveryOrdersByDelivery(@Param("delivery") Long deliveryId);
 }

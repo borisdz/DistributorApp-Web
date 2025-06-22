@@ -3,10 +3,8 @@ package mk.ukim.finki.db.distributorapp.order;
 import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp.customer.CustomerService;
 import mk.ukim.finki.db.distributorapp.customer.dto.CustomerDto;
-import mk.ukim.finki.db.distributorapp.order.dto.CreateOrderDto;
-import mk.ukim.finki.db.distributorapp.order.dto.OrderManagerDto;
-import mk.ukim.finki.db.distributorapp.order.dto.OrderSimpleDto;
-import mk.ukim.finki.db.distributorapp.order.dto.OrdersDto;
+import mk.ukim.finki.db.distributorapp.delivery.DeliveryRepository;
+import mk.ukim.finki.db.distributorapp.order.dto.*;
 import mk.ukim.finki.db.distributorapp.proForma.ProFormaService;
 import mk.ukim.finki.db.distributorapp.proForma.dto.ProFormaDto;
 import mk.ukim.finki.db.distributorapp.users.UserService;
@@ -25,6 +23,7 @@ public class OrdersServiceImpl implements OrdersService {
     private final UserService userService;
     private final CustomerService customerService;
     private final ProFormaService proFormaService;
+    private final DeliveryRepository deliveryRepository;
 
     @Override
     public List<OrderSimpleDto> findSimpleOrdersByCustomer(Long customerId) {
@@ -139,5 +138,10 @@ public class OrdersServiceImpl implements OrdersService {
     @Override
     public List<OrdersDto> findOrdersByDelivery(Long deliveryId) {
         return this.ordersRepository.findOrdersByDelivery(deliveryId);
+    }
+
+    @Override
+    public List<OrdersDeliveryDto> findDeliveryOrdersByDelivery(Long deliveryId) {
+        return this.ordersRepository.findDeliveryOrdersByDelivery(deliveryId);
     }
 }
