@@ -29,4 +29,9 @@ public class ManagerServiceImpl implements ManagerService {
     public void deleteById(Long id) {
         this.managerRepository.delete(id);
     }
+
+    @Override
+    public ManagerDto getById(Long managerId) {
+        return this.managerRepository.getMangerDtoById(managerId);
+    }
 }

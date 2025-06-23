@@ -161,4 +161,23 @@ public interface DeliveryRepository extends JpaRepository<Delivery, Long> {
                     """
     )
     DeliveryFullDto findDeliveryDtoById(@Param("id") Long id);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select d.del_id as deliveryid,
+                        u.user_name as driverName,
+                        d.del_date as deliveryDate,
+                        d.del_date_created as deliveryCreatedDate,
+                        d.d_status_id as deliveryStatus,
+                        ds.d_status_name as deliveryStatusName
+                    from delivery d
+                        join vehicle v on v.veh_id=d.veh_id
+                        join driver d on v.veh_id = d.veh_id
+                        join users u on d.user_id = u.user_id
+                        join delivery_status ds on ds.d_status_id=d.d_status_id
+                    where d.del_id = :delivery
+                    """
+    )
+    List<DeliverySimpleDto> getPendingDeliveriesByManager(@Param("delivery") Long id);
 }

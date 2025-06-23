@@ -69,4 +69,9 @@ public class DeliveryServiceImpl implements DeliveryService {
     public List<DeliverySimpleDto> getDeliveriesByVehicle(Integer vehicleId) {
         return this.deliveryRepository.getDeliveriesByVehicle(vehicleId);
     }
+
+    @Override
+    public List<DeliverySimpleDto> getPendingDeliveriesByManager(Long id) {
+        return this.deliveryRepository.getPendingDeliveriesByManager(id);
+    }
 }

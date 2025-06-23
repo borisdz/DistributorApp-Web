@@ -59,4 +59,9 @@ public class VehicleServiceImpl implements VehicleService {
     public List<VehicleDto> getVehiclesByManager(Long managerId) {
         return this.vehicleRepository.getVehiclesByManager(managerId);
     }
+
+    @Override
+    public List<VehicleBasicDto> getBasicVehiclesByManagerId(Long managerId) {
+        return this.vehicleRepository.getBasicVehiclesByManager(managerId);
+    }
 }

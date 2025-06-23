@@ -22,4 +22,6 @@ public interface DeliveryService {
     List<DeliveryDto> getCurrentDeliveriesByManager(Long managerId);
 
     List<DeliverySimpleDto> getDeliveriesByVehicle(Integer vehicleId);
+
+    List<DeliverySimpleDto> getPendingDeliveriesByManager(Long id);
 }

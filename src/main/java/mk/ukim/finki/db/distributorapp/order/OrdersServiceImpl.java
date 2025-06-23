@@ -107,7 +107,7 @@ public class OrdersServiceImpl implements OrdersService {
     }
 
     @Override
-    public List<OrderManagerDto> getNewOrdersByManager(Long managerId) {
+    public List<OrderSimpleDto> getNewOrdersByManager(Long managerId) {
         return this.ordersRepository.getNewOrdersByManager(managerId);
     }
 

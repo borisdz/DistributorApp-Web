@@ -220,7 +220,7 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
                     where m.user_id = ?1
                     """
     )
-    List<OrderManagerDto> getNewOrdersByManager(@NonNull Long manager_id);
+    List<OrderSimpleDto> getNewOrdersByManager(@NonNull Long manager_id);
 
     @Query(
             nativeQuery = true,

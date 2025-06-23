@@ -12,8 +12,8 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DeliveryCreateDto {
-    private Integer vehId;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date delDate;
+    private Integer vehId;
     private List<Long> orders;
 }

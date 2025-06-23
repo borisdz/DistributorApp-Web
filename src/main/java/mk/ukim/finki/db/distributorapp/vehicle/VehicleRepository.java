@@ -107,4 +107,18 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
                     """
     )
     List<VehicleDto> getVehiclesByManager(@NonNull @Param("manager") Long managerId);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select v.veh_id as id,
+                        wh.wh_id as whId,
+                        v.veh_plate as plateNumber
+                    from vehicle v
+                        join warehouse wh on v.wh_id=wh.wh_id
+                        join manager m on v.wh_id=m.wh_id
+                    where m.user_id = :manager
+                    """
+    )
+    List<VehicleBasicDto> getBasicVehiclesByManager(@Param("manager") Long managerId);
 }
