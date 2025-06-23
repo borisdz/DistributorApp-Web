@@ -46,7 +46,7 @@ public class RestManagerController {
         return ResponseEntity.ok(dashboard);
     }
 
-    @GetMapping("/unassigned")
+    @GetMapping("/orders/unassigned")
     @PreAuthorize("hasAnyRole('MANAGER')")
     public ResponseEntity<List<OrderSimpleDto>> getManagerUnassignedOrders(Principal principal) {
         String userEmail = principal.getName();

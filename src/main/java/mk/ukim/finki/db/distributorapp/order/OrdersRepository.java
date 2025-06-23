@@ -205,7 +205,6 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
                            o.ord_date as ordDate,
                            o.ord_sum as ordSum,
                            o.ord_fulfillment_date as ordFulfillmentDate,
-                           c.cust_company_name as customerName,
                            o.ord_comment as ordComment,
                            o.o_status_id as oStatusId,
                            o.cust_id as customerId,
@@ -215,7 +214,6 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
                         join manager m on w.wh_id= m.wh_id
                         join article_unit au on au.wh_id = w.wh_id
                         join orders o on au.ord_id = o.ord_id
-                        join customer c on o.cust_id = c.user_id
                         join order_status os on os.o_status_id = o.o_status_id
                     where m.user_id = ?1
                     """
