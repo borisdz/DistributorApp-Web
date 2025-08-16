@@ -64,7 +64,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     @Query(
             nativeQuery = true,
             value = "delete from customer " +
-                    "where user_id=?!"
+                    "where user_id=?1"
     )
     void delete(@NonNull Long id);
 
