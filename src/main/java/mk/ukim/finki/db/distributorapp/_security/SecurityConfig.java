@@ -7,6 +7,7 @@ import mk.ukim.finki.db.distributorapp._security.jwt.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -31,6 +32,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @EnableWebSecurity
 @EnableMethodSecurity()
+@EnableSpringDataWebSupport(pageSerializationMode =
+        EnableSpringDataWebSupport.PageSerializationMode.VIA_DTO)
 public class SecurityConfig {
 
     private final CustomUsernamePasswordAuthenticationProvider authenticationProvider;
@@ -53,6 +56,7 @@ public class SecurityConfig {
                         .requestMatchers("/customer/**", "/api/customer/**").hasAnyRole("CUSTOMER", "ADMIN")
                         .requestMatchers("/manager/**", "/api/manager/**").hasAnyRole("MANAGER", "ADMIN")
                         .requestMatchers("/driver/**", "/api/driver/**").hasAnyRole("DRIVER", "ADMIN")
+                        .requestMatchers("/api/images/upload").hasAnyRole("CUSTOMER","DRIVER","MANAGER","ADMIN")
                         .anyRequest()
                         .authenticated()
                 )
@@ -79,7 +83,12 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of(allowedOrigins.split(",")));
+//        String cleanedOrigins = allowedOrigins.replace("\"", "");
+//        List<String> origins = Arrays.stream(cleanedOrigins.split(","))
+//                .map(String::trim)
+//                .collect(Collectors.toList());
+
+        configuration.setAllowedOriginPatterns(List.of("*"));
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);

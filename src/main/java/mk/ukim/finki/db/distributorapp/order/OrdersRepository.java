@@ -3,6 +3,7 @@ package mk.ukim.finki.db.distributorapp.order;
 import lombok.NonNull;
 import mk.ukim.finki.db.distributorapp.order.dto.OrderManagerDto;
 import mk.ukim.finki.db.distributorapp.order.dto.OrderSimpleDto;
+import mk.ukim.finki.db.distributorapp.order.dto.OrdersDeliveryDto;
 import mk.ukim.finki.db.distributorapp.order.dto.OrdersDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -204,7 +205,6 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
                            o.ord_date as ordDate,
                            o.ord_sum as ordSum,
                            o.ord_fulfillment_date as ordFulfillmentDate,
-                           c.cust_company_name as customerName,
                            o.ord_comment as ordComment,
                            o.o_status_id as oStatusId,
                            o.cust_id as customerId,
@@ -214,12 +214,11 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
                         join manager m on w.wh_id= m.wh_id
                         join article_unit au on au.wh_id = w.wh_id
                         join orders o on au.ord_id = o.ord_id
-                        join customer c on o.cust_id = c.user_id
                         join order_status os on os.o_status_id = o.o_status_id
                     where m.user_id = ?1
                     """
     )
-    List<OrderManagerDto> getNewOrdersByManager(@NonNull Long manager_id);
+    List<OrderSimpleDto> getNewOrdersByManager(@NonNull Long manager_id);
 
     @Query(
             nativeQuery = true,
@@ -238,4 +237,60 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
                     """
     )
     OrderSimpleDto findSimpleOrdersById(Long orderId);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select o.ord_id as id,
+                           o.ord_date as ordDate,
+                           o.ord_sum as ordSum,
+                           o.ord_fulfillment_date as ordFulfillmentDate,
+                           o.ord_comment as ordComment,
+                           o.o_status_id as oStatusId,
+                           os.o_status_name as statusName,
+                           o.cust_id as customerId,
+                           c.cust_company_name as customerName,
+                           u.user_mobile as customerPhone,
+                           u.user_email as customerEmail,
+                           o.del_id as deliveryId,
+                           d.user_id as driverId,
+                           u1.user_name as driverName,
+                           u1.user_mobile as driverPhone,
+                           u1.user_email as driverEmail,
+                           o.pf_id as pfId,
+                           pfs.pf_status_name as pfStatus
+                    from orders o
+                        join order_status os on o.o_status_id = os.o_status_id
+                        join customer c on c.user_id=o.cust_id
+                        join users u on c.user_id=u.user_id
+                        join delivery del on o.del_id = del.del_id
+                        join vehicle v on del.veh_id = v.veh_id
+                        join driver d on d.veh_id=v.veh_id
+                        join users u1 on d.user_id=u1.user_id
+                        join pro_forma pf on o.pf_id = pf.pf_id
+                        join pro_forma_status pfs on pfs.pf_status_id=pf.pf_status_id
+                    where o.del_id=:delivery
+                    """
+    )
+    List<OrdersDto> findOrdersByDelivery(@Param("delivery") Long deliveryId);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select o.ord_id as id,
+                           o.ord_date as ordDate,
+                           o.ord_sum as ordSum,
+                           o.ord_fulfillment_date as ordFulfillmentDate,
+                           o.ord_comment as ordComment,
+                           o.o_status_id as oStatusId,
+                           o.cust_id as customerId,
+                           o.del_id as deliveryId,
+                           c.cust_loc_latitude as latitude,
+                           c.cust_loc_longitude as longitude
+                    from orders o
+                        join customer c on c.user_id=o.cust_id
+                    where o.del_id=:delivery
+                    """
+    )
+    List<OrdersDeliveryDto> findDeliveryOrdersByDelivery(@Param("delivery") Long deliveryId);
 }

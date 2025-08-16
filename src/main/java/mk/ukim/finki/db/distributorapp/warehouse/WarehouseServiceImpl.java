@@ -61,4 +61,9 @@ public class WarehouseServiceImpl implements WarehouseService {
     public WarehouseDto findByUserId(Integer cityId) {
         return this.warehouseRepository.findWarehouseDtoByCityId(cityId);
     }
+
+    @Override
+    public List<WarehouseDto> findAll() {
+        return this.warehouseRepository.findAllDTO();
+    }
 }

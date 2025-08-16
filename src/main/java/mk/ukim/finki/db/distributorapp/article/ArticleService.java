@@ -1,6 +1,7 @@
 package mk.ukim.finki.db.distributorapp.article;
 
 import mk.ukim.finki.db.distributorapp.article.dto.ArticleDto;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -18,4 +19,11 @@ public interface ArticleService {
     ArticleDto findById(Long articleId, Integer warehouseId);
 
     List<ArticleDto> getArticlesByOrder(Long orderId);
+
+    Page<ArticleDto> getArticlesPageable(
+            Integer categoryId,
+            Long manufacturerId,
+            String nameFilter,
+            int page,
+            int size);
 }

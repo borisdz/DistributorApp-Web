@@ -17,10 +17,9 @@ import mk.ukim.finki.db.distributorapp.warehouse.WarehouseService;
 import mk.ukim.finki.db.distributorapp.warehouse.dto.WarehouseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -37,9 +36,9 @@ public class RestOrderController {
 
     @PostMapping("/create")
     @PreAuthorize("hasAnyRole('CUSTOMER','ADMIN')")
-    public ResponseEntity<?> createOrder(@RequestBody CreateOrderDto order) {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String userEmail = auth.getPrincipal().toString();
+    public ResponseEntity<?> createOrder(@RequestBody CreateOrderDto order, Principal principal) {
+
+        String userEmail = principal.getName();
 
         UserDto user = this.userService.findUserDtoByEmail(userEmail);
 
@@ -73,6 +72,15 @@ public class RestOrderController {
         result.setOrder(order);
         List<ArticleDto> orderArticles = this.articleService.getArticlesByOrder(orderId);
         result.setItems(orderArticles);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/customer-current-orders")
+    @PreAuthorize("hasAnyRole('CUSTOMER')")
+    public ResponseEntity<List<OrderSimpleDto>> getCurrentOrders(Principal principal) {
+        String email = principal.getName();
+        UserDto user = this.userService.findUserDtoByEmail(email);
+        List<OrderSimpleDto> result = this.ordersService.findSimpleOrdersByCustomer(user.getId());
         return ResponseEntity.ok(result);
     }
 }

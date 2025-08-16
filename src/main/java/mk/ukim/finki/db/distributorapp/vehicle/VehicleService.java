@@ -16,4 +16,6 @@ public interface VehicleService {
     void deleteById(Integer id);
 
     List<VehicleDto> getVehiclesByManager(Long managerId);
+
+    List<VehicleBasicDto> getBasicVehiclesByManagerId(Long managerId);
 }

@@ -10,4 +10,6 @@ public interface ManagerService {
 
     void deleteById(Long id);
 
+    ManagerDto getById(Long id);
+
 }

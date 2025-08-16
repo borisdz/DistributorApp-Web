@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp.users.dto.UserDto;
 import mk.ukim.finki.db.distributorapp.users.dto.UsersLoadingDto;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -43,6 +44,33 @@ public class UserServiceImpl implements UserService {
     @Override
     public UsersLoadingDto findFullUserDtoByEmail(String userEmail) {
         return this.userRepository.findUsersByUserEmailIgnoreCaseDto(userEmail);
+    }
+
+    @Override
+    @Transactional
+    public void updateUser(Long id,String firstName, String lastName, String email, String phone, String image, Integer cityId) {
+        this.userRepository.updateUser(
+                id,
+                firstName,
+                lastName,
+                email,
+                phone,
+                image,
+                cityId
+        );
+    }
+
+    @Override
+    @Transactional
+    public void updateUserDetails(Long id, String firstName, String lastName, String email, String phone, Integer cityId) {
+        this.userRepository.updateUserDetails(
+                id,
+                firstName,
+                lastName,
+                email,
+                phone,
+                cityId
+        );
     }
 
     @Override

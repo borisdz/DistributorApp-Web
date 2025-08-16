@@ -118,9 +118,46 @@ public interface UserRepository extends JpaRepository<User, Long> {
                            u.user_role as userRole,
                            u.clazz_ as clazz_
                     from users u
-                    join token t on u.user_id=t.t_user
+                    join token_ t on u.user_id=t.t_user
                     where t.t_value = :token
                     """
     )
     UsersLoadingDto findUserByResetToken(@NonNull @Param("token") String token);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    update users
+                    set user_name=?2, user_surname=?3,user_email=?4,user_mobile=?5,user_image=?6,city_id=?7
+                    where user_id=?1
+                    """
+    )
+    @Transactional
+    @Modifying
+    void updateUser(
+            @NonNull @Param("id") Long id,
+            @Param(value = "name") String firstName,
+            @Param(value = "surname") String lastName,
+            @Param(value = "email") String email,
+            @Param(value = "phone") String phone,
+            @Param(value = "image") String image,
+            @Param(value = "cityId") Integer cityId);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    update users
+                    set user_name=?2, user_surname=?3,user_email=?4,user_mobile=?5,city_id=?6
+                    where user_id=?1
+                    """
+    )
+    @Transactional
+    @Modifying
+    void updateUserDetails(
+            @NonNull @Param("id") Long id,
+            @Param(value = "name") String firstName,
+            @Param(value = "surname") String lastName,
+            @Param(value = "email") String email,
+            @Param(value = "phone") String phone,
+            @Param(value = "cityId") Integer cityId);
 }
