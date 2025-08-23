@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DiscountDto {
     private Long discountId;
-    private Double discountAmount;
+    private Integer discountAmount;
 }

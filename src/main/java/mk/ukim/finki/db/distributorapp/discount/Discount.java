@@ -14,7 +14,7 @@ public class Discount {
 
     @NotNull
     @Column(name = "dsc_amount", nullable = false)
-    private Double discountAmount;
+    private Integer discountAmount;
 
     @OneToOne(mappedBy="discount")
     private ProForma proForma;

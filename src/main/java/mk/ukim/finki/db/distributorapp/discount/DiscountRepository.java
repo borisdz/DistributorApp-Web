@@ -20,7 +20,7 @@ public interface DiscountRepository extends JpaRepository<Discount, Long> {
                     values (:discountAmount)
                     """)
     Integer create(
-            @NotNull @Param("discountAmount") Double discountAmount);
+            @NotNull @Param("discountAmount") Integer discountAmount);
 
     @Modifying
     @Transactional
@@ -33,7 +33,7 @@ public interface DiscountRepository extends JpaRepository<Discount, Long> {
                     """)
     Integer edit(
             @NotNull @Param("id") Long id,
-            @NotNull @Param("discountAmount") Double discountAmount
+            @NotNull @Param("discountAmount") Integer discountAmount
     );
 
     @Modifying

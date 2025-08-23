@@ -27,6 +27,10 @@ public class ProForma {
     private LocalDate proFormaDateCreated;
 
     @NotNull
+    @Column(name = "pf_total", nullable = false)
+    private Double total;
+
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "pf_status_id", nullable = false)
     private ProFormaStatus proFormaStatus;
