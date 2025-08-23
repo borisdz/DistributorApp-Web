@@ -13,6 +13,7 @@ public class ProFormaDto {
     private Long id;
     private LocalDate pfDeadline;
     private LocalDate pfDateCreated;
+    private Double pfPrice;
     private Short statusId;
     private String statusName;
     private Long ordId;

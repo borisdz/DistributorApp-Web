@@ -3,6 +3,7 @@ package mk.ukim.finki.db.distributorapp.proForma;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import mk.ukim.finki.db.distributorapp.discount.Discount;
 import mk.ukim.finki.db.distributorapp.proFormaStatus.ProFormaStatus;
 import mk.ukim.finki.db.distributorapp.order.Orders;
 
@@ -32,4 +33,8 @@ public class ProForma {
 
     @OneToOne(mappedBy = "proForma")
     private Orders order;
+
+    @OneToOne
+    @JoinColumn(name = "pf_discount")
+    private Discount discount;
 }
