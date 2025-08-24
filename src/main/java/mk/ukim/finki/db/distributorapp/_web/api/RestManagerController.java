@@ -55,15 +55,6 @@ public class RestManagerController {
         return ResponseEntity.ok(newOrders);
     }
 
-    @GetMapping("/vehicles")
-    @PreAuthorize("hasAnyRole('MANAGER')")
-    public ResponseEntity<List<VehicleBasicDto>> getManagerVehicles(Principal principal) {
-        String userEmail = principal.getName();
-        UserDto user = this.userService.findUserDtoByEmail(userEmail);
-        List<VehicleBasicDto> vehicles = this.vehicleService.getBasicVehiclesByManagerId(user.getId());
-        return ResponseEntity.ok(vehicles);
-    }
-
     @PostMapping("/create-delivery")
     @PreAuthorize("hasAnyRole('MANAGER')")
     public ResponseEntity<?> createDelivery(DeliveryCreateDto newDelivery){
@@ -74,5 +65,19 @@ public class RestManagerController {
 
         this.ordersService.addOrdersToDelivery(newDelivery.getOrders(), createdDelivery.getDeliveryId());
         return ResponseEntity.ok(createdDelivery.getDeliveryId());
+    }
+
+    @GetMapping("/finances/monthly-report" )
+    @PreAuthorize("hasAnyRole('MANAGER')")
+    public ResponseEntity<ManagerDashboardDto> getManagerDashboardMonthlyReport(Principal principal){
+        // TODO: Implement this method
+        return null;
+    }
+
+    @GetMapping("/finances/quarterly-report")
+    @PreAuthorize("hasAnyRole('MANAGER')")
+    public ResponseEntity<ManagerDashboardDto> getManagerDashboardQuarterlyReport(Principal principal){
+        // TODO: Implement this method
+        return null;
     }
 }

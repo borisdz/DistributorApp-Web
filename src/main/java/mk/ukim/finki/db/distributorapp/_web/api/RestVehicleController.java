@@ -1,6 +1,8 @@
 package mk.ukim.finki.db.distributorapp._web.api;
 
 import lombok.RequiredArgsConstructor;
+import mk.ukim.finki.db.distributorapp.users.UserService;
+import mk.ukim.finki.db.distributorapp.users.dto.UserDto;
 import mk.ukim.finki.db.distributorapp.vehicle.VehicleService;
 import mk.ukim.finki.db.distributorapp.vehicle.dto.VehicleBasicDto;
 import mk.ukim.finki.db.distributorapp.vehicle.dto.VehicleDto;
@@ -10,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -19,6 +22,7 @@ import java.util.List;
 public class RestVehicleController {
     private final VehicleService vehicleService;
     private final WarehouseService warehouseService;
+    private final UserService userService;
 
     @GetMapping("/find-by-city")
     @PreAuthorize("hasAnyRole('ADMIN')")
@@ -32,5 +36,14 @@ public class RestVehicleController {
     @PreAuthorize("hasAnyRole('ADMIN')")
     public ResponseEntity<VehicleDto> addNewVehicle(@RequestBody VehicleBasicDto vehicleBasicDto){
         return null;
+    }
+
+    @GetMapping("/manager/vehicles")
+    @PreAuthorize("hasAnyRole('MANAGER')")
+    public ResponseEntity<List<VehicleBasicDto>> getManagerVehicles(Principal principal) {
+        String userEmail = principal.getName();
+        UserDto user = this.userService.findUserDtoByEmail(userEmail);
+        List<VehicleBasicDto> vehicles = this.vehicleService.getBasicVehiclesByManagerId(user.getId());
+        return ResponseEntity.ok(vehicles);
     }
 }

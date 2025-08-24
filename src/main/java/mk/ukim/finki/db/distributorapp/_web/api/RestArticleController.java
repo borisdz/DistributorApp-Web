@@ -8,7 +8,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,4 +34,12 @@ public class RestArticleController {
         Page<ArticleDto> res = articleService.getArticlesPageable(categoryId, manufacturerId, name, page, size);
         return assembler.toModel(res);
     }
+
+    @GetMapping("/mobile/customer/articles")
+    @PreAuthorize("hasAnyRole('CUSTOMER')")
+    public ResponseEntity<List<ArticleDto>> getArticles() {
+        List<ArticleDto> articles = this.articleService.getAllArticles();
+        return ResponseEntity.ok().body(articles);
+    }
+
 }

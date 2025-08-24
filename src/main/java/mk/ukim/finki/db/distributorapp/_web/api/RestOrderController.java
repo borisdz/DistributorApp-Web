@@ -8,6 +8,7 @@ import mk.ukim.finki.db.distributorapp.articleUnit.dto.ArticleUnitSimpleDto;
 import mk.ukim.finki.db.distributorapp.customer.CustomerService;
 import mk.ukim.finki.db.distributorapp.customer.dto.CustomerDto;
 import mk.ukim.finki.db.distributorapp.order.OrdersService;
+import mk.ukim.finki.db.distributorapp.order.dto.AndroidCreateOrderDto;
 import mk.ukim.finki.db.distributorapp.order.dto.CreateOrderDto;
 import mk.ukim.finki.db.distributorapp.order.dto.OrderSimpleDto;
 import mk.ukim.finki.db.distributorapp.order.dto.OrderWithItemsDto;
@@ -34,6 +35,7 @@ public class RestOrderController {
     private final ArticleUnitService articleUnitService;
     private final ArticleService articleService;
 
+    // ------------------- WEB -------------------
     @PostMapping("/create")
     @PreAuthorize("hasAnyRole('CUSTOMER','ADMIN')")
     public ResponseEntity<?> createOrder(@RequestBody CreateOrderDto order, Principal principal) {
@@ -63,7 +65,7 @@ public class RestOrderController {
         return ResponseEntity.ok(createdOrder);
     }
 
-    @GetMapping("/{orderId}")
+    @GetMapping("/customer/{orderId}")
     @PreAuthorize("hasAnyRole('CUSTOMER', 'ADMIN')")
     public ResponseEntity<?> getOrder(@PathVariable Long orderId) {
         // TODO: In the JSON result add a list of article DTOs of the articles that are in that order.
@@ -75,7 +77,7 @@ public class RestOrderController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/customer-current-orders")
+    @GetMapping("/customer/current-orders")
     @PreAuthorize("hasAnyRole('CUSTOMER')")
     public ResponseEntity<List<OrderSimpleDto>> getCurrentOrders(Principal principal) {
         String email = principal.getName();
@@ -83,4 +85,27 @@ public class RestOrderController {
         List<OrderSimpleDto> result = this.ordersService.findSimpleOrdersByCustomer(user.getId());
         return ResponseEntity.ok(result);
     }
+
+    @GetMapping("/manager/unassigned-orders")
+    @PreAuthorize("hasAnyRole('MANAGER')")
+    public ResponseEntity<List<OrderSimpleDto>> getManagerUnassignedOrders(Principal principal) {
+        String userEmail = principal.getName();
+        UserDto user = this.userService.findUserDtoByEmail(userEmail);
+        List<OrderSimpleDto> newOrders = this.ordersService.getNewOrdersByManager(user.getId());
+        return ResponseEntity.ok(newOrders);
+    }
+
+    // ------------------- MOBILE ANDROID ------------------
+    @PostMapping("/mobile/customer/create-order")
+    @PreAuthorize("hasAnyRole('CUSTOMER')")
+    public ResponseEntity<OrderSimpleDto> createOrder(@RequestBody AndroidCreateOrderDto order){
+        // todo: implement creating order via api and try to unify the code for both android and angular.
+        UserDto user = this.userService.findUserDtoByEmail(order.getUserEmail());
+        WarehouseDto wh = this.warehouseService.findByUserId(user.getCityId());
+        ArticleDto article = this.articleService.findById(order.getArticleId(), wh.getId());
+        CreateOrderDto orderDto = new CreateOrderDto();
+        orderDto.setProForma(order.getProForma());
+        return ResponseEntity.ok(new OrderSimpleDto());
+    }
+
 }
