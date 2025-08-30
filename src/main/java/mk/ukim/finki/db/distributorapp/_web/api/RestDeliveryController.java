@@ -75,4 +75,13 @@ public class RestDeliveryController {
 
         return ResponseEntity.ok().body(deliveries);
     }
+
+    @GetMapping("/manager/active-deliveries")
+    @PreAuthorize("hasAnyRole('MANAGER')")
+    public ResponseEntity<List<DeliveryDto>> getActiveDeliveries(Principal principal){
+        String email = principal.getName();
+        UserDto user = this.userService.findUserDtoByEmail(email);
+        List<DeliveryDto> result = this.deliveryService.getCurrentDeliveriesByManager(user.getId());
+        return ResponseEntity.ok(result);
+    }
 }
