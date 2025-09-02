@@ -7,6 +7,7 @@ import mk.ukim.finki.db.distributorapp.driver.dto.DriverDto;
 import mk.ukim.finki.db.distributorapp.users.UserService;
 import mk.ukim.finki.db.distributorapp.users.dto.UserDto;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/driver")
+@RequestMapping("/api/driver")
 @CrossOrigin(origins = "*")
 public class RestDriverController {
 
@@ -45,4 +46,23 @@ public class RestDriverController {
 
         return ResponseEntity.ok().body(deliveries);
     }
+
+    @GetMapping("/manager/list-all")
+    @PreAuthorize("hasAnyRole('MANAGER')")
+    public ResponseEntity<?> listAllDriversForManager(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String email = auth.getPrincipal().toString();
+
+        UserDto user = this.userService.findUserDtoByEmail(email);
+
+        if(user == null){
+            return ResponseEntity.badRequest().body("User not found");
+        }
+
+        List<DriverDto> drivers = this.driverService.listAllDriversForManager(user.getId());
+
+        return ResponseEntity.ok().body(drivers);
+
+    }
+
 }

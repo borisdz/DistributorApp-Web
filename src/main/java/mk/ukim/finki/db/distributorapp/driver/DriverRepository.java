@@ -116,4 +116,23 @@ public interface DriverRepository extends JpaRepository<Driver, Long> {
                     """
     )
     List<DeliverySimpleDto> getOngoingDeliveries(@NonNull Long driverId);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select d.user_id as id,
+                           u.user_name as name,
+                           u.user_email as email,
+                           u.user_mobile as phone,
+                           u.user_image as image,
+                           d.veh_id as vehId
+                    from driver d
+                    join users u on d.user_id = u.user_id
+                    join vehicle v on d.veh_id = v.veh_id
+                    join warehouse wh on v.wh_id=wh.wh_id
+                    join manager m on wh.wh_id = m.wh_id
+                    where m.user_id = :id
+                    """
+    )
+    List<DriverDto> listAllDriversForManager(Long id);
 }
