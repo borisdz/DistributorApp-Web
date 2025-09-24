@@ -27,6 +27,7 @@ public class RestDriverController {
     private final DriverService driverService;
 
     @GetMapping("/newDeliveries")
+    @PreAuthorize("hasAnyRole('MANAGER')")
     public ResponseEntity<?> getNewDeliveries(){
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String email = auth.getPrincipal().toString();
@@ -62,7 +63,6 @@ public class RestDriverController {
         List<DriverDto> drivers = this.driverService.listAllDriversForManager(user.getId());
 
         return ResponseEntity.ok().body(drivers);
-
     }
 
 }
