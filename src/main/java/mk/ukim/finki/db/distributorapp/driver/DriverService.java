@@ -26,4 +26,6 @@ public interface DriverService {
     List<DeliverySimpleDto> getOngoingDeliveries(Long driverId);
 
     void endDelivery(DeliveryEndDto delivery);
+
+    List<DriverDto> listAllDriversForManager(Long id);
 }

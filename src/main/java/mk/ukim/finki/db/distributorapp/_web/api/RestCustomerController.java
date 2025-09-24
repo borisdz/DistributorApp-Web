@@ -28,7 +28,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/customer")
+@RequestMapping("/api/customer")
 @CrossOrigin(origins = "*")
 public class RestCustomerController {
     private final ArticleService articleService;
@@ -51,25 +51,6 @@ public class RestCustomerController {
         dashboard.setDeliveries(userDeliveries);
         dashboard.setProFormas(userProFormas);
         return ResponseEntity.ok(dashboard);
-    }
-
-    @GetMapping("/articles")
-    @PreAuthorize("hasAnyRole('CUSTOMER')")
-    public ResponseEntity<List<ArticleDto>> getArticles() {
-        List<ArticleDto> articles = this.articleService.getAllArticles();
-        return ResponseEntity.ok().body(articles);
-    }
-
-    @PostMapping("/create-order")
-    @PreAuthorize("hasAnyRole('CUSTOMER')")
-    public ResponseEntity<OrderSimpleDto> createOrder(@RequestBody AndroidCreateOrderDto order){
-        // todo: implement creating order via api and try to unify the code for both android and angular.
-        UserDto user = this.userService.findUserDtoByEmail(order.getUserEmail());
-        WarehouseDto wh = this.warehouseService.findByUserId(user.getCityId());
-        ArticleDto article = this.articleService.findById(order.getArticleId(), wh.getId());
-        CreateOrderDto orderDto = new CreateOrderDto();
-        orderDto.setProForma(order.getProForma());
-        return ResponseEntity.ok(new OrderSimpleDto());
     }
 
     @GetMapping("/profile")

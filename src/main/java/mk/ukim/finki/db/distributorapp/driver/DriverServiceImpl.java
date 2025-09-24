@@ -83,4 +83,9 @@ public class DriverServiceImpl implements DriverService {
         deliveryDto.setDelStatusId((short) 4);
         this.deliveryService.edit(deliveryDto);
     }
+
+    @Override
+    public List<DriverDto> listAllDriversForManager(Long id) {
+        return this.driverRepository.listAllDriversForManager(id);
+    }
 }

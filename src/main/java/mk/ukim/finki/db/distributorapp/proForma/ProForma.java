@@ -3,6 +3,7 @@ package mk.ukim.finki.db.distributorapp.proForma;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import mk.ukim.finki.db.distributorapp.discount.Discount;
 import mk.ukim.finki.db.distributorapp.proFormaStatus.ProFormaStatus;
 import mk.ukim.finki.db.distributorapp.order.Orders;
 
@@ -26,10 +27,18 @@ public class ProForma {
     private LocalDate proFormaDateCreated;
 
     @NotNull
+    @Column(name = "pf_total", nullable = false)
+    private Double total;
+
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "pf_status_id", nullable = false)
     private ProFormaStatus proFormaStatus;
 
     @OneToOne(mappedBy = "proForma")
     private Orders order;
+
+    @OneToOne
+    @JoinColumn(name = "pf_discount")
+    private Discount discount;
 }

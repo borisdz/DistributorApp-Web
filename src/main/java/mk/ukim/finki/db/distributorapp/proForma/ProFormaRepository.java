@@ -15,17 +15,21 @@ public interface ProFormaRepository extends JpaRepository<ProForma, Long> {
             nativeQuery = true,
             value = """
                     select pf.pf_id as id,
-                           pf.pf_deadline as pfDeadline,
-                           pf.pf_date_created as pfDateCreated,
-                           pf.pf_status_id as statusId,
+                           pf_deadline as pfDeadline,
+                           pf_date_created as pfDateCreated,
+                           pf_total as pfTotal,
+                           dsc.dsc_id as discountId,
+                           dsc.dsc_amount as discountAmount,
+                           pfs.pf_status_id as statusId,
                            pfs.pf_status_name as statusName,
                            o.ord_id as ordId,
-                           o.cust_id as customerId,
+                           c.user_id as customerId,
                            c.cust_company_name as customerName,
                            u.user_email as customerEmail,
                            u.user_mobile as customerPhone
                     from pro_forma pf
-                    join pro_forma_status pfs on pf.pf_status_id = pfs.pf_status_id
+                    join discount dsc on pf.pf_discount = dsc.dsc_id
+                    join pro_forma_status pfs on pf.pf_status_id=pfs.pf_status_id
                     join orders o on pf.pf_id = o.pf_id
                     join customer c on o.cust_id = c.user_id
                     join users u on c.user_id = u.user_id
@@ -75,6 +79,9 @@ public interface ProFormaRepository extends JpaRepository<ProForma, Long> {
                     select pf.pf_id as id,
                            pf_deadline as pfDeadline,
                            pf_date_created as pfDateCreated,
+                           pf_total as pfTotal,
+                           dsc.dsc_id as discountId,
+                           dsc.dsc_amount as discountAmount,
                            pfs.pf_status_id as statusId,
                            pfs.pf_status_name as statusName,
                            o.ord_id as ordId,
@@ -83,6 +90,7 @@ public interface ProFormaRepository extends JpaRepository<ProForma, Long> {
                            u.user_email as customerEmail,
                            u.user_mobile as customerPhone
                     from pro_forma pf
+                    join discount dsc on pf.pf_discount = dsc.dsc_id
                     join pro_forma_status pfs on pf.pf_status_id=pfs.pf_status_id
                     join orders o on pf.pf_id = o.pf_id
                     join customer c on o.cust_id = c.user_id
