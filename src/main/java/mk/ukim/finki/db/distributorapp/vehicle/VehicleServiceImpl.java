@@ -5,6 +5,7 @@ import mk.ukim.finki.db.distributorapp.vehicle.dto.VehicleBasicDto;
 import mk.ukim.finki.db.distributorapp.vehicle.dto.VehicleDto;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -63,5 +64,10 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public List<VehicleBasicDto> getBasicVehiclesByManagerId(Long managerId) {
         return this.vehicleRepository.getBasicVehiclesByManager(managerId);
+    }
+
+    @Override
+    public List<VehicleBasicDto> getAvailableVehiclesForDateByManager(Long id, LocalDate date) {
+        return this.vehicleRepository.getAvailableVehiclesForDateByManager(id, date);
     }
 }

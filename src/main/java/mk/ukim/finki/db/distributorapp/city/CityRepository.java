@@ -52,4 +52,17 @@ public interface CityRepository extends JpaRepository<City, Long> {
                     "where c.city_id=?1"
     )
     void deleteById(@NonNull Integer id);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    with manager_region as (select c.region_id as region
+                    from city c
+                    join users u on u.user_id=c.city_id
+                    where u.user_id = ?1)
+                    select c1.city_id as id, c1.city_name as name
+                    from city c1 join manager_region mr on mr.region = c1.region_id
+                    """
+    )
+    List<CityDtoRegister> findCitiesForManager(Long id);
 }

@@ -14,4 +14,6 @@ public interface CityService {
     Integer edit(CityDto cityDto);
 
     void deleteById(Integer id);
+
+    List<CityDtoRegister> findCitiesForManager(Long id);
 }

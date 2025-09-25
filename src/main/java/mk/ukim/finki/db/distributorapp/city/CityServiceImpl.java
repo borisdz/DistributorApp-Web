@@ -31,4 +31,9 @@ public class CityServiceImpl implements CityService {
     public void deleteById(Integer id) {
         this.cityRepository.deleteById(id);
     }
+
+    @Override
+    public List<CityDtoRegister> findCitiesForManager(Long id) {
+        return this.cityRepository.findCitiesForManager(id);
+    }
 }

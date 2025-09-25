@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -121,4 +122,17 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
                     """
     )
     List<VehicleBasicDto> getBasicVehiclesByManager(@Param("manager") Long managerId);
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select v.veh_id as id,
+                    v.wh_id as warehouseId,
+                    v.veh_plate as plateNumber
+                    from vehicle v
+                    left join delivery d on v.veh_id = d.veh_id and d.del_date = ?2
+                    where d.del_id is null
+                    """
+    )
+    List<VehicleBasicDto> getAvailableVehiclesForDateByManager(Long id, LocalDate date);
 }
