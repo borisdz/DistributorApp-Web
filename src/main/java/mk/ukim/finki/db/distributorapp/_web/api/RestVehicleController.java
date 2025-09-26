@@ -51,13 +51,26 @@ public class RestVehicleController {
 
     @GetMapping("/manager/vehicles/available-vehicles")
     @PreAuthorize("hasAnyRole('MANAGER')")
-    public ResponseEntity<List<VehicleBasicDto>> getManagerAvailableVehicles(
+    public ResponseEntity<?> getManagerAvailableVehicles(
             Principal principal,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date
     ) {
         String userEmail = principal.getName();
         UserDto user = this.userService.findUserDtoByEmail(userEmail);
-        List<VehicleBasicDto> vehicles = this.vehicleService.getAvailableVehiclesForDateByManager(user.getId(), date);
+
+        if(user==null){
+            return ResponseEntity.badRequest().body("User not found");
+        }
+
+        List<VehicleDto> vehicles;
+
+        if(date!=null){
+            vehicles = this.vehicleService.getAvailableVehiclesForDateByManager(user.getId(), date);
+        }else{
+            // TODO: Implement with proper method and DTO
+            vehicles = this.vehicleService.getVehiclesByManager(user.getId());
+        }
+
         return ResponseEntity.ok(vehicles);
     }
 }

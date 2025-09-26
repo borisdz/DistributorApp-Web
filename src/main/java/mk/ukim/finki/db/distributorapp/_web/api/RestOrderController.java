@@ -95,6 +95,14 @@ public class RestOrderController {
         return ResponseEntity.ok(newOrders);
     }
 
+    @GetMapping("/manager/unassigned-orders-by-city")
+    @PreAuthorize("hasAnyRole('MANAGER')")
+    public ResponseEntity<List<OrderSimpleDto>> getManagerUnassignedOrdersByCity(Principal principal){
+        String userEmail = principal.getName();
+        UserDto user = this.userService.findUserDtoByEmail(userEmail);
+
+    }
+
     // ------------------- MOBILE ANDROID ------------------
     @PostMapping("/mobile/customer/create-order")
     @PreAuthorize("hasAnyRole('CUSTOMER')")
