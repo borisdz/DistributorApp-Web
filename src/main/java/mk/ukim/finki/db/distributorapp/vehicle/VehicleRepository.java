@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
     @Query(
@@ -127,12 +128,23 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Integer> {
             nativeQuery = true,
             value = """
                     select v.veh_id as id,
-                    v.wh_id as warehouseId,
-                    v.veh_plate as plateNumber
+                           v.veh_carry_weight as carryWeight,
+                           v.veh_service_interval as serviceInterval,
+                           v.veh_kilometers as kilometers,
+                           v.veh_last_service as lastServiceDate,
+                           v.veh_last_service_km as lastServiceKm,
+                           v.veh_plate as plate,
+                           v.veh_vin as vin,
+                           v.veh_reg_date as registrationDate,
+                           d.user_id as driverId,
+                           u.user_name as driverName,
+                           u.user_email as driverEmail,
+                           u.user_mobile as driverPhone,
+                           u.user_image as driverImg
                     from vehicle v
-                    left join delivery d on v.veh_id = d.veh_id and d.del_date = ?2
-                    where d.del_id is null
+                        left join driver d on d.veh_id=v.veh_id
+                        left join users u on d.user_id=u.user_id
                     """
     )
-    List<VehicleBasicDto> getAvailableVehiclesForDateByManager(Long id, LocalDate date);
+    List<Map<String, Object>> getAvailableVehiclesForDateByManager(Long id, LocalDate date);
 }

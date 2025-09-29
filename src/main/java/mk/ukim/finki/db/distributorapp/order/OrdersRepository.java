@@ -1,7 +1,6 @@
 package mk.ukim.finki.db.distributorapp.order;
 
 import lombok.NonNull;
-import mk.ukim.finki.db.distributorapp.order.dto.OrderManagerDto;
 import mk.ukim.finki.db.distributorapp.order.dto.OrderSimpleDto;
 import mk.ukim.finki.db.distributorapp.order.dto.OrdersDeliveryDto;
 import mk.ukim.finki.db.distributorapp.order.dto.OrdersDto;
@@ -293,4 +292,21 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
                     """
     )
     List<OrdersDeliveryDto> findDeliveryOrdersByDelivery(@Param("delivery") Long deliveryId);
+
+    @Query(nativeQuery = true,
+            value = """
+                    select distinct o
+                    from orders o
+                    join users u on o.cust_id = u.user_id
+                    join city c on u.city_id = c.city_id
+                    where c.city_id in (:cityIds)
+                        and o.o_status_id = 1
+                        and o.del_id is not null
+                    order by o.ord_date asc
+                    """
+    ) // TODO: correctly adjust select to the correct dto
+    List<OrderSimpleDto> findUnassignedOrdersByCitiesAndWarehouse(
+            @Param("cityIds") List<Integer> cityIds,
+            @Param("warehouseId") Integer warehouseId
+    );
 }

@@ -3,6 +3,7 @@ package mk.ukim.finki.db.distributorapp.warehouse;
 import lombok.NonNull;
 import mk.ukim.finki.db.distributorapp.warehouse.dto.WarehouseDto;
 import mk.ukim.finki.db.distributorapp.warehouse.dto.WarehouseInventoryDto;
+import mk.ukim.finki.db.distributorapp.warehouse.dto.WarehouseStockDto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -101,4 +102,36 @@ public interface WarehouseRepository extends JpaRepository<Warehouse, Integer> {
                     """
     )
     WarehouseDto findWarehouseDtoByCityId(@NonNull @Param("city") Integer cityId);
+
+
+    @Query(
+            nativeQuery = true,
+            value = """
+                    select art.art_id as articleId,
+                        art.art_name as articleName,
+                        art.art_image as articleImage,
+                        art.art_weight as articleWeight,
+                        count(au.unit_id) as quantity,
+                        min(au.unit_expiration_date) as nearestExpirationDate,
+                        p.price as sellingPrice,
+                        au.unit_cost_price as costPrice,
+                        m.man_name as manufacturerName,
+                        c.ctg_name as categoryName
+                    from article art
+                        left join price p on p.art_id = art.art_id and p.price_eff_date = (
+                                                select max(p2.price_eff_date)
+                                                from price p2
+                                                where p2.art_id = art.art_id
+                                                    and p2.price_eff_date<= current_date
+                                            )
+                        join unit_price up on up.price_id = p.price_id
+                        join article_unit au on au.unit_id = up.unit_id
+                        join manufacturer m on art.man_id = m.man_id
+                        join category c on art.ctg_id = c.ctg_id
+                    where au.wh_id = :warehouseId
+                    group by art.art_id, art.art_name, art.art_image, art.art_weight, p.price, au.unit_cost_price, m.man_name, c.ctg_name 
+                    order by art.art_name
+                    """
+    )
+    List<WarehouseStockDto> getWarehouseStock(@Param("warehouseId") Integer id);
 }

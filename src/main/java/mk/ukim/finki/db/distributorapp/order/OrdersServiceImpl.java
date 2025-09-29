@@ -144,4 +144,11 @@ public class OrdersServiceImpl implements OrdersService {
     public List<OrdersDeliveryDto> findDeliveryOrdersByDelivery(Long deliveryId) {
         return this.ordersRepository.findDeliveryOrdersByDelivery(deliveryId);
     }
+
+    @Override
+    public List<OrderSimpleDto> getUnassignedOrdersByCitiesForWarehouse(List<Integer> cityIds, Integer warehouseId) {
+        return this.ordersRepository.findUnassignedOrdersByCitiesAndWarehouse(cityIds, warehouseId);
+    }
+
+
 }

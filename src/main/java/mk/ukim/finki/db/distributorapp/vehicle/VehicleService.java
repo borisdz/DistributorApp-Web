@@ -2,6 +2,7 @@ package mk.ukim.finki.db.distributorapp.vehicle;
 
 import mk.ukim.finki.db.distributorapp.vehicle.dto.VehicleBasicDto;
 import mk.ukim.finki.db.distributorapp.vehicle.dto.VehicleDto;
+import mk.ukim.finki.db.distributorapp.vehicle.dto.VehicleWithDriverDto;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,5 +21,5 @@ public interface VehicleService {
 
     List<VehicleBasicDto> getBasicVehiclesByManagerId(Long managerId);
 
-    List<VehicleBasicDto> getAvailableVehiclesForDateByManager(Long id, LocalDate date);
+    List<VehicleWithDriverDto> getAvailableVehiclesForDateByManager(Long id, LocalDate date);
 }

@@ -3,6 +3,7 @@ package mk.ukim.finki.db.distributorapp.warehouse;
 import lombok.RequiredArgsConstructor;
 import mk.ukim.finki.db.distributorapp.warehouse.dto.WarehouseDto;
 import mk.ukim.finki.db.distributorapp.warehouse.dto.WarehouseInventoryDto;
+import mk.ukim.finki.db.distributorapp.warehouse.dto.WarehouseStockDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -65,5 +66,10 @@ public class WarehouseServiceImpl implements WarehouseService {
     @Override
     public List<WarehouseDto> findAll() {
         return this.warehouseRepository.findAllDTO();
+    }
+
+    @Override
+    public List<WarehouseStockDto> getWarehouseStock(Integer id) {
+        return this.warehouseRepository.getWarehouseStock(id);
     }
 }

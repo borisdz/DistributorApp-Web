@@ -2,6 +2,7 @@ package mk.ukim.finki.db.distributorapp.warehouse;
 
 import mk.ukim.finki.db.distributorapp.warehouse.dto.WarehouseDto;
 import mk.ukim.finki.db.distributorapp.warehouse.dto.WarehouseInventoryDto;
+import mk.ukim.finki.db.distributorapp.warehouse.dto.WarehouseStockDto;
 
 import java.util.List;
 
@@ -23,4 +24,6 @@ public interface WarehouseService {
     WarehouseDto findByUserId(Integer cityId);
 
     List<WarehouseDto> findAll();
+
+    List<WarehouseStockDto> getWarehouseStock(Integer id);
 }

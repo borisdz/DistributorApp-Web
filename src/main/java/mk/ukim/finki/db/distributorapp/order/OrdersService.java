@@ -29,4 +29,6 @@ public interface OrdersService {
     List<OrdersDto> findOrdersByDelivery(Long deliveryId);
 
     List<OrdersDeliveryDto> findDeliveryOrdersByDelivery(Long deliveryId);
+
+    List<OrderSimpleDto> getUnassignedOrdersByCitiesForWarehouse(List<Integer> cityIdList, Integer id);
 }

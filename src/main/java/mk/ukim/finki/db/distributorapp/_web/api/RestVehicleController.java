@@ -6,6 +6,7 @@ import mk.ukim.finki.db.distributorapp.users.dto.UserDto;
 import mk.ukim.finki.db.distributorapp.vehicle.VehicleService;
 import mk.ukim.finki.db.distributorapp.vehicle.dto.VehicleBasicDto;
 import mk.ukim.finki.db.distributorapp.vehicle.dto.VehicleDto;
+import mk.ukim.finki.db.distributorapp.vehicle.dto.VehicleWithDriverDto;
 import mk.ukim.finki.db.distributorapp.warehouse.WarehouseService;
 import mk.ukim.finki.db.distributorapp.warehouse.dto.WarehouseDto;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -62,7 +63,7 @@ public class RestVehicleController {
             return ResponseEntity.badRequest().body("User not found");
         }
 
-        List<VehicleDto> vehicles;
+        List<VehicleWithDriverDto> vehicles;
 
         if(date!=null){
             vehicles = this.vehicleService.getAvailableVehiclesForDateByManager(user.getId(), date);

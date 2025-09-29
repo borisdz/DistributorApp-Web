@@ -21,7 +21,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -97,10 +99,20 @@ public class RestOrderController {
 
     @GetMapping("/manager/unassigned-orders-by-city")
     @PreAuthorize("hasAnyRole('MANAGER')")
-    public ResponseEntity<List<OrderSimpleDto>> getManagerUnassignedOrdersByCity(Principal principal){
+    public ResponseEntity<List<OrderSimpleDto>> getManagerUnassignedOrdersByCity(Principal principal, @RequestParam String cityIds){
         String userEmail = principal.getName();
         UserDto user = this.userService.findUserDtoByEmail(userEmail);
 
+        WarehouseDto wh = this.warehouseService.findByUserId(user.getCityId());
+
+        List<Integer> cityIdList = Arrays.stream(cityIds.split(","))
+                .map(String::trim)
+                .map(Integer::parseInt)
+                .collect(Collectors.toList());
+
+        List<OrderSimpleDto> unassignedOrders = this.ordersService
+                .getUnassignedOrdersByCitiesForWarehouse(cityIdList, wh.getId());
+        return ResponseEntity.ok(unassignedOrders);
     }
 
     // ------------------- MOBILE ANDROID ------------------
