@@ -36,6 +36,7 @@ public class RestWarehouseController {
     }
 
     @GetMapping("/manager/stock")
+    @PreAuthorize("hasAnyRole('MANAGER')")
     public ResponseEntity<List<WarehouseStockDto>> getWarehouseStock(Principal principal){
         String userEmail = principal.getName();
         UserDto user = this.userService.findUserDtoByEmail(userEmail);

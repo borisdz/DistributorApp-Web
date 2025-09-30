@@ -62,8 +62,12 @@ public class VehicleServiceImpl implements VehicleService {
     //------------------------------------------------------------------------------------------------------------------
 
     @Override
-    public List<VehicleDto> getVehiclesByManager(Long managerId) {
-        return this.vehicleRepository.getVehiclesByManager(managerId);
+    public List<VehicleWithDriverDto> getVehiclesByManager(Long managerId) {
+        List<Map<String, Object>> results = this.vehicleRepository.getVehiclesByManager(managerId);
+
+        return results.stream()
+                .map(this::mapToVehicleWithDriverDto)
+                .collect(Collectors.toList());
     }
 
     @Override

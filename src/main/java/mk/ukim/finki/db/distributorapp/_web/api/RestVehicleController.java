@@ -50,7 +50,7 @@ public class RestVehicleController {
         return ResponseEntity.ok(vehicles);
     }
 
-    @GetMapping("/manager/vehicles/available-vehicles")
+    @GetMapping("/manager/available-vehicles")
     @PreAuthorize("hasAnyRole('MANAGER')")
     public ResponseEntity<?> getManagerAvailableVehicles(
             Principal principal,
@@ -68,7 +68,6 @@ public class RestVehicleController {
         if(date!=null){
             vehicles = this.vehicleService.getAvailableVehiclesForDateByManager(user.getId(), date);
         }else{
-            // TODO: Implement with proper method and DTO
             vehicles = this.vehicleService.getVehiclesByManager(user.getId());
         }
 

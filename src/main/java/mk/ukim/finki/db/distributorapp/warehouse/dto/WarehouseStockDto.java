@@ -14,8 +14,8 @@ public class WarehouseStockDto {
     private Long articleId;
     private String articleName;
     private String articleImage;
-    private Double articleWeight;
-    private Integer quantity;
+    private Integer articleWeight;
+    private Long quantity;
     private Date nearestExpirationDate;
     private BigDecimal sellingPrice;
     private BigDecimal costPrice;
